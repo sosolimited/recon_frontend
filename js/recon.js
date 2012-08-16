@@ -4,13 +4,52 @@ packet values - word, emo, speaker, cat (array), sentence, phrase
 
 */
 
+// parseUri 1.2.2
+// (c) Steven Levithan <stevenlevithan.com>
+// MIT License
 
+function parseUri (str) {
+	var	o   = parseUri.options,
+		m   = o.parser[o.strictMode ? "strict" : "loose"].exec(str),
+		uri = {},
+		i   = 14;
+
+	while (i--) uri[o.key[i]] = m[i] || "";
+
+	uri[o.q.name] = {};
+	uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) {
+		if ($1) uri[o.q.name][$1] = $2;
+	});
+
+	return uri;
+};
+
+parseUri.options = {
+	strictMode: false,
+	key: ["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"],
+	q:   {
+		name:   "queryKey",
+		parser: /(?:^|&)([^&=]*)=?([^&]*)/g
+	},
+	parser: {
+		strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
+		loose:  /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
+	}
+};
+
+
+// open socket connection
 var socket;
 var firstconnect = true;
 
 function connect() {
 	if(firstconnect) {
+
 		socket = io.connect("http://localhost:8081");
+		var args = parseUri(document.URL).queryKey;
+	    var d = args.delay ? parseFloat(args.delay) : 0;
+	    if (args.docName)
+			socket.emit('loadDoc', { docName: args.docName, delay: d });
 	}
 	else {
 		socket.socket.reconnect();
@@ -38,11 +77,13 @@ function connect() {
 function disconnect() {
   socket.disconnect();
 }
-    
+   
+// handle incoming words/data
 function message(data) {
   if (data['word']) {
   
-	$('#ccFeed').append('<span class="cc-text-speaker">' +data['speaker'] + ': </span>');
+  	if (data['speaker'])
+		$('#ccFeed').append('<span class="cc-text-speaker">' +data['speaker'] + ': </span>');
   
   	if (data['emo'] === 'pos')
 	     $('#ccFeed').append('<span class="cc-text-pos">');
@@ -59,7 +100,7 @@ function message(data) {
 }
     
 function status_update(txt){
-  //$('#status').text(txt);
+ // $('#status').append(txt);
 }
 
 function resize() {

@@ -82,8 +82,8 @@ function disconnect() {
 function message(data) {
   if (data['word']) {
   
-  	if (data['speaker'])
-		$('#ccFeed').append('<span class="cc-text-speaker">' +data['speaker'] + ': </span>');
+  	//if (data['speaker'])
+	//	$('#ccFeed').append('<span class="cc-text-speaker">' +data['speaker'] + ': </span>');
   
   	if (data['emo'] === 'pos')
 	     $('#ccFeed').append('<span class="cc-text-pos">');

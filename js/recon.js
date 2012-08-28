@@ -109,3 +109,6 @@ function resize() {
 }
 
 window.onresize = resize;
+
+// Initiate connection.
+connect();

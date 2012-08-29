@@ -18,7 +18,7 @@ function($, _, Backbone, eio) {
     root: "/",
 
     // Create a socket connection to the server.
-    socket: new eio.Socket({ host: "localhost", port: 80 })
+    socket: new eio.Socket({ host: "localhost", port: 8081 })
   };
 
   // Localize or create a new JavaScript Template object.

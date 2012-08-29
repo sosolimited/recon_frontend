@@ -18,7 +18,9 @@ function(app, Word) {
     index: function() {
       // Send up options.
       app.socket.send(JSON.stringify({
-        loadDoc: {
+        event: "loadDoc",
+
+        data: {
           // Pass up the document name if it's set.
           docName: this.qs.docName,
 
@@ -27,10 +29,13 @@ function(app, Word) {
         }
       }));
 
-      // Wait for messages and respond to them.
-      app.socket.onmessage = function(data) {
-        console.log(data);
-      };
+      app.socket.on("word", function(data) {
+        console.log(data.word);
+      });
+
+      app.socket.on("close", function() {
+        console.error("Closed");
+      });
     },
 
     initialize: function() {

@@ -1,4 +1,4 @@
-ls![Boilerplate](https://github.com/tbranyen/backbone-boilerplate/raw/assets/header.png)
+![Boilerplate](https://github.com/tbranyen/backbone-boilerplate/raw/assets/header.png)
 
 Backbone Boilerplate
 ====================
@@ -36,8 +36,3 @@ plugin repo and follow the instructions to install.  Basing your project off
 this repo will allow the `bbb` commands to work out-of-the-box.
 
 npm install -g bbb
-
-
-## To run ##
-
-bbb server

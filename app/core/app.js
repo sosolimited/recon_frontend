@@ -6,7 +6,8 @@ define([
   "libs/engine.io",
 
   // Plugins.
-  "plugins/backbone.layoutmanager"
+  "plugins/backbone.layoutmanager",
+  "plugins/jquery.ba-outside-events"
 ],
 
 function($, _, Backbone, eio) {
@@ -16,6 +17,9 @@ function($, _, Backbone, eio) {
   var app = {
     // The root path to run the application.
     root: "/",
+
+    // Assign global reusable views.
+    views: {},
 
     // Create a socket connection to the server.
     socket: new eio.Socket({ host: location.hostname, port: 8081 })

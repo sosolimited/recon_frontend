@@ -22,3 +22,17 @@ div.word {
 div.word.expand {
   font-size: 100px;
 }
+
+div.word.fade, div.word.expand ~ div.word {
+  opacity: .1;
+}
+
+div#status {
+  display: none;
+  position: absolute;
+  border: 1px solid #CCC;
+  z-index: 200;
+  padding: 10px;
+  padding-right: 40px;
+  background: #FFF;
+}

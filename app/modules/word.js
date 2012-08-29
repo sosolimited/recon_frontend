@@ -19,8 +19,55 @@ function(app) {
     model: Word.Model
   });
 
-  Word.Views.Basic = Backbone.View.extend({
-    template: "word/basic",
+  Word.Views.Detail = Backbone.View.extend({
+    template: "word/detail",
+
+    events: {
+      clickoutside: "close"
+    },
+
+    close: function(ev) {
+      this.$el.fadeOut(500);
+
+      // Enlarge to next screen.
+      if (this.elem) {
+        this.elem.removeClass("expand");
+        this.elem.siblings().removeClass("fade");
+      }
+    },
+
+    serialize: function() {
+      console.log(this.model);
+      return { word: this.model };
+    },
+
+    activate: function(word, elem) {
+      this.model = word;
+      this.elem = elem;
+      this.model.on("change", this.render, this);
+      this.render();
+    },
+
+    beforeRender: function() {
+      this.$el.hide();
+    },
+
+    afterRender: function() {
+      if (this.elem) {
+        this.$el.css({
+          top: (this.elem.offset().top - 22) + "px",
+          left: ((this.elem.offset().left) - 10) + "px"
+        });
+      }
+
+      this.$el.show();
+    }
+  });
+
+  Word.Views.Item = Backbone.View.extend({
+    template: "word/item",
+
+    className: "word",
 
     serialize: function() {
       return { word: this.model };
@@ -35,25 +82,34 @@ function(app) {
 
       // Enlarge to next screen.
       this.$el.siblings().removeClass("expand");
-      this.$el.toggleClass("expand");
-    },
+      this.$el.addClass("expand");
+      this.$el.siblings().addClass("fade");
 
-    className: "word"
+      // Fade in the detail View.
+      this.$el.on("webkitTransitionEnd", _.bind(function() {
+        this.$el.off("webkitTransitionEnd");
+        app.views.detail.activate(this.model, this.$el);
+      }, this));
+    }
   });
 
   Word.Views.List = Backbone.View.extend({
     template: "word/list",
 
     addWord: function(word) {
-      return this.insertView(new Word.Views.Basic({
+      return this.insertView(new Word.Views.Item({
         model: word
       }));
     },
 
-    beforeRender: function() {
+    addWords: function() {
       this.collection.each(function(word) {
         this.addWord(word);
       }, this);
+    },
+
+    beforeRender: function() {
+      this.addWords();
     },
 
     cleanup: function() {
@@ -64,6 +120,8 @@ function(app) {
       this.collection.on("add", function(word) {
         this.addWord(word).render();
       }, this);
+
+      this.collection.on("reset", this.addWords, this);
     }
   });
 

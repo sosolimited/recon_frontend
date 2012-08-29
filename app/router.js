@@ -39,11 +39,17 @@ function(app, Word) {
         console.error("Closed");
       });
 
+      // Create a global reference to a reusable View.
+      app.views.detail = new Word.Views.Detail();
+
       app.useLayout("main").setViews({
         "#ccFeed": new Word.Views.List({
           collection: words
         })
-      }).render();
+      }).render().then(function() {
+        app.views.detail.setElement($("#status")[0]);
+        app.views.detail.render();
+      });
     },
 
     initialize: function() {

@@ -1,9 +1,12 @@
 define([
   // Application.
-  "app"
+  "core/app",
+
+  // Modules.
+  "modules/word"
 ],
 
-function(app) {
+function(app, Word) {
 
   // Defining the application router, you can attach sub routers here.
   var Router = Backbone.Router.extend({
@@ -23,6 +26,11 @@ function(app) {
           delay: parseFloat(this.qs.delay, 10)
         }
       }));
+
+      // Wait for messages and respond to them.
+      app.socket.onmessage = function(data) {
+        console.log(data);
+      };
     },
 
     initialize: function() {

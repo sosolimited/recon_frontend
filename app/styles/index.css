@@ -1,0 +1,38 @@
+/* H5BP styles. */
+@import "../../vendor/assets/h5bp/css/style.css";
+
+/* Add Stylus stylesheets here, alll files ending in .styl will be compiled!
+ * For example: @import "main.styl";
+ *
+ * Note: All stylesheets are relative to `assets/css`.
+ *
+ */ 
+
+@import "screen.css";
+
+/* Put development-only CSS below this line. */
+
+div.word {
+  display: inline;
+  -webkit-transition: linear all 1s;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+div.word.expand {
+  font-size: 100px;
+}
+
+div.word.fade, div.word.expand ~ div.word {
+  opacity: .1;
+}
+
+div#status {
+  display: none;
+  position: absolute;
+  border: 1px solid #CCC;
+  z-index: 200;
+  padding: 10px;
+  padding-right: 40px;
+  background: #FFF;
+}

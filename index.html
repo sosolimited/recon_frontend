@@ -1,22 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1,
+    maximum-scale=1">
 
-<html>
-	
-	<head>
-	
-	<title>ReCon12 Frontend Tests</title>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-        
-	<link rel="stylesheet" href="./css/screen.css" type="text/css" media="screen, projection">
-			
+  <title>ReCon12 Frontend Tests</title>
 
-	</head>
-	
-	<body>
-		<div id="status"></div>
-		<div id="ccFeed"></div>
+  <!-- Application styles. -->
+  <link rel="stylesheet" href="/app/styles/index.css">
+</head>
 
-        <!-- Scripts -->
-        <script src="./js/socket.io.js"></script>
-        <script src="./js/recon.js"></script>
-	</body>
+<body>
+  <!-- Main container. -->
+  <div role="main" id="main"></div>
+
+  <!-- Application source. -->
+  <script data-main="app/core/baseConfig" src="/vendor/js/libs/require.js">
+    </script>
+</body>
 </html>

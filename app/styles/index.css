@@ -8,4 +8,17 @@
  *
  */ 
 
+@import "screen.css";
+
 /* Put development-only CSS below this line. */
+
+div.word {
+  display: inline;
+  -webkit-transition: linear all 1s;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+div.word.expand {
+  font-size: 100px;
+}

@@ -16,6 +16,8 @@ function(app, Word) {
     },
 
     index: function() {
+      var words = new Word.Collection();
+
       // Send up options.
       app.socket.send(JSON.stringify({
         event: "loadDoc",
@@ -29,13 +31,19 @@ function(app, Word) {
         }
       }));
 
-      app.socket.on("word", function(data) {
-        console.log(data.word);
+      app.socket.on("word", function(word) {
+        words.add(word); 
       });
 
       app.socket.on("close", function() {
         console.error("Closed");
       });
+
+      app.useLayout("main").setViews({
+        "#ccFeed": new Word.Views.List({
+          collection: words
+        })
+      }).render();
     },
 
     initialize: function() {

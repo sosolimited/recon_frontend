@@ -1,0 +1,5 @@
+<% if (typeof word !== "undefined") { %>
+  <div class="word expand"><%= word.get("word") %></div>
+  
+  <p class="occurred">This word has occured <%= word.get("wordInstances") %> times.</p>
+<% } %>

@@ -32,7 +32,7 @@ function($, _, Backbone, eio) {
   Backbone.LayoutManager.configure({
     // Allow LayoutManager to augment Backbone.View.prototype.
     manage: true,
-
+			
     paths: {
       layout: "app/templates/layouts/",
       template: "app/templates/"

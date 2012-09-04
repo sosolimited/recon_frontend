@@ -4,10 +4,11 @@ define([
 
   // Modules.
   "modules/uniqueWord",
-  "modules/speaker"
+  "modules/speaker",
+  "modules/comparison"
 ],
 
-function(app, UniqueWord, Speaker) {
+function(app, UniqueWord, Speaker, Comparison) {
 
   // Defining the application router, you can attach sub routers here.
   var Router = Backbone.Router.extend({
@@ -24,7 +25,11 @@ function(app, UniqueWord, Speaker) {
     	speakers.add("obama", "Barack Obama");
     	speakers.add("romney", "Mitt Romney");
     
+    	// init uniquewords collection
       var uniqueWords = new UniqueWord.Collection();
+      
+      // init comparison collection
+      var comparisons = new Comparison.Collection();
 
       // Send up options.
       
@@ -54,14 +59,14 @@ function(app, UniqueWord, Speaker) {
       // Create a global reference to a reusable View.
       //app.views.detail = new Word.Views.Detail();
 
-      /*app.useLayout("main").setViews({
-        "#ccFeed": new Word.Views.List({
-          collection: words
+      app.useLayout("main").setViews({
+        "#comparisons": new Comparison.Views.List({
+          collection: comparisons
         })
       }).render().then(function() {
         app.views.detail.setElement($("#status")[0]);
         app.views.detail.render();
-      });*/
+      });
     },
 
     initialize: function() {

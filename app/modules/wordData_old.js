@@ -13,12 +13,13 @@ function(app) {
   WordData.Model = Backbone.Model.extend({
   	defaults: {
   		word : "word",
-  		count : 0
+  		count : 0,
+  		cats : []
   	},
   	
-  	//Create arrays for list of LIWC topics and list of DOM nodes with this word.
+  	//Create arrays for list of DOM nodes with this word.
   	initialize: function(){
-    	this.set({topics: new Array(), nodes: new Array());
+    	this.set({nodes: []);
     }
   });
 
@@ -27,7 +28,9 @@ function(app) {
     model: WordData.Model,
     
     addWord: function(word){
-    	
+      return this.insertView(new Word.Views.Item({
+        model: word
+      }));
     }
 
   });

@@ -3,10 +3,11 @@ define([
   "core/app",
 
   // Modules.
-  "modules/word"
+  "modules/uniqueWord",
+  "modules/speaker"
 ],
 
-function(app, Word) {
+function(app, UniqueWord, Speaker) {
 
   // Defining the application router, you can attach sub routers here.
   var Router = Backbone.Router.extend({
@@ -16,23 +17,34 @@ function(app, Word) {
     },
 
     index: function() {
-      var words = new Word.Collection();
+    
+    	// init speakers
+    	var speakers = new Speaker.Collection();
+    	speakers.add("moderator", "Moderator");
+    	speakers.add("obama", "Barack Obama");
+    	speakers.add("romney", "Mitt Romney");
+    
+      var uniqueWords = new UniqueWord.Collection();
 
       // Send up options.
-      app.socket.send(JSON.stringify({
-        event: "loadDoc",
-
-        data: {
-          // Pass up the document name if it's set.
-          docName: this.qs.docName,
-
-          // TODO What is this?
-          delay: parseFloat(this.qs.delay, 10)
-        }
-      }));
+      
+      if (this.qs.docName) {
+      
+	      app.socket.send(JSON.stringify({
+	        event: "loadDoc",
+	
+	        data: {
+	          // Pass up the document name if it's set.
+	          docName: this.qs.docName,
+	
+	          // TODO What is this?
+	          delay: parseFloat(this.qs.delay, 10)
+	        }
+	      }));
+	    }
 
       app.socket.on("word", function(word) {
-        words.add(word); 
+        uniqueWords.addWord(word); 
       });
 
       app.socket.on("close", function() {
@@ -40,16 +52,16 @@ function(app, Word) {
       });
 
       // Create a global reference to a reusable View.
-      app.views.detail = new Word.Views.Detail();
+      //app.views.detail = new Word.Views.Detail();
 
-      app.useLayout("main").setViews({
+      /*app.useLayout("main").setViews({
         "#ccFeed": new Word.Views.List({
           collection: words
         })
       }).render().then(function() {
         app.views.detail.setElement($("#status")[0]);
         app.views.detail.render();
-      });
+      });*/
     },
 
     initialize: function() {

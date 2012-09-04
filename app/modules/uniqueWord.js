@@ -21,19 +21,19 @@ function(app) {
   		}
   	},
   	
-  	initialize: function(word) {
+  	initialize: function(word, node) {
   	console.log("INIT "+word["word"]+" "+word["speaker"]);
     	this.set({id:word["id"], count:1, word:word["word"]});
-    	if (word["speaker"] == 0) this.get("moderator").push(0);
-    	else if (word["speaker"] == 1) this.get("obama").push(0);
-    	else if (word["speaker"] == 2) this.get("romney").push(0);
+    	if (word["speaker"] == 0) this.get("moderator").push(node);
+    	else if (word["speaker"] == 1) this.get("obama").push(node);
+    	else if (word["speaker"] == 2) this.get("romney").push(node);
     	 //pend change 0
     },
-    increment: function(node, sid){
+    increment: function(sid, node){
     	this.set({count: this.get("count")+1});
-    	if (sid == 0) this.get("moderator").push(0);
-    	else if (sid == 1) this.get("obama").push(0);
-    	else if (sid == 2) this.get("romney").push(0);
+    	if (sid == 0) this.get("moderator").push(node);
+    	else if (sid == 1) this.get("obama").push(node);
+    	else if (sid == 2) this.get("romney").push(node);
     	 //pend change 0
     	console.log("INC "+this.get("word")+" "+this.get("count")+" "+sid);
     }
@@ -44,9 +44,9 @@ function(app) {
     model: UniqueWord.Model,
     
     addWord: function(word) {
-    	var w = this.get(word["id"]);
+    	var w = this.get(word["id"], 0);//pend change 0s
     	if (w) {
-    		w.increment(0, word["speaker"]);
+    		w.increment(word["speaker"], 0);
     	} else {
     		this.add(word);
     	}

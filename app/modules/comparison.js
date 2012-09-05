@@ -3,6 +3,8 @@ define([
   "core/app"
 ],
 
+var speakers = ["moderator", "obama", "romney"];
+
 // Map dependencies from above array.
 function(app) {
 
@@ -11,7 +13,26 @@ function(app) {
 
   // Default model.
   Comparison.Model = Backbone.Model.extend({
-  
+  	defaults: function() {
+  		return {
+  			traits:[]		
+  		}
+  	}
+  	initialize: function(){
+  		//Iterate through constructor arg list of trait names.
+		for(var i=0; i < this.options.length; i++)
+		  	traits.push(new dataPair(name));
+  	}
+  	// Holds a trait and the two speaker scores for that trait.
+  	dataPair: function(name) {
+  		this.title = name;
+  		this.obama = 0;
+  		this.romney = 0;
+  	}  	
+  	// Optional way of adding a trait to the model.
+  	addTrait : function(name) {
+  	 	traits.push(new dataPair(name));
+  	}
   });
 
   // Default collection.
@@ -30,6 +51,7 @@ function(app) {
   });
 
   Comparison.Views.List = Backbone.View.extend({
+  	el: '#comparisons',
     template: "comparison/list",
 
     addComparison: function(comparison) {

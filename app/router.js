@@ -33,7 +33,7 @@ function(app, UniqueWord, Speaker, Comparison, Transcript) {
       // init comparison collection
       var comparisons = new Comparison.Collection();
       
-      var transcript;
+      var transcript = new Transcript.View();
     
       // Send up options.
       
@@ -52,19 +52,26 @@ function(app, UniqueWord, Speaker, Comparison, Transcript) {
 	      }));
 	    }
 
+
+      // Create a global reference to a reusable View.
+      app.views.detail = new UniqueWord.Views.Detail();
+
       app.useLayout("main").setViews({
         "#comparisons": new Comparison.Views.List({
           collection: comparisons
         })
       }).render().then(function() {	      
 	      // init transcript
-	      transcript = new Transcript.View();
+	     	transcript.setElement("#transcript");
+        app.views.detail.setElement($("#newWordMeta"));
+        app.views.detail.render(); 
 
       });
       
       app.socket.on("word", function(word) {     
       	var n = transcript.addWord(word); // add to dom
         uniqueWords.addWord(word, n); 
+        app.views.detail.activate(word, n);
       });
 
       app.socket.on("sentenceEnd", function(word) {     
@@ -75,8 +82,6 @@ function(app, UniqueWord, Speaker, Comparison, Transcript) {
         console.error("Closed");
       });
 
-      // Create a global reference to a reusable View.
-      //app.views.detail = new Word.Views.Detail();
       
     },
 

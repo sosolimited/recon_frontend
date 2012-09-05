@@ -1,5 +1,6 @@
-<% if (typeof word !== "undefined") { %>
-  <div class="word expand"><%= word.get("word") %></div>
-  
-  <p class="occurred">This word has occured <%= word.get("wordInstances") %> times.</p>
-<% } %>
+<% if (typeof word !== "undefined") { %>  
+<% if (word["wordInstances"] > 1) { %>  
+  <p class="occurred">SPOKEN <%= word["wordInstances"] %> TIMES</p>
+<% } else { %>  
+  <p class="occurred">SPOKEN <%= word["wordInstances"] %> TIME</p>
+<% } } %>

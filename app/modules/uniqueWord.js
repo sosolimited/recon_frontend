@@ -94,7 +94,7 @@ function(app) {
         });
       }
       this.$el.show();
-      this.$el.fadeOut(500);
+      this.$el.fadeOut(500).delay(100);
     }
   });
   

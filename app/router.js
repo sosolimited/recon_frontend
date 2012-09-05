@@ -20,7 +20,8 @@ function(app, UniqueWord, Speaker, Comparison, Transcript) {
 
     index: function() {
     
-    	// init speakers
+    	    
+      // init speakers
     	var speakers = new Speaker.Collection();
     	speakers.add("moderator", "Moderator");
     	speakers.add("obama", "Barack Obama");
@@ -32,9 +33,8 @@ function(app, UniqueWord, Speaker, Comparison, Transcript) {
       // init comparison collection
       var comparisons = new Comparison.Collection();
       
-      // init transcript
-      var transcript = new Transcript.View();
-
+      var transcript;
+    
       // Send up options.
       
       if (this.qs.docName) {
@@ -52,9 +52,23 @@ function(app, UniqueWord, Speaker, Comparison, Transcript) {
 	      }));
 	    }
 
+      app.useLayout("main").setViews({
+        "#comparisons": new Comparison.Views.List({
+          collection: comparisons
+        })
+      }).render().then(function() {	      
+	      // init transcript
+	      transcript = new Transcript.View();
+
+      });
+      
       app.socket.on("word", function(word) {     
       	var n = transcript.addWord(word); 
         uniqueWords.addWord(word, n); 
+      });
+
+      app.socket.on("sentenceEnd", function(word) {     
+      	transcript.endSentence(); 
       });
 
       app.socket.on("close", function() {
@@ -64,16 +78,6 @@ function(app, UniqueWord, Speaker, Comparison, Transcript) {
       // Create a global reference to a reusable View.
       //app.views.detail = new Word.Views.Detail();
       
-
-      app.useLayout("main").setViews({
-      	"#transcript" : transcript,
-        "#comparisons": new Comparison.Views.List({
-          collection: comparisons
-        })
-      }).render().then(function() {
-        //app.views.detail.setElement($("#status")[0]);
-        //app.views.detail.render();
-      });
     },
 
     initialize: function() {

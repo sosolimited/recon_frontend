@@ -51,7 +51,53 @@ function(app) {
     	}
     }
   });
+  
+	UniqueWord.Views.Detail = Backbone.View.extend({
+    template: "word/detail",
 
+    events: {
+      clickoutside: "close"
+    },
+
+    close: function(ev) {
+      this.$el.fadeOut(500);
+
+      // Enlarge to next screen.
+      if (this.elem) {
+        this.elem.removeClass("expand");
+        this.elem.siblings().removeClass("fade");
+      }
+    },
+
+    serialize: function() {
+      console.log(this.model);
+      return { word: this.model };
+    },
+
+    activate: function(word, elem) {
+      this.model = word;
+      console.log(elem);
+      this.elem = $('#'+elem);
+      //this.model.on("change", this.render, this);
+      this.render();
+    },
+
+    beforeRender: function() {
+      this.$el.hide();
+    },
+
+    afterRender: function() {
+      if (this.elem) {
+        this.$el.css({
+          top: (this.elem.offset().top) + "px",
+          left: ((this.elem.offset().left) - 50) + "px"
+        });
+      }
+      this.$el.show();
+      this.$el.fadeOut(500);
+    }
+  });
+  
   UniqueWord.Views.Item = Backbone.View.extend({
     template: "word/item",
 

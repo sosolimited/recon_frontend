@@ -20,8 +20,7 @@ function(app) {
   });
 
   Transcript.View = Backbone.View.extend({
-    el: '#transcript',
-    
+
     addWord: function(word) {
     
     
@@ -33,7 +32,7 @@ function(app) {
     		if (openSentence) this.endSentence();
     		if (openParagraph) this.endParagraph();
     		
-    		this.$el.append("<div id=curParagraph class="+speakers[curSpeaker]+"><span class=speakerName>"+speakers[curSpeaker]+"</span></div>");
+    		this.$el.append("<div id=curParagraph class="+speakers[curSpeaker]+"><span class=speakerName>"+speakers[curSpeaker].toUpperCase()+"</span></div>");
     		openParagraph = true;
     	}
     	

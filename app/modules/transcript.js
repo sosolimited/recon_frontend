@@ -19,8 +19,22 @@ function(app) {
     
     addWord: function(word) {
     	var n = 3;
-    	this.$el.append("<span id="+n+">"+word["word"]+"</span>");
+    	
+    	var s = "";
+    	
+    	if (!word["punctuationFlag"]) s +=" "; // add leading space
+    	
+    	if (word["sentenceStartFlag"]) s += "<span>"; // add sentence span wrapper
+    	
+    	s += "<span id="+n+">"+word["word"]+"</span>"; // add word
+    	
+    	this.$el.append(s);
+    	
     	return n;
+    },
+    
+    endSentence: function() {
+    	this.$el.append("</span>");
     }
   });
 

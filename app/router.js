@@ -5,10 +5,11 @@ define([
   // Modules.
   "modules/uniqueWord",
   "modules/speaker",
-  "modules/comparison"
+  "modules/comparison",
+  "modules/transcript"
 ],
 
-function(app, UniqueWord, Speaker, Comparison) {
+function(app, UniqueWord, Speaker, Comparison, Transcript) {
 
   // Defining the application router, you can attach sub routers here.
   var Router = Backbone.Router.extend({
@@ -30,6 +31,9 @@ function(app, UniqueWord, Speaker, Comparison) {
       
       // init comparison collection
       var comparisons = new Comparison.Collection();
+      
+      // init transcript
+      var transcript = new Transcript.View();
 
       // Send up options.
       
@@ -48,8 +52,9 @@ function(app, UniqueWord, Speaker, Comparison) {
 	      }));
 	    }
 
-      app.socket.on("word", function(word) {
-        uniqueWords.addWord(word); 
+      app.socket.on("word", function(word) {     
+      	var n = transcript.addWord(word); 
+        uniqueWords.addWord(word, n); 
       });
 
       app.socket.on("close", function() {
@@ -58,14 +63,16 @@ function(app, UniqueWord, Speaker, Comparison) {
 
       // Create a global reference to a reusable View.
       //app.views.detail = new Word.Views.Detail();
+      
 
       app.useLayout("main").setViews({
+      	"#transcript" : transcript,
         "#comparisons": new Comparison.Views.List({
           collection: comparisons
         })
       }).render().then(function() {
-        app.views.detail.setElement($("#status")[0]);
-        app.views.detail.render();
+        //app.views.detail.setElement($("#status")[0]);
+        //app.views.detail.render();
       });
     },
 

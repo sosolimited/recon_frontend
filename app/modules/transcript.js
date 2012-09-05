@@ -15,9 +15,13 @@ function(app) {
   });
 
   Transcript.View = Backbone.View.extend({
-    template: "transcript/main",
-
-    className: "transcript"
+    el: '#transcript',
+    
+    addWord: function(word) {
+    	var n = 3;
+    	this.$el.append("<span id="+n+">"+word["word"]+"</span>");
+    	return n;
+    }
   });
 
   // Return the module for AMD compliance.

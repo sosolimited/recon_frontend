@@ -31,6 +31,9 @@ function(app, UniqueWord, Speaker, Comparison, Transcript) {
       
       // init comparison collection
       var comparisons = new Comparison.Collection();
+      
+      // init transcript
+      var transcript = new Transcript.View();
 
       // Send up options.
       
@@ -49,8 +52,9 @@ function(app, UniqueWord, Speaker, Comparison, Transcript) {
 	      }));
 	    }
 
-      app.socket.on("word", function(word) {      
-        uniqueWords.addWord(word); 
+      app.socket.on("word", function(word) {     
+      	var n = transcript.addWord(word); 
+        uniqueWords.addWord(word, n); 
       });
 
       app.socket.on("close", function() {
@@ -62,7 +66,7 @@ function(app, UniqueWord, Speaker, Comparison, Transcript) {
       
 
       app.useLayout("main").setViews({
-      	"#transcript" : new Transcript.View(),
+      	"#transcript" : transcript,
         "#comparisons": new Comparison.Views.List({
           collection: comparisons
         })

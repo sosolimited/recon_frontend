@@ -42,10 +42,10 @@ function(app) {
   UniqueWord.Collection = Backbone.Collection.extend({  
     model: UniqueWord.Model,
     
-    addWord: function(word) {
-    	var w = this.get(word["id"], 0);//pend change 0s
+    addWord: function(word, node) {
+    	var w = this.get(word["id"], node);//pend change 0s
     	if (w) {
-    		w.increment(word["speaker"], 0);
+    		w.increment(word["speaker"], node);
     	} else {
     		this.add(word);
     	}

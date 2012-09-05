@@ -89,12 +89,12 @@ function(app) {
     afterRender: function() {
       if (this.elem) {
         this.$el.css({
-          top: (this.elem.offset().top) + "px",
-          left: ((this.elem.offset().left) - 50) + "px"
+          top: (this.elem.offset().top - 75) + "px",
+          left: (this.elem.offset().left - 50) + "px"
         });
       }
       this.$el.show();
-      this.$el.fadeOut(500).delay(100);
+      this.$el.fadeOut(500).delay(150);
     }
   });
   

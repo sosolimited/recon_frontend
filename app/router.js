@@ -19,7 +19,6 @@ function(app, UniqueWord, Speaker, Comparison, Transcript) {
     },
 
     index: function() {
-    
     	    
       // init speakers
     	var speakers = new Speaker.Collection();
@@ -35,21 +34,38 @@ function(app, UniqueWord, Speaker, Comparison, Transcript) {
       
       var transcript = new Transcript.View();
     
-      // Send up options.
       
+      // load from static file
       if (this.qs.docName) {
       
 	      app.socket.send(JSON.stringify({
 	        event: "loadDoc",
 	
 	        data: {
-	          // Pass up the document name if it's set.
 	          docName: this.qs.docName,
-	
-	          // TODO What is this?
-	          delay: parseFloat(this.qs.delay, 10)
+	          delay: parseFloat(this.qs.delay, 100)
 	        }
 	      }));
+	    }
+	        
+      // send msg to get past msgs in bulk
+      else {
+      
+	      app.socket.send(JSON.stringify({
+	        event: "loadHistory"
+	      }));
+	    }
+	    
+	    
+	    // testing playback (delay is how long to wait after start of connect to server)
+	    if (this.qs.playback) {
+	    	app.playback = true;
+	    	setTimeout(function() {
+	    		console.log("play "+app.messages.length);
+	    		app.messages.each(function(msg) {
+	    			msg.emit();
+	    		});
+	    	}, parseFloat(this.qs.delay, 100));
 	    }
 
 

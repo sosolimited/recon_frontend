@@ -76,7 +76,7 @@ function(app) {
 
     activate: function(word, elem) {
       this.model = word;
-      console.log(elem);
+      //console.log(elem);
       this.elem = $('#'+elem);
       //this.model.on("change", this.render, this);
       this.render();
@@ -95,17 +95,6 @@ function(app) {
       }
       this.$el.show();
       this.$el.fadeOut(500).delay(150);
-    }
-  });
-  
-  UniqueWord.Views.Item = Backbone.View.extend({
-    template: "word/item",
-
-    className: "word",
-
-    serialize: function() {
-      console.log(this.model);
-      return { word: this.model };
     }
   });
 

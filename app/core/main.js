@@ -3,18 +3,29 @@ require([
   "core/app",
 
   // Main Router.
-  "router"
+  "router",
+  "message"
 ],
 
-function(app, Router) {
+function(app, Router, Message) {
+
+	// Init msg collection
+	app.messages = new Message.Collection();
+	
+	app.playback = false;
+	
+	app.startTime = new Date().getTime();
 
   // Wait until the socket has been opened, before routing.
   app.socket.on("open", function() {
     // Wait for messages and respond to them.
     app.socket.on("message", function(msg) {
+			//console.log("msg - "+msg);
       msg = JSON.parse(msg);
-
-      app.socket.emit(msg.type, msg);
+   
+      // log msg
+      app.messages.add(msg);
+      if (!app.playback) app.socket.emit(msg.type, msg); // pend temp for testing
     });
 
     // Define your master router on the application namespace and trigger all

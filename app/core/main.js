@@ -4,10 +4,11 @@ require([
 
   // Main Router.
   "router",
-  "message"
+  "message",
+  "navigation"
 ],
 
-function(app, Router, Message) {
+function(app, Router, Message, Navigation) {
 
 	// Init msg collection
 	app.messages = new Message.Collection();
@@ -15,6 +16,10 @@ function(app, Router, Message) {
 	app.playback = false;
 	
 	app.startTime = new Date().getTime();
+	
+	
+  // init navigation
+  app.navigation = new Navigation.View();
 
   // Wait until the socket has been opened, before routing.
   app.socket.on("open", function() {

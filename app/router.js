@@ -19,6 +19,7 @@ function(app, UniqueWord, Speaker, Comparison, Transcript) {
     },
 
     index: function() {
+    
     	    
       // init speakers
     	var speakers = new Speaker.Collection();
@@ -51,9 +52,9 @@ function(app, UniqueWord, Speaker, Comparison, Transcript) {
       // send msg to get past msgs in bulk
       else {
       
-	      app.socket.send(JSON.stringify({
+	      /*app.socket.send(JSON.stringify({
 	        event: "loadHistory"
-	      }));
+	      }));*/ //pend out for now
 	    }
 	    
 	    
@@ -65,7 +66,7 @@ function(app, UniqueWord, Speaker, Comparison, Transcript) {
 	    		app.messages.each(function(msg) {
 	    			msg.emit();
 	    		});
-	    	}, parseFloat(this.qs.delay, 100));
+	    	}, parseFloat(this.qs.playbackDelay, 100));
 	    }
 
 
@@ -78,6 +79,8 @@ function(app, UniqueWord, Speaker, Comparison, Transcript) {
         })
       }).render().then(function() {	      
 	      // init transcript
+	      app.navigation.setElement("#navigation");
+	      app.navigation.render();
 	     	transcript.setElement("#transcript");
         app.views.detail.setElement($("#newWordMeta"));
         app.views.detail.render(); 
@@ -88,6 +91,7 @@ function(app, UniqueWord, Speaker, Comparison, Transcript) {
       	var n = transcript.addWord(word); // add to dom
         uniqueWords.addWord(word, n); 
         app.views.detail.activate(word, n);
+        $('body').animate({ scrollTop: $('body').prop("scrollHeight") }, 0);
       });
 
       app.socket.on("sentenceEnd", function(word) {     

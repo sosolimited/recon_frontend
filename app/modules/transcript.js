@@ -4,7 +4,7 @@ define([
 ],
 
 // Map dependencies from above array.
-function(app) {
+function(app, nav) {
 
   // Create a new module.
   var Transcript = app.module();
@@ -23,14 +23,17 @@ function(app) {
 
     addWord: function(word) {
     
+    	curNode++;
     
     	var s = "";
     	
     	if (word["speaker"] != curSpeaker) {
     		curSpeaker = word["speaker"];
+    		app.navigation.addChapter(curNode);	
+
     		
     		if (openSentence) this.endSentence();
-    		if (openParagraph) this.endParagraph();
+    		if (openParagraph) this.endParagraph();	    		
     		
     		this.$el.append("<div id=curParagraph class="+speakers[curSpeaker]+"><span class=speakerName>"+speakers[curSpeaker].toUpperCase()+"</span></div>");
     		openParagraph = true;
@@ -46,7 +49,6 @@ function(app) {
     	
     	if (!word["punctuationFlag"]) s += " "; // add leading space
     	
-    	curNode++;
     	$('#curSentence').append("<span id="+curNode+">"+s+word["word"]+"</span>"); // add word
     	
     	return curNode;

@@ -15,6 +15,7 @@
 #transcript {
 	width: 1200px;
 	overflow-y: scroll;
+	font-family: serif;
 }
 
 #newWordMeta {
@@ -46,6 +47,7 @@
 .speakerName {
 	font-size: 400%;
 	font-weight: bold;
+	font-family: Helvetica;
 	display: block;
 }
 
@@ -60,3 +62,13 @@
 	padding: 1px 4px 1px 2px;
 	margin: 2px;
 }
+
+.comparison {
+	background-color: yellow;
+	width: 1024px;
+	height: 768px;
+	font-family: Helvetica;
+	font-size: 64px;
+	font-color: black;
+}
+

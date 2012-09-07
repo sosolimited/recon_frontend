@@ -4,9 +4,4 @@
 <% } else { %>  
   <p class="occurred">SPOKEN <%= word["wordInstances"] %> TIME</p>
 <% } %>
-<p class="cat">
-<% if (word["cats"]) { for (var i=0; i<word["cats"].length; i++) { %>
-  <%= word["cats"][i] %> 
-<% } }%>
-</p>
 <% } %>

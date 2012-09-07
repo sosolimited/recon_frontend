@@ -84,6 +84,11 @@ function(app, UniqueWord, Speaker, Comparison, Transcript) {
 
       });
       
+      //Populate comparisons collection with models
+      comparisons.add(new Comparison.Model({names: ['HONESTY', 'MASCULINITY', 'DEPRESSION']}));
+      
+      
+      
       app.socket.on("word", function(word) {     
       	var n = transcript.addWord(word); // add to dom
         uniqueWords.addWord(word, n); 

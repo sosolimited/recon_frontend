@@ -1,1 +1,9 @@
-<%= word.get("word") %>
+<div>
+	<ul>
+		<% comparison.get("traits").forEach(function(trait){ %>
+			<li><%= trait.title %></li>
+		<% }); %>
+	</ul>
+</div>
+
+

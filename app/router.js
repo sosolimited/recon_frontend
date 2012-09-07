@@ -19,7 +19,6 @@ function(app, UniqueWord, Speaker, Comparison, Transcript) {
     },
 
     index: function() {
-    
     	    
       // init speakers
     	var speakers = new Speaker.Collection();
@@ -33,25 +32,45 @@ function(app, UniqueWord, Speaker, Comparison, Transcript) {
       // init comparison collection
       var comparisons = new Comparison.Collection();
       
-      
-      var transcript;
+      var transcript = new Transcript.View();
     
-      // Send up options.
       
+      // load from static file
       if (this.qs.docName) {
       
 	      app.socket.send(JSON.stringify({
 	        event: "loadDoc",
 	
 	        data: {
-	          // Pass up the document name if it's set.
 	          docName: this.qs.docName,
-	
-	          // TODO What is this?
-	          delay: parseFloat(this.qs.delay, 10)
+	          delay: parseFloat(this.qs.delay, 100)
 	        }
 	      }));
 	    }
+	        
+      // send msg to get past msgs in bulk
+      else {
+      
+	      app.socket.send(JSON.stringify({
+	        event: "loadHistory"
+	      }));
+	    }
+	    
+	    
+	    // testing playback (delay is how long to wait after start of connect to server)
+	    if (this.qs.playback) {
+	    	app.playback = true;
+	    	setTimeout(function() {
+	    		console.log("play "+app.messages.length);
+	    		app.messages.each(function(msg) {
+	    			msg.emit();
+	    		});
+	    	}, parseFloat(this.qs.delay, 100));
+	    }
+
+
+      // Create a global reference to a reusable View.
+      app.views.detail = new UniqueWord.Views.Detail();
 
       app.useLayout("main").setViews({
         "#comparisons": new Comparison.Views.List({
@@ -59,7 +78,9 @@ function(app, UniqueWord, Speaker, Comparison, Transcript) {
         })
       }).render().then(function() {	      
 	      // init transcript
-	      transcript = new Transcript.View();
+	     	transcript.setElement("#transcript");
+        app.views.detail.setElement($("#newWordMeta"));
+        app.views.detail.render(); 
 
       });
       
@@ -71,6 +92,7 @@ function(app, UniqueWord, Speaker, Comparison, Transcript) {
       app.socket.on("word", function(word) {     
       	var n = transcript.addWord(word); // add to dom
         uniqueWords.addWord(word, n); 
+        app.views.detail.activate(word, n);
       });
 
       app.socket.on("sentenceEnd", function(word) {     
@@ -81,8 +103,6 @@ function(app, UniqueWord, Speaker, Comparison, Transcript) {
         console.error("Closed");
       });
 
-      // Create a global reference to a reusable View.
-      //app.views.detail = new Word.Views.Detail();
       
     },
 

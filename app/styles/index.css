@@ -17,6 +17,11 @@
 	font-family: serif;
 }
 
+#newWordMeta {
+	position: absolute;
+	font-size: 200%;
+}
+
 .moderator {
 	width: 400px;
 	padding-left:400px;

@@ -22,14 +22,14 @@ function(app) {
   	},
   	
   	initialize: function(word, node) {
-  		console.log("INIT "+word["word"]+" "+word["speaker"]);
+  		//console.log("INIT "+word["word"]+" "+word["speaker"]);
     	this.set({id:word["id"], count:1, word:word["word"]});
     	this.addNode(word["speaker"], node);
     },
     increment: function(sid, node){
     	this.set({count: this.get("count")+1});
     	this.addNode(sid, node);
-    	console.log("INC "+this.get("word")+" "+this.get("count")+" "+sid);
+    	//console.log("INC "+this.get("word")+" "+this.get("count")+" "+sid);
     },
     addNode: function(sid, node) {
     	if (sid == 0) this.get("moderator").push(node);
@@ -70,7 +70,7 @@ function(app) {
     },
 
     serialize: function() {
-      console.log(this.model);
+      //console.log(this.model);
       return { word: this.model };
     },
 
@@ -87,14 +87,14 @@ function(app) {
     },
 
     afterRender: function() {
-      if (this.elem) {
+      /*if (this.elem) {
         this.$el.css({
-          top: (this.elem.offset().top - 75) + "px",
+          top: (this.elem.offset().top - 100) + "px",
           left: (this.elem.offset().left - 50) + "px"
         });
       }
       this.$el.show();
-      this.$el.fadeOut(500).delay(150);
+      this.$el.fadeOut(500).delay(150);*/
     }
   });
 

@@ -4,7 +4,7 @@ define([
 ],
 
 // Map dependencies from above array.
-function(app, nav) {
+function(app) {
 
   // Create a new module.
   var Transcript = app.module();
@@ -34,10 +34,11 @@ function(app, nav) {
     	curNode++;
     
     	var s = "";
+    	var newCh = false;
     	
     	if (word["speaker"] != curSpeaker) {
     		curSpeaker = word["speaker"];
-    		app.navigation.addChapter(curNode);	
+    		newCh = true;
 
     		
     		if (openSentence) this.endSentence();
@@ -59,7 +60,7 @@ function(app, nav) {
     	
     	$('#curSentence').append("<span id="+curNode+">"+s+word["word"]+"</span>"); // add word
     	
-    	return curNode;
+    	return newCh;
     },
     
     endSentence: function() {

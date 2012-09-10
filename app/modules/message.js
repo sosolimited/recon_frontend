@@ -11,9 +11,6 @@ function(app) {
 
   // Default model.
   Message.Model = Backbone.Model.extend({
-  	initialize: function() {
-	  	this.set({"id":app.transcript.getCurNode()});
-  	},
   
   	emit : function() {
       app.socket.emit(this.get("type"), this.toJSON());
@@ -22,7 +19,13 @@ function(app) {
 
   // Default collection.
   Message.Collection = Backbone.Collection.extend({  
-    model: Message.Model
+    model: Message.Model,
+    
+    addMessage: function(msg, node) {
+	    // log msg
+		  msg['node'] = node;
+		  this.add(msg);	    
+    }
   });
  
 

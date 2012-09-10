@@ -106,6 +106,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) 
       app.socket.on("word", function(msg) {    
 	    	if (!playback) messages.addMessage(msg, transcript.getCurNode()); 
       	if (transcript.addWord(msg)) { // add to dom
+      		//if (!playback) navigation.addChapter(transcript.getCurNode());// leaving this out for testing right now to make sure numbers match up on playback
       		navigation.addChapter(transcript.getCurNode());// add chapter
       	}
         uniqueWords.addWord(msg, transcript.getCurNode()); 

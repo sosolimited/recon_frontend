@@ -5,10 +5,11 @@ require([
   // Main Router.
   "router",
   "message",
-  "navigation"
+  "navigation",
+  "transcript"
 ],
 
-function(app, Router, Message, Navigation) {
+function(app, Router, Message, Navigation, Transcript) {
 
 	// Init msg collection
 	app.messages = new Message.Collection();
@@ -20,6 +21,9 @@ function(app, Router, Message, Navigation) {
 	
   // init navigation
   app.navigation = new Navigation.View();
+  
+  // init transcript
+  app.transcript = new Transcript.View();
 
   // Wait until the socket has been opened, before routing.
   app.socket.on("open", function() {

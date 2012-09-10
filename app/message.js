@@ -11,6 +11,10 @@ function(app) {
 
   // Default model.
   Message.Model = Backbone.Model.extend({
+  	initialize: function() {
+	  	this.set({"id":app.transcript.getCurNode()});
+  	},
+  
   	emit : function() {
       app.socket.emit(this.get("type"), this.toJSON());
   	}

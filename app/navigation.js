@@ -29,16 +29,22 @@ function(app) {
   	goToChapter: function(e) {
   		console.log("goTo "+e.target.id);
   		
-  		var n = e.target.id.substring(2);
+  		var n = parseFloat(e.target.id.substring(2));
+  		console.log("N "+n);
   		
   		// clear out following text in prep for playback
   		$('#'+n).parent().parent().nextAll().andSelf().remove();
+  		
+  		// reset curnode
+  		app.transcript.resetCurNode(n-1);
   		
   		//playback from that point
   		
   		// pend get this to walk thru with timestamp
   		app.messages.each( function(msg) {
-  			msg.emit();
+  			if (msg.get("id") >= n)
+	  			msg.emit();
+	  		else console.log(" "+msg.get("id"));
   		});
 
   	},

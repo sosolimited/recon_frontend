@@ -5,11 +5,10 @@ define([
   // Modules.
   "modules/uniqueWord",
   "modules/speaker",
-  "modules/comparison",
-  "modules/transcript"
+  "modules/comparison"
 ],
 
-function(app, UniqueWord, Speaker, Comparison, Transcript) {
+function(app, UniqueWord, Speaker, Comparison) {
 
   // Defining the application router, you can attach sub routers here.
   var Router = Backbone.Router.extend({
@@ -32,8 +31,6 @@ function(app, UniqueWord, Speaker, Comparison, Transcript) {
       
       // init comparison collection
       var comparisons = new Comparison.Collection();
-      
-      var transcript = new Transcript.View();
     
       
       // load from static file
@@ -77,11 +74,10 @@ function(app, UniqueWord, Speaker, Comparison, Transcript) {
         "#comparisons": new Comparison.Views.List({
           collection: comparisons
         })
-      }).render().then(function() {	      
-	      // init transcript
+      }).render().then(function() {	
 	      app.navigation.setElement("#navigation");
 	      app.navigation.render();
-	     	transcript.setElement("#transcript");
+	     	app.transcript.setElement("#transcript");
         app.views.detail.setElement($("#newWordMeta"));
         app.views.detail.render(); 
 
@@ -93,14 +89,14 @@ function(app, UniqueWord, Speaker, Comparison, Transcript) {
       
       
       app.socket.on("word", function(word) {     
-      	var n = transcript.addWord(word); // add to dom
+      	var n = app.transcript.addWord(word); // add to dom
         uniqueWords.addWord(word, n); 
         app.views.detail.activate(word, n);
         $('body').animate({ scrollTop: $('body').prop("scrollHeight") }, 0);
       });
 
       app.socket.on("sentenceEnd", function(word) {     
-      	transcript.endSentence(); 
+      	app.transcript.endSentence(); 
       });
 
       app.socket.on("close", function() {

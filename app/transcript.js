@@ -20,6 +20,14 @@ function(app, nav) {
   });
 
   Transcript.View = Backbone.View.extend({
+  
+  	resetCurNode: function(n) {
+	  	curNode = n;
+  	},
+  	
+  	getCurNode: function() {
+	  	return curNode;
+  	},
 
     addWord: function(word) {
     

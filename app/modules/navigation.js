@@ -29,22 +29,26 @@ function(app) {
   	goToChapter: function(e) {
   		console.log("goTo "+e.target.id);
   		
-  		var n = parseFloat(e.target.id.substring(2));
+  		var n = parseFloat(e.target.id.substring(2), 10);
   		console.log("N "+n);
   		
+  		var parentDiv = $('#'+n).parent().parent();
+  		this.options.transcript.curSpeaker = parentDiv.id;
+  		
   		// clear out following text in prep for playback
-  		$('#'+n).parent().parent().nextAll().andSelf().remove();
+  		console.log('curspeaker '+this.options.transcript.curSpeaker);
+  		parentDiv.nextAll().andSelf().remove();
   		
   		// reset curnode
-  		app.transcript.resetCurNode(n-1);
+  		this.options.transcript.resetCurNode(n-1);
   		
   		//playback from that point
   		
   		// pend get this to walk thru with timestamp
-  		app.messages.each( function(msg) {
-  			if (msg.get("id") >= n)
+  		this.options.messages.each( function(msg) {
+  			if (msg.get("node") >= n)
 	  			msg.emit();
-	  		else console.log(" "+msg.get("id"));
+	  		else console.log(" "+msg.get("node"));
   		});
 
   	},

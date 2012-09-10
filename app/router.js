@@ -5,10 +5,13 @@ define([
   // Modules.
   "modules/uniqueWord",
   "modules/speaker",
-  "modules/comparison"
+  "modules/comparison",
+  "modules/message",
+  "modules/transcript",
+  "modules/navigation"
 ],
 
-function(app, UniqueWord, Speaker, Comparison) {
+function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) {
 
   // Defining the application router, you can attach sub routers here.
   var Router = Backbone.Router.extend({
@@ -18,7 +21,20 @@ function(app, UniqueWord, Speaker, Comparison) {
     },
 
     index: function() {
-    
+	    
+	    	// Init msg collection
+			var messages = new Message.Collection();
+			
+		  // init transcript
+		  var transcript = new Transcript.View();
+		
+		  // init navigation
+		  var navigation = new Navigation.View( { transcript: transcript, messages: messages } );
+		  
+			
+			var playback = false;
+			var startTime = new Date().getTime();
+			
     	    
       // init speakers
     	var speakers = new Speaker.Collection();
@@ -57,10 +73,10 @@ function(app, UniqueWord, Speaker, Comparison) {
 	    
 	    // testing playback (delay is how long to wait after start of connect to server)
 	    if (this.qs.playback) {
-	    	app.playback = true;
+	    	playback = true;
 	    	setTimeout(function() {
-	    		console.log("play "+app.messages.length);
-	    		app.messages.each(function(msg) {
+	    		console.log("play "+messages.length);
+	    		messages.each(function(msg) {
 	    			msg.emit();
 	    		});
 	    	}, parseFloat(this.qs.playbackDelay, 100));
@@ -75,9 +91,9 @@ function(app, UniqueWord, Speaker, Comparison) {
           collection: comparisons
         })
       }).render().then(function() {	
-	      app.navigation.setElement("#navigation");
-	      app.navigation.render();
-	     	app.transcript.setElement("#transcript");
+	      navigation.setElement("#navigation");
+	      navigation.render();
+	     	transcript.setElement("#transcript");
         app.views.detail.setElement($("#newWordMeta"));
         app.views.detail.render(); 
 
@@ -85,18 +101,27 @@ function(app, UniqueWord, Speaker, Comparison) {
       
       //Populate comparisons collection with models
       comparisons.add(new Comparison.Model({names: ['HONESTY', 'MASCULINITY', 'DEPRESSION']}));
+
       
-      
-      
-      app.socket.on("word", function(word) {     
-      	var n = app.transcript.addWord(word); // add to dom
-        uniqueWords.addWord(word, n); 
-        app.views.detail.activate(word, n);
+      app.socket.on("word", function(msg) {    
+	    	if (!playback) messages.addMessage(msg, transcript.getCurNode()); 
+      	if (transcript.addWord(msg)) { // add to dom
+      		navigation.addChapter(transcript.getCurNode());// add chapter
+      	}
+        uniqueWords.addWord(msg, transcript.getCurNode()); 
+        app.views.detail.activate(msg, transcript.getCurNode());
         $('body').animate({ scrollTop: $('body').prop("scrollHeight") }, 0);
       });
 
-      app.socket.on("sentenceEnd", function(word) {     
-      	app.transcript.endSentence(); 
+      app.socket.on("sentenceEnd", function(msg) {     
+	    	if (!playback) messages.addMessage(msg, transcript.getCurNode()); 
+      	transcript.endSentence(); 
+      });
+
+      app.socket.on("transcriptDone", function(msg) {   
+	    	if (!playback) messages.addMessage(msg, transcript.getCurNode()); 
+      	playback = true;
+      	console.log("transcriptDone");
       });
 
       app.socket.on("close", function() {
@@ -105,6 +130,7 @@ function(app, UniqueWord, Speaker, Comparison) {
 
       
     },
+    
 
     initialize: function() {
       // Cache the querystring lookup.

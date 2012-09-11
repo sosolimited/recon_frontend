@@ -32,12 +32,11 @@ function(app) {
   		var n = parseFloat(e.target.id.substring(2), 10);
   		console.log("N "+n);
   		
-  		var parentDiv = $('#'+n).parent().parent();
-  		this.options.transcript.curSpeaker = parentDiv.id;
-  		
   		// clear out following text in prep for playback
-  		console.log('curspeaker '+this.options.transcript.curSpeaker);
-  		parentDiv.nextAll().andSelf().remove();
+  		this.options.transcript.curSpeaker = "";
+  		this.options.transcript.endSentence();
+  		this.options.transcript.endParagraph();
+  		$('#'+n).parent().parent().nextAll().andSelf().remove();
   		
   		// reset curnode
   		this.options.transcript.resetCurNode(n-1);
@@ -46,7 +45,7 @@ function(app) {
   		
   		// pend get this to walk thru with timestamp
   		this.options.messages.each( function(msg) {
-  			if (msg.get("node") >= n)
+  			if (msg.get("node") >= n-1)
 	  			msg.emit();
 	  		else console.log(" "+msg.get("node"));
   		});

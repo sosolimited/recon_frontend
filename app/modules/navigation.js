@@ -33,6 +33,9 @@ function(app) {
   		console.log("N "+n);
   		
   		// clear out following text in prep for playback
+  		this.options.transcript.curSpeaker = "";
+  		this.options.transcript.endSentence();
+  		this.options.transcript.endParagraph();
   		$('#'+n).parent().parent().nextAll().andSelf().remove();
   		
   		// reset curnode
@@ -42,7 +45,7 @@ function(app) {
   		
   		// pend get this to walk thru with timestamp
   		this.options.messages.each( function(msg) {
-  			if (msg.get("node") >= n)
+  			if (msg.get("node") >= n-1)
 	  			msg.emit();
 	  		else console.log(" "+msg.get("node"));
   		});

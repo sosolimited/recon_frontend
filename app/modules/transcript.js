@@ -23,21 +23,25 @@ function(app) {
     addWord: function(word) {
     
     	var s = "";
-      var offset = 1;
+
+      var col=1;
     	
     	if (word["speaker"] != curSpeaker) {
     		curSpeaker = word["speaker"];
     		
     		// emit message to add chapter marker
     		app.trigger("playback:addChapter", word["id"]);
+
+   			if(curSpeaker==0) col = 2;	//obama
+    		else if(curSpeaker==2) col = 3;	//romney
     		
     		if (openSentence) this.endSentence();
     		if (openParagraph) this.endParagraph();	    		
     		
-    		this.$el.children().first().append("<div id=curParagraph class='push_" + (offset+curSpeaker) + " grid_3 " +
-          speakers[curSpeaker] + "'><h1>" +
-          speakers[curSpeaker].toUpperCase()+"</h1><p></p></div><div class=clear></div>");
-
+    		this.$el.children().first().append("<div id=curParagraph class='push-" + col + " span-3 " +
+          speakers[curSpeaker] + "'><h1 class='franklinMedIt'>" +
+          speakers[curSpeaker] + "</h1><p class='metaBook gray80'></p></div><div class=clear></div>");
+          
     		openParagraph = true;
     	}
     	

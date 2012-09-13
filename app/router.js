@@ -64,7 +64,6 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) 
 	        
       // send msg to get past msgs in bulk
       else {
-      
 	      /*app.socket.send(JSON.stringify({
 	        event: "loadHistory"
 	      }));*/ //pend out for now
@@ -128,7 +127,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) 
 	    	if (!playback) messages.addMessage(msg, transcript.getCurNode()); 
       	if (transcript.addWord(msg)) { // add to dom
       		//if (!playback) navigation.addChapter(transcript.getCurNode());// leaving this out for testing right now to make sure numbers match up on playback
-      		navigation.addChapter(transcript.getCurNode());// add chapter
+      		navigation.addChapter(transcript.getCurNode()); // add chapter
       	}
         uniqueWords.addWord(msg, transcript.getCurNode()); 
         app.views.detail.activate(msg, transcript.getCurNode());

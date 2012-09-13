@@ -17,6 +17,9 @@ function(app) {
 
   Navigation.View = Backbone.View.extend({
 
+
+		template: "navigation",
+	
     initialize: function() {
       // Bind custom events
       app.on("playback:addChapter", this.addChapter, this);

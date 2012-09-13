@@ -17,19 +17,18 @@ function(app) {
   	}
   });
   
-  var num = 0;
+  var curNum = -1;
 
   // Default collection.
   Message.Collection = Backbone.Collection.extend({  
     model: Message.Model,
     
-    addMessage: function(msg, node) {
+    addMessage: function(msg) {
 	    // log msg
-		  msg['node'] = node;
-		  msg['id'] = num;
+		  curNum++;
+		  msg['id'] = curNum;
 		  this.add(msg);	
-		  num++;
-		  console.log("LOG "+node+" "+msg["word"]+" "+msg["timeDiff"]+" "+this.length+"-"+num);  
+		  //console.log("LOG "+msg["word"]+" "+msg["timeDiff"]+" "+curNum);  
     }
   });
  

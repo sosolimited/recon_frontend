@@ -32,7 +32,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) 
 		  var navigation = new Navigation.View( { transcript: transcript, messages: messages } );
 		  
 			
-			var playback = false;
+			var live = true;
 			var startTime = new Date().getTime();
 			
     	    
@@ -72,7 +72,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) 
 	    
 	    // testing playback (delay is how long to wait after start of connect to server)
 	    if (this.qs.playback) {
-	    	playback = true;
+	    	live = false;
 	    	setTimeout(function() {
 	    		console.log("play "+messages.length);
 	    		messages.each(function(msg) {
@@ -124,24 +124,21 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) 
 
       
       app.socket.on("word", function(msg) {    
-	    	if (!playback) messages.addMessage(msg, transcript.getCurNode()); 
-      	if (transcript.addWord(msg)) { // add to dom
-      		//if (!playback) navigation.addChapter(transcript.getCurNode());// leaving this out for testing right now to make sure numbers match up on playback
-      		navigation.addChapter(transcript.getCurNode()); // add chapter
-      	}
-        uniqueWords.addWord(msg, transcript.getCurNode()); 
-        app.views.detail.activate(msg, transcript.getCurNode());
+	    	if (live) messages.addMessage(msg); 
+      	transcript.addWord(msg);
+        if (live) uniqueWords.addWord(msg); 
+        app.views.detail.activate(msg);
         $('body').animate({ scrollTop: $('body').prop("scrollHeight") }, 0);
       });
 
       app.socket.on("sentenceEnd", function(msg) {     
-	    	if (!playback) messages.addMessage(msg, transcript.getCurNode()); 
+	    	if (live) messages.addMessage(msg); 
       	transcript.endSentence(); 
       });
 
       app.socket.on("transcriptDone", function(msg) {   
-	    	if (!playback) messages.addMessage(msg, transcript.getCurNode()); 
-      	playback = true;
+	    	if (live) messages.addMessage(msg); 
+	    	live = false;
       	console.log("transcriptDone");
       });
 
@@ -152,7 +149,6 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) 
       
     },
     
-
     initialize: function() {
       // Cache the querystring lookup.
       var querystring = location.search.slice(1);
@@ -172,6 +168,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) 
           }, {});
         }
       });
+      
     }
   });
 

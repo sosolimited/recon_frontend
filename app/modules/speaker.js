@@ -18,7 +18,7 @@ function(app) {
   	},
   	
   	initialize: function(sid, sname) {
-  		console.log("INIT SPEAKER "+sname+" "+sid);
+  		//console.log("INIT SPEAKER "+sname+" "+sid);
     	this.set({id:sid, name:sname});
     }
   });

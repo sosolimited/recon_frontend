@@ -62,6 +62,13 @@
 	padding: 1px 4px 1px 2px;
 	margin: 2px;
 }
+.future {
+  color: #3A434C;
+}
+.current {
+  color: #C2E0FF;
+  font-weight: bold;
+}
 
 .comparison {
 	background-color: yellow;

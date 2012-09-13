@@ -17,7 +17,7 @@ function(app, Router) {
       msg = JSON.parse(msg);
    
       app.socket.emit(msg.type, msg); 
-      app.socket.emit(msg); 
+      //app.socket.emit(msg); 
     });
 
     // Define your master router on the application namespace and trigger all

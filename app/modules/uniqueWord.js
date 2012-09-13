@@ -25,6 +25,10 @@ function(app) {
   		//console.log("INIT "+word["word"]+" "+word["speaker"]);
     	this.set({id:word["id"], count:1, word:word["word"]});
     	this.addNode(word["speaker"], node);
+
+      // Bind custom events to their handlers
+      // TODO: Actually make this work
+      // app.on("words:new", this.addNode, this);
     },
     increment: function(sid, node){
     	this.set({count: this.get("count")+1});

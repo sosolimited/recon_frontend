@@ -124,23 +124,20 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) 
 
       
       app.socket.on("word", function(msg) {    
-	    	if (!playback) messages.addMessage(msg, transcript.getCurNode()); 
-      	if (transcript.addWord(msg)) { // add to dom
-      		//if (!playback) navigation.addChapter(transcript.getCurNode());// leaving this out for testing right now to make sure numbers match up on playback
-      		navigation.addChapter(transcript.getCurNode()); // add chapter
-      	}
-        uniqueWords.addWord(msg, transcript.getCurNode()); 
-        app.views.detail.activate(msg, transcript.getCurNode());
+	    	if (!playback) messages.addMessage(msg); 
+      	transcript.addWord(msg, playback);
+        uniqueWords.addWord(msg); 
+        app.views.detail.activate(msg);
         $('body').animate({ scrollTop: $('body').prop("scrollHeight") }, 0);
       });
 
       app.socket.on("sentenceEnd", function(msg) {     
-	    	if (!playback) messages.addMessage(msg, transcript.getCurNode()); 
+	    	if (!playback) messages.addMessage(msg); 
       	transcript.endSentence(); 
       });
 
       app.socket.on("transcriptDone", function(msg) {   
-	    	if (!playback) messages.addMessage(msg, transcript.getCurNode()); 
+	    	if (!playback) messages.addMessage(msg); 
       	playback = true;
       	console.log("transcriptDone");
       });
@@ -152,6 +149,9 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) 
       
     },
     
+    setPlayback: function(val) {
+	    playback = val;
+    },
 
     initialize: function() {
       // Cache the querystring lookup.
@@ -172,6 +172,12 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) 
           }, {});
         }
       });
+      
+      app.on("playback:set", this.setPlayback, this);
+    },
+    
+    cleanup: function() {
+	    app.off(null, null, this);
     }
   });
 

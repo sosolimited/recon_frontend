@@ -1,5 +1,6 @@
 /* H5BP styles. */
 @import "../../vendor/assets/h5bp/css/style.css";
+@import "fluid_grid.css";
 
 /* Add Stylus stylesheets here, alll files ending in .styl will be compiled!
  * For example: @import "main.styl";
@@ -10,8 +11,82 @@
 
 /* Put development-only CSS below this line. */
 
+body {
+  background: -webkit-linear-gradient(left, #7c7b75, #9e9e97, #7f7d76);
+}
+
+.layer {
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+}
+
+.wrapper {
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  overflow: scroll;
+}
 
 
+.transcript .wrapper {
+  -webkit-transition: -webkit-transform .5s linear; 
+  transition: all .5s linear;
+}
+
+h1 {
+  text-decoration: underline;
+  color: #FFF;
+  font-family: "Helvetica";
+  font-weight: normal;
+  font-style: italic;
+  line-height: 30px;
+}
+
+p {
+  line-height: 18px;
+  text-shadow: 0px 0px 1px #525252;
+  font-size: 14px;
+}
+
+.fade {
+  -webkit-transform: scale(.4);
+  opacity: .5;
+  top: -75%;
+  height: 250%;
+}
+
+.speaker.active {
+  z-index: 5000;
+}
+
+.speaker .active.wrapper {
+  -webkit-transform: scale(1);
+  transform: scale(1);
+}
+
+.speaker .wrapper {
+  -webkit-transition:  .5s linear; 
+  transition:  .5s linear; 
+  -webkit-transform: scale(0);
+  transform: scale(0);
+}
+
+.pieChart {
+  position: relative;
+  top: 20px;
+  left: 5%;
+  width: 90%;
+  height: 90%;
+  border-radius: 50%;
+  background: #ffe745;
+  opacity: .5;
+}
+
+#navigation {
+	position: fixed;
+	padding: 10px;
+}
+
+/*
 #transcript {
 	width: 1200px;
 	overflow-y: scroll;
@@ -51,10 +126,6 @@
 	display: block;
 }
 
-#navigation {
-	position: fixed;
-	padding: 10px;
-}
 
 .chapterButton {
 	color: white;
@@ -71,4 +142,5 @@
 	font-size: 64px;
 	font-color: black;
 }
+*/
 

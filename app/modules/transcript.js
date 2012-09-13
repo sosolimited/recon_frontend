@@ -20,7 +20,6 @@ function(app) {
   });
 
   Transcript.View = Backbone.View.extend({
-  
   	resetCurNode: function(n) {
 	  	curNode = n;
   	},
@@ -35,6 +34,7 @@ function(app) {
     
     	var s = "";
     	var newCh = false;
+      var offset = 1;
     	
     	if (word["speaker"] != curSpeaker) {
     		curSpeaker = word["speaker"];
@@ -44,7 +44,10 @@ function(app) {
     		if (openSentence) this.endSentence();
     		if (openParagraph) this.endParagraph();	    		
     		
-    		this.$el.append("<div id=curParagraph class="+speakers[curSpeaker]+"><span class=speakerName>"+speakers[curSpeaker].toUpperCase()+"</span></div>");
+    		this.$el.children().first().append("<div id=curParagraph class='push_" + (offset+curSpeaker) + " grid_3 " +
+          speakers[curSpeaker] + "'><h1>" +
+          speakers[curSpeaker].toUpperCase()+"</h1><p></p></div><div class=clear></div>");
+
     		openParagraph = true;
     	}
     	
@@ -52,7 +55,7 @@ function(app) {
     	if (word["sentenceStartFlag"]) this.endSentence();
     	
     	if (!openSentence) {
-    		$('#curParagraph').append("<span id=curSentence></span>"); // add sentence span wrapper
+    		$('#curParagraph p').append("<span id=curSentence></span>"); // add sentence span wrapper
     		openSentence = true;
     	}
     	

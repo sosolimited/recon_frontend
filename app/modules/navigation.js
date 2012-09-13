@@ -17,6 +17,8 @@ function(app) {
 
   Navigation.View = Backbone.View.extend({
 
+	template: "navigation",
+	
     serialize: function() {
       return { word: this.model };
     },

@@ -89,15 +89,12 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) 
       app.useLayout("main").setViews({
         "#comparisons": new Comparison.Views.List({
           collection: comparisons
-        })
-      }).render().then(function() {	
-	      navigation.setElement("#navigation");
-	      navigation.render();
-	     	transcript.setElement("#transcript");
-        app.views.detail.setElement($("#newWordMeta"));
-        app.views.detail.render(); 
+        }),
+        "#navigation" : navigation,
+        "#newWordMeta" : app.views.detail,
+        "#transcript" : transcript
+      }).render();
 
-      });
       
       //Populate comparisons collection with models
       comparisons.add(new Comparison.Model({names: ['HONESTY', 'MASCULINITY', 'DEPRESSION']}));
@@ -105,11 +102,12 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) 
       
       app.socket.on("word", function(msg) {    
 	    	if (!playback) messages.addMessage(msg, transcript.getCurNode()); 
-      	if (transcript.addWord(msg)) { // add to dom
-      		//if (!playback) navigation.addChapter(transcript.getCurNode());// leaving this out for testing right now to make sure numbers match up on playback
-      		navigation.addChapter(transcript.getCurNode());// add chapter
-      	}
-        uniqueWords.addWord(msg, transcript.getCurNode()); 
+        
+        // The following is now triggered by an event that 'messages' triggers
+        // And the 'transcript' view listens for
+        // transcript.addWord(msg); 
+        uniqueWords.addWord(msg);
+
         app.views.detail.activate(msg, transcript.getCurNode());
         $('body').animate({ scrollTop: $('body').prop("scrollHeight") }, 0);
       });
@@ -128,7 +126,8 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) 
       app.socket.on("close", function() {
         console.error("Closed");
       });
-
+      
+      //app.on("chapters:new", function(e) { navigation.addChapter(e); });
       
     },
     

@@ -17,8 +17,14 @@ function(app) {
 
   Navigation.View = Backbone.View.extend({
 
-	template: "navigation",
+
+		template: "navigation",
 	
+    initialize: function() {
+      // Bind custom events
+      app.on("playback:addChapter", this.addChapter, this);
+    },
+    
     serialize: function() {
       return { word: this.model };
     },
@@ -27,29 +33,36 @@ function(app) {
     	"click": "goToChapter"
     },
     
+    cleanup: function() {
+	    app.off(null, null, this);
+    },
+    
       
   	goToChapter: function(e) {
+    	//app.trigger("playback:set", true);
+    	
   		console.log("goTo "+e.target.id);
   		
   		var n = parseFloat(e.target.id.substring(2), 10);
-  		console.log("N "+n);
-  		
+
+  		// clear out nav in prep for playback
+  		$('#'+e.target.id).nextAll().andSelf().remove();
+
   		// clear out following text in prep for playback
   		this.options.transcript.curSpeaker = "";
   		this.options.transcript.endSentence();
   		this.options.transcript.endParagraph();
-  		$('#'+n).parent().parent().nextAll().andSelf().remove();
-  		
-  		// reset curnode
-  		this.options.transcript.resetCurNode(n-1);
+  		$('#'+n).parent().parent().parent().nextAll().andSelf().remove();
   		
   		//playback from that point
-  		
-  		// pend get this to walk thru with timestamp
+  		var startMsg = this.options.messages.get(n);
+
   		this.options.messages.each( function(msg) {
-  			if (msg.get("node") >= n-1)
-	  			msg.emit();
-	  		else console.log(" "+msg.get("node"));
+  			var diff = msg.get("timeDiff") - startMsg.get("timeDiff");
+  			if (diff >= 0) {
+	  			setTimeout(function() { msg.emit(); }, diff);
+	  			//console.log("settimeout "+msg.get("word")+" "+diff);
+	  		}
   		});
 
   	},

@@ -21,10 +21,10 @@ function(app) {
   		}
   	},
   	
-  	initialize: function(word, node) {
+  	initialize: function(word) {
   		//console.log("INIT "+word["word"]+" "+word["speaker"]);
-    	this.set({id:word["id"], count:1, word:word["word"]});
-    	this.addNode(word["speaker"], node);
+    	this.set({dbid:word["dbid"], count:1, word:word["word"]});
+    	this.addNode(word["speaker"], word["id"]);
     },
     increment: function(sid, node){
     	this.set({count: this.get("count")+1});
@@ -43,9 +43,9 @@ function(app) {
     model: UniqueWord.Model,
     
     addWord: function(word, node) {
-    	var w = this.get(word["id"], node);//pend change 0s
+    	var w = this.get(word["dbid"]);//pend change 0s
     	if (w) {
-    		w.increment(word["speaker"], node);
+    		w.increment(word["speaker"], word["id"]);
     	} else {
     		this.add(word);
     	}

@@ -9,23 +9,26 @@ function(app) {
   // Create a new module.
   var Message = app.module();
 
-  // Default model.
+    // Default model.
   Message.Model = Backbone.Model.extend({
   
   	emit : function() {
       app.socket.emit(this.get("type"), this.toJSON());
   	}
   });
+  
+  var curNum = -1;
 
   // Default collection.
   Message.Collection = Backbone.Collection.extend({  
     model: Message.Model,
     
-    addMessage: function(msg, node) {
+    addMessage: function(msg) {
 	    // log msg
-		  msg['node'] = node;
-		  //console.log("LOG "+node+" "+msg["word"]);
-		  this.add(msg);	    
+		  curNum++;
+		  msg['id'] = curNum;
+		  this.add(msg);	
+		  //console.log("LOG "+msg["word"]+" "+msg["timeDiff"]+" "+curNum);  
     }
   });
  

@@ -98,6 +98,7 @@ p {
 	position: fixed;
 	width: 64px;
 	height: 530px;	
+	z-index: 10;
 }
 
 /* White box inside #navigation div */

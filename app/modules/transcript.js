@@ -9,8 +9,7 @@ function(app) {
   // Create a new module.
   var Transcript = app.module();
   var curSpeaker = -1;
-  var curNode = -1;
-  var speakers = ["Moderator", "Obama", "Romney"];
+  var speakers = ["moderator", "obama", "romney"];
   var openSentence = null;
   var openParagraph = null;
 
@@ -20,28 +19,20 @@ function(app) {
   });
 
   Transcript.View = Backbone.View.extend({
-  	resetCurNode: function(n) {
-	  	curNode = n;
-  	},
-  	
-  	getCurNode: function() {
-	  	return curNode;
-  	},
 
     addWord: function(word) {
     
-    	curNode++;
-    
     	var s = "";
-    	var newCh = false;
-    	var col = 1;
 
+      var col=1;
     	
     	if (word["speaker"] != curSpeaker) {
     		curSpeaker = word["speaker"];
-    		newCh = true;
+    		
+    		// emit message to add chapter marker
+    		app.trigger("playback:addChapter", word["id"]);
 
-    		if(curSpeaker==0) col = 2;	//obama
+   			if(curSpeaker==0) col = 2;	//obama
     		else if(curSpeaker==2) col = 3;	//romney
     		
     		if (openSentence) this.endSentence();
@@ -64,9 +55,8 @@ function(app) {
     	
     	if (!word["punctuationFlag"]) s += " "; // add leading space
     	
-    	$('#curSentence').append("<span id="+curNode+">"+s+word["word"]+"</span>"); // add word
-    	
-    	return newCh;
+    	$('#curSentence').append("<span id="+word["id"]+">"+s+word["word"]+"</span>"); // add word
+    
     },
     
     endSentence: function() {

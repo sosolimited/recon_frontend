@@ -24,7 +24,7 @@ function(app) {
     addMessage: function(msg, node) {
 	    // log msg
 		  msg['node'] = node;
-		  console.log("LOG "+node+" "+msg["word"]+" "+msg["timeDiff"]);
+		  //console.log("LOG "+node+" "+msg["word"]+" "+msg["timeDiff"]);
 		  this.add(msg);	    
     }
   });

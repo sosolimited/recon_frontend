@@ -96,7 +96,28 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) 
         app.views.detail.setElement($("#newWordMeta"));
         app.views.detail.render(); 
 
+        (function() {
+          // Work with the wrappers, not the actual layers.
+          var transcript = $(".transcript > div");
+          var speaker = $(".speaker > div");
+
+          transcript.on("click", "h1", function(ev) {
+            var dist = transcript.offsetHeight;
+            transcript.scrollTop = dist;
+
+            transcript.toggleClass("fade");
+            speaker.parent().toggleClass("active");
+            speaker.toggleClass("active");
+          });
+
+          speaker.on("click", ".close", function(ev) {
+            transcript.toggleClass("fade");
+            speaker.parent().toggleClass("active");
+            speaker.toggleClass("active");
+          });
+        })();
       });
+
       
       //Populate comparisons collection with models
       comparisons.add(new Comparison.Model({names: ['HONESTY', 'MASCULINITY', 'DEPRESSION']}));

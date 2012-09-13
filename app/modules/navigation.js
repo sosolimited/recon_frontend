@@ -36,13 +36,15 @@ function(app) {
     
       
   	goToChapter: function(e) {
-    	app.trigger("playback:set", true);
+    	//app.trigger("playback:set", true);
     	
   		console.log("goTo "+e.target.id);
   		
   		var n = parseFloat(e.target.id.substring(2), 10);
-  		console.log("N "+n);
-  		
+
+  		// clear out nav in prep for playback
+  		$('#'+e.target.id).nextAll().andSelf().remove();
+
   		// clear out following text in prep for playback
   		this.options.transcript.curSpeaker = "";
   		this.options.transcript.endSentence();
@@ -55,7 +57,7 @@ function(app) {
   		this.options.messages.each( function(msg) {
   			var diff = msg.get("timeDiff") - startMsg.get("timeDiff");
   			if (diff >= 0) {
-	  			setTimeout(function() { msg.emit(); console.log(msg.get("word"));}, diff);
+	  			setTimeout(function() { msg.emit(); }, diff);
 	  			//console.log("settimeout "+msg.get("word")+" "+diff);
 	  		}
   		});

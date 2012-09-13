@@ -20,7 +20,7 @@ function(app) {
 
   Transcript.View = Backbone.View.extend({
 
-    addWord: function(word, isPlayingBack) {
+    addWord: function(word) {
     
     	var s = "";
       var offset = 1;
@@ -29,7 +29,7 @@ function(app) {
     		curSpeaker = word["speaker"];
     		
     		// emit message to add chapter marker
-    		if (!isPlayingBack) app.trigger("playback:addChapter", word["id"]);
+    		app.trigger("playback:addChapter", word["id"]);
     		
     		if (openSentence) this.endSentence();
     		if (openParagraph) this.endParagraph();	    		

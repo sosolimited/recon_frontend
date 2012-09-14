@@ -12,6 +12,7 @@ function(app) {
   var speakers = ["moderator", "obama", "romney"];
   var openSentence = null;
   var openParagraph = null;
+  var scrollLive = true;
 
   // Default model.
   Transcript.Model = Backbone.Model.extend({
@@ -19,6 +20,10 @@ function(app) {
   });
 
   Transcript.View = Backbone.View.extend({
+    
+    initialize : function() {
+      app.on("words:new", this.addWord, this);
+    },
 
     addWord: function(word) {
     
@@ -30,7 +35,7 @@ function(app) {
     		curSpeaker = word["speaker"];
     		
     		// emit message to add chapter marker
-    		app.trigger("playback:addChapter", word["id"]);
+    		app.trigger("playback:addChapter", word);
 
    			if(curSpeaker==0) col = 2;	//obama
     		else if(curSpeaker==2) col = 3;	//romney
@@ -56,6 +61,12 @@ function(app) {
     	if (!word["punctuationFlag"]) s += " "; // add leading space
     	
     	$('#curSentence').append("<span id="+word["id"]+">"+s+word["word"]+"</span>"); // add word
+
+      // Scroll the view if needed
+      if(scrollLive) {
+        this.$el.children(".wrapper").stop().animate({ scrollTop: this.$el.children(".wrapper").prop("scrollHeight") }, 10);
+        app.trigger("time:scrollTo", word["timeDiff"]); 
+      }
     
     },
     

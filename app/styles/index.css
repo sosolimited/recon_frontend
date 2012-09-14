@@ -96,20 +96,43 @@ p {
 
 #navigation {
 	position: fixed;
-	width: 64px;
-	height: 530px;	
+	width: 530px;
+	height: 40px;	
 	z-index: 10;
+
+	transform:rotate(90deg);
+	-ms-transform:rotate(90deg); /* IE 9 */
+	-moz-transform:rotate(90deg); /* Firefox */
+	-webkit-transform:rotate(90deg); /* Safari and Chrome */
+	-o-transform:rotate(90deg); /* Opera */
+  left: -245px; /* width / 2 + height / 2 */
+  top: 245px;
 }
 
 /* White box inside #navigation div */
+#navTimeline {
+  width: 530px;
+  height: 8px;
+}
+#navProgressBar {
+  height: 8px;
+  background-color: rgb(64, 180, 230);	
+  width: 0px;
+  z-index: 0;
+}
+.navChapterBar {
+  height: 8px;
+  z-index: 1;
+  position: absolute;
+}
 #navBar {
-	width: 530px;
+  width: 530px;
 	height: 32px;
 	background-color: white;
 }
 
 .navTitle {
-	padding: 10px 30px 10px 10px;
+	padding: 10px 10px 10px 10px;
 	font-size: 24px;
 }
 

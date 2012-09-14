@@ -117,7 +117,6 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) 
           });
         })();
       });
-
       
       //Populate comparisons collection with models
       comparisons.add(new Comparison.Model({names: ['HONESTY', 'MASCULINITY', 'DEPRESSION']}));
@@ -125,10 +124,11 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) 
       
       app.socket.on("word", function(msg) {    
 	    	if (live) messages.addMessage(msg); 
-      	transcript.addWord(msg);
+      	//transcript.addWord(msg);
+        app.trigger("words:new", msg);
         if (live) uniqueWords.addWord(msg); 
         app.views.detail.activate(msg);
-        $('body').animate({ scrollTop: $('body').prop("scrollHeight") }, 0);
+        //$('body').animate({ scrollTop: $('body').prop("scrollHeight") }, 0);
       });
 
       app.socket.on("sentenceEnd", function(msg) {     
@@ -140,13 +140,18 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) 
 	    	if (live) messages.addMessage(msg); 
 	    	live = false;
       	console.log("transcriptDone");
+        app.trigger("playback:addChapter", msg);  // Close out the chapter list
       });
 
       app.socket.on("close", function() {
         console.error("Closed");
       });
 
-      
+      // Automatically load up the first debate for now
+      if(this.qs.debate)
+        app.trigger("debate:change", this.qs.debate);
+      else
+        app.trigget("debate:change", 1);
     },
     
     initialize: function() {

@@ -32,12 +32,13 @@ function(app) {
     },
     
     incWordCount: function() {
-    	this.set({wordCount: this.get("wordCount")+1});
+    	if (args['speaker'] == sid)
+   		 	this.set({wordCount: this.get("wordCount")+1});
     },
     
     // PEND: this should keep track of what the longest sentence actually IS.
     updateLongestSentence: function(args) {
-    	if (args['length'] > this.get("longestSentence"))
+    	if (args['speaker'] == sid && args['length'] > this.get("longestSentence"))
    		 	this.set({longestSentence: args['length']});
     },
     

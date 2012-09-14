@@ -14,12 +14,35 @@ function(app) {
   
   	defaults: function() {
   		return {
+  			wordCount: 0,
+  			longestSentence: 0 // PEND: this should keep track of what the longest sentence actually IS.
   		}
   	},
   	
   	initialize: function(sid, sname) {
   		//console.log("INIT SPEAKER "+sname+" "+sid);
     	this.set({id:sid, name:sname});
+      app.on("message:word", this.incWordCount, this);
+      app.on("message:sentenceEnd", this.incWordCount, this);
+      app.on("message:stats", this.updateStats, this);
+    },
+    
+    cleanup: function() {
+	    app.off(null, null, this);
+    },
+    
+    incWordCount: function() {
+    	this.set({wordCount: this.get("wordCount")+1});
+    },
+    
+    // PEND: this should keep track of what the longest sentence actually IS.
+    updateLongestSentence: function(args) {
+    	if (args['length'] > this.get("longestSentence"))
+   		 	this.set({longestSentence: args['length']});
+    },
+    
+    updateStats: function(args) {
+	    
     }
   });
 

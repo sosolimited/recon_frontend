@@ -23,12 +23,26 @@ function(app) {
   Message.Collection = Backbone.Collection.extend({  
     model: Message.Model,
     
-    addMessage: function(msg) {
-	    // log msg
-		  curNum++;
-		  msg['id'] = curNum;
-		  this.add(msg);	
-		  //console.log("LOG "+msg["word"]+" "+msg["timeDiff"]+" "+curNum);  
+    
+  	initialize: function() {
+      app.on("message:word", this.addMessage, this);
+      app.on("message:sentenceEnd", this.addMessage, this);
+      app.on("message:transcriptEnd", this.addMessage, this);
+  	},
+  	
+    cleanup: function() {
+	    app.off(null, null, this);
+    },
+    
+    addMessage: function(args) {
+    	if (args['live']) {
+
+		    // log msg
+			  curNum++;
+			  args['msg']['id'] = curNum;
+			  this.add(args['msg']);	
+			  //console.log("LOG "+args['msg']["word"]+" "+args['msg']["timeDiff"]+" "+curNum);  
+			}
     }
   });
  

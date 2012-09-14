@@ -22,10 +22,17 @@ function(app) {
   Transcript.View = Backbone.View.extend({
     
     initialize : function() {
-      app.on("words:new", this.addWord, this);
+      app.on("message:word", this.addWord, this);
+      app.on("message:sentenceEnd", this.endSentence, this);
+  	},
+  	
+    cleanup: function() {
+	    app.off(null, null, this);
     },
 
-    addWord: function(word) {
+    addWord: function(args) {
+    
+	    var word = args['msg'];
     
     	var s = "";
 
@@ -70,7 +77,7 @@ function(app) {
     
     },
     
-    endSentence: function() {
+    endSentence: function(args) {
     	$('#curSentence').removeAttr('id');
     	openSentence = false;
     },

@@ -41,63 +41,30 @@ function(app) {
   // Default collection.
   UniqueWord.Collection = Backbone.Collection.extend({  
     model: UniqueWord.Model,
+        
+  	initialize: function() {
+      app.on("message:word", this.addWord, this);
+  	},
+  	
+    cleanup: function() {
+	    app.off(null, null, this);
+    },
     
-    addWord: function(word, node) {
-    	var w = this.get(word["dbid"]);//pend change 0s
-    	if (w) {
-    		w.increment(word["speaker"], word["id"]);
-    	} else {
-    		this.add(word);
-    	}
+    addWord: function(args) {
+    
+    	if (args['live']) {
+	    	var word = args['msg'];
+	    
+	    	var w = this.get(word["dbid"]);//pend change 0s
+	    	if (w) {
+	    		w.increment(word["speaker"], word["id"]);
+	    	} else {
+	    		this.add(word);
+	    	}
+	    }
     }
   });
   
-	UniqueWord.Views.Detail = Backbone.View.extend({
-    template: "word/detail",
-
-    events: {
-      clickoutside: "close"
-    },
-
-    close: function(ev) {
-      this.$el.fadeOut(500);
-
-      // Enlarge to next screen.
-      if (this.elem) {
-        this.elem.removeClass("expand");
-        this.elem.siblings().removeClass("fade");
-      }
-    },
-
-    serialize: function() {
-      //console.log(this.model);
-      return { word: this.model };
-    },
-
-    activate: function(word, elem) {
-      this.model = word;
-      //console.log(elem);
-      this.elem = $('#'+elem);
-      //this.model.on("change", this.render, this);
-      this.render();
-    },
-
-    beforeRender: function() {
-      this.$el.hide();
-    },
-
-    afterRender: function() {
-      /*if (this.elem) {
-        this.$el.css({
-          top: (this.elem.offset().top - 100) + "px",
-          left: (this.elem.offset().left - 50) + "px"
-        });
-      }
-      this.$el.show();
-      this.$el.fadeOut(500).delay(150);*/
-    }
-  });
-
 
   // Return the module for AMD compliance.
   return UniqueWord;

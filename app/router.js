@@ -82,9 +82,6 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) 
 	    }
 
 
-      // Create a global reference to a reusable View.
-      app.views.detail = new UniqueWord.Views.Detail();
-
       app.useLayout("main").setViews({
         "#comparisons": new Comparison.Views.List({
           collection: comparisons
@@ -92,9 +89,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) 
       }).render().then(function() {	
 	      navigation.setElement("#navigation");
 	      navigation.render();
-	     	transcript.setElement("#transcript");
-        app.views.detail.setElement($("#newWordMeta"));
-        app.views.detail.render(); 
+	     	transcript.setElement("#transcript");   
 
         (function() {
           // Work with the wrappers, not the actual layers.
@@ -124,20 +119,17 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) 
       
       app.socket.on("word", function(msg) {    
 	    	if (live) messages.addMessage(msg); 
-      	//transcript.addWord(msg);
-        app.trigger("words:new", msg);
         if (live) uniqueWords.addWord(msg); 
-        app.views.detail.activate(msg);
-        //$('body').animate({ scrollTop: $('body').prop("scrollHeight") }, 0);
+        //app.views.detail.activate(msg);
+      	app.trigger("message:word", {msg:msg,live:live});
       });
 
-      app.socket.on("sentenceEnd", function(msg) {     
-	    	if (live) messages.addMessage(msg); 
-      	transcript.endSentence(); 
+      app.socket.on("sentenceEnd", function(msg) {  
+      	app.trigger("message:sentenceEnd", {msg:msg,live:live});   
       });
 
       app.socket.on("transcriptDone", function(msg) {   
-	    	if (live) messages.addMessage(msg); 
+      	app.trigger("message:transcriptDone", {msg:msg,live:live});
 	    	live = false;
       	console.log("transcriptDone");
         app.trigger("playback:addChapter", msg);  // Close out the chapter list

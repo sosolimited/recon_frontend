@@ -31,14 +31,14 @@ function(app) {
 	    app.off(null, null, this);
     },
     
-    incWordCount: function() {
-    	if (args['speaker'] == sid)
+    incWordCount: function(args) {
+    	if (args['speaker'] == this.get('id'))
    		 	this.set({wordCount: this.get("wordCount")+1});
     },
     
     // PEND: this should keep track of what the longest sentence actually IS.
     updateLongestSentence: function(args) {
-    	if (args['speaker'] == sid && args['length'] > this.get("longestSentence"))
+    	if (args['speaker'] == this.get('id') && args['length'] > this.get("longestSentence"))
    		 	this.set({longestSentence: args['length']});
     },
     

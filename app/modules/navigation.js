@@ -34,7 +34,7 @@ function(app) {
       app.on("playback:addChapter", this.addChapter, this);
       app.on("time:scrollTo", this.updateTime, this);
       app.on("debate:change", this.setDebateNumber, this);
-      app.on("words:new", this.updateProgress, this);
+      app.on("message:word", this.updateProgress, this);
     },
     
     serialize: function() {
@@ -128,7 +128,7 @@ function(app) {
 
     updateProgress : function(msg) {
       // Update the PROGRESS OF THE DEBATE, increasing with every word
-      var percent = this.timeDiffToPercent(msg["timeDiff"]);
+      var percent = this.timeDiffToPercent(msg["msg"]["timeDiff"]);
       $("#navProgressBar").width(percent * $("#navProgressBar").parent().width());
     },
 

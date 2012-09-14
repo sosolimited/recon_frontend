@@ -143,7 +143,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) 
       if(this.qs.debate)
         app.trigger("debate:change", this.qs.debate);
       else
-        app.trigget("debate:change", 1);
+        app.trigger("debate:change", 1);
     },
     
     initialize: function() {

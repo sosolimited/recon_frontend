@@ -62,10 +62,6 @@ function(app) {
       
   	playbackChapter: function(e) {
   		
-  		this.options.messages.stopPlayback();
-  	
-    	//app.trigger("playback:set", true);
-    	
   		console.log("goTo "+e.target.id);
   	  
       // Figure out chapter index #

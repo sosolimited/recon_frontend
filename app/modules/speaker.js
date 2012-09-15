@@ -35,8 +35,8 @@ function(app) {
     
     handleWord: function(args) {
 	    if (args['speaker'] == this.get('id')) {
-	    	// inc word count
-   		 	this.set({wordCount: this.get("wordCount")+1});
+	    	// inc word count if not punc
+   		 	if (!args['punctuationFlag']) this.set({wordCount: this.get("wordCount")+1});
    		 	// update curSentence
    		 	if (!args['sentenceStartFlag'] && !args['punctuationFlag'])
    		 		curSentence += ' ';

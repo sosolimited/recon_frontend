@@ -1,0 +1,12 @@
+<div class="container">
+<% if(leader=="obama") { %>
+	<div class="traitExpTextHolder overlay push-1"><p class="franklinDemiIt traitExpText"><%= leader.toUpperCase() %> IS NOW </p></div>
+	<div class="traitExpTextHolder overlay push-1"><p class="franklinDemiIt traitExpText">MORE <%= trait %> <p></div>
+	<div class="traitExpTextHolder overlay push-1"><p class="franklinDemiIt traitExpText">THAN <%= trailer.toUpperCase() %> </p></div>
+<% }else{ %>
+	<div class="traitExpTextHolder overlay push-3"><p class="franklinDemiIt traitExpText"><%= leader.toUpperCase() %> IS NOW</p></div>
+	<div class="traitExpTextHolder overlay push-3"><p class="franklinDemiIt traitExpText">MORE <%= trait %><p></div>
+	<div class="traitExpTextHolder overlay push-3"><p class="franklinDemiIt traitExpText">THAN <%= trailer.toUpperCase() %></p></div>
+<% } %>
+<!-- <p class="underlay"> </p> -->	
+</div>

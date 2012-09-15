@@ -18,7 +18,7 @@ function(app) {
   Navigation.View = Backbone.View.extend({
 
 
-		template: "navigation",
+		//template: "navigation",
 	
     initialize: function() {
       // Bind custom events

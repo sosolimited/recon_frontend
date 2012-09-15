@@ -8,10 +8,11 @@ define([
   "modules/comparison",
   "modules/message",
   "modules/transcript",
-  "modules/navigation"
+  "modules/navigation",
+  "modules/overlay"
 ],
 
-function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) {
+function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, Overlay) {
 
   // Defining the application router, you can attach sub routers here.
   var Router = Backbone.Router.extend({
@@ -95,6 +96,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) 
 	     	transcript.setElement("#transcript");
         app.views.detail.setElement($("#newWordMeta"));
         app.views.detail.render(); 
+                
 
         (function() {
           // Work with the wrappers, not the actual layers.

@@ -39,17 +39,22 @@ body {
   transition: all .5s linear;
 }
 
-/* Speaker names */
-h1 {
+
+
+
+
+/* Transcript bizniss */
+
+h1 { /* Speaker names */
   text-decoration: underline;	
   /* border-bottom-style: solid; */ 	/* alternative to control "underline" weight */
   /* border-bottom-width: 2px */
-  color: #FFF;
   line-height: 0px;
   font-size: 36px;
 }
-/* Transcript text */
-p {
+
+
+p { /* Transcript text */
   line-height: 24px;
   text-shadow: 0px 0px 1px #525252;
   font-size: 18px;
@@ -94,6 +99,11 @@ p {
   opacity: .5;
 }
 
+
+
+
+/* Navigation */
+
 #navigation {
 	position: fixed;
 	width: 64px;
@@ -101,8 +111,8 @@ p {
 	z-index: 10;
 }
 
-/* White box inside #navigation div */
-#navBar {
+
+#navBar { /* White box inside #navigation div */
 	width: 530px;
 	height: 32px;
 	background-color: white;
@@ -116,7 +126,7 @@ p {
 .navSubTitle {
 	font-size: 18px;
 }
-
+ 
 .rot90 {
 	transform:rotate(90deg);
 	-ms-transform:rotate(90deg); /* IE 9 */
@@ -125,7 +135,12 @@ p {
 	-o-transform:rotate(90deg); /* Opera */
 }
 
+
+
+
+
 /* Typekit fonts */
+
 .metaBook{ font-family:"ff-meta-serif-web-pro"; font-weight:100; font-style:normal; }
 .metaBookIt{ font-family:"ff-meta-serif-web-pro"; font-weight:50; font-style:italic; }
 .metaBold{ font-family:"ff-meta-serif-web-pro"; font-weight:700; font-style:normal; }
@@ -147,10 +162,44 @@ p {
 .franklinHeavyIt{ font-family:"franklin-gothic-urw"; font-weight:900; font-style:italic; }
 
 
+
+
+
 /* Colors */
 .gray80{ color:rgb(80,80,80); }
+.pink{ color:rgb(231,0,149); }
 
 
+
+
+
+/* Overlays */
+
+.overlay {
+	z-index: 2;	
+}
+.underlay {
+	z-index: -2;
+}
+
+.traitExpText {
+	position:relative;
+	top:96px;	/* Start out of view */
+	font-size: 96px;
+	color: white;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+	line-height:96px;
+	background-color: rgb(231,0,149);
+}
+
+.traitExpTextHolder {
+	overflow: hidden;
+	/* width:1024px; */
+	height:96px; 	
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+}
 
 
 /*

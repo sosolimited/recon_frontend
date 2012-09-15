@@ -27,7 +27,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 			var messages = new Message.Collection();
 			
 		  // init transcript
-		  var transcript = new Transcript.View();
+		  var transcript = new Transcript.View({messages: messages});
 		
 		  // init navigation
 		  var navigation = new Navigation.View( { transcript: transcript, messages: messages } );
@@ -83,9 +83,6 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 	    }
 
 
-      // Create a global reference to a reusable View.
-      app.views.detail = new UniqueWord.Views.Detail();
-
       app.useLayout("main").setViews({
         "#comparisons": new Comparison.Views.List({
           collection: comparisons
@@ -93,13 +90,11 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
       }).render().then(function() {	
 	      navigation.setElement("#navigation");
 	      navigation.render();
-	     	transcript.setElement("#transcript");
-        app.views.detail.setElement($("#newWordMeta"));
-        app.views.detail.render(); 
-                
+        // Need transcript to point to the actual scrolling DOM element or else scroll event handling is wack
+	     	transcript.setElement("#transcript > .wrapper"); 
 
         (function() {
-          // Work with the wrappers, not the actual layers.
+          // Work with the wrappers, not the actual layers.  --> ???
           var transcript = $(".transcript > div");
           var speaker = $(".speaker > div");
 
@@ -119,36 +114,35 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
           });
         })();
       });
-
       
       //Populate comparisons collection with models
       comparisons.add(new Comparison.Model({names: ['HONESTY', 'MASCULINITY', 'DEPRESSION']}));
 
       
       app.socket.on("word", function(msg) {    
-	    	if (live) messages.addMessage(msg); 
-      	transcript.addWord(msg);
-        if (live) uniqueWords.addWord(msg); 
-        app.views.detail.activate(msg);
-        $('body').animate({ scrollTop: $('body').prop("scrollHeight") }, 0);
+      	app.trigger("message:word", {msg:msg,live:live});
       });
 
-      app.socket.on("sentenceEnd", function(msg) {     
-	    	if (live) messages.addMessage(msg); 
-      	transcript.endSentence(); 
+      app.socket.on("sentenceEnd", function(msg) {  
+      	app.trigger("message:sentenceEnd", {msg:msg,live:live});   
       });
 
       app.socket.on("transcriptDone", function(msg) {   
-	    	if (live) messages.addMessage(msg); 
+      	app.trigger("message:transcriptDone", {msg:msg,live:live});
 	    	live = false;
       	console.log("transcriptDone");
+        //app.trigger("playback:addChapter", msg);  // Close out the chapter list nav now responds to done msg
       });
 
       app.socket.on("close", function() {
         console.error("Closed");
       });
 
-      
+      // Automatically load up the first debate for now
+      if(this.qs.debate)
+        app.trigger("debate:change", this.qs.debate);
+      else
+        app.trigger("debate:change", 1);
     },
     
     initialize: function() {

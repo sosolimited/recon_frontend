@@ -37,6 +37,7 @@ body {
 .transcript .wrapper {
   -webkit-transition: -webkit-transform .5s linear; 
   transition: all .5s linear;
+  overflow-x: hidden;
 }
 
 /* Speaker names */
@@ -120,10 +121,19 @@ p {
   width: 0px;
   z-index: 0;
 }
+#navProgressMarker {
+  height: 8px;
+  width:2px;
+  background-color: black;
+  z-index: 2;
+  position: absolute;
+  top:0px;
+}
 .navChapterBar {
   height: 8px;
   z-index: 1;
   position: absolute;
+  top: 0px;
 }
 #navBar {
   width: 530px;

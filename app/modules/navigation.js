@@ -32,7 +32,7 @@ function(app) {
     initialize: function() {
       // Bind custom events
       app.on("playback:addChapter", this.addChapter, this);
-      app.on("time:scrollTo", this.updateTime, this);
+      app.on("transcript:scrollTo", this.updateTime, this);
       app.on("debate:change", this.setDebateNumber, this);
       app.on("message:word", this.updateProgress, this);
     },
@@ -104,8 +104,9 @@ function(app) {
         
         var previous = $("#CH" + previousid);
         previous.width((percent - previousPercent) * previous.parent().width());
-        previous.offset({top:0, left: previous.parent().offset()["left"]-$("#navBar").height() + previousPercent * previous.parent().width()});
+        previous.css("left", previousPercent * previous.parent().width());
       }
+
 
       // Create a new div of 0 width at this point
       // TODO: Put real colors in here
@@ -123,7 +124,11 @@ function(app) {
       // Update the CURRENTLY BEING VIEWED TIME
       var now = new Date(startDates[debateNumber].getTime() + newTime);
       var nowString = (now.getHours() > 12 ? now.getHours() - 12 : now.getHours()) + ":" + (now.getMinutes() < 10 ? "0" + now.getMinutes() : now.getMinutes()) + (now.getHours() > 12 ? " PM" : " AM"); 
+
+      var percent = this.timeDiffToPercent(newTime);
       $("#navTime").text(nowString);
+      $("#navProgressMarker").stop().animate({"left": percent * $("#navTimeline").width()}, 100);
+      
     },
 
     updateProgress : function(msg) {
@@ -133,7 +138,7 @@ function(app) {
     },
 
     timeDiffToPercent : function(diff) {
-      var scaleFactor = 100;  // TODO: Set this to 1 for longer transcripts/production
+      var scaleFactor = 10;  // TODO: Set this to 1 for longer transcripts/production
       return diff / 1000 / 60 / 60 / 1.5 * scaleFactor;
     }
 

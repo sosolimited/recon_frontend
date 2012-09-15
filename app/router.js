@@ -26,7 +26,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) 
 			var messages = new Message.Collection();
 			
 		  // init transcript
-		  var transcript = new Transcript.View();
+		  var transcript = new Transcript.View({messages: messages});
 		
 		  // init navigation
 		  var navigation = new Navigation.View( { transcript: transcript, messages: messages } );
@@ -89,10 +89,11 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) 
       }).render().then(function() {	
 	      navigation.setElement("#navigation");
 	      navigation.render();
-	     	transcript.setElement("#transcript");   
+        // Need transcript to point to the actual scrolling DOM element or else scroll event handling is wack
+	     	transcript.setElement("#transcript > .wrapper"); 
 
         (function() {
-          // Work with the wrappers, not the actual layers.
+          // Work with the wrappers, not the actual layers.  --> ???
           var transcript = $(".transcript > div");
           var speaker = $(".speaker > div");
 

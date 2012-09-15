@@ -8,10 +8,11 @@ define([
   "modules/comparison",
   "modules/message",
   "modules/transcript",
-  "modules/navigation"
+  "modules/navigation",
+  "modules/overlay"
 ],
 
-function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) {
+function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, Overlay) {
 
   // Defining the application router, you can attach sub routers here.
   var Router = Backbone.Router.extend({

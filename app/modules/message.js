@@ -43,12 +43,14 @@ function(app) {
 			  curNum++;
 			  args['msg']['id'] = curNum;
 			  this.add(args['msg']);	
-			  //console.log("LOG "+args['msg']["word"]+" "+args['msg']["timeDiff"]+" "+curNum);  
+			  //console.log("LOG "+args['msg']["word"]+" "+args['msg']["type"]+" "+args['msg']['punctuationFlag']+" "+args['msg']['cats']);  
 			}
     },
     
     playbackMessages: function(n) {
     
+    	this.stopPlayback();
+    	
   		var startMsg = this.get(n);
 
   		this.each( function(msg) {

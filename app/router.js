@@ -119,9 +119,6 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) 
 
       
       app.socket.on("word", function(msg) {    
-	    	if (live) messages.addMessage(msg); 
-        if (live) uniqueWords.addWord(msg); 
-        //app.views.detail.activate(msg);
       	app.trigger("message:word", {msg:msg,live:live});
       });
 
@@ -133,7 +130,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation) 
       	app.trigger("message:transcriptDone", {msg:msg,live:live});
 	    	live = false;
       	console.log("transcriptDone");
-        app.trigger("playback:addChapter", msg);  // Close out the chapter list
+        //app.trigger("playback:addChapter", msg);  // Close out the chapter list nav now responds to done msg
       });
 
       app.socket.on("close", function() {

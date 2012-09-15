@@ -5,11 +5,12 @@ define([
 
 // Map dependencies from above array.
 function(app) {
-  var startDates = [new Date(2012, 10, 5, 21, 0, 0, 0), new Date(2012, 10, 16, 21, 0,0,0), new Date(2012, 10, 23, 21, 0,0,0)]; 
-  var monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  var startDates = [new Date(2012, 9, 5, 21, 0, 0, 0), new Date(2012, 9, 16, 21, 0,0,0), new Date(2012, 9, 23, 21, 0,0,0)]; 
   var debateNumber = 0;
 
   var chapters = [];
+  
+  var setTimeoutEvents = [];
 
   // Create a new module.
   var Navigation = app.module();
@@ -35,6 +36,7 @@ function(app) {
       app.on("transcript:scrollTo", this.updateTime, this);
       app.on("debate:change", this.setDebateNumber, this);
       app.on("message:word", this.updateProgress, this);
+      app.on("message:transcriptDone", this.addChapter, this);
     },
     
     serialize: function() {
@@ -42,7 +44,7 @@ function(app) {
     },
     
     events: {
-    	"click": "goToChapter"
+    	"click": "playbackChapter"
     },
     
     cleanup: function() {
@@ -52,14 +54,17 @@ function(app) {
     setDebateNumber : function(n) {
       n -= 1;
       debateNumber = n;
-      var dateString = monthNames[startDates[n].getMonth()] + " " + startDates[n].getDate() + ", " + startDates[n].getFullYear();
-      $("#navDate").text(dateString);
+      var dateString = startDates[n].toLocaleDateString();
+      $("#navDate").text(dateString.substring(dateString.indexOf(",")+2));
 
       var debateNumString = (n == 0 ? "1st" : (n == 1 ? "2nd" : "3rd")) + " Debate";
       $("#navDebateNum").text(debateNumString);
     },
       
-  	goToChapter: function(e) {
+  	playbackChapter: function(e) {
+  		
+  		this.stopPlayback();
+  	
     	//app.trigger("playback:set", true);
     	
   		console.log("goTo "+e.target.id);
@@ -75,22 +80,31 @@ function(app) {
   		this.options.transcript.endParagraph();
   		$('#'+n).parent().parent().parent().nextAll().andSelf().remove();
   		
+  		
   		//playback from that point
   		var startMsg = this.options.messages.get(n);
 
   		this.options.messages.each( function(msg) {
   			var diff = msg.get("timeDiff") - startMsg.get("timeDiff");
   			if (diff >= 0) {
-	  			setTimeout(function() { msg.emit(); }, diff);
+	  			setTimeoutEvents.push(setTimeout(function() { msg.emit(); }, diff));
 	  			//console.log("settimeout "+msg.get("word")+" "+diff);
 	  		}
   		});
 
   	},
   	
-  	addChapter: function(msg) {
+  	stopPlayback: function() {
+  		for(var i=0; i<setTimeoutEvents.length; i++) 
+  			clearTimeout(setTimeoutEvents[i]);
+  		setTimeoutEvents = [];
+  	},
+  	
+  	addChapter: function(args) {
+  		var msg = args['msg'];
+  	
       // Check if this chapter already exists and return if true
-      for(i=0; i<chapters.length; i++)
+      for(var i=0; i<chapters.length; i++)
         if(chapters[i]["id"] == msg["id"]) return;
 
       chapters.push(msg);

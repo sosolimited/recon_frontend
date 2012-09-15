@@ -46,7 +46,7 @@ function(app) {
     		curSpeaker = word["speaker"];
     		
     		// emit message to add chapter marker
-    		app.trigger("playback:addChapter", word);
+    		app.trigger("playback:addChapter", {msg:word});
 
    			if(curSpeaker==0) col = 2;	//obama
     		else if(curSpeaker==2) col = 3;	//romney

@@ -10,7 +10,6 @@ function(app) {
 
   var chapters = [];
   
-  var setTimeoutEvents = [];
 
   // Create a new module.
   var Navigation = app.module();
@@ -63,7 +62,7 @@ function(app) {
       
   	playbackChapter: function(e) {
   		
-  		this.stopPlayback();
+  		this.options.messages.stopPlayback();
   	
     	//app.trigger("playback:set", true);
     	
@@ -72,33 +71,11 @@ function(app) {
       // Figure out chapter index #
   		var n = parseFloat(e.target.id.substring(2), 10);
 
-      // TODO: Have this trigger a message and handle playback accordingly
-
-  		// clear out following text in prep for playback
-  		this.options.transcript.curSpeaker = "";
-  		this.options.transcript.endSentence();
-  		this.options.transcript.endParagraph();
-  		$('#'+n).parent().parent().parent().nextAll().andSelf().remove();
-  		
-  		
-  		//playback from that point
-  		var startMsg = this.options.messages.get(n);
-
-  		this.options.messages.each( function(msg) {
-  			var diff = msg.get("timeDiff") - startMsg.get("timeDiff");
-  			if (diff >= 0) {
-	  			setTimeoutEvents.push(setTimeout(function() { msg.emit(); }, diff));
-	  			//console.log("settimeout "+msg.get("word")+" "+diff);
-	  		}
-  		});
+  		this.options.transcript.resetToNode(n);
+  		this.options.messages.playbackMessages(n);
 
   	},
   	
-  	stopPlayback: function() {
-  		for(var i=0; i<setTimeoutEvents.length; i++) 
-  			clearTimeout(setTimeoutEvents[i]);
-  		setTimeoutEvents = [];
-  	},
   	
   	addChapter: function(args) {
   		var msg = args['msg'];

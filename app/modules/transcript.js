@@ -166,6 +166,16 @@ function(app) {
       scrolledWord.css("background-color", "white");
       scrolledWord.addClass("currentlyScrolled");
       */
+    },
+    
+    resetToNode: function(n) {
+	    
+  		// clear out following text in prep for playback
+  		curSpeaker = "";
+  		this.endSentence();
+  		this.endParagraph();
+  		$('#'+n).parent().parent().parent().nextAll().andSelf().remove();
+  		
     }
   });
 

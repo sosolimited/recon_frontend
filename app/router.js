@@ -9,10 +9,11 @@ define([
   "modules/message",
   "modules/transcript",
   "modules/navigation",
-  "modules/overlay"
+  "modules/overlay",
+  "modules/markupManager"
 ],
 
-function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, Overlay) {
+function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, Overlay, MarkupManager) {
 
   // Defining the application router, you can attach sub routers here.
   var Router = Backbone.Router.extend({
@@ -28,6 +29,9 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 			
 		  // init transcript
 		  var transcript = new Transcript.View({messages: messages});
+		  
+		  // init markup manager
+		  var markupManager = new MarkupManager.Model( { transcript: transcript } );
 		
 		  // init navigation
 		  var navigation = new Navigation.View( { transcript: transcript, messages: messages } );

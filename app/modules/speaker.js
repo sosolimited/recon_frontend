@@ -6,7 +6,6 @@ define([
 // Map dependencies from above array.
 function(app) {
 
-	var wordCountLead = -1;
 	var sentenceLengthLead = -1;
 
   // Create a new module.
@@ -18,6 +17,8 @@ function(app) {
   	defaults: function() {
   		return {
   			wordCount: 0,
+  			wordCountThreshholds: [ 500, 1000, 1500 ],
+  			curWordCountThreshhold: 0,
   			longestSentenceLength: 0,
   			longestSentence: "",
   			curSentence: ""
@@ -46,6 +47,11 @@ function(app) {
    		 		curSentence += ' ';
    		 		
    		 	curSentence += args['word'];
+   		 	
+   		 	if (wordCount > wordCountThreshholds[curWordCountThreshhold] ) {
+	   		 	app.trigger("markup:wordCount", {type:"wordCount", speaker:this.get("id"), count: wordCountThreshholds[curWordCountThreshhold]});
+	   		 	curWordCountThreshhold = min(curWordCountThreshhold++, wordCountThreshholds.length);
+   		 	}
 	    }
     },
     
@@ -73,18 +79,7 @@ function(app) {
     model: Speaker.Model,
     
     initialize: function() {
-	    this.bind("change:wordCount", this.compareWordCounts);
 	    this.bind("change:longestSentence", this.compareSentenceLengths);
-    },
-    
-    compareWordCounts: function() {
-    
-    	// check word count
-	    var lead = (this.at(1).get("wordCount") > this.at(2).get("wordCount")) ? 1 : 2;
-	    if (lead != wordCountLead) {
-		    app.trigger("overlay:wordCount", {lead:lead, count:this.at(lead).get("wordCount")});
-		    wordCountLead = lead;
-	    }
     },
     
     compareSentenceLengths: function() {
@@ -92,7 +87,7 @@ function(app) {
 	    // check longest sentence
 	    var lead = (this.at(1).get("longestSentenceLength") > this.at(2).get("longestSentenceLength")) ? 1 : 2;
 	    if (lead != sentenceLengthLead) {
-		    app.trigger("overlay:sentenceLength", {lead:lead, length:this.at(lead).get("longestSentenceLength"), sentence:this.at(lead).get("longestSentence")});
+		    app.trigger("markup:sentenceLength", {type:"sentenceLength", speaker:lead, length:this.at(lead).get("longestSentenceLength"), sentence:this.at(lead).get("longestSentence")});
 		    sentenceLengthLead = lead;
 	    }
     }

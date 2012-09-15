@@ -13,6 +13,7 @@ function(app, Overlay) {
   var speakers = ["Moderator", "Obama", "Romney"];
   var openSentence = null;
   var openParagraph = null;
+  var wordCountThreshold = 3;		//If a word or phrase is used this many or more times, it is treated as a frequent word/phrase
 
   // Default model.
   Transcript.Model = Backbone.Model.extend({
@@ -56,17 +57,23 @@ function(app, Overlay) {
     	
     	if (!word["punctuationFlag"]) s += " "; // add leading space
     	
-    	$('#curSentence').append("<span id="+word["id"]+">"+s+word["word"]+"</span>"); // add word
+    	// If word is frequent, treat it.
+    	if(word["wordIntances"] >= wordCountThreshold)
+    		$('#curSentence').append("<span id="+word["id"]+" class='frequentWord'>"+s+word["word"]+"</span>"); // add word
+    	else
+    		$('#curSentence').append("<span id="+word["id"]+">"+s+word["word"]+"</span>"); // add word
     	
     	
     	//EG Testing trait overlay.
+    	/*
     	if (word["word"]=="news"){
     	  console.log("Testing trait overlay");
 	    	//this.insertView(new Overlay.Views.TraitView({trait: "FORMAL", leader: "obama"}));
 				var traitsOverlay = new Overlay.Views.TraitView({trait: "FORMAL", leader: "obama"});
 				$('#overlay').append(traitsOverlay.el);
 				traitsOverlay.render().then(function() { traitsOverlay.expand(); } );
-			}    	
+			} 
+			*/   	
 		},
     
     endSentence: function() {

@@ -39,7 +39,14 @@ function(app, Overlay) {
     addWord: function(args) {
     
 	    var word = args['msg'];
-    
+	    
+	    
+    	// check if saying word
+    	if ($.inArray('say', word['cat']) != -1) {
+	    	app.trigger("markup:quote", {type:'quote', speaker:word['speaker']});
+    	}
+	    
+	    // add to transcript
     	var s = "";
 
       var col=1;
@@ -104,6 +111,8 @@ function(app, Overlay) {
     endSentence: function(args) {
     	$('#curSentence').removeAttr('id');
     	openSentence = false;
+    	if (args)
+	    	app.trigger("markup:sentenceSentiment", {type:'sentenceSentiment', speaker:args['msg']['speaker'], sentiment:args['msg']['sentiment']});
     },
     
     endParagraph: function() {

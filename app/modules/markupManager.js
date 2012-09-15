@@ -31,6 +31,10 @@ function(app, Overlay) {
 	  
 	  addOverlay: function(args) {
 		  console.log("markupManager:addOverlay "+args['type']+" "+args['speaker']);
+	  },
+	  
+	  annotateTranscript: function() {
+	  	//this.options.transcript...
 	  }
 	  
   });

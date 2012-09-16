@@ -6,6 +6,8 @@ define([
 // Map dependencies from above array.
 function(app) {
 
+  var setTimeoutEvents = [];
+  
   // Create a new module.
   var Message = app.module();
 
@@ -41,8 +43,29 @@ function(app) {
 			  curNum++;
 			  args['msg']['id'] = curNum;
 			  this.add(args['msg']);	
-			  //console.log("LOG "+args['msg']["word"]+" "+args['msg']["timeDiff"]+" "+curNum);  
+			  //console.log("LOG "+args['msg']["word"]+" "+args['msg']["type"]+" "+args['msg']['punctuationFlag']+" "+args['msg']['cats']);  
 			}
+    },
+    
+    playbackMessages: function(n) {
+    
+    	this.stopPlayback();
+    	
+  		var startMsg = this.get(n);
+
+  		this.each( function(msg) {
+  			var diff = msg.get("timeDiff") - startMsg.get("timeDiff");
+  			if (diff >= 0) {
+	  			setTimeoutEvents.push(setTimeout(function() { msg.emit(); }, diff));
+	  			//console.log("settimeout "+msg.get("word")+" "+diff);
+	  		}
+  		});
+    },
+    
+    stopPlayback: function() {
+  		for(var i=0; i<setTimeoutEvents.length; i++) 
+  			clearTimeout(setTimeoutEvents[i]);
+  		setTimeoutEvents = [];
     }
   });
  

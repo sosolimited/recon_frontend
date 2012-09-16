@@ -6,6 +6,8 @@ define([
 // Map dependencies from above array.
 function(app) {
 
+	var sentenceLengthLead = -1;
+
   // Create a new module.
   var Speaker = app.module();
 
@@ -15,15 +17,19 @@ function(app) {
   	defaults: function() {
   		return {
   			wordCount: 0,
-  			longestSentence: 0 // PEND: this should keep track of what the longest sentence actually IS.
+  			wordCountThreshholds: [ 500, 1000, 1500 ],
+  			curWordCountThreshhold: 0,
+  			longestSentenceLength: 0,
+  			longestSentence: "",
+  			curSentence: ""
   		}
   	},
   	
   	initialize: function(sid, sname) {
   		//console.log("INIT SPEAKER "+sname+" "+sid);
     	this.set({id:sid, name:sname});
-      app.on("message:word", this.incWordCount, this);
-      app.on("message:sentenceEnd", this.incWordCount, this);
+      app.on("message:word", this.handleWord, this);
+      app.on("message:sentenceEnd", this.handleSentenceEnd, this);
       app.on("message:stats", this.updateStats, this);
     },
     
@@ -31,15 +37,36 @@ function(app) {
 	    app.off(null, null, this);
     },
     
-    incWordCount: function(args) {
-    	if (args['speaker'] == this.get('id'))
-   		 	this.set({wordCount: this.get("wordCount")+1});
+    handleWord: function(args) {
+    	// check its self and not moderator
+	    if (args['speaker'] == this.get('id') && this.get('id') > 0) {
+	    	// inc word count if not punc
+   		 	if (!args['punctuationFlag']) this.set({wordCount: this.get("wordCount")+1});
+   		 	// update curSentence
+   		 	if (!args['sentenceStartFlag'] && !args['punctuationFlag'])
+   		 		curSentence += ' ';
+   		 		
+   		 	curSentence += args['word'];
+   		 	
+   		 	if (wordCount > wordCountThreshholds[curWordCountThreshhold] ) {
+	   		 	app.trigger("markup:wordCount", {type:"wordCount", speaker:this.get("id"), count: wordCountThreshholds[curWordCountThreshhold]});
+	   		 	curWordCountThreshhold = min(curWordCountThreshhold++, wordCountThreshholds.length);
+   		 	}
+	    }
     },
     
-    // PEND: this should keep track of what the longest sentence actually IS.
-    updateLongestSentence: function(args) {
-    	if (args['speaker'] == this.get('id') && args['length'] > this.get("longestSentence"))
-   		 	this.set({longestSentence: args['length']});
+    handleSentenceEnd: function(args) {
+    	// check it's self and not moderator
+    	if (args['speaker'] == this.get('id') && this.get('id') > 0) {
+    	
+	    	//update longest sentence
+	    	if (args['length'] > this.get("longestSentenceLength")) {
+   		 		this.set({longestSentenceLength: args['length']});
+   		 		this.set({longestSentence: curSentence});
+   		 	}
+   		 	// reset curSentence
+   		 	this.set({curSentence: ""});
+   		}
     },
     
     updateStats: function(args) {
@@ -49,7 +76,21 @@ function(app) {
 
   // Default collection.
   Speaker.Collection = Backbone.Collection.extend({  
-    model: Speaker.Model
+    model: Speaker.Model,
+    
+    initialize: function() {
+	    this.bind("change:longestSentence", this.compareSentenceLengths);
+    },
+    
+    compareSentenceLengths: function() {
+	  	
+	    // check longest sentence
+	    var lead = (this.at(1).get("longestSentenceLength") > this.at(2).get("longestSentenceLength")) ? 1 : 2;
+	    if (lead != sentenceLengthLead) {
+		    app.trigger("markup:sentenceLength", {type:"sentenceLength", speaker:lead, length:this.at(lead).get("longestSentenceLength"), sentence:this.at(lead).get("longestSentence")});
+		    sentenceLengthLead = lead;
+	    }
+    }
   });
 
   // Return the module for AMD compliance.

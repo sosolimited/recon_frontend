@@ -54,10 +54,7 @@ function(app) {
     } 	
   });
 
-  
-  
 
-  
 
   // Return the module for AMD compliance.
   return Overlay;

@@ -9,6 +9,8 @@ define([
 function(app, Overlay, Ref) {
 
 	// This module listens for special events and marks up the transcript - directly or by creating one of several overlay views.
+	// It will also listen to transcript scroll events and manage the parallax positioning of the overlays.
+	// In addition, it will listen to window resize events and update the overlay positions.
 	var MarkupManager = app.module();
 
   // Default model.
@@ -45,7 +47,7 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  addTraitOverlay: function(args) {
-		  var traitsOverlay = new Overlay.Views.TraitView({trait: "FORMAL", leader: "obama", posY: parseInt(this.$el.prop("scrollHeight"))});
+		  var traitsOverlay = new Overlay.Views.TraitView({trait: "FORMAL", leader: "obama", posY: parseInt(this.attributes.transcript.$el.prop("scrollHeight"))});
 			$('#overlay').append(traitsOverlay.el);
 			traitsOverlay.render().then(function() { traitsOverlay.expand(); } );  
 	  },
@@ -85,6 +87,7 @@ function(app, Overlay, Ref) {
 		  if(args['type']=="overlay"){
 			  if(args['kind']=="trait"){
 				 		console.log("test - trait overlay");			  
+				 		this.addTraitOverlay();
 			  }else if(args['kind']=="wordCount"){
 				 		console.log("test - wordCount overlay");			  
 			  }

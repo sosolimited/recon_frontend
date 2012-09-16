@@ -1,10 +1,11 @@
 define([
   // Application.
-  "core/app"
+  "core/app",
+  "modules/ref"
 ],
 
 // Map dependencies from above array.
-function(app) {
+function(app, Ref) {
 	
 	var i=0;
 	
@@ -29,9 +30,9 @@ function(app) {
 		 },	
 		 
 		 serialize: function() {
-      return { trait: this.trait, leader: this.leader, trailer: this.trailer };
+      return { trait: this.trait, leader: this.leader, trailer: this.trailer, startPosY: Ref.overlayOffsetY};
     },
-    
+     
     expand: function() {
    		this.state = 1;	//expanded
 

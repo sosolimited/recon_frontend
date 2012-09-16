@@ -224,6 +224,15 @@ p { /* Transcript text */
 	z-index: -2;
 }
 
+.traitExpTextHolder {
+	position:absolute; 
+	overflow: hidden;
+	/* width:1024px; */
+	height:96px; 	
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+}
+
 .traitExpText {
 	position:relative;
 	top:96px;	/* Start out of view */
@@ -235,14 +244,10 @@ p { /* Transcript text */
 	background-color: rgb(231,0,149);
 }
 
-.traitExpTextHolder {
-	overflow: hidden;
-	/* width:1024px; */
-	height:96px; 	
-	margin: 0px 0px 0px 0px;
-	padding: 0px 0px 0px 0px;
-}
+.traitSymbol {
 
+	font-size:800px;	
+}
 
 /*
 #transcript {

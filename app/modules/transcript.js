@@ -13,7 +13,7 @@ function(app, Overlay) {
   var speakers = ["Moderator", "Obama", "Romney"];
   var openSentence = null;
   var openParagraph = null;
-  var wordCountThreshold = 3;		//If a word or phrase is used this many or more times, it is treated as a frequent word/phrase
+  var wordCountThreshold = 8;		//If a word or phrase is used this many or more times, it is treated as a frequent word/phrase
   var scrollLive = true;
 
   // Default model.
@@ -59,7 +59,7 @@ function(app, Overlay) {
         //	this.$el.children().first().append("<div id=curParagraph class='push-" + col + " span-3 " +
 
     		this.$el.append("<div id=curParagraph class='push-" + col + " span-3 " +
-          speakers[curSpeaker] + " transcriptParagraph'><h1 class='franklinMedIt'>" +
+          speakers[curSpeaker] + " transcriptParagraph'><h1 class='franklinMedIt gray80'>" +
           speakers[curSpeaker] + "</h1><p class='metaBook gray80'></p></div><div class=clear></div>");
           
     		openParagraph = true;
@@ -76,32 +76,39 @@ function(app, Overlay) {
     	if (!word["punctuationFlag"]) s += " "; // add leading space
     	
 
+
+    	//console.log("type = "+word["type"] + " w = "+word["word"]+" - wordInstances = "+word["wordInstances"]);
     	// If word is frequent, treat it.
-    	if(word["wordIntances"] >= wordCountThreshold)
-    		$('#curSentence').append("<span id="+word["id"]+" class='frequentWord'>"+s+word["word"]+"</span>"); // add word
-    	else
-    		$('#curSentence').append("<span id="+word["id"]+">"+s+word["word"]+"</span>"); // add word
-    	
+    	if(word["wordInstances"] >= wordCountThreshold){
+    		$('#curSentence').append("<span id="+word["id"]+" class='frequentWord transcriptWord'>"+s+word["word"]+"</span>"); // add word
+    	}else{
+    		$('#curSentence').append("<span id="+word["id"]+" class='transcriptWord'>"+s+word["word"]+"</span>"); // add word
+    	}
     	//EG Testing trait overlay.
+    	
     	/*
     	if (word["word"]=="news"){
     	  console.log("Testing trait overlay");
-	    	//this.insertView(new Overlay.Views.TraitView({trait: "FORMAL", leader: "obama"}));
-				var traitsOverlay = new Overlay.Views.TraitView({trait: "FORMAL", leader: "obama"});
+				var traitsOverlay = new Overlay.Views.TraitView({trait: "FORMAL", leader: "obama", posY: parseInt(this.$el.prop("scrollHeight"))});
 				$('#overlay').append(traitsOverlay.el);
 				traitsOverlay.render().then(function() { traitsOverlay.expand(); } );
 			} 
-			*/   	
+			*/
 
       // Scroll the view if needed
       if(scrollLive) {
-        this.$el.stop().animate({ scrollTop: this.$el.prop("scrollHeight") }, 10);
+        this.$el.stop().animate({ scrollTop: parseInt(this.$el.prop("scrollHeight"))}, 10);
         app.trigger("transcript:scrollTo", word["timeDiff"]); 
       }
     
     },
     
     endSentence: function(args) {
+    	// Color frequent words.
+    	$('#curSentence').find('.frequentWord').each(function() {
+    		$(this).css("background-color", "white");
+    	});
+    	
     	$('#curSentence').removeAttr('id');
     	openSentence = false;
     },

@@ -1,11 +1,12 @@
 define([
   // Application.
   "core/app",
-  "modules/overlay"
+  "modules/overlay",
+  "modules/ref"
 ],
 
 // Map dependencies from above array.
-function(app, Overlay) {
+function(app, Overlay, Ref) {
 
   // Create a new module.
   var Transcript = app.module();
@@ -13,7 +14,7 @@ function(app, Overlay) {
   var speakers = ["Moderator", "Obama", "Romney"];
   var openSentence = null;
   var openParagraph = null;
-  var wordCountThreshold = 3;		//If a word or phrase is used this many or more times, it is treated as a frequent word/phrase
+  var wordCountThreshold = 2;		//If a word or phrase is used this many or more times, it is treated as a frequent word/phrase
   var scrollLive = true;
 
   // Default model.
@@ -66,7 +67,7 @@ function(app, Overlay) {
         //	this.$el.children().first().append("<div id=curParagraph class='push-" + col + " span-3 " +
 
     		this.$el.append("<div id=curParagraph class='push-" + col + " span-3 " +
-          speakers[curSpeaker] + " transcriptParagraph'><h1 class='franklinMedIt'>" +
+          speakers[curSpeaker] + " transcriptParagraph'><h1 class='franklinMedIt gray80'>" +
           speakers[curSpeaker] + "</h1><p class='metaBook gray80'></p></div><div class=clear></div>");
           
     		openParagraph = true;
@@ -83,32 +84,29 @@ function(app, Overlay) {
     	if (!word["punctuationFlag"]) s += " "; // add leading space
     	
 
-    	// If word is frequent, treat it.
-    	if(word["wordIntances"] >= wordCountThreshold)
-    		$('#curSentence').append("<span id="+word["id"]+" class='frequentWord'>"+s+word["word"]+"</span>"); // add word
-    	else
-    		$('#curSentence').append("<span id="+word["id"]+">"+s+word["word"]+"</span>"); // add word
-    	
-    	//EG Testing trait overlay.
-    	/*
-    	if (word["word"]=="news"){
-    	  console.log("Testing trait overlay");
-	    	//this.insertView(new Overlay.Views.TraitView({trait: "FORMAL", leader: "obama"}));
-				var traitsOverlay = new Overlay.Views.TraitView({trait: "FORMAL", leader: "obama"});
-				$('#overlay').append(traitsOverlay.el);
-				traitsOverlay.render().then(function() { traitsOverlay.expand(); } );
-			} 
-			*/   	
 
+    	//console.log("type = "+word["type"] + " w = "+word["word"]+" - wordInstances = "+word["wordInstances"]);
+    	// If word is frequent, treat it.
+    	//if(word["wordInstances"] >= wordCountThreshold){
+    	//	$('#curSentence').append("<span id="+word["id"]+" class='frequentWord transcriptWord'>"+s+word["word"]+"</span>"); // add word
+    	//}else{
+    		$('#curSentence').append("<span id="+word["id"]+" class='transcriptWord'>"+s+word["word"]+"</span>"); // add word
+    	//}
+    	
       // Scroll the view if needed
       if(scrollLive) {
-        this.$el.stop().animate({ scrollTop: this.$el.prop("scrollHeight") }, 10);
+        this.$el.stop().animate({ scrollTop: parseInt(this.$el.prop("scrollHeight"))}, 10);
         app.trigger("transcript:scrollTo", word["timeDiff"]); 
       }
     
     },
     
     endSentence: function(args) {
+    	// Color frequent words only after sentence is complete.
+    	$('#curSentence').find('.frequentWord').each(function() {
+    		$(this).css("background-color", "white");
+    	});
+    	
     	$('#curSentence').removeAttr('id');
     	openSentence = false;
     	if (args)
@@ -118,6 +116,25 @@ function(app, Overlay) {
     endParagraph: function() {
     	$('#curParagraph').removeAttr('id');
     	openParagarph = false;
+    },
+    
+    // Used by markupManager to retrieve recently added words. Returns associated span.
+    // Gotta do this because of asynchronous messages.
+    addClassToRecentWord: function(word, className) {
+	    // Backwards traversal of current sentence words.
+	    // PEND This won't work if the current sentence is closed before this is called.
+	  	//$('#curSentence span:last-child').prevAll().each(function() {
+
+	  	// Searching forwards just for testing.
+	  	$('#curSentence').children().each(function() {
+	  		//console.log("getRecentWordEl-" + word + "-?-" + $(this).html());
+		  	if($(this).html().search(word) >= 0){ 
+		  		//console.log("getRecentWordEl: found");
+		  		$(this).addClass(className);	
+		  		//return $(this);
+		  	}
+	  	});
+	  	//return;	 
     },
 
     handleScroll : function() {

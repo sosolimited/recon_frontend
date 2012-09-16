@@ -15,14 +15,14 @@ function(app) {
   
   });
 
-  // We're just using these views as containers for the pieces of each type of overlay object
-  // and to give us methods for expanding/collapsing them and parallaxing them.
+  
   Overlay.Views.TraitView = Backbone.View.extend({
   	 template: "overlays/trait",
   			 
 		 initialize: function() {
 				this.trait = this.options.trait;
 				this.leader = this.options.leader; 
+				this.posY = this.options.posY;
 				
 				if(this.options.leader==="obama") this.trailer="romney";
 				else this.trailer = "obama";
@@ -33,28 +33,24 @@ function(app) {
     },
     
     expand: function() {
-    
-    	//this.$el.find('p').css("background-color","blue");
-    	//$('body').find('p').css("background-color","blue");
+   		this.state = 1;	//expanded
 
     	this.$el.find('.traitExpText').each(function(i){ 
-	    		//$(this).css("background-color", "blue");
 	    		$(this).delay(i*300).animate({top:"0px"}, 1000); 
     	});
     	
-    	/*
-	    $("this.el > div").children('p').each(function(i){
-	    	//setTimeout(function(){ this.animate({top:0}, 1000); }, 300*i); 
-	    	//this.animate({top:0px}, 1000);
-	    	this.css("background-color", "red");
-	    	//this.children('p').first().css("top","0px");
-	    });
-	    */
+
     }, 
     
     collapse: function() {
-	    
-	    
+    	//PEND we'll probably want to tag this onto the end of the animation, so it only gets set after overlay has played out collapse anim.
+  		this.state = 0;	//collapsed	
+  		
+	    this.$el.find('.traitExpText').each(function(i){ 
+	   		$(this).delay(i*300).animate({top:"0px"}, 1000); 	    		
+    	});
+    	
+    	
     } 	
   });
 

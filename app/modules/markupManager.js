@@ -1,12 +1,14 @@
 define([
   // Application.
   "core/app",
-  "modules/overlay"
+  "modules/overlay",
+  "modules/ref"
 ],
 
 // Map dependencies from above array.
-function(app, Overlay) {
+function(app, Overlay, Ref) {
 
+	// This module listens for special events and marks up the transcript - directly or by creating one of several overlay views.
 	var MarkupManager = app.module();
 
   // Default model.
@@ -19,10 +21,13 @@ function(app, Overlay) {
   	},
   	
 	  initialize: function () {
-		  app.on("markup:wordCount", this.addOverlay, this);
-		  app.on("markup:sentenceLead", this.addOverlay, this);		  
-		  app.on("markup:quote", this.addOverlay, this);
-		  app.on("markup:sentenceSentiment", this.addOverlay, this);
+		  app.on("markup:frequentWord", this.markupFrequentWord, this);
+		  app.on("markup:wordCount", this.addWordCountOverlay, this);
+		  app.on("markup:sentenceLead", this.addTraitOverlay, this);		  	//LM, is this psych traits? 
+		  app.on("markup:quote", this.addQuoteOverlay, this);
+		  app.on("markup:sentenceSentiment", this.addSentimentOverlay, this);
+		  //for testing
+		  app.on("keypress:test", this.test, this);
 	  },
 	  
 	  cleanup: function() {
@@ -31,10 +36,59 @@ function(app, Overlay) {
 	  
 	  addOverlay: function(args) {
 		  console.log("markupManager:addOverlay "+args['type']+" "+args['speaker']);
+		  
+	  },
+	  
+	  addSentimentOverlay: function(args) {
+		  
+		  
+	  },
+	  
+	  addTraitOverlay: function(args) {
+		  var traitsOverlay = new Overlay.Views.TraitView({trait: "FORMAL", leader: "obama", posY: parseInt(this.$el.prop("scrollHeight"))});
+			$('#overlay').append(traitsOverlay.el);
+			traitsOverlay.render().then(function() { traitsOverlay.expand(); } );  
+	  },
+	  
+	  addQuoteOverlay: function(args) {
+		  
+		  
+	  },
+	  
+	  addWordCountOverlay: function(args){
+		  
+		  
+	  },
+	  
+	  markupFrequentWord: function(args) {
+		  //console.log("markupFrequentWord() " + args['word']);
+		  
+		  this.attributes.transcript.addClassToRecentWord(args['word'], "frequentWord");
+		  
+		  /*
+		  var word = this.attributes.transcript.getRecentWordEl(args['word']);
+		  // console.log("word = " + word);
+		  if(word){
+		    console.log("found word: "+word.html());
+			  word.addClass(".frequentWord");
+		  } 
+		  */
+		  
 	  },
 	  
 	  annotateTranscript: function() {
-	  	//this.options.transcript...
+	  
+	  },
+	  
+	  // For testing things with keypresses.
+	  test: function(args) {
+		  if(args['type']=="overlay"){
+			  if(args['kind']=="trait"){
+				 		console.log("test - trait overlay");			  
+			  }else if(args['kind']=="wordCount"){
+				 		console.log("test - wordCount overlay");			  
+			  }
+		  }
 	  }
 	  
   });

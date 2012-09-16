@@ -31,7 +31,8 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 		  var transcript = new Transcript.View({messages: messages});
 		  
 		  // init markup manager
-		  var markupManager = new MarkupManager.Model( { transcript: transcript } );
+		  //var markupManager = new MarkupManager.Model({ transcript: transcript } );
+		  var markupManager = new MarkupManager.Model({ transcript: transcript } );
 		
 		  // init navigation
 		  var navigation = new Navigation.View( { transcript: transcript, messages: messages } );
@@ -141,7 +142,18 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
       app.socket.on("close", function() {
         console.error("Closed");
       });
-
+      
+      // Listen for keydown events.
+      $('body').keydown(function(event){
+      	//console.log(event.which);
+				if(event.which == 84){	//t for overlay testing
+					app.trigger("keypress:test", {type:"overlay", kind:"trait"});
+				}else if(event.which == 87){	//w for wordcount testing
+					app.trigger("keypress:test", {type:"overlay", kind:"wordCount"});
+				}
+      });
+      
+      
       // Automatically load up the first debate for now
       if(this.qs.debate)
         app.trigger("debate:change", this.qs.debate);

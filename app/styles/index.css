@@ -66,8 +66,12 @@ p { /* Transcript text */
 	background-color: rgb(64, 180, 230);	
 }
 
-.frequentWord {
-	background-color: rgb(255,255,255);
+.transcriptSentence {
+	
+}
+
+.transcriptWord {
+	
 }
 
 .fade {

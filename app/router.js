@@ -96,7 +96,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 	      navigation.setElement("#navigation");
 	      navigation.render();
         // Need transcript to point to the actual scrolling DOM element or else scroll event handling is wack
-	     	transcript.setElement("#transcript > .wrapper"); 
+	     	transcript.setElement("#transcript > .wrapper");
 
         (function() {
           // Work with the wrappers, not the actual layers.  --> ???

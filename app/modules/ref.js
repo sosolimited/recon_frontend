@@ -10,7 +10,11 @@ function(app) {
   var Ref = app.module();
 
   // Distance from bottom of window at which overlays appear and which open sentences sit below.
-	Ref.overlayOffset = 200;	  
+	Ref.overlayOffsetY = 200;	
+	  
+	// Var grid variables for animation of absolutely positioned elements.
+	Ref.gridColumns = [0, 160, 320, 480, 640, 800, 960];
+	
 
   // Return the module for AMD compliance.
   return Ref;

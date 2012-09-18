@@ -14,12 +14,11 @@ function(app, Overlay, Ref) {
   var speakers = ["Moderator", "Obama", "Romney"];
   var openSentence = null;
   var openParagraph = null;
-  var wordCountThreshold = 2;		//If a word or phrase is used this many or more times, it is treated as a frequent word/phrase
-  var scrollLive = true;
+  var scrollLive = false;		
 
   // Default model.
   Transcript.Model = Backbone.Model.extend({
-  
+  		
   });
 
   Transcript.View = Backbone.View.extend({
@@ -78,6 +77,7 @@ function(app, Overlay, Ref) {
     	
     	if (!openSentence) {
     		$('#curParagraph p').append("<span id=curSentence class='transcriptSentence'></span>"); // add sentence span wrapper
+    		//app.trigger("transcript:sentenceOpen");	//testing for markup manager
     		openSentence = true;
     	}
     	
@@ -136,8 +136,16 @@ function(app, Overlay, Ref) {
 	  	});
 	  	//return;	 
     },
-
+    
+    getCurSentencePosY: function() {
+	    //return $('#curSentence').offset().top;	//Breaks when scrollTop of div is > 0.
+	    return (this.$el.scrollTop() + $('#curParagraph').position().top + $('#curSentence').position().top);
+    },
+    
     handleScroll : function() {
+    
+    	//console.log("handleScroll " + parseInt(this.$el.prop("scrollHeight")));
+    	
       // Figure out which word is at the bottom of the screen and fire an event
       var buffer = 50; // How far from the bottom the "bottom" is
       var scrolled = this.$el.scrollTop();

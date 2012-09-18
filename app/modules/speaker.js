@@ -21,7 +21,7 @@ function(app) {
   			wordCount: 0,
   			//wordCountThreshholds: [ 500, 1000, 1500 ],
   			//curWordCountThreshhold: 0,
-  			frequentWordThreshold: 5,
+  			frequentWordThreshold: 10,
   			longestSentenceLength: 0,
   			longestSentence: "",
   			curSentence: ""

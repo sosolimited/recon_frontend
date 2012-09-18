@@ -641,6 +641,7 @@ var LayoutManager = Backbone.View.extend({
           done.call(view);
         }, view);
       });
+      
       return renderDeferred;
     };
 

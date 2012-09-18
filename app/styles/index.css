@@ -37,7 +37,8 @@ body {
 .transcript .wrapper {
   -webkit-transition: -webkit-transform .5s linear; 
   transition: all .5s linear;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
+  /* background-color: yellow; */
 }
 
 
@@ -57,7 +58,6 @@ h1 { /* Speaker names */
 
 p { /* Transcript text */
   line-height: 24px;
-  text-shadow: 0px 0px 1px #525252;
   font-size: 18px;
 }
 
@@ -183,7 +183,7 @@ p { /* Transcript text */
 
 /* Typekit fonts */
 
-.metaBook{ font-family:"ff-meta-serif-web-pro"; font-weight:100; font-style:normal; }
+.metaBook{ font-family:"ff-meta-serif-web-pro"; font-weight:50; font-style:normal; }
 .metaBookIt{ font-family:"ff-meta-serif-web-pro"; font-weight:50; font-style:italic; }
 .metaBold{ font-family:"ff-meta-serif-web-pro"; font-weight:700; font-style:normal; }
 .metaBoldIt{ font-family:"ff-meta-serif-web-pro"; font-weight:700; font-style:italic; }
@@ -224,6 +224,23 @@ p { /* Transcript text */
 	z-index: -2;
 }
 
+.overlayFiller {	/* Empty div to keep the overlay div scrollable */
+	position: absolute;
+	top: 0px;
+	height: 100000px;
+	width: 1px;
+}
+
+.traitExpTextHolder {
+	position:absolute; 
+	overflow: hidden;
+	/* width:1024px; */
+	height:96px; 	
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+	/* background-color:yellow; */
+}
+
 .traitExpText {
 	position:relative;
 	top:96px;	/* Start out of view */
@@ -235,14 +252,10 @@ p { /* Transcript text */
 	background-color: rgb(231,0,149);
 }
 
-.traitExpTextHolder {
-	overflow: hidden;
-	/* width:1024px; */
-	height:96px; 	
-	margin: 0px 0px 0px 0px;
-	padding: 0px 0px 0px 0px;
-}
+.traitSymbol {
 
+	font-size:800px;	
+}
 
 /*
 #transcript {

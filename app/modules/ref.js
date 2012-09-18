@@ -12,8 +12,8 @@ function(app) {
   // Distance from bottom of window at which overlays appear and which open sentences sit below.
 	Ref.overlayOffsetY = 200;	
 	  
-	// We might encode the grid as variables for animation of absolutely positioned elements.
-	//Ref.gridColumns = [ ];
+	// Var grid variables for animation of absolutely positioned elements.
+	Ref.gridColumns = [0, 160, 320, 480, 640, 800, 960];
 	
 
   // Return the module for AMD compliance.

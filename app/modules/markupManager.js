@@ -19,17 +19,18 @@ function(app, Overlay, Ref) {
   	defaults: function() {
   		return {
   			overlays: []
-  		}
+  		}	
   	},
   	
 	  initialize: function () {
-		  app.on("markup:frequentWord", this.markupFrequentWord, this);
+		  app.on("markup:frequentWord", this.markupFrequentWord, this);	
 		  app.on("markup:wordCount", this.addWordCountOverlay, this);
 		  app.on("markup:sentenceLead", this.addTraitOverlay, this);		  	//LM, is this psych traits? 
 		  app.on("markup:quote", this.addQuoteOverlay, this);
 		  app.on("markup:sentenceSentiment", this.addSentimentOverlay, this);
 		  //for testing
 		  app.on("keypress:test", this.test, this);
+		  //app.on("transcript:sentenceOpen", this.sentenceTest, this);
 	  },
 	  
 	  cleanup: function() {
@@ -47,9 +48,9 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  addTraitOverlay: function(args) {
-		  var traitsOverlay = new Overlay.Views.TraitView({trait: "FORMAL", leader: "obama", posY: parseInt(this.attributes.transcript.$el.prop("scrollHeight"))});
+		  var traitsOverlay = new Overlay.Views.TraitView({trait: "FORMAL", leader: "obama", posY: parseInt(this.attributes.transcript.getCurSentencePosY())});
 			$('#overlay').append(traitsOverlay.el);
-			traitsOverlay.render().then(function() { traitsOverlay.expand(); } );  
+			traitsOverlay.render();
 	  },
 	  
 	  addQuoteOverlay: function(args) {
@@ -92,7 +93,14 @@ function(app, Overlay, Ref) {
 				 		console.log("test - wordCount overlay");			  
 			  }
 		  }
+	  },
+	  //Testing sentence positioning
+	  /*
+	  sentenceTest: function() {
+	  	console.log("sentenceTest");
+		  $('#overlay').append("<hr style= 'position:absolute; font-size: 12px; top:" + parseInt(this.attributes.transcript.getCurSentencePosY() + 24) + "px;'></hr>");
 	  }
+	  */
 	  
   });
 

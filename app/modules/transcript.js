@@ -102,7 +102,10 @@ function(app, Overlay, Ref) {
     },
     
     endSentence: function(args) {
-    	// Color frequent words only after sentence is complete.
+      // Add word count superscript to frequent words.
+      // ---------------------------------------------
+      // Frequent words are marked by a class named "frequentWord"
+      // and have an attribute "data-wordcount" added by markupManager
       var mainEl = this.$el;
     	$('#curSentence').find('.frequentWord').each(function() {
     		$(this).css("background-color", "white");
@@ -119,7 +122,8 @@ function(app, Overlay, Ref) {
           countDiv.animate({top: '0px'}, 300);
         }
     	});
-    	
+    
+      // Close this sentence, start a new one.
     	$('#curSentence').removeAttr('id');
     	openSentence = false;
     	if (args)

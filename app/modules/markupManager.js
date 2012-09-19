@@ -85,24 +85,15 @@ function(app, Overlay, Ref) {
 		  // Skip common words
       if($.inArray(args['word'].toLowerCase(), commonWords) > -1) return false;
 
-		  //this.attributes.transcript.addClassToRecentWord(args['word'], "frequentWord");
-		 
+		  // Add a class named "frequentWord" and a "data-wordcount" attribute to
+      // words in the current sentence. DOM elements are created in transcript
+      // when the sentence is complete.
 	  	$('#curSentence').children().each(function() {
 		  	if($(this).html().search(args['word']) >= 0){ 
 		  		$(this).addClass('frequentWord');
           $(this).attr("data-wordcount", args['count']);
 		  	}
 	  	});
-
-		  /*
-		  var word = this.attributes.transcript.getRecentWordEl(args['word']);
-		  // console.log("word = " + word);
-		  if(word){
-		    console.log("found word: "+word.html());
-			  word.addClass(".frequentWord");
-		  } 
-		  */
-		  
 	  },
 	  
 	  annotateTranscript: function() {

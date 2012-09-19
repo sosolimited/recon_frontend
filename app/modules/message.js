@@ -39,7 +39,7 @@ function(app) {
     addMessage: function(args) {
     	if (args['live']) {
 
-		    // log msg
+		    // log msg 
 			  curNum++;
 			  args['msg']['id'] = curNum;
 			  this.add(args['msg']);	

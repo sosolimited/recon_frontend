@@ -1,7 +1,7 @@
 <div>
 	<ul>
 		<% comparison.get("traits").forEach(function(trait){ %>
-			<li><%= trait.title %></li>
+			<li><%= trait.name %> <%= trait.vals[0] %> <%= trait.vals[1] %></li>
 		<% }); %>
 	</ul>
 </div>

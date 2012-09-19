@@ -26,6 +26,7 @@ function(app, Overlay, Ref) {
     initialize : function() {
       app.on("message:word", this.addWord, this);
       app.on("message:sentenceEnd", this.endSentence, this);
+      app.on("body:scroll", this.updateScroll, this);	//EG This is separate from handleScroll for now, until I check in with Sam on what handleScroll is doing.
   	},
 
     events : {
@@ -228,6 +229,11 @@ function(app, Overlay, Ref) {
         app.trigger("transcript:scrollTo", timeDiff);
       }
 
+
+      //EG Testing adjusting CSS transform perspective origin y based on scrollTop
+      this.el.style.webkitTransformOrigin = "50% -"+this.$el.scrollTop(); 
+      console.log("handleScroll: origin = "+"50% -"+this.$el.scrollTop());
+
       /* 
       // To debug, highlight the word that we think the transcript is scrolled to
       $(".currentlyScrolled").css("background-color", "transparent");
@@ -235,6 +241,11 @@ function(app, Overlay, Ref) {
       scrolledWord.css("background-color", "white");
       scrolledWord.addClass("currentlyScrolled");
       */
+    },
+    
+    //EG This is separate from handleScroll for now, until I check in with Sam on what handleScroll does.
+    updateScroll: function(arg) {
+	    console.log("transcript.updateScroll: "+arg);
     },
     
     resetToNode: function(n) {

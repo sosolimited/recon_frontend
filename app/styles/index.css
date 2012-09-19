@@ -35,7 +35,8 @@ body {
   overflow-y: scroll;
   overflow-x: visible;
   
-  /* -webkit-perspective: 6000px;	*/
+  -webkit-perspective: 1000px;
+  -webkit-perspective-origin: 50% 50%;
 }
 
 
@@ -249,7 +250,7 @@ p { /* Transcript text */
 	padding: 0px 0px 0px 0px;
 	/* background-color:yellow; */
 
-	-webkit-perspective: 1000px;
+	-webkit-perspective: 0px;
 	-webkit-transform-origin: 50% 50%;
 	-webkit-transition: -webkit-transform 1s ease-in;	
 	-webkit-transform: translateZ(0px);	
@@ -273,7 +274,7 @@ p { /* Transcript text */
 	line-height:100px;
 	left:-450px;	/* Start out of view */
 
-	-webkit-perspective: 1000px;
+	-webkit-perspective: 0;
 	-webkit-transform-origin: 50% 50%;
 	-webkit-transform: translateZ(0px);
 }

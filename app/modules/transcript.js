@@ -144,7 +144,7 @@ function(app, Overlay, Ref) {
     
     handleScroll : function() {
     
-    	//console.log("handleScroll " + parseInt(this.$el.prop("scrollHeight")));
+    	console.log("handleScroll " + parseInt(this.$el.prop("scrollHeight")));
     	
       // Figure out which word is at the bottom of the screen and fire an event
       var buffer = 50; // How far from the bottom the "bottom" is
@@ -210,6 +210,11 @@ function(app, Overlay, Ref) {
       if(timeDiff) {
         app.trigger("transcript:scrollTo", timeDiff);
       }
+
+
+      //EG Testing adjusting CSS transform perspective origin y based on scrollTop
+      this.el.style.webkitTransformOrigin = "50% -"+this.$el.scrollTop(); 
+      console.log("handleScroll: origin = "+"50% -"+this.$el.scrollTop());
 
       /* 
       // To debug, highlight the word that we think the transcript is scrolled to

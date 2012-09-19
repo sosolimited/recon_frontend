@@ -19,28 +19,37 @@
  
 
 body {
-  background: -webkit-linear-gradient(left, #9699A0, #C9D1CF, #C9D1CF, #9699A0);
+  /* background: -webkit-linear-gradient(left, #9699A0, #C9D1CF, #C9D1CF, #9699A0); */
+  background-color: rgb(140,146,146);	
 }
 
 .layer {
   position: absolute;
   top: 0; left: 0; bottom: 0; right: 0;
+  overflow:visible;
 }
 
 .wrapper {
   position: absolute;
   top: 0; left: 0; bottom: 0; right: 0;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: visible;
+  
+  /* -webkit-perspective: 6000px;	*/
 }
 
 
 .transcript .wrapper {
   -webkit-transition: -webkit-transform .5s linear; 
   transition: all .5s linear;
-  overflow-x: hidden;
+  overflow:visible;
+  /* overflow-x: hidden; */
+  /* background-color: yellow; */
 }
 
-
+#overlay {
+  /* -webkit-perspective: 600px; */
+}
 
 
 
@@ -57,7 +66,6 @@ h1 { /* Speaker names */
 
 p { /* Transcript text */
   line-height: 24px;
-  text-shadow: 0px 0px 1px #525252;
   font-size: 18px;
 }
 
@@ -95,6 +103,7 @@ p { /* Transcript text */
   transition:  1s linear; 
   -webkit-transform: scale(0);
   transform: scale(0);
+
 }
 
 .pieChart {
@@ -184,7 +193,7 @@ p { /* Transcript text */
 /* Typekit fonts */
 
 .metaBook{ font-family:"ff-meta-serif-web-pro"; font-weight:100; font-style:normal; }
-.metaBookIt{ font-family:"ff-meta-serif-web-pro"; font-weight:50; font-style:italic; }
+.metaBookIt{ font-family:"ff-meta-serif-web-pro"; font-weight:100; font-style:italic; }
 .metaBold{ font-family:"ff-meta-serif-web-pro"; font-weight:700; font-style:normal; }
 .metaBoldIt{ font-family:"ff-meta-serif-web-pro"; font-weight:700; font-style:italic; }
 
@@ -224,6 +233,29 @@ p { /* Transcript text */
 	z-index: -2;
 }
 
+.overlayFiller {	/* Empty div to keep the overlay div scrollable */
+	position: absolute;
+	top: 0px;
+	height: 100000px;
+	width: 1px;
+}
+
+.traitExpTextHolder {
+	position:absolute; 
+	overflow: hidden;
+	/* width:1024px; */
+	height:96px; 	
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+	/* background-color:yellow; */
+
+	-webkit-perspective: 1000px;
+	-webkit-transform-origin: 50% 50%;
+	-webkit-transition: -webkit-transform 1s ease-in;	
+	-webkit-transform: translateZ(0px);	
+	
+}
+
 .traitExpText {
 	position:relative;
 	top:96px;	/* Start out of view */
@@ -235,14 +267,16 @@ p { /* Transcript text */
 	background-color: rgb(231,0,149);
 }
 
-.traitExpTextHolder {
-	overflow: hidden;
-	/* width:1024px; */
-	height:96px; 	
-	margin: 0px 0px 0px 0px;
-	padding: 0px 0px 0px 0px;
-}
+.traitSymbol {
+	position: absolute;
+	font-size:800px;	
+	line-height:100px;
+	left:-450px;	/* Start out of view */
 
+	-webkit-perspective: 1000px;
+	-webkit-transform-origin: 50% 50%;
+	-webkit-transform: translateZ(0px);
+}
 
 /*
 #transcript {

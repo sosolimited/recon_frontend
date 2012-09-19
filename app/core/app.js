@@ -56,6 +56,18 @@ function($, _, Backbone, eio) {
       });
     }
   });
+  
+  
+ 	//Non-native setTimeout function that lets you pass 'this' context.
+	var _nativeST_ = window.setTimeout;
+	
+	window.setTimeout = function (vCallback, nDelay, iThis/*, argumentToPass1, argumentToPass2, etc. */) {
+	  var oThis = iThis, aArgs = Array.prototype.slice.call(arguments, 2);
+	  return _nativeST_(vCallback instanceof Function ? function () {
+	    vCallback.apply(oThis, aArgs);
+	  } : vCallback, nDelay);
+	};
+
 
   // Mix Backbone.Events, modules, and layout management into the app object.
   return _.extend(app, {

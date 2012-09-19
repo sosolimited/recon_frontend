@@ -1,0 +1,273 @@
+#main {
+  /*width: 100%;*/
+  height: 100%;
+  overflow-x: hidden;
+  margin: 0px;
+}
+
+body {
+  margin: 0px;
+  padding: 0px;
+}
+
+sup {
+  font-size: 60%;
+}
+
+#titleBlock {
+  position: absolute;
+  left: 60px;
+  top: 130px;
+  padding: 0px;
+  margin: 0px;
+}
+
+#title {
+  font-family:"franklin-gothic-urw-comp"; font-weight:700; font-style:italic; 
+  font-size: 96px;
+  line-height: 96px;
+  color: #E70095;
+  padding: 0px;
+  margin: 0px;
+}
+#titleUnderlayA {
+  position: absolute;
+  background-color: white;
+  height: 96px;
+  width: 512px;
+  top: -5px;
+  left: 0px;
+  z-index: -1;
+}
+#titleUnderlayB {
+  position: absolute;
+  background-color: white;
+  height: 84px;
+  width: 215px;
+  top: 98px;
+  left: 0px;
+  z-index: -1;
+}
+
+#titleTagLine {
+   font-family:"franklin-gothic-urw-comp"; font-weight:500; font-style:italic;
+   font-size: 26px;
+   line-height: 31px;
+   color: #E7F6FF;
+   text-transform: uppercase;
+   left: 70px;
+   top: 184px;
+   position: absolute;
+}
+
+#titleTagLineUnderlayA {
+  position: absolute;
+  background-color: #00AEEF;
+  height: 26px;
+  width: 302px;
+  top: 2px;
+  left: -5px;
+  z-index: -1;
+}
+#titleTagLineUnderlayB {
+  position: absolute;
+  background-color: #00AEEF;
+  height: 26px;
+  width: 255px;
+  top: 33px;
+  left: -5px;
+  z-index: -1;
+}
+
+
+#debatersBlock {
+  font-size: 36px;
+  font-family:"franklin-gothic-urw"; font-weight:500; font-style:italic;
+  color: white;
+  text-decoration: underline;
+}
+#Obama {
+  position: absolute;
+  left: 220px;
+  top: 25px;
+  text-decoration: underline;
+}
+#vs {
+  position: absolute;
+  left: 380px;
+  top: 65px;
+  text-decoration: underline;
+}
+#Romney {
+  position: absolute;
+  left: 540px;
+  top: 204px;
+  text-decoration: underline;
+}
+
+#dateBlock {
+  position: absolute;
+  left: 770px;
+  top: -20px;
+}
+
+#dateNumber {
+  font-family:"franklin-gothic-urw-comp"; font-weight:700; font-style:italic; 
+  font-size: 120px;
+  color: #4E4E56;
+  padding: 0px;
+  margin: 0px;
+  width: 300px;
+}
+
+#dateTagLine {
+  position: absolute;
+  font-family:"franklin-gothic-urw-comp"; font-weight:50; font-style:italic;
+  font-size: 18px;
+  color: white;
+  top: 130px;
+  left: 60px;
+  text-transform: uppercase;
+}
+#dateTagUnderlay {
+  position: absolute;
+  left: -5px;
+  top: -3px;
+  width: 170px;
+  height: 29px;
+  background-color: #4E4E56;
+  z-index: -1;
+}
+
+#descriptionBlock {
+  position: absolute;
+  font-family:"ff-meta-serif-web-pro"; font-weight:50; font-style:normal; 
+  font-size: 18px;
+  color: #515151;
+  left: 540px;
+  top: 345px;
+  width: 435px;
+}
+#descriptionBlock em {
+  /* color: white; */
+  /* font-family:"ff-meta-serif-web-pro"; font-weight:50; font-style:italic; */
+
+  /*
+  color: #515151;
+  background-color: white;
+  font-family:"ff-meta-serif-web-pro"; font-weight:50; font-style:normal;
+  line-height:20px;
+  */
+}
+#bigBracket {
+  font-size: 308px;
+  color: white;
+  font-family:"franklin-gothic-urw"; font-weight:500; font-style:normal; 
+  position: absolute;
+  left: -180px;
+  top: -200px;
+  z-index: -2;
+}
+
+#descriptionExperience {
+  position: relative;
+  margin-top: 20px;
+  font-size: 25px;
+  font-family:"franklin-gothic-urw-comp"; font-weight:700; font-style:italic; 
+  text-transform: uppercase;
+}
+
+#footerBlock {
+  position: absolute;
+  left:0px;
+  top: 650px;
+  width: 1024px;
+  border-top: 3px dotted white;
+  color: white;
+  padding-top: 45px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+#partners {
+  float: left;
+  font-size: 16px;
+  font-family:"franklin-gothic-urw"; font-weight:300; font-style:normal;
+}
+
+#signupBlock {
+  float: right;
+
+}
+#bigquote {
+  font-size: 308px;
+  color: white;
+  font-family:"franklin-gothic-urw"; font-weight:500; font-style:normal; 
+  position: absolute;
+  left: -20px;
+  top: -285px;
+  z-index: -1;
+}
+#dontmiss {
+  font-size: 16px;
+  text-transform: uppercase;
+  font-family:"franklin-gothic-urw"; font-weight:500; font-style:normal;
+}
+#signupForm {
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+#signupForm .formA {
+  background-color: #D1D3D4;
+  font-size: 12px;
+  font-family:"ff-meta-serif-web-pro"; font-weight:100; font-style:normal;
+  border: none;
+  width: 200px;
+}
+#signupForm .formB {
+  font-family:"franklin-gothic-urw"; font-weight:300; font-style:normal;
+  font-size: 12px;
+  background-color: #F7941E;
+  color: white;
+  border: none;
+}
+#signupTagLine {
+  font-size: 12px;
+  font-family:"ff-meta-serif-web-pro"; font-weight:50; font-style:italic;
+}
+
+#underlay {
+  z-index: -2;
+  position: absolute;
+  font-size: 800px;
+  line-height: 600px;
+  font-family:"ff-meta-serif-web-pro"; font-weight:700; font-style:italic;
+  color: #8A8A8A;
+  opacity: 0.25;
+  left: 0px;
+  top:  0px;
+  width: 100%;
+  height: 2000px;
+  overflow: hidden;
+}
+#underlay div {
+  position: relative;
+  left: -80px;
+  top: -250px;
+}
+
+#stripes {
+  position: absolute;
+  left: 0px;
+  top: 106px;
+  width: 100%;
+  opacity: 0.5;
+  z-index: -2;
+}
+#stripes div {
+  position: relative;
+  width: 100%;
+  height: 84px;
+  border-top: 2px dashed white;
+}
+

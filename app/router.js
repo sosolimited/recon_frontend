@@ -97,6 +97,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
         // Need transcript to point to the actual scrolling DOM element or else scroll event handling is wack
 	     	transcriptView.setElement("#transcript > .wrapper"); 
 
+
         (function() {
           // Work with the wrappers, not the actual layers.  --> ???
           var transcript = $(".transcript > div");

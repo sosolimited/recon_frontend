@@ -13,6 +13,24 @@ function(app, Overlay, Ref) {
 	// In addition, it will listen to window resize events and update the overlay positions.
 	var MarkupManager = app.module();
 
+  // 60 most common English words from Wikipedia, with lexemes expanded manually
+  // This array is ordered, so you can eliminate only the n most common words if you need to
+  var commonWords = ["the", "be", "are", "is", "were", "was",
+                     "to", "of", "and", "a", "an", "in", "that",
+                     "have", "has", "having", "i", "it", "its", "it's",
+                     "for", "not", "on", "with", "he",
+                     "as", "you", "do", "does", "doing", "did",
+                     "at", "this", "but", "his", "by",
+                     "from", "they", "we", "say", "says", "saying", "said",
+                     "her", "she", "or", "an",
+                     "will", "won't", "my", "one", "all", "would", "there", "their",
+                     "what", "so", "up", "out", "if", "about", "who", "whome",
+                     "get", "got", "gets", "which", "go", "goes", "going", "went",
+                     "me", "when", "make", "makes", "making", "made", "can", "can't",
+                     "like", "likes", "time", "times", "no", "just", "him",
+                     "know", "knows", "knowing", "knew", "take", "takes"];
+                     
+
   // Default model.
   MarkupManager.Model = Backbone.Model.extend({
   
@@ -23,7 +41,7 @@ function(app, Overlay, Ref) {
   	},
   	
 	  initialize: function () {
-		  //app.on("markup:frequentWord", this.markupFrequentWord, this);		//TEMP
+		  app.on("markup:frequentWord", this.markupFrequentWord, this);		//TEMP
 		  app.on("markup:wordCount", this.addWordCountOverlay, this);
 		  app.on("markup:sentenceLead", this.addTraitOverlay, this);		  	//LM, is this psych traits? 
 		  app.on("markup:quote", this.addQuoteOverlay, this);
@@ -64,10 +82,18 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  markupFrequentWord: function(args) {
-		  //console.log("markupFrequentWord() " + args['word']);
-		  
-		  this.attributes.transcript.addClassToRecentWord(args['word'], "frequentWord");
-		  
+		  // Skip common words
+      if($.inArray(args['word'].toLowerCase(), commonWords) > -1) return false;
+
+		  //this.attributes.transcript.addClassToRecentWord(args['word'], "frequentWord");
+		 
+	  	$('#curSentence').children().each(function() {
+		  	if($(this).html().search(args['word']) >= 0){ 
+		  		$(this).addClass('frequentWord');
+          $(this).attr("data-wordcount", args['count']);
+		  	}
+	  	});
+
 		  /*
 		  var word = this.attributes.transcript.getRecentWordEl(args['word']);
 		  // console.log("word = " + word);

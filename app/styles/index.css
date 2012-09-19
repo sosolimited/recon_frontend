@@ -278,6 +278,20 @@ p { /* Transcript text */
 	-webkit-transform: translateZ(0px);
 }
 
+#transcript .wordCountFrame {
+  position: absolute;
+  overflow: hidden;
+  z-index: 2;
+  height: 16px;
+  font-size: 10px;
+}
+
+#transcript .wordCount {
+  position: relative;
+  top: 1em;
+  color: white;
+}
+
 /*
 #transcript {
 	width: 1200px;

@@ -16,7 +16,7 @@ function(app) {
   	defaults: function() {
   		return {
   			traits:[],
-  			val: 0
+  			viewType: "simple"
   		}
   	},
   	
@@ -30,12 +30,18 @@ function(app) {
   		}
   		console.log("added traits "+options.traits.length);
   		
+  		this.set({viewType:options.viewType});
+  		
   		app.on("message:stats", this.updateStats, this);
+  		
+  		this.setValues();
   	},
   	
   	cleanup: function() {
 	  	app.off(null, null, this);
   	},
+  	
+  	setValues: function() {},
   	
   	updateStats: function(args) {
   		var newTraits = [];
@@ -53,20 +59,9 @@ function(app) {
   });
   
   
-  // here is where you can override methods and implement new ones
-  Comparison.FancyModel = Comparison.Model.extend({  
-  });
-
-
-
-  // Default collection.
-  Comparison.Collection = Backbone.Collection.extend({
-  });
-
-
-	// View for a single comparison.		
-  Comparison.Views.Item = Backbone.View.extend({
-    template: "comparison/item",
+  // Default view for a single comparison.		
+  Comparison.Views.Simple = Backbone.View.extend({
+    template: "comparison/simple",
     className: "comparison",
 
 		initialize: function() {
@@ -75,11 +70,43 @@ function(app) {
 		
     serialize: function() {
       return { comparison: this.model };
-    },
-    
-    print: function() {
-	    console.log("print");
     }
+    
+  });
+  
+  
+  
+  // here is where you can override methods and implement new ones
+  Comparison.FancyModel = Comparison.Model.extend({    	
+  	setValues: function() {
+	  	
+  		this.set({viewType:"fancy"});
+  	}
+  });
+
+  // Extended view for a single comparison.		
+  Comparison.Views.Fancy = Backbone.View.extend({
+    template: "comparison/fancy",
+    className: "comparison",
+
+		initialize: function() {
+			 this.model.on("change", this.render, this);
+		},
+		
+    serialize: function() {
+      return { comparison: this.model };
+    }
+    
+  });
+
+
+
+
+
+
+
+  // Default collection.
+  Comparison.Collection = Backbone.Collection.extend({
   });
 
 
@@ -90,9 +117,17 @@ function(app) {
     template: "comparison/list",
 
     addComparison: function(comparison) {
-      return this.insertView(new Comparison.Views.Item({
-        model: comparison
-      }));
+    
+    	if (comparison.get("viewType") === "fancy") {
+    		return this.insertView(new Comparison.Views.Fancy({
+					model: comparison
+				}));
+			}
+			else {
+		    return this.insertView(new Comparison.Views.Simple({
+  		    model: comparison
+  		  }));
+  	  }
     },
     
     cleanup: function() {

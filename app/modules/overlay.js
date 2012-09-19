@@ -65,11 +65,15 @@ function(app, Ref) {
     	}); 
     	//Shrink and move divs.
     	this.$el.find('.traitExpTextHolder').each(function(i){
-    		$(this).animate({'left':Ref.gridColumns[0], 'top':y+i*24+'px', 'height':'24px'}, collapseD);   		
+    		$(this).animate({'left':Ref.gridColumns[0], 'top':y+i*24+'px', 'height':'24px'}, collapseD);
+    		//$(this).animate({'-webkit-transform':'translateZ(1000px)'}, collapseD);   	//Move div forward in Z.	
+    		this.style.webkitTransform = "translateZ(500px)";	//We're using CSS transitions to animate this.
     	});
     	//Shrink and position big arrow.
     	this.$el.find('.traitSymbol').each(function(){
 	    		$(this).animate({left:Ref.gridColumns[1]+'px'}, collapseD);
+	    		//$(this).animate({'-webkit-transform':'translateZ(-1000px)'}, collapseD);	//Move arrow back in Z.
+	    		this.style.webkitTransform = "translateZ(-500px)";	//We're using CSS transitions to animate this.
     	});
 
     

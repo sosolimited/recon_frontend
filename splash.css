@@ -149,8 +149,15 @@ sup {
   width: 435px;
 }
 #descriptionBlock em {
-  color: white;
-  font-family:"ff-meta-serif-web-pro"; font-weight:50; font-style:italic;
+  /* color: white; */
+  /* font-family:"ff-meta-serif-web-pro"; font-weight:50; font-style:italic; */
+
+  /*
+  color: #515151;
+  background-color: white;
+  font-family:"ff-meta-serif-web-pro"; font-weight:50; font-style:normal;
+  line-height:20px;
+  */
 }
 #bigBracket {
   font-size: 308px;
@@ -240,7 +247,7 @@ sup {
   left: 0px;
   top:  0px;
   width: 100%;
-  height: 1000px;
+  height: 2000px;
   overflow: hidden;
 }
 #underlay div {
@@ -263,3 +270,4 @@ sup {
   height: 84px;
   border-top: 2px dashed white;
 }
+

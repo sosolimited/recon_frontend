@@ -25,17 +25,16 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
     index: function() {
 	    
 	    	// Init msg collection
-			var messages = new Message.Collection();
+			var messageCollection = new Message.Collection();
 			
 		  // init transcript
-		  var transcript = new Transcript.View({messages: messages});
+		  var transcriptView = new Transcript.View( {messages: messageCollection} );
 		  
 		  // init markup manager
-		  //var markupManager = new MarkupManager.Model({ transcript: transcript } );
-		  var markupManager = new MarkupManager.Model({ transcript: transcript } );
+		  var markupManager = new MarkupManager.Model( {transcript: transcriptView} );
 		
 		  // init navigation
-		  var navigation = new Navigation.View( { transcript: transcript, messages: messages } );
+		  var navigationView = new Navigation.View( {transcript: transcriptView, messages: messageCollection} );
 		  
 			
 			var live = true;
@@ -43,16 +42,19 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 			
     	    
       // init speakers
-    	var speakers = new Speaker.Collection();
-    	speakers.add("moderator", "Moderator");
-    	speakers.add("obama", "Barack Obama");
-    	speakers.add("romney", "Mitt Romney");
+    	var speakerCollection = new Speaker.Collection();
+    	speakerCollection.add("moderator", "Moderator");
+    	speakerCollection.add("obama", "Barack Obama");
+    	speakerCollection.add("romney", "Mitt Romney");
     
     	// init uniquewords collection
-      var uniqueWords = new UniqueWord.Collection();
+      var uniqueWordCollection = new UniqueWord.Collection();
       
       // init comparison collection
-      var comparisons = new Comparison.Collection();
+      var comparisonCollection = new Comparison.Collection();
+      var comparisonView = new Comparison.Views.List({collection: comparisonCollection});
+      comparisonCollection.add(new Comparison.FancyModel({traitNames:["honesty"]}));
+      comparisonCollection.add(new Comparison.FancyModel({traitNames:["presidentiality"]}));
     
       
       // load from static file
@@ -69,19 +71,19 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 	    }
 	        
       // send msg to get past msgs in bulk
-      else {
+      //else {
 	      /*app.socket.send(JSON.stringify({
 	        event: "loadHistory"
 	      }));*/ //pend out for now
-	    }
+	    //}
 	    
 	    
 	    // testing playback (delay is how long to wait after start of connect to server)
 	    if (this.qs.playback) {
 	    	live = false;
 	    	setTimeout(function() {
-	    		console.log("play "+messages.length);
-	    		messages.each(function(msg) {
+	    		console.log("play "+messageCollection.length);
+	    		messageCollection.each(function(msg) {
 	    			msg.emit();
 	    		});
 	    	}, parseFloat(this.qs.playbackDelay, 100));
@@ -89,19 +91,17 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 
 
       app.useLayout("main").setViews({
-        "#comparisons": new Comparison.Views.List({
-          collection: comparisons
-        })
       }).render().then(function() {	
-	      navigation.setElement("#navigation");
-	      navigation.render();
+	      navigationView.setElement("#navigation").render();
+	      comparisonView.setElement("#comparisons").render();
         // Need transcript to point to the actual scrolling DOM element or else scroll event handling is wack
-	     	transcript.setElement("#transcript > .wrapper");
+	     	transcriptView.setElement("#transcript > .wrapper"); 
+
 
         (function() {
           // Work with the wrappers, not the actual layers.  --> ???
           var transcript = $(".transcript > div");
-          var speaker = $(".speaker > div");
+          var speaker = $(".comparisons > div");
 
           transcript.on("click", "h1", function(ev) {
             var dist = transcript.offsetHeight;
@@ -119,10 +119,10 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
           });
         })();
       });
-      
-      //Populate comparisons collection with models
-      comparisons.add(new Comparison.Model({names: ['HONESTY', 'MASCULINITY', 'DEPRESSION']}));
 
+      app.socket.on("stats", function(msg) {    
+      	app.trigger("message:stats", {msg:msg});
+      });
       
       app.socket.on("word", function(msg) {    
       	app.trigger("message:word", {msg:msg,live:live});

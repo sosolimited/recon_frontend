@@ -30,7 +30,10 @@ body {
 .wrapper {
   position: absolute;
   top: 0; left: 0; bottom: 0; right: 0;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: visible;
+  
+   -webkit-perspective: 6000px;
 }
 
 
@@ -41,7 +44,9 @@ body {
   /* background-color: yellow; */
 }
 
-
+#overlay {
+  /* -webkit-perspective: 600px; */
+}
 
 
 
@@ -95,6 +100,7 @@ p { /* Transcript text */
   transition:  .5s linear; 
   -webkit-transform: scale(0);
   transform: scale(0);
+
 }
 
 .pieChart {
@@ -183,8 +189,8 @@ p { /* Transcript text */
 
 /* Typekit fonts */
 
-.metaBook{ font-family:"ff-meta-serif-web-pro"; font-weight:50; font-style:normal; }
-.metaBookIt{ font-family:"ff-meta-serif-web-pro"; font-weight:50; font-style:italic; }
+.metaBook{ font-family:"ff-meta-serif-web-pro"; font-weight:100; font-style:normal; }
+.metaBookIt{ font-family:"ff-meta-serif-web-pro"; font-weight:100; font-style:italic; }
 .metaBold{ font-family:"ff-meta-serif-web-pro"; font-weight:700; font-style:normal; }
 .metaBoldIt{ font-family:"ff-meta-serif-web-pro"; font-weight:700; font-style:italic; }
 
@@ -239,6 +245,8 @@ p { /* Transcript text */
 	margin: 0px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
 	/* background-color:yellow; */
+	
+	-webkit-transform: translateZ(100px);	
 }
 
 .traitExpText {
@@ -253,8 +261,12 @@ p { /* Transcript text */
 }
 
 .traitSymbol {
-
+	position: absolute;
 	font-size:800px;	
+	line-height:100px;
+	left:-450px;	/* Start out of view */
+
+	-webkit-transform: translateZ(100px);
 }
 
 /*

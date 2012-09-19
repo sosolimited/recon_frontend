@@ -40,9 +40,15 @@ function(app, Ref) {
     expand: function() {
    		this.state = 1;	//expanded
 
+   		//Slide lines up into view.
     	this.$el.find('.traitExpText').each(function(i){ 
 	    		$(this).delay(i*300).animate({top:"0px"}, 1000); 
     	}); 	
+    	//Slide big arrow in.
+    	this.$el.find('.traitSymbol').each(function(){
+	    		$(this).animate({left:Ref.gridColumns[2]+'px'}, 1000);
+    	});
+    	
     	//Sit for holdDur, then collapse.
     	window.setTimeout(this.collapse, this.expandDur + this.holdDur, this);
     }, 
@@ -50,19 +56,20 @@ function(app, Ref) {
     collapse: function() {
     	//PEND we'll probably want to tag this onto the end of the animation, so it only gets set after overlay has played out collapse anim.
   		this.state = 0;	//collapsed	
-  	
-	    //this.$el.find('.traitExpText').each(function(i){ 
-	   	//	$(this).animate({top:"96px"}, 1000); 	    		
-    	//});
+  		   
+    	var y = this.posY;
+    	var collapseD = this.collapseDur;
     	//Shrink text.
     	this.$el.find('.traitExpText').each(function(i){ 
-    		$(this).animate({'font-size':'20px', 'line-height':'24px'}, this.collapseDur);
+    		$(this).animate({'font-size':'20px', 'line-height':'24px'}, collapseD);
     	}); 
-    	
-    	//Shrink and mov divs.
-    	var y = this.posY;
+    	//Shrink and move divs.
     	this.$el.find('.traitExpTextHolder').each(function(i){
-    		$(this).animate({'left':Ref.gridColumns[0], 'top':y+i*24+'px', 'height':'24px'}, this.collapseDur);   		
+    		$(this).animate({'left':Ref.gridColumns[0], 'top':y+i*24+'px', 'height':'24px'}, collapseD);   		
+    	});
+    	//Shrink and position big arrow.
+    	this.$el.find('.traitSymbol').each(function(){
+	    		$(this).animate({left:Ref.gridColumns[1]+'px'}, collapseD);
     	});
 
     

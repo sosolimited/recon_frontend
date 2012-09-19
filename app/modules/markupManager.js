@@ -23,7 +23,7 @@ function(app, Overlay, Ref) {
   	},
   	
 	  initialize: function () {
-		  app.on("markup:frequentWord", this.markupFrequentWord, this);	
+		  //app.on("markup:frequentWord", this.markupFrequentWord, this);		//TEMP
 		  app.on("markup:wordCount", this.addWordCountOverlay, this);
 		  app.on("markup:sentenceLead", this.addTraitOverlay, this);		  	//LM, is this psych traits? 
 		  app.on("markup:quote", this.addQuoteOverlay, this);

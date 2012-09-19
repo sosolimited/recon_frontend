@@ -26,6 +26,7 @@ function(app, Overlay, Ref) {
     initialize : function() {
       app.on("message:word", this.addWord, this);
       app.on("message:sentenceEnd", this.endSentence, this);
+      app.on("body:scroll", this.updateScroll, this);	//EG This is separate from handleScroll for now, until I check in with Sam on what handleScroll is doing.
   	},
 
     events : {
@@ -144,7 +145,7 @@ function(app, Overlay, Ref) {
     
     handleScroll : function() {
     
-    	console.log("handleScroll " + parseInt(this.$el.prop("scrollHeight")));
+    	//console.log("handleScroll " + parseInt(this.$el.prop("scrollHeight")));
     	
       // Figure out which word is at the bottom of the screen and fire an event
       var buffer = 50; // How far from the bottom the "bottom" is
@@ -223,6 +224,11 @@ function(app, Overlay, Ref) {
       scrolledWord.css("background-color", "white");
       scrolledWord.addClass("currentlyScrolled");
       */
+    },
+    
+    //EG This is separate from handleScroll for now, until I check in with Sam on what handleScroll does.
+    updateScroll: function(arg) {
+	    console.log("transcript.updateScroll: "+arg);
     },
     
     resetToNode: function(n) {

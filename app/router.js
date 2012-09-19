@@ -96,8 +96,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 	      comparisonView.setElement("#comparisons").render();
         // Need transcript to point to the actual scrolling DOM element or else scroll event handling is wack
 	     	transcriptView.setElement("#transcript > .wrapper"); 
-
-
+	     
         (function() {
           // Work with the wrappers, not the actual layers.  --> ???
           var transcript = $(".transcript > div");
@@ -142,6 +141,17 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
       app.socket.on("close", function() {
         console.error("Closed");
       });
+      
+      //Throttle body scroll events and emit them as messages
+      $("body").on("scroll", _.throttle(function(ev) {
+		     	app.trigger("body:scroll", document.body.scrollTop);
+		     	console.log("body.scrollTop = "+document.body.scrollTop);
+	     	}, 250));
+	     
+    
+     	//$('body').scroll(function(event){
+     	//	console.log("body scroll = "+document.body.scrollTop);
+     	//});
       
       // Listen for keydown events.
       $('body').keydown(function(event){

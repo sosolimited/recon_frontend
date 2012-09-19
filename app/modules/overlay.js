@@ -11,7 +11,6 @@ function(app, Ref) {
   var Overlay = app.module();
  
   Overlay.Model = Backbone.Model.extend({
-  
   });
 	  
   Overlay.Views.TraitView = Backbone.View.extend({
@@ -36,7 +35,7 @@ function(app, Ref) {
 		 serialize: function() {
       return { trait: this.trait, leader: this.leader, trailer: this.trailer, startPosY: this.posY-96};
     },
-     
+
     expand: function() {
    		this.state = 1;	//expanded
 

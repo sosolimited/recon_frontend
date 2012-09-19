@@ -103,11 +103,28 @@ function(app, Overlay, Ref) {
     },
     
     endSentence: function(args) {
-    	// Color frequent words only after sentence is complete.
+      // Add word count superscript to frequent words.
+      // ---------------------------------------------
+      // Frequent words are marked by a class named "frequentWord"
+      // and have an attribute "data-wordcount" added by markupManager
+      var mainEl = this.$el;
     	$('#curSentence').find('.frequentWord').each(function() {
     		$(this).css("background-color", "white");
+        var count = $(this).attr("data-wordcount");
+        if(count != undefined) {
+          // Add a div at this point and animate it in
+          var pos = $(this).position();
+          var wordWidth = $(this).width();
+          var lineHeight = $(this).height();
+          var container = $("<div class='wordCountFrame' style='left: " + (pos.left + wordWidth) + "px; top: " + (pos.top - lineHeight/2) + "px;'></div>");
+          var countDiv = $("<div class='wordCount'>x" + count + "</div>");
+          container.append(countDiv);
+          $(this).parent().append(container);
+          countDiv.animate({top: '0px'}, 300);
+        }
     	});
-    	
+    
+      // Close this sentence, start a new one.
     	$('#curSentence').removeAttr('id');
     	openSentence = false;
     	if (args)
@@ -137,7 +154,7 @@ function(app, Overlay, Ref) {
 	  	});
 	  	//return;	 
     },
-    
+
     getCurSentencePosY: function() {
 	    //return $('#curSentence').offset().top;	//Breaks when scrollTop of div is > 0.
 	    return (this.$el.scrollTop() + $('#curParagraph').position().top + $('#curSentence').position().top);

@@ -145,7 +145,7 @@ function(app, Overlay, Ref) {
 	  	// Searching forwards just for testing.
 	  	$('#curSentence').children().each(function() {
 	  		//console.log("getRecentWordEl-" + word + "-?-" + $(this).html());
-		  	if($(this).html().search(word) >= 0){ 
+		  	if($.trim($(this).text()).toLowerCase() == $.trim(word).toLowerCase()){ 
 		  		//console.log("getRecentWordEl: found");
 		  		$(this).addClass(className);	
 		  		//return $(this);

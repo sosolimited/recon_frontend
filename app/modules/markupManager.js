@@ -89,7 +89,7 @@ function(app, Overlay, Ref) {
       // words in the current sentence. DOM elements are created in transcript
       // when the sentence is complete.
 	  	$('#curSentence').children().each(function() {
-		  	if($(this).html().search(args['word']) >= 0){ 
+		  	if($.trim($(this).text()).toLowerCase() == $.trim(args['word']).toLowerCase()){ 
 		  		$(this).addClass('frequentWord');
           $(this).attr("data-wordcount", args['count']);
 		  	}

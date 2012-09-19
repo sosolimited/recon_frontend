@@ -81,18 +81,18 @@ p { /* Transcript text */
   height: 250%;
 }
 
-.speaker.active {
+.comparisons .active {
   z-index: 5000;
 }
 
-.speaker .active.wrapper {
+.comparisons .active.wrapper {
   -webkit-transform: scale(1);
   transform: scale(1);
 }
 
-.speaker .wrapper {
-  -webkit-transition:  .5s linear; 
-  transition:  .5s linear; 
+.comparisons .wrapper {
+  -webkit-transition:  1s linear; 
+  transition:  1s linear; 
   -webkit-transform: scale(0);
   transform: scale(0);
 }

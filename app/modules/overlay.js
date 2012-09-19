@@ -12,7 +12,6 @@ function(app) {
   var Overlay = app.module();
  
   Overlay.Model = Backbone.Model.extend({
-  
   });
 
   
@@ -31,6 +30,7 @@ function(app) {
 		 serialize: function() {
       return { trait: this.trait, leader: this.leader, trailer: this.trailer };
     },
+    
     
     expand: function() {
    		this.state = 1;	//expanded

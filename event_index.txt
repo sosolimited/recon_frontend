@@ -9,6 +9,7 @@ playback:addChapter       {msg}                               transcript.js:60
 transcript:scrollDetach   {}                                  transcript.js:171
 transcript:scrollAttach   {}                                  transcript.js:176
 transcript:scrollTo       timeDiff                            transcript.js:97,239
+navigation:goLive         {}                                  navigation.js
 message:stats             {msg}                               router.js:125
 message:word              {msg, live}                         router.js:129
 message:sentenceEnd       {msg, live}                         router.js:133

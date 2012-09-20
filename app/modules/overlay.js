@@ -72,7 +72,7 @@ function(app, Ref) {
     	this.$el.find('.traitSymbol').each(function(){
 	    		$(this).animate({left:Ref.gridColumns[1]+'px'}, collapseD);
 	    		//$(this).animate({'-webkit-transform':'translateZ(-1000px)'}, collapseD);	//Move arrow back in Z.
-	    		this.style.webkitTransform = "translateZ(-500px)";	//We're using CSS transitions to animate this.
+	    		//this.style.webkitTransform = "translateZ(0px)";	//We're using CSS transitions to animate this.
     	});
 
     

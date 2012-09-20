@@ -119,6 +119,8 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
         })();
       });
 
+      // WEBSOCKET MESSAGE EVENTS
+      // ----------------------------------------------------------------------
       app.socket.on("stats", function(msg) {    
       	app.trigger("message:stats", {msg:msg});
       });
@@ -135,22 +137,20 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
       	app.trigger("message:transcriptDone", {msg:msg,live:live});
 	    	live = false;
       	console.log("transcriptDone");
-        //app.trigger("playback:addChapter", msg);  // Close out the chapter list nav now responds to done msg
       });
 
       app.socket.on("close", function() {
         console.error("Closed");
       });
-      
+     
+      // BODY/WINDOW EVENTS
+      // ----------------------------------------------------------------------
+
       //Throttle body scroll events and emit them as messages
       $(window).scroll(_.throttle(function(ev) {
 		     	app.trigger("body:scroll", document.body.scrollTop);
-	     	}, 250));
+	     	}, 33));  // 33ms = Approx 30fps
     
-     	//$('body').scroll(function(event){
-     	//	console.log("body scroll = "+document.body.scrollTop);
-     	//});
-      
       // Listen for keydown events.
       $('body').keydown(function(event){
       	//console.log(event.which);

@@ -14,7 +14,9 @@ function(app, Overlay, Ref) {
   var speakers = ["Moderator", "Obama", "Romney"];
   var openSentence = null;
   var openParagraph = null;
-  var scrollLive = false;		
+  var scrollLive = true;		
+  var lastScrollHeight = 0;
+  var scrollAnimating = false;
 
   // Default model.
   Transcript.Model = Backbone.Model.extend({
@@ -30,7 +32,6 @@ function(app, Overlay, Ref) {
   	},
 
     events : {
-      //"scroll" : "handleScroll"
     },
   	
     cleanup: function() {
@@ -84,20 +85,18 @@ function(app, Overlay, Ref) {
     	
     	if (!word["punctuationFlag"]) s += " "; // add leading space
     	
-
-
-    	//console.log("type = "+word["type"] + " w = "+word["word"]+" - wordInstances = "+word["wordInstances"]);
-    	// If word is frequent, treat it.
-    	//if(word["wordInstances"] >= wordCountThreshold){
-    	//	$('#curSentence').append("<span id="+word["id"]+" class='frequentWord transcriptWord'>"+s+word["word"]+"</span>"); // add word
-    	//}else{
-    		$('#curSentence').append("<span id="+word["id"]+" class='transcriptWord'>"+s+word["word"]+"</span>"); // add word
-    	//}
+    	$('#curSentence').append("<span id="+word["id"]+" class='transcriptWord'>"+s+word["word"]+"</span>"); 
     	
-      // Scroll the view if needed
+      // Autoscroll the window the keep up with transcript
+      // ----------------------------------------------------------------------
       if(scrollLive) {
-        this.$el.stop().animate({ scrollTop: parseInt(this.$el.prop("scrollHeight"))}, 10);
-        app.trigger("transcript:scrollTo", word["timeDiff"]); 
+        var scrollTo = parseInt(this.$el.prop("scrollHeight")) - $(window).height();
+        if(scrollTo != lastScrollHeight) {  // Only trigger autoscroll if needed
+          scrollAnimating = true;
+          $("body").stop().animate({ scrollTop: scrollTo}, 100, function() { scrollAnimating = false; });
+          app.trigger("transcript:scrollTo", word["timeDiff"]); 
+          lastScrollHeight = scrollTo;
+        }
       }
     
     },
@@ -161,6 +160,23 @@ function(app, Overlay, Ref) {
     },
     
     handleScroll : function() {
+      // If this is a user scrolling, decide whether to break or reattach live autoscrolling
+      if(!scrollAnimating) {
+        var reattachThreshold = 5;
+        // Note: $(document).height() is height of the HTML document,
+        //       $(window).height() is the height of the viewport
+        // TODO: This assumes the current sentence is appearing at the very bottom of the document
+        if($(document).height() - ($(window).scrollTop() + $(window).height()) < reattachThreshold) {
+          scrollLive = true;
+          app.trigger("transcript:scrollDetach", {}); // So other modules like nav can respond accordingly
+        }
+        else {
+          $(window).stop(); // Stop any scroll animation in progress
+          scrollLive = false;
+          app.trigger("transcript:scrollAttach", {});
+        }
+      }
+
       // Figure out which word is at the bottom of the screen and fire an event with that word's timediff
       var buffer = 50; // How far from the bottom the "bottom" is
       var scrolled = $(window).scrollTop();

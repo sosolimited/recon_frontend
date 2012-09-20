@@ -143,11 +143,9 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
       });
       
       //Throttle body scroll events and emit them as messages
-      $("body").on("scroll", _.throttle(function(ev) {
+      $(window).scroll(_.throttle(function(ev) {
 		     	app.trigger("body:scroll", document.body.scrollTop);
-		     	console.log("body.scrollTop = "+document.body.scrollTop);
 	     	}, 250));
-	     
     
      	//$('body').scroll(function(event){
      	//	console.log("body scroll = "+document.body.scrollTop);

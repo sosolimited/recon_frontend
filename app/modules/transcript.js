@@ -26,11 +26,11 @@ function(app, Overlay, Ref) {
     initialize : function() {
       app.on("message:word", this.addWord, this);
       app.on("message:sentenceEnd", this.endSentence, this);
-      app.on("body:scroll", this.updateScroll, this);	//EG This is separate from handleScroll for now, until I check in with Sam on what handleScroll is doing.
+      app.on("body:scroll", this.handleScroll, this);
   	},
 
     events : {
-      "scroll" : "handleScroll"
+      //"scroll" : "handleScroll"
     },
   	
     cleanup: function() {
@@ -161,23 +161,17 @@ function(app, Overlay, Ref) {
     },
     
     handleScroll : function() {
-    
-    	//console.log("handleScroll " + parseInt(this.$el.prop("scrollHeight")));
-    	
-      // Figure out which word is at the bottom of the screen and fire an event
+      // Figure out which word is at the bottom of the screen and fire an event with that word's timediff
       var buffer = 50; // How far from the bottom the "bottom" is
-      var scrolled = this.$el.scrollTop();
-      var bottomLine = this.$el.scrollTop() + this.$el.height() - buffer;
+      var scrolled = $(window).scrollTop();
+      var bottomLine = $(window).scrollTop() + $(window).height() - buffer;
       
-
-      //$("#scrollLine").offset({"left": 0, "top": bottomLine - scrolled});
-
       // First loop through paragraphs
       var scrolledParagraph = null;
       var closestParagraph = null;
       var closestDistance = 1000000;
       $(".transcriptParagraph").each(function(index, el) {
-        var paraTop = $(el).offset().top + scrolled;
+        var paraTop = $(el).offset().top;
         var paraBottom = paraTop + $(el).height();
 
         if(bottomLine <= paraBottom && bottomLine > paraTop) {
@@ -199,7 +193,7 @@ function(app, Overlay, Ref) {
       var closestWord = null;
       closestDistance = 1000000;
       scrolledParagraph.find("span").not(".transcriptSentence").each(function(index, el) {
-        var wordTop = $(el).offset().top + scrolled;
+        var wordTop = $(el).offset().top;
         var wordBottom = wordTop + $(el).height();
         //console.log("Bottom: " + wordBottom + " < Scrolled: " + bottomLine + " < Top: " + wordTop + "??");
         if(bottomLine < wordBottom && bottomLine > wordTop) {
@@ -231,21 +225,8 @@ function(app, Overlay, Ref) {
 
 
       //EG Testing adjusting CSS transform perspective origin y based on scrollTop
-      this.el.style.webkitTransformOrigin = "50% -"+this.$el.scrollTop(); 
-      console.log("handleScroll: origin = "+"50% -"+this.$el.scrollTop());
-
-      /* 
-      // To debug, highlight the word that we think the transcript is scrolled to
-      $(".currentlyScrolled").css("background-color", "transparent");
-      $(".currentlyScrolled").removeClass("currentlyScrolled");
-      scrolledWord.css("background-color", "white");
-      scrolledWord.addClass("currentlyScrolled");
-      */
-    },
-    
-    //EG This is separate from handleScroll for now, until I check in with Sam on what handleScroll does.
-    updateScroll: function(arg) {
-	    console.log("transcript.updateScroll: "+arg);
+      //this.el.style.webkitTransformOrigin = "50% -" + $(window).scrollTop(); 
+      //console.log("handleScroll: origin = "+"50% -" + $(window).scrollTop());
     },
     
     resetToNode: function(n) {

@@ -114,8 +114,9 @@ function(app) {
 
       var percent = this.timeDiffToPercent(newTime);
       $("#navTime").text(nowString);
-      $("#navProgressMarker").stop().animate({"left": percent * $("#navTimeline").width()}, 100);
-      
+      //$("#navProgressMarker").stop().animate({"left": percent * $("#navTimeline").width()}, 100);
+      $("#navProgressMarker").css("left", percent * $("#navTimeline").width());
+      //$("#navProgressMarker").css("left", percent * $("#navTimeLine").width());
     },
 
     updateProgress : function(msg) {
@@ -125,7 +126,7 @@ function(app) {
     },
 
     timeDiffToPercent : function(diff) {
-      var scaleFactor = 10;  // TODO: Set this to 1 for longer transcripts/production
+      var scaleFactor = 1;  // TODO: Set this to 1 for longer transcripts/production
       return diff / 1000 / 60 / 60 / 1.5 * scaleFactor;
     }
 

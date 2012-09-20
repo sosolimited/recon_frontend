@@ -29,6 +29,7 @@ function(app, Overlay, Ref) {
       app.on("message:word", this.addWord, this);
       app.on("message:sentenceEnd", this.endSentence, this);
       app.on("body:scroll", this.handleScroll, this);
+      app.on("navigation:goLive", this.reattachLiveScroll, this);
   	},
 
     events : {
@@ -159,7 +160,26 @@ function(app, Overlay, Ref) {
 	    return (this.$el.scrollTop() + $('#curParagraph').position().top + $('#curSentence').position().top);
     },
     
-    handleScroll : function(arg) {	
+
+    reattachLiveScroll : function(duration) {
+      if(!duration) duration = 600;
+      var docHeight = $(document).height();
+      var scrollTo = docHeight - $(window).height();
+      scrollAnimating = true;
+      var theRealSlimShady = this;
+      $("body").stop().animate({ scrollTop: scrollTo}, duration, function() {
+         // If the document has grown, try again
+        if($(document).height() > docHeight) theRealSlimShady.reattachLiveScroll(100);
+        else {
+          scrollAnimating = false;
+          scrollLive = true;
+          app.trigger("transcript:scrollAttach", {});
+        }
+      });
+
+    },
+
+    handleScroll : function() {
       // If this is a user scrolling, decide whether to break or reattach live autoscrolling
       if(!scrollAnimating) {
         var reattachThreshold = 5;
@@ -168,12 +188,12 @@ function(app, Overlay, Ref) {
         // TODO: This assumes the current sentence is appearing at the very bottom of the document
         if($(document).height() - ($(window).scrollTop() + $(window).height()) < reattachThreshold) {
           scrollLive = true;
-          app.trigger("transcript:scrollDetach", {}); // So other modules like nav can respond accordingly
+          app.trigger("transcript:scrollAttach", {}); // So other modules like nav can respond accordingly
         }
         else {
           $(window).stop(); // Stop any scroll animation in progress
           scrollLive = false;
-          app.trigger("transcript:scrollAttach", {});
+          app.trigger("transcript:scrollDetach", {});
         }
       }
 

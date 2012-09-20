@@ -9,6 +9,8 @@ function(app) {
   var debateNumber = 0;
 
   var chapters = [];
+
+  var showTime = true;
   
 
   // Create a new module.
@@ -32,10 +34,12 @@ function(app) {
     initialize: function() {
       // Bind custom events
       app.on("playback:addChapter", this.addChapter, this);
-      app.on("transcript:scrollTo", this.updateTime, this);
       app.on("debate:change", this.setDebateNumber, this);
       app.on("message:word", this.updateProgress, this);
       app.on("message:transcriptDone", this.addChapter, this);
+      app.on("transcript:scrollTo", this.updateTime, this);
+      app.on("transcript:scrollDetach", this.liveScrollOff, this);
+      app.on("transcript:scrollAttach", this.liveScrollOn, this);
     },
     
     serialize: function() {
@@ -43,7 +47,7 @@ function(app) {
     },
     
     events: {
-    	"click": "playbackChapter"
+    	"click": "handleClick"
     },
     
     cleanup: function() {
@@ -58,6 +62,15 @@ function(app) {
 
       var debateNumString = (n == 0 ? "1st" : (n == 1 ? "2nd" : "3rd")) + " Debate";
       $("#navDebateNum").text(debateNumString);
+    },
+
+    handleClick : function(e) {
+      if(e.target.id.substring(0,2) == 'CH')
+        playbackChapter(e);
+
+      else if(e.target.id == 'goLive') {
+        app.trigger("navigation:goLive");
+      }
     },
       
   	playbackChapter: function(e) {
@@ -107,16 +120,26 @@ function(app) {
       //console.log("New Chapter :" + id + " at " + percent + "%");	
   	},
 
+    liveScrollOn : function() {
+      showTime = true;
+    },
+    liveScrollOff : function() {
+      showTime = false;
+    },
+
     updateTime : function(newTime) {
       // Update the CURRENTLY BEING VIEWED TIME
-      var now = new Date(startDates[debateNumber].getTime() + newTime);
-      var nowString = (now.getHours() > 12 ? now.getHours() - 12 : now.getHours()) + ":" + (now.getMinutes() < 10 ? "0" + now.getMinutes() : now.getMinutes()) + (now.getHours() > 12 ? " PM" : " AM"); 
+      if(showTime) {
+        var now = new Date(startDates[debateNumber].getTime() + newTime);
+        var nowString = (now.getHours() > 12 ? now.getHours() - 12 : now.getHours()) + ":" + (now.getMinutes() < 10 ? "0" + now.getMinutes() : now.getMinutes()) + (now.getHours() > 12 ? " PM" : " AM"); 
+        $("#navTime").text(nowString);
+      }
+      else {
+        $("#navTime").html("<span id='goLive' class='tapable'>Go Live!</span>");
+      }
 
       var percent = this.timeDiffToPercent(newTime);
-      $("#navTime").text(nowString);
-      //$("#navProgressMarker").stop().animate({"left": percent * $("#navTimeline").width()}, 100);
       $("#navProgressMarker").css("left", percent * $("#navTimeline").width());
-      //$("#navProgressMarker").css("left", percent * $("#navTimeLine").width());
     },
 
     updateProgress : function(msg) {

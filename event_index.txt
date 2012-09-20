@@ -1,0 +1,23 @@
+EVENT                     PAYLOAD                             TRIGGERED BY
+-------------------------------------------------------------------------------
+markup:frequentWord       {type, speaker, count, word}        speaker.js:64
+markup:wordCount          {type, speaker, count, word}        speaker.js:71
+markup:sentenceLength     {type, speaker, length, sentence}   speaker.js:109
+markup:quote			        {type, speaker}                     transcript.js:48
+markup:sentenceSentiment  {speaker, sentiment}                transcript.js:130
+playback:addChapter       {msg}                               transcript.js:60
+transcript:scrollDetach   {}                                  transcript.js:171
+transcript:scrollAttach   {}                                  transcript.js:176
+transcript:scrollTo       timeDiff                            transcript.js:97,239
+message:stats             {msg}                               router.js:125
+message:word              {msg, live}                         router.js:129
+message:sentenceEnd       {msg, live}                         router.js:133
+message:transcriptDone    {msg, live}                         router.js:137
+body:scroll               document.body.scrollTop             router.js:151
+keypress:test             {type, kind}                        router.js:158,160
+debate:change             {type, kind}                        router.js:169
+
+Find all with:
+  $ grep -rn "[^/]app.trigger(" .
+
+Line numbers current as of commit 1d8ce8fbd9dd30c261443c0199af637ef27ee6b8 9/19/2012

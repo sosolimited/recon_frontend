@@ -18,6 +18,9 @@ function(app, Overlay, Ref) {
   var lastScrollHeight = 0;
   var scrollAnimating = false;
 
+  var oldScrollTop = 0;
+  var oldWindowHeight = 0;
+
   // Default model.
   Transcript.Model = Backbone.Model.extend({
   		
@@ -30,6 +33,16 @@ function(app, Overlay, Ref) {
       app.on("message:sentenceEnd", this.endSentence, this);
       app.on("body:scroll", this.handleScroll, this);
       app.on("navigation:goLive", this.reattachLiveScroll, this);
+
+      var thisTranscript = this;
+      $(window).resize(function() {
+        //if(scrollLive) { thisTranscript.reattachLiveScroll(0) };
+        var heightChange = $(window).height() - oldWindowHeight;
+        console.log(heightChange);
+        $('body').scrollTop(oldScrollTop - heightChange);
+        oldWindowHeight = $(window).height();
+        oldScrollTop = $('body').scrollTop();
+      });
   	},
 
     events : {
@@ -60,19 +73,7 @@ function(app, Overlay, Ref) {
     		// emit message to add chapter marker
     		app.trigger("playback:addChapter", {msg:word});
 
-   			if(curSpeaker==0) col = 2;	//obama
-    		else if(curSpeaker==2) col = 3;	//romney
-    		
-    		if (openSentence) this.endSentence();
-    		if (openParagraph) this.endParagraph();	    		
-    		
-        //	this.$el.children().first().append("<div id=curParagraph class='push-" + col + " span-3 " +
-
-    		this.$el.append("<div id=curParagraph class='push-" + col + " span-3 " +
-          speakers[curSpeaker] + " transcriptParagraph'><h1 class='franklinMedIt gray80'>" +
-          speakers[curSpeaker] + "</h1><p class='metaBook gray80'></p></div><div class=clear></div>");
-          
-    		openParagraph = true;
+        this.startParagraph(curSpeaker);
     	}
     	
     	
@@ -86,20 +87,26 @@ function(app, Overlay, Ref) {
     	
     	if (!word["punctuationFlag"]) s += " "; // add leading space
     	
-    	$('#curSentence').append("<span id="+word["id"]+" class='transcriptWord'>"+s+word["word"]+"</span>"); 
-    	
+    	$('#curSentence').append("<span id="+word["id"]+" class='transcriptWord'>"+s+word["word"]+"</span>");
+
+      this.keepBottomSpacing();
+
       // Autoscroll the window the keep up with transcript
       // ----------------------------------------------------------------------
-      if(scrollLive) {
-        var scrollTo = parseInt(this.$el.prop("scrollHeight")) - $(window).height();
-        if(scrollTo != lastScrollHeight) {  // Only trigger autoscroll if needed
+      if(scrollLive && !Ref.disableAutoScroll) {
+        var scrollTo = this.transcriptBottom() - $(window).height();
+        //var scrollTo = $(document).height() - $(window).height();
+        if(scrollTo != lastScrollHeight && !scrollAnimating) {  // Only trigger autoscroll if needed
+          //console.log("scrolling to: " + scrollTo);
+          var duration = Math.abs(lastScrollHeight - scrollTo) * 3.0;
           scrollAnimating = true;
-          $("body").stop().animate({ scrollTop: scrollTo}, 100, function() { scrollAnimating = false; });
+          $("body").stop().animate({ scrollTop: scrollTo}, duration, function() { scrollAnimating = false;});
           app.trigger("transcript:scrollTo", word["timeDiff"]); 
           lastScrollHeight = scrollTo;
         }
-      }
-    
+      }           
+      //$('#curSentence').css("margin-bottom", $('#curSentence').height() - Ref.overlayOffsetY);
+      return false;
     },
     
     endSentence: function(args) {
@@ -122,7 +129,7 @@ function(app, Overlay, Ref) {
           $(this).parent().append(container);
           countDiv.animate({top: '0px'}, 300);
         }
-    	});
+    	});   
     
       // Close this sentence, start a new one.
     	$('#curSentence').removeAttr('id');
@@ -130,10 +137,33 @@ function(app, Overlay, Ref) {
     	if (args)
 	    	app.trigger("markup:sentenceSentiment", {type:'sentenceSentiment', speaker:args['msg']['speaker'], sentiment:args['msg']['sentiment']});
     },
-    
+
+    startParagraph : function(curSpeaker) {
+      if(curSpeaker==0) col = 2;	//obama
+  		else if(curSpeaker==2) col = 3;	//romney
+      else col = 1; // ???
+    		
+  		if (openSentence) this.endSentence();
+  		if (openParagraph) this.endParagraph();	    		
+    		
+  		this.$el.append("<div id=curParagraph class='push-" + col + " span-3 " +
+                      speakers[curSpeaker] + " transcriptParagraph'><h1 class='franklinMedIt gray80'>" +
+                      speakers[curSpeaker] + "</h1><p class='metaBook gray80'></p></div><div class=clear></div>");
+     
+      openParagraph = true;
+    },
+
     endParagraph: function() {
+      // When #curParagraph height goes to 'auto', the page collapses and scroll jumps up
+      // So save the height with a temporary div!
+      if($('#saveTheHeight').length == 0)
+        $('body').append("<div id='saveTheHeight' style='position: absolute; width:100%; height:2px; z-index:-100; left: 0;'></div>");
+
+      var screenBottom = this.transcriptBottom();
+      $('#saveTheHeight').offset({'left':0, 'top':screenBottom});
+      $('#curParagraph').css('height', 'auto'); // No more offset
     	$('#curParagraph').removeAttr('id');
-    	openParagarph = false;
+    	openParagraph = false;
     },
     
     // Used by markupManager to retrieve recently added words. Returns associated span.
@@ -160,33 +190,71 @@ function(app, Overlay, Ref) {
 	    return (this.$el.scrollTop() + $('#curParagraph').position().top + $('#curSentence').position().top);
     },
     
+    keepBottomSpacing : function() {
+      // Make sure there is adequate space below the current sentence
+      var sentenceTop, sentenceHEight;
+      if($('#curSentence').length <= 0) { sentenceTop = 0; sentenceHeight = 0; }
+      else {
+        sentenceTop = $('#curSentence').offset().top;
+        sentenceHeight = $('#curSentence').height();
+      }
 
+      if($('#curParagraph').length > 0) {
+        var newHeight = sentenceTop - $('#curParagraph').offset().top + Ref.overlayOffsetY;
+
+        // If the sentence is too long, force a scroll
+        if(sentenceHeight > Ref.overlayOffsetY) newHeight += sentenceHeight - Ref.overlayOffsetY;
+        
+        if(newHeight > $('#curParagraph').height())
+          $('#curParagraph').height(newHeight);
+      }
+    },
+    
     reattachLiveScroll : function(duration) {
-      if(!duration) duration = 600;
-      var docHeight = $(document).height();
-      var scrollTo = docHeight - $(window).height();
+      if(duration == null) duration = 600;
+      var transcriptHeight = this.transcriptBottom();
+      var scrollTo = transcriptHeight - $(window).height();
       scrollAnimating = true;
       var theRealSlimShady = this;
-      $("body").stop().animate({ scrollTop: scrollTo}, duration, function() {
-         // If the document has grown, try again
-        if($(document).height() > docHeight) theRealSlimShady.reattachLiveScroll(100);
-        else {
-          scrollAnimating = false;
-          scrollLive = true;
-          app.trigger("transcript:scrollAttach", {});
-        }
-      });
+      if(duration > 0) {
+        $("body").stop().animate({ scrollTop: scrollTo}, duration, function() {
+           // If the document has grown, try again
+          if(theRealSlimShady.transcriptBottom() > transcriptHeight) theRealSlimShady.reattachLiveScroll(100);
+          else {
+            scrollAnimating = false;
+            scrollLive = true;
+            app.trigger("transcript:scrollAttach", {});
+          }
+        });
+      }
+      else {
+        $("body").scrollTop(scrollTo);
+        scrollAnimating = false;
+        scrollLive = true;
+        app.trigger("transcript:scrollAttach", {});
+      }
 
     },
 
+    transcriptBottom : function() {
+      try {
+        return $('#curParagraph').offset().top + $('#curParagraph').height();
+      }
+      catch(e) { return 0; }
+    },
+
     handleScroll : function() {
+      oldScrollTop = $('body').scrollTop(); // To keep scroll position on resize
+
       // If this is a user scrolling, decide whether to break or reattach live autoscrolling
       if(!scrollAnimating) {
         var reattachThreshold = 5;
         // Note: $(document).height() is height of the HTML document,
         //       $(window).height() is the height of the viewport
         // TODO: This assumes the current sentence is appearing at the very bottom of the document
-        if($(document).height() - ($(window).scrollTop() + $(window).height()) < reattachThreshold) {
+        var bottom = this.transcriptBottom() - $(window).height();
+        //if($(document).height() - ($(window).scrollTop() + $(window).height()) < reattachThreshold) {
+        if(Math.abs(bottom - $(window).scrollTop()) < reattachThreshold) {
           scrollLive = true;
           app.trigger("transcript:scrollAttach", {}); // So other modules like nav can respond accordingly
         }

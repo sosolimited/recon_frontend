@@ -111,7 +111,7 @@ function(app, Overlay, Ref) {
           var wordWidth = $(this).width();
           var lineHeight = $(this).height();
           var container = $("<div class='wordCountFrame' style='left: " + (pos.left + wordWidth) + "px; top: " + (pos.top - lineHeight/2) + "px;'></div>");
-          var countDiv = $("<div class='wordCount'>x" + count + "</div>");
+          var countDiv = $("<div class='wordCount'>" + count + "</div>");
           container.append(countDiv);
           $(this).parent().append(container);
           countDiv.animate({top: '0px'}, 300);
@@ -175,7 +175,7 @@ function(app, Overlay, Ref) {
 	    //return $('#curSentence').offset().top;	//Breaks when scrollTop of div is > 0.
 	    return (this.$el.scrollTop() + $('#curParagraph').position().top + $('#curSentence').position().top);
     },
-
+    
     keepBottomSpacing : function() {
       // Make sure there is adequate space below the current sentence
       var sentenceTop;
@@ -189,7 +189,7 @@ function(app, Overlay, Ref) {
           $('#curParagraph').height(newHeight);
       }
     },
-
+    
     reattachLiveScroll : function(duration) {
       if(!duration) duration = 600;
       var docHeight = $(document).height();
@@ -290,8 +290,13 @@ function(app, Overlay, Ref) {
 
 
       //EG Testing adjusting CSS transform perspective origin y based on scrollTop
-      //this.el.style.webkitTransformOrigin = "50% -" + $(window).scrollTop(); 
-      //console.log("handleScroll: origin = "+"50% -" + $(window).scrollTop());
+      //this.el.style.webkitTransformOrigin = "50% "+arg+"px"; 
+      //$('body').get()[0].style.webkitTransformOrigin = "50% -"+arg+"px"; 
+      //console.log("handleScroll: origin = 50% "+arg+"px");
+      
+      //$('#overlay').get()[0].style.webkitPerspective = "1000px";     
+      //$('body').get()[0].style.webkitTransformOrigin = "50% "+arg+"px"; 
+      //console.log("handleScroll "+arg+" origin = "+$('#overlay').get()[0].style.webkitTransformOrigin);
     },
     
     resetToNode: function(n) {

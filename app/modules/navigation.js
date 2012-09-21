@@ -117,7 +117,7 @@ function(app) {
         style : "background-color: " + colors[chapters.length % colors.length] +
                 "; width: 0;"
       }).appendTo("#navTimeline");
-      console.log("New Chapter :" + id + " at " + percent + "%");
+      //console.log("New Chapter :" + id + " at " + percent + "%");	
   	},
 
     liveScrollOn : function() {

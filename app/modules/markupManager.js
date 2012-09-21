@@ -102,7 +102,7 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  handleScroll: function(val) {
-			  $('.wrapper').css("webkit-perspective-origin", "50% "+(val+500)+"px");		     	
+			 $('.wrapper').css("webkit-perspective-origin", "50% "+(val+500)+"px");		     	
 	  },
 	  
 	  // For testing things with keypresses.

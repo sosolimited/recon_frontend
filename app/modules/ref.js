@@ -14,7 +14,12 @@ function(app) {
 	  
 	// Var grid variables for animation of absolutely positioned elements.
 	Ref.gridColumns = [0, 160, 320, 480, 640, 800, 960];
-	
+
+  // For development, autoscrolling can be disabled completely
+  Ref.disableAutoScroll = false;
+
+  // Position of the most recent sentence
+  Ref.overlayOffsetY = 100;
 
   // Return the module for AMD compliance.
   return Ref;

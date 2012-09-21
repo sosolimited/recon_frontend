@@ -60,19 +60,7 @@ function(app, Overlay, Ref) {
     		// emit message to add chapter marker
     		app.trigger("playback:addChapter", {msg:word});
 
-   			if(curSpeaker==0) col = 2;	//obama
-    		else if(curSpeaker==2) col = 3;	//romney
-    		
-    		if (openSentence) this.endSentence();
-    		if (openParagraph) this.endParagraph();	    		
-    		
-        //	this.$el.children().first().append("<div id=curParagraph class='push-" + col + " span-3 " +
-
-    		this.$el.append("<div id=curParagraph class='push-" + col + " span-3 " +
-          speakers[curSpeaker] + " transcriptParagraph'><h1 class='franklinMedIt gray80'>" +
-          speakers[curSpeaker] + "</h1><p class='metaBook gray80'></p></div><div class=clear></div>");
-          
-    		openParagraph = true;
+        this.startParagraph(curSpeaker);
     	}
     	
     	
@@ -86,20 +74,26 @@ function(app, Overlay, Ref) {
     	
     	if (!word["punctuationFlag"]) s += " "; // add leading space
     	
-    	$('#curSentence').append("<span id="+word["id"]+" class='transcriptWord'>"+s+word["word"]+"</span>"); 
-    	
+    	$('#curSentence').append("<span id="+word["id"]+" class='transcriptWord'>"+s+word["word"]+"</span>");
+
+      this.keepBottomSpacing();
+
       // Autoscroll the window the keep up with transcript
       // ----------------------------------------------------------------------
-      if(scrollLive) {
-        var scrollTo = parseInt(this.$el.prop("scrollHeight")) - $(window).height();
+      if(scrollLive && !Ref.disableAutoScroll) {
+        var scrollTo = $(document).height() - $(window).height();
         if(scrollTo != lastScrollHeight) {  // Only trigger autoscroll if needed
+          console.log("scrolling to: " + scrollTo);
+          var duration = Math.abs(lastScrollHeight - scrollTo) * 3.0;
           scrollAnimating = true;
-          $("body").stop().animate({ scrollTop: scrollTo}, 100, function() { scrollAnimating = false; });
+          //$("body").scrollTop(lastScrollHeight);
+          $("body").stop().animate({ scrollTop: scrollTo}, duration, function() { scrollAnimating = false;});
           app.trigger("transcript:scrollTo", word["timeDiff"]); 
           lastScrollHeight = scrollTo;
         }
-      }
-    
+      }           
+      //$('#curSentence').css("margin-bottom", $('#curSentence').height() - Ref.overlayOffsetY);
+      return false;
     },
     
     endSentence: function(args) {
@@ -122,7 +116,7 @@ function(app, Overlay, Ref) {
           $(this).parent().append(container);
           countDiv.animate({top: '0px'}, 300);
         }
-    	});
+    	});   
     
       // Close this sentence, start a new one.
     	$('#curSentence').removeAttr('id');
@@ -130,10 +124,32 @@ function(app, Overlay, Ref) {
     	if (args)
 	    	app.trigger("markup:sentenceSentiment", {type:'sentenceSentiment', speaker:args['msg']['speaker'], sentiment:args['msg']['sentiment']});
     },
-    
+
+    startParagraph : function(curSpeaker) {
+      if(curSpeaker==0) col = 2;	//obama
+  		else if(curSpeaker==2) col = 3;	//romney
+    		
+  		if (openSentence) this.endSentence();
+  		if (openParagraph) this.endParagraph();	    		
+    		
+  		this.$el.append("<div id=curParagraph class='push-" + col + " span-3 " +
+                      speakers[curSpeaker] + " transcriptParagraph'><h1 class='franklinMedIt gray80'>" +
+                      speakers[curSpeaker] + "</h1><p class='metaBook gray80'></p></div><div class=clear></div>");
+     
+      openParagraph = true;
+    },
+
     endParagraph: function() {
+      // When #curParagraph height goes to 'auto', the page collapses and scroll jumps up
+      // So save the height with a temporary div!
+      if($('#saveTheHeight').length == 0)
+        $('body').append("<div id='saveTheHeight' style='position: absolute; width:100%; height:2px; z-index:-100; left: 0;'></div>");
+
+      var screenBottom = $(window).scrollTop() + $(window).height();
+      $('#saveTheHeight').offset({'left':0, 'top':screenBottom});
+      $('#curParagraph').css('height', 'auto'); // No more offset
     	$('#curParagraph').removeAttr('id');
-    	openParagarph = false;
+    	openParagraph = false;
     },
     
     // Used by markupManager to retrieve recently added words. Returns associated span.
@@ -159,7 +175,21 @@ function(app, Overlay, Ref) {
 	    //return $('#curSentence').offset().top;	//Breaks when scrollTop of div is > 0.
 	    return (this.$el.scrollTop() + $('#curParagraph').position().top + $('#curSentence').position().top);
     },
-    
+
+    keepBottomSpacing : function() {
+      // Make sure there is adequate space below the current sentence
+      var sentenceTop;
+      if($('#curSentence').length <= 0) sentenceTop = 0;
+      else sentenceTop = $('#curSentence').offset().top;
+
+      if($('#curParagraph').length > 0) {
+        var newHeight = sentenceTop - $('#curParagraph').offset().top + Ref.overlayOffsetY;
+        
+        if(newHeight > $('#curParagraph').height())
+          $('#curParagraph').height(newHeight);
+      }
+    },
+
     reattachLiveScroll : function(duration) {
       if(!duration) duration = 600;
       var docHeight = $(document).height();

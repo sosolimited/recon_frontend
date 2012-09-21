@@ -14,6 +14,7 @@ function(app) {
   	defaults: function() {
   		return {
   			traits:[],
+  			range:[0,100],
   			viewType: "simple"
   		}
   	},
@@ -28,7 +29,7 @@ function(app) {
   		}
   		console.log("added traits "+options.traits.length);
   		
-  		this.set({viewType:options.viewType});
+  		this.set({viewType:options.viewType, title:options.title, range:options.range});
   		
   		app.on("message:stats", this.updateStats, this);
   		
@@ -104,6 +105,7 @@ function(app) {
   		this.set({viewType:"emotion"});
   	}
   });
+
 
   Comparison.Views.Emotion = Backbone.View.extend({
     template: "comparison/emotion",

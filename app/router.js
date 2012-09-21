@@ -52,6 +52,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
       // init comparison collection
       var comparisonCollection = new Comparison.Collection();
       var comparisonView = new Comparison.Views.List({collection: comparisonCollection});
+      comparisonCollection.add(new Comparison.EmotionModel({traitNames:["posemo"]}));      
       comparisonCollection.add(new Comparison.Model({traitNames:["honesty"]}));
       comparisonCollection.add(new Comparison.FancyModel({traitNames:["presidentiality"]}));
     

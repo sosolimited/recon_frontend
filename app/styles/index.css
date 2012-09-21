@@ -129,13 +129,17 @@ p { /* Transcript text */
   left: 5%;
   width: 90%;
   height: 90%;
-  border-radius: 50%;
+  border-radius: 5%;
   background: #ffe745;
   opacity: .5;
 }
 
 
-
+hr {
+  position:absolute; 
+  height:2px; 
+  background-color:#000;
+}
 
 /* Navigation */
 
@@ -236,8 +240,8 @@ p { /* Transcript text */
 /* Colors */
 .gray80{ color:rgb(80,80,80); }
 .pink{ color:rgb(231,0,149); }
-
-
+.fgBlue{ color:rgb(64,180,229); }
+.bgBlue{ background-color:rgb(64,180,229); }
 
 
 
@@ -290,6 +294,64 @@ p { /* Transcript text */
 
 	-webkit-transform: translateZ(0px);
 }
+
+.comparisonExpText {
+	position:relative;
+	font-size: 128px;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+	line-height:128px;
+
+}
+
+.comparisonLineContainer {
+	position:absolute;
+	height: 50px;
+}
+
+.comparisonPastCandidate {
+	position:absolute;
+	font-size: 24px;
+	color:black;
+	width: 300px;
+	height: 10px;
+}
+
+.comparisonPastValue {
+	position:absolute;
+	font-size: 18px;	
+    color:white;
+	height: 10px;
+	top: 35px;
+}
+
+
+.comparisonBarGraph {
+	position:absolute;
+}
+
+.barGraphText {
+	position:absolute;
+	font-size: 48px;
+	left: 10px;
+	bottom: 15px;
+	text-decoration: underline;
+	color: white;
+	line-height:48px;
+
+}
+
+.barGraphValue {
+	position:absolute;
+	font-size: 36px;
+	left: 10px;
+	bottom: 5px;
+	color: white;
+	line-height:24px;
+
+}
+
+
 
 #transcript .wordCountFrame {
   position: absolute;

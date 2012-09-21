@@ -9,8 +9,6 @@ function(app) {
   // Create a new module.
   var Comparison = app.module();
 
-
-
   // Base class for comparison model
   Comparison.Model = Backbone.Model.extend({
   	defaults: function() {
@@ -99,16 +97,31 @@ function(app) {
     
   });
 
+  // Extended view for posemo, negemo, anger.	
+  Comparison.EmotionModel = Comparison.Model.extend({    	
+  	setValues: function() {
+	  	
+  		this.set({viewType:"emotion"});
+  	}
+  });
 
+  Comparison.Views.Emotion = Backbone.View.extend({
+    template: "comparison/emotion",
+    className: "comparison container",
 
-
-
-
+		initialize: function() {
+			 this.model.on("change", this.render, this);
+		},
+		
+    serialize: function() {
+      return { comparison: this.model };
+    }
+    
+  });
 
   // Default collection.
   Comparison.Collection = Backbone.Collection.extend({
   });
-
 
 	// View for full list of comparisons.
 	// Must be created before comparison models are added to collection.
@@ -122,8 +135,13 @@ function(app) {
     		return this.insertView(new Comparison.Views.Fancy({
 					model: comparison
 				}));
-			}
-			else {
+		}
+    	else if (comparison.get("viewType") === "emotion") {
+    		return this.insertView(new Comparison.Views.Emotion({
+					model: comparison
+				}));
+		}		
+		else {
 		    return this.insertView(new Comparison.Views.Simple({
   		    model: comparison
   		  }));

@@ -18,6 +18,9 @@ function(app, Overlay, Ref) {
   var lastScrollHeight = 0;
   var scrollAnimating = false;
 
+  var oldScrollTop = 0;
+  var oldWindowHeight = 0;
+
   // Default model.
   Transcript.Model = Backbone.Model.extend({
   		
@@ -31,8 +34,14 @@ function(app, Overlay, Ref) {
       app.on("body:scroll", this.handleScroll, this);
       app.on("navigation:goLive", this.reattachLiveScroll, this);
 
-      $(window).scroll(function() {
-        if(scrollLive) { this.reattachLiveScroll(-1) };
+      var thisTranscript = this;
+      $(window).resize(function() {
+        //if(scrollLive) { thisTranscript.reattachLiveScroll(0) };
+        var heightChange = $(window).height() - oldWindowHeight;
+        console.log(heightChange);
+        $('body').scrollTop(oldScrollTop - heightChange);
+        oldWindowHeight = $(window).height();
+        oldScrollTop = $('body').scrollTop();
       });
   	},
 
@@ -87,11 +96,10 @@ function(app, Overlay, Ref) {
       if(scrollLive && !Ref.disableAutoScroll) {
         var scrollTo = this.transcriptBottom() - $(window).height();
         //var scrollTo = $(document).height() - $(window).height();
-        if(scrollTo != lastScrollHeight) {  // Only trigger autoscroll if needed
-          console.log("scrolling to: " + scrollTo);
+        if(scrollTo != lastScrollHeight && !scrollAnimating) {  // Only trigger autoscroll if needed
+          //console.log("scrolling to: " + scrollTo);
           var duration = Math.abs(lastScrollHeight - scrollTo) * 3.0;
           scrollAnimating = true;
-          //$("body").scrollTop(lastScrollHeight);
           $("body").stop().animate({ scrollTop: scrollTo}, duration, function() { scrollAnimating = false;});
           app.trigger("transcript:scrollTo", word["timeDiff"]); 
           lastScrollHeight = scrollTo;
@@ -151,7 +159,7 @@ function(app, Overlay, Ref) {
       if($('#saveTheHeight').length == 0)
         $('body').append("<div id='saveTheHeight' style='position: absolute; width:100%; height:2px; z-index:-100; left: 0;'></div>");
 
-      var screenBottom = $(window).scrollTop() + $(window).height();
+      var screenBottom = this.transcriptBottom();
       $('#saveTheHeight').offset({'left':0, 'top':screenBottom});
       $('#curParagraph').css('height', 'auto'); // No more offset
     	$('#curParagraph').removeAttr('id');
@@ -236,6 +244,8 @@ function(app, Overlay, Ref) {
     },
 
     handleScroll : function() {
+      oldScrollTop = $('body').scrollTop(); // To keep scroll position on resize
+
       // If this is a user scrolling, decide whether to break or reattach live autoscrolling
       if(!scrollAnimating) {
         var reattachThreshold = 5;

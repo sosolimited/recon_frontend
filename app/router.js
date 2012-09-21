@@ -14,7 +14,6 @@ define([
 ],
 
 function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, Overlay, MarkupManager) {
-
   // Defining the application router, you can attach sub routers here.
   var Router = Backbone.Router.extend({
     routes: {
@@ -165,8 +164,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 				}else if(event.which==88){
 					$('.wrapper').css("webkit-perspective-origin","50% 1000px");
 				}
-      });
-      
+      });      
       
       // Automatically load up the first debate for now
       if(this.qs.debate)

@@ -30,6 +30,10 @@ function(app, Overlay, Ref) {
       app.on("message:sentenceEnd", this.endSentence, this);
       app.on("body:scroll", this.handleScroll, this);
       app.on("navigation:goLive", this.reattachLiveScroll, this);
+
+      $(window).scroll(function() {
+        if(scrollLive) { this.reattachLiveScroll(-1) };
+      });
   	},
 
     events : {
@@ -199,20 +203,28 @@ function(app, Overlay, Ref) {
     },
     
     reattachLiveScroll : function(duration) {
-      if(!duration) duration = 600;
+      if(duration == null) duration = 600;
       var transcriptHeight = this.transcriptBottom();
       var scrollTo = transcriptHeight - $(window).height();
       scrollAnimating = true;
       var theRealSlimShady = this;
-      $("body").stop().animate({ scrollTop: scrollTo}, duration, function() {
-         // If the document has grown, try again
-        if(theRealSlimShady.transcriptBottom() > transcriptHeight) theRealSlimShady.reattachLiveScroll(100);
-        else {
-          scrollAnimating = false;
-          scrollLive = true;
-          app.trigger("transcript:scrollAttach", {});
-        }
-      });
+      if(duration > 0) {
+        $("body").stop().animate({ scrollTop: scrollTo}, duration, function() {
+           // If the document has grown, try again
+          if(theRealSlimShady.transcriptBottom() > transcriptHeight) theRealSlimShady.reattachLiveScroll(100);
+          else {
+            scrollAnimating = false;
+            scrollLive = true;
+            app.trigger("transcript:scrollAttach", {});
+          }
+        });
+      }
+      else {
+        $("body").scrollTop(scrollTo);
+        scrollAnimating = false;
+        scrollLive = true;
+        app.trigger("transcript:scrollAttach", {});
+      }
 
     },
 

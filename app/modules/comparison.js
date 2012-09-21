@@ -47,8 +47,6 @@ function(app) {
   	
   		for (var i=0; i<this.get("traits").length; i++){ 
   			var msgTrait = args['msg'][this.get("traits")[i]['name']];
-  			
-  			console.log("setval "+this.get("traits")[i]['name']+" "+msgTrait);
 
 	  		if (msgTrait) // if found, update vals
 	  			newTraits.push({name:this.get("traits")[i]['name'], vals:msgTrait});
@@ -123,15 +121,38 @@ function(app) {
     
   });
 
+  // Extended view for posemo, negemo, anger.	
+  Comparison.ListModel = Comparison.Model.extend({    	
+  	setValues: function() {
+	  	
+  		this.set({viewType:"list"});
+  	}
+  });
+
+  Comparison.Views.List = Backbone.View.extend({
+    template: "comparison/list",
+    className: "comparison container",
+
+		initialize: function() {
+			 this.model.on("change", this.render, this);
+		},
+		
+    serialize: function() {
+      return { comparison: this.model };
+    }
+    
+  });
+
+
   // Default collection.
   Comparison.Collection = Backbone.Collection.extend({
   });
 
 	// View for full list of comparisons.
 	// Must be created before comparison models are added to collection.
-  Comparison.Views.List = Backbone.View.extend({
+  Comparison.Views.All = Backbone.View.extend({
   	el: '#comparisons',
-    template: "comparison/list",
+    template: "comparison/all",
 
     addComparison: function(comparison) {
     
@@ -144,7 +165,12 @@ function(app) {
     		return this.insertView(new Comparison.Views.Emotion({
 					model: comparison
 				}));
-		}		
+		}	
+    	else if (comparison.get("viewType") === "list") {
+    		return this.insertView(new Comparison.Views.List({
+					model: comparison
+				}));
+		}			
 		else {
 		    return this.insertView(new Comparison.Views.Simple({
   		    model: comparison

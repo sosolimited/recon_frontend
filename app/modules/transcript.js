@@ -81,7 +81,8 @@ function(app, Overlay, Ref) {
       // Autoscroll the window the keep up with transcript
       // ----------------------------------------------------------------------
       if(scrollLive && !Ref.disableAutoScroll) {
-        var scrollTo = $(document).height() - $(window).height();
+        var scrollTo = this.transcriptBottom() - $(window).height();
+        //var scrollTo = $(document).height() - $(window).height();
         if(scrollTo != lastScrollHeight) {  // Only trigger autoscroll if needed
           console.log("scrolling to: " + scrollTo);
           var duration = Math.abs(lastScrollHeight - scrollTo) * 3.0;
@@ -128,6 +129,7 @@ function(app, Overlay, Ref) {
     startParagraph : function(curSpeaker) {
       if(curSpeaker==0) col = 2;	//obama
   		else if(curSpeaker==2) col = 3;	//romney
+      else col = 1; // ???
     		
   		if (openSentence) this.endSentence();
   		if (openParagraph) this.endParagraph();	    		
@@ -178,12 +180,18 @@ function(app, Overlay, Ref) {
     
     keepBottomSpacing : function() {
       // Make sure there is adequate space below the current sentence
-      var sentenceTop;
-      if($('#curSentence').length <= 0) sentenceTop = 0;
-      else sentenceTop = $('#curSentence').offset().top;
+      var sentenceTop, sentenceHEight;
+      if($('#curSentence').length <= 0) { sentenceTop = 0; sentenceHeight = 0; }
+      else {
+        sentenceTop = $('#curSentence').offset().top;
+        sentenceHeight = $('#curSentence').height();
+      }
 
       if($('#curParagraph').length > 0) {
         var newHeight = sentenceTop - $('#curParagraph').offset().top + Ref.overlayOffsetY;
+
+        // If the sentence is too long, force a scroll
+        if(sentenceHeight > Ref.overlayOffsetY) newHeight += sentenceHeight - Ref.overlayOffsetY;
         
         if(newHeight > $('#curParagraph').height())
           $('#curParagraph').height(newHeight);
@@ -192,13 +200,13 @@ function(app, Overlay, Ref) {
     
     reattachLiveScroll : function(duration) {
       if(!duration) duration = 600;
-      var docHeight = $(document).height();
-      var scrollTo = docHeight - $(window).height();
+      var transcriptHeight = this.transcriptBottom();
+      var scrollTo = transcriptHeight - $(window).height();
       scrollAnimating = true;
       var theRealSlimShady = this;
       $("body").stop().animate({ scrollTop: scrollTo}, duration, function() {
          // If the document has grown, try again
-        if($(document).height() > docHeight) theRealSlimShady.reattachLiveScroll(100);
+        if(theRealSlimShady.transcriptBottom() > transcriptHeight) theRealSlimShady.reattachLiveScroll(100);
         else {
           scrollAnimating = false;
           scrollLive = true;
@@ -208,6 +216,13 @@ function(app, Overlay, Ref) {
 
     },
 
+    transcriptBottom : function() {
+      try {
+        return $('#curParagraph').offset().top + $('#curParagraph').height();
+      }
+      catch(e) { return 0; }
+    },
+
     handleScroll : function() {
       // If this is a user scrolling, decide whether to break or reattach live autoscrolling
       if(!scrollAnimating) {
@@ -215,7 +230,9 @@ function(app, Overlay, Ref) {
         // Note: $(document).height() is height of the HTML document,
         //       $(window).height() is the height of the viewport
         // TODO: This assumes the current sentence is appearing at the very bottom of the document
-        if($(document).height() - ($(window).scrollTop() + $(window).height()) < reattachThreshold) {
+        var bottom = this.transcriptBottom() - $(window).height();
+        //if($(document).height() - ($(window).scrollTop() + $(window).height()) < reattachThreshold) {
+        if(Math.abs(bottom - $(window).scrollTop()) < reattachThreshold) {
           scrollLive = true;
           app.trigger("transcript:scrollAttach", {}); // So other modules like nav can respond accordingly
         }

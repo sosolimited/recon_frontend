@@ -122,7 +122,10 @@ function(app, Overlay, Ref) {
       // and have an attribute "data-wordcount" added by markupManager
       var mainEl = this.$el;
     	$('#curSentence').find('.frequentWord').each(function() {
-    		$(this).css("background-color", "white");
+    		$(this).css("color", "rgb(100,100,100)");	
+    		$(this).css("border-bottom", "1px solid white");	//To do different color underline.
+    		
+    		//$(this).css("text-decoration-color", "rgb(255,255,255)");	
         var count = $(this).attr("data-wordcount");
         if(count != undefined) {
           // Add a div at this point and animate it inCannot read property 'top' of null 
@@ -188,7 +191,7 @@ function(app, Overlay, Ref) {
 	    // PEND This won't work if the current sentence is closed before this is called.
 	  	//$('#curSentence span:last-child').prevAll().each(function() {
 
-	  	// Searching forwards just for testing.
+	  	// Searching forwards 
 	  	$('#curSentence').children().each(function() {
 	  		//console.log("getRecentWordEl-" + word + "-?-" + $(this).html());
 		  	if($.trim($(this).text()).toLowerCase() == $.trim(word).toLowerCase()){ 
@@ -248,7 +251,6 @@ function(app, Overlay, Ref) {
         scrollLive = true;
         app.trigger("transcript:scrollAttach", {});
       }
-
     },
 
     transcriptBottom : function() {

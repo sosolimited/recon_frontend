@@ -23,7 +23,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 
     index: function() {
 	    
-	    	// Init msg collection
+	    // Init msg collection
 			var messageCollection = new Message.Collection();
 			
 		  // init transcript
@@ -35,11 +35,9 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 		  // init navigation
 		  var navigationView = new Navigation.View( {transcript: transcriptView, messages: messageCollection} );
 		  
-			
 			var live = true;
 			var startTime = new Date().getTime();
 			
-    	    
       // init speakers
     	var speakerCollection = new Speaker.Collection();
     	speakerCollection.add("moderator", "Moderator");
@@ -51,11 +49,10 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
       
       // init comparison collection
       var comparisonCollection = new Comparison.Collection();
-      var comparisonView = new Comparison.Views.List({collection: comparisonCollection});
-      comparisonCollection.add(new Comparison.EmotionModel({traitNames:["posemo"]}));      
-      comparisonCollection.add(new Comparison.Model({traitNames:["honesty"]}));
-      comparisonCollection.add(new Comparison.FancyModel({traitNames:["presidentiality"]}));
-    
+      var comparisonView = new Comparison.Views.All({collection: comparisonCollection});
+      comparisonCollection.add(new Comparison.EmotionModel({traitNames:["posemo"], title:"POSITIVITY", subtitle:"The percentage of words spoken that are positive in some way. ie. 'winning, happy, improve.'", range:[0,5.0]}));     
+      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"]}));    
+
       
       // load from static file
       if (this.qs.docName) {
@@ -146,7 +143,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
       // BODY/WINDOW EVENTS
       // ----------------------------------------------------------------------
 	    	    
-      //Throttle body scroll events and emit them as messages
+      //Throttle body scroll events and emit them as messages.
       $(window).scroll(_.throttle(function(ev) {
 		     	app.trigger("body:scroll", document.body.scrollTop);
 	     	}, 33));  // 33ms = Approx 30fps
@@ -159,11 +156,15 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 				}else if(event.which == 87){	//w for wordcount testing
 					app.trigger("keypress:test", {type:"overlay", kind:"wordCount"});
 				}
-				//testing perspective origin
-				else if(event.which==90){					
-					$('.wrapper').css("webkit-perspective-origin","50% 200px");
-				}else if(event.which==88){
-					$('.wrapper').css("webkit-perspective-origin","50% 1000px");
+				else if(event.which==73){	//Press i to insert a bunch of parallax test objects.
+					app.trigger("keypress:test", {type:"testParallax"});
+				}
+				else if(event.which==90){	//z
+					$('#testZ6').css("left", (parseInt($('#testZ6').css("left")) - 1));
+					console.log("left = "+parseInt($('#testZ6').css("left")));
+				}else if(event.which==88){	//x
+					$('#testZ6').css("left", (parseInt($('#testZ6').css("left")) + 1));
+					console.log("left = "+parseInt($('#testZ6').css("left")));
 				}
       });      
       
@@ -196,6 +197,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
       
     }
   });
+
 
   return Router;
 

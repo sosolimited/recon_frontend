@@ -1,4 +1,4 @@
-<div >
+<div style="height:600px; ">
 		<div class="span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05"></div>
 		<div class="push-1 span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05;"></div>
 		<div class="push-2 span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05;"></div>
@@ -6,51 +6,57 @@
 		<div class="push-4 span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05;"></div>
 		<div class="push-5 span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05;"></div>
 
+		<p class="franklinMedIt fgBlue comparisonExpText"> <%= comparison.get("title") %></p>
+		<hr class="bgBlue" style="height:3px"/>
+					<p class="franklinMed fgBlue comparisonExpSubtitle"><%= comparison.get("subtitle") %></p>
 
-		<% comparison.get("traits").forEach(function(trait){ %>
+		<% 	var val0 = comparison.get("traits")[0].vals[0]; 
+				var val1 = comparison.get("traits")[0].vals[1]; 
+				var totalBarH = 600; 
+				var totalH = 800;
+				var range = [comparison.get("range")[0], comparison.get("range")[1]]
+				
+				function mapVal(val) {
+					var h = totalBarH*(100*val-range[0])/(range[1]-range[0]);
+					var t = totalH-h;
+					console.log(h+" "+t);
+					return [h,t];
+				}
+				%>
 
-			<% if(trait.name=="posemo") { %>
-			
-					<p class="franklinMedIt fgBlue comparisonExpText"> POSITIVITY</p>
-					<hr class="bgBlue" style="height:3px"/>
+		<div class="comparisonBarGraph bgBlue push-1 span-2" style="height:<%= mapVal(val0)[0] %>px; top:<%= mapVal(val0)[1] %>px;" >
+			<p class="franklinDemiCompIt barGraphText" > Obama </p>  <p class="franklinDemiComp barGraphValue" > <%=  Math.round(10000*val0)/100 %> </p> </div>
+		<div class="comparisonBarGraph bgBlue push-3 span-2" style="height:<%= mapVal(val1)[0] %>px; top:<%= mapVal(val1)[1] %>px;" >
+			<p class="franklinDemiCompIt barGraphText" > Romney </p>  <p class="franklinDemiComp barGraphValue" > <%=  Math.round(10000*val1)/100 %>  </p> </div>
 
+		<!--Bush -->
+		<div class="comparisonLineContainer push-0" style="top:<%= mapVal(0.0491)[1] %>px"> 
+		<p class="franklinDemiCompIt comparisonPastCandidate"  > Bush 2004</p>
+		<hr class="span-5" style="top:50px;"/> 
+		<p class="franklinDemiComp comparisonPastValue"> 4.91 </p> 
+		</div>
 		
-					<div class="comparisonBarGraph bgBlue push-1 span-2" style="height:252px; top: 348px;" >
-						<p class="franklinDemiCompIt barGraphText" > Obama </p>  <p class="franklinDemiComp barGraphValue" > 3.52 </p> </div>
-					<div class="comparisonBarGraph bgBlue push-3 span-2" style="height:211px; top: 389px;" >
-						<p class="franklinDemiCompIt barGraphText" > Romney </p>  <p class="franklinDemiComp barGraphValue" > 3.11 </p> </div>
-					
-					<!--Bush -->
-					<div class="comparisonLineContainer push-0" style="top: 150px;"> 
-					<p class="franklinDemiCompIt comparisonPastCandidate"  > Bush 2004</p>
-					<hr class="span-5" style="top:50px;"/> 
-					<p class="franklinDemiComp comparisonPastValue"> 4.91 </p> 
-					</div>
-					
-					<!--Palin -->
-					<div class="comparisonLineContainer push-0" style="top: 200px;"> 
-					<p class="franklinDemiCompIt comparisonPastCandidate"  > Palin 2008</p>
-					<hr class="span-5" style="top:50px;"/> 
-					<p class="franklinDemiComp comparisonPastValue" > 4.18 </p> 
-					</div>
-					
-					<!--clinton -->
-					<div class="comparisonLineContainer push-0" style="top: 260px;"> 
-					<p class="franklinDemiCompIt comparisonPastCandidate"  > Clinton 1992</p>
-					<hr class="span-5" style="top:50px;"/> 
-					<p class="franklinDemiComp comparisonPastValue" > 3.81 </p> 
-					</div>
-			
-					<!--Nixon -->
-					<div class="comparisonLineContainer push-0" style="top: 420px;"> 
-					<p class="franklinDemiCompIt comparisonPastCandidate"  > Nixon 1960</p>
-					<hr class="span-5" style="top:50px;"/> 
-					<p class="franklinDemiComp comparisonPastValue"> 1.94 </p> 
-					</div>			
-			
-				<% } %>
-			
-		<% }); %>
+		<!--Palin -->
+		<div class="comparisonLineContainer push-0" style="top:<%= mapVal(0.0418)[1] %>px"> 
+		<p class="franklinDemiCompIt comparisonPastCandidate" style="top:-50px" > Palin 2008</p>
+		<hr class="span-5" /> 
+		<p class="franklinDemiComp comparisonPastValue" style="top:-15px" > 4.18 </p> 
+		</div>
+		
+		<!--clinton -->
+		<div class="comparisonLineContainer push-0" style="top:<%= mapVal(0.0381)[1] %>px"> 
+		<p class="franklinDemiCompIt comparisonPastCandidate" style="top:-50px" > Clinton 1992</p>
+		<hr class="span-5" /> 
+		<p class="franklinDemiComp comparisonPastValue" style="top:-15px" > 3.81 </p> 
+		</div>
+
+		<!--Nixon -->
+		<div class="comparisonLineContainer push-0" style="top:<%= mapVal(0.0194)[1] %>px"> 
+		<p class="franklinDemiCompIt comparisonPastCandidate" style="top:-50px" > Nixon 1960</p>
+		<hr class="span-5" /> 
+		<p class="franklinDemiComp comparisonPastValue" style="top:-15px" > 1.94 </p> 
+		</div>			
+
 
 </div>
 

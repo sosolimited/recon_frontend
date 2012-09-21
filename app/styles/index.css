@@ -302,6 +302,15 @@ hr {
 
 }
 
+.comparisonExpSubtitle {
+	position:relative;
+	font-size: 18px;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+	line-height:18px;
+
+}
+
 .comparisonLineContainer {
 	position:absolute;
 	height: 50px;
@@ -322,7 +331,6 @@ hr {
 	height: 10px;
 	top: 35px;
 }
-
 
 .comparisonBarGraph {
 	position:absolute;
@@ -349,7 +357,23 @@ hr {
 
 }
 
+.comparisonList {
+	list-style: none outside;
+	text-align: left;
+	padding: 0 0 0 0;
+	font-size: 24px;
+	line-height:24px;
+	color:black;
+}
 
+.comparisonListValue {
+	list-style: none inside;
+	text-align: right;
+	padding: 0 0 0 0;	
+	font-size: 18px;	
+    color:white;
+	line-height:24px;
+}
 
 #transcript .wordCountFrame {
   position: absolute;

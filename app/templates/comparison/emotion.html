@@ -1,4 +1,4 @@
-<div >
+<div style="height:600px; ">
 		<div class="span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05"></div>
 		<div class="push-1 span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05;"></div>
 		<div class="push-2 span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05;"></div>
@@ -10,11 +10,11 @@
 		<% comparison.get("traits").forEach(function(trait){ %>
 
 			<% if(trait.name=="posemo") { %>
-			
-					<p class="franklinMedIt fgBlue comparisonExpText"> POSITIVITY</p>
-					<hr class="bgBlue" style="height:3px"/>
 
-		
+					<p class="franklinDemiIt fgBlue comparisonExpText"> POSITIVITY</p>
+					<hr class="bgBlue" style="height:3px"/>
+					<p class="franklinMed fgBlue comparisonExpSubtitle"> The percentage of words spoken that are positive in some way. ie. 'winning, happy, improve.'</p>
+
 					<div class="comparisonBarGraph bgBlue push-1 span-2" style="height:252px; top: 348px;" >
 						<p class="franklinDemiCompIt barGraphText" > Obama </p>  <p class="franklinDemiComp barGraphValue" > 3.52 </p> </div>
 					<div class="comparisonBarGraph bgBlue push-3 span-2" style="height:211px; top: 389px;" >
@@ -49,7 +49,6 @@
 					</div>			
 			
 				<% } %>
-			
 		<% }); %>
 
 </div>

@@ -14,7 +14,6 @@ define([
 ],
 
 function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, Overlay, MarkupManager) {
-
   // Defining the application router, you can attach sub routers here.
   var Router = Backbone.Router.extend({
     routes: {
@@ -146,7 +145,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
      
       // BODY/WINDOW EVENTS
       // ----------------------------------------------------------------------
-
+	    	    
       //Throttle body scroll events and emit them as messages
       $(window).scroll(_.throttle(function(ev) {
 		     	app.trigger("body:scroll", document.body.scrollTop);
@@ -160,8 +159,13 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 				}else if(event.which == 87){	//w for wordcount testing
 					app.trigger("keypress:test", {type:"overlay", kind:"wordCount"});
 				}
-      });
-      
+				//testing perspective origin
+				else if(event.which==90){					
+					$('.wrapper').css("webkit-perspective-origin","50% 200px");
+				}else if(event.which==88){
+					$('.wrapper').css("webkit-perspective-origin","50% 1000px");
+				}
+      });      
       
       // Automatically load up the first debate for now
       if(this.qs.debate)

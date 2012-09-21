@@ -21,6 +21,10 @@
 body {
   /* background: -webkit-linear-gradient(left, #9699A0, #C9D1CF, #C9D1CF, #9699A0); */
   background-color: rgb(140,146,146);	
+  /*
+  -webkit-perspective: 1000px;	
+  -webkit-perspective-origin: 50% 2000px;
+  */
 }
 
 .layer {
@@ -35,8 +39,8 @@ body {
   overflow-y: scroll;
   overflow-x: visible;
   
-  -webkit-perspective: 1000px;
-  -webkit-perspective-origin: 50% 50%;
+  -webkit-perspective: 700px;	
+  -webkit-perspective-origin: 50% 1000px;	
 }
 
 
@@ -49,9 +53,19 @@ body {
 }
 
 #overlay {
-  /* -webkit-perspective: 600px; */
+
 }
 
+.testZ {
+	color: white;
+	position:absolute;
+	-webkit-transform: translateZ(200px);	
+}
+
+.testZno {
+	color: black;
+	position:absolute;
+}
 
 
 /* Transcript bizniss */
@@ -254,8 +268,6 @@ hr {
 	padding: 0px 0px 0px 0px;
 	/* background-color:yellow; */
 
-	-webkit-perspective: 0px;
-	-webkit-transform-origin: 50% 50%;
 	-webkit-transition: -webkit-transform 1s ease-in;	
 	-webkit-transform: translateZ(0px);	
 	
@@ -278,8 +290,6 @@ hr {
 	line-height:100px;
 	left:-450px;	/* Start out of view */
 
-	-webkit-perspective: 0;
-	-webkit-transform-origin: 50% 50%;
 	-webkit-transform: translateZ(0px);
 }
 

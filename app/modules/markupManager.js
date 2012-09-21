@@ -41,7 +41,7 @@ function(app, Overlay, Ref) {
   	},
   	
 	  initialize: function () {
-		  //app.on("markup:frequentWord", this.markupFrequentWord, this);		//EG temp for dev
+		  //app.on("markup:frequentWord", this.markupFrequentWord, this);		//EG temp commented for dev
 		  app.on("markup:wordCount", this.addWordCountOverlay, this);
 		  app.on("markup:sentenceLead", this.addTraitOverlay, this);		  	//LM, is this psych traits? 
 		  app.on("markup:quote", this.addQuoteOverlay, this);
@@ -50,6 +50,8 @@ function(app, Overlay, Ref) {
 		  //for testing
 		  app.on("keypress:test", this.test, this);
 		  //app.on("transcript:sentenceOpen", this.sentenceTest, this);
+		  
+		  
 	  },
 	  
 	  cleanup: function() {
@@ -113,6 +115,20 @@ function(app, Overlay, Ref) {
 				 		this.addTraitOverlay();
 			  }else if(args['kind']=="wordCount"){
 				 		console.log("test - wordCount overlay");			  
+			  }
+		  }
+		  else if(args['type']=="testParallax"){
+				//inserg some test objects
+				console.log("testParallax");
+				
+				for(var y=0; y<10; y++){
+				  for(var i=0; i<6; i++){	
+				  $('#overlay').append("<span id='testZ" + (i+1) + "' class='testZ' style='left:" + Ref.gridZn200[i] + "px; top:" + (y*600 + 600) + "px; -webkit-transform: translateZ(-200px); background-color:blue;'>" + i + "</span>");
+				  	
+				  	$('#overlay').append("<span id='testZ" + (i+1) + "' class='testZ' style='left:" + Ref.gridZ100[i] + "px; top:"  + (y*600 + 600) + "px; -webkit-transform: translateZ(100px); background-color:yellow;'>" + i + "</span>");
+				  	
+				  	$('#overlay').append("<span id='testZ" + (i+1) + "' class='testZ' style='left:" + Ref.gridZ200[i] + "px; top:"  + (y*600 + 600) + "px; -webkit-transform: translateZ(200px); background-color:red;'>" + i + "</span>");
+				  }		  
 			  }
 		  }
 	  },

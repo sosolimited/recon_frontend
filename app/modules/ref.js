@@ -21,6 +21,9 @@ function(app) {
   // Position of the most recent sentence
   Ref.overlayOffsetY = 100;
 
+  // Threshold for re-attaching autoscrolling
+  Ref.autoscrollReattachThreshold = 20;
+
   // Return the module for AMD compliance.
   return Ref;
 

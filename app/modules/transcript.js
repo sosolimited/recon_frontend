@@ -21,6 +21,9 @@ function(app, Overlay, Ref) {
   var oldScrollTop = 0;
   var oldWindowHeight = 0;
 
+  // Store top + bottom positions of paragraphs so they don't need to be recalculated all the time
+  var paragraphPropertyCache = [];
+
   // Default model.
   Transcript.Model = Backbone.Model.extend({
   		
@@ -88,6 +91,9 @@ function(app, Overlay, Ref) {
     	if (!word["punctuationFlag"]) s += " "; // add leading space
     	
     	$('#curSentence').append("<span id="+word["id"]+" class='transcriptWord'>"+s+word["word"]+"</span>");
+      
+      // Update the paragraph size cache
+      $('#curParagraph').attr('data-bottom', $("#curParagraph").offset().top + $("#curParagraph").height());
 
       this.keepBottomSpacing();
 
@@ -122,7 +128,7 @@ function(app, Overlay, Ref) {
     		//$(this).css("text-decoration-color", "rgb(255,255,255)");	
         var count = $(this).attr("data-wordcount");
         if(count != undefined) {
-          // Add a div at this point and animate it in
+          // Add a div at this point and animate it inCannot read property 'top' of null 
           var pos = $(this).position();
           var wordWidth = $(this).width();
           var lineHeight = $(this).height();
@@ -149,14 +155,23 @@ function(app, Overlay, Ref) {
   		if (openSentence) this.endSentence();
   		if (openParagraph) this.endParagraph();	    		
     		
-  		this.$el.append("<div id=curParagraph class='push-" + col + " span-3 " +
-                      speakers[curSpeaker] + " transcriptParagraph'><h1 class='franklinMedIt gray80'>" +
-                      speakers[curSpeaker] + "</h1><p class='metaBook gray80'></p></div><div class=clear></div>");
+  		var newP = $("<div id=curParagraph class='push-" + col + " span-3 " +
+                   speakers[curSpeaker] + " transcriptParagraph'><h1 class='franklinMedIt gray80'>" +
+                   speakers[curSpeaker] + "</h1><p class='metaBook gray80'></p></div><div class=clear></div>");
+      this.$el.append(newP);
      
+      // Cache position in data attributes
+      newP.attr('data-top', newP.offset().top);
+      newP.attr('data-bottom', newP.offset().top + newP.height());
+      
       openParagraph = true;
     },
 
     endParagraph: function() {
+      // Update attributes to cache position properties
+      $('#curParagraph').attr('data-top', $("#curParagraph").offset().top);
+      $('#curParagraph').attr('data-bottom', $("#curParagraph").offset().top + $("#curParagraph").height());
+
       // When #curParagraph height goes to 'auto', the page collapses and scroll jumps up
       // So save the height with a temporary div!
       if($('#saveTheHeight').length == 0)
@@ -250,13 +265,12 @@ function(app, Overlay, Ref) {
 
       // If this is a user scrolling, decide whether to break or reattach live autoscrolling
       if(!scrollAnimating) {
-        var reattachThreshold = 5;
         // Note: $(document).height() is height of the HTML document,
         //       $(window).height() is the height of the viewport
         // TODO: This assumes the current sentence is appearing at the very bottom of the document
         var bottom = this.transcriptBottom() - $(window).height();
         //if($(document).height() - ($(window).scrollTop() + $(window).height()) < reattachThreshold) {
-        if(Math.abs(bottom - $(window).scrollTop()) < reattachThreshold) {
+        if(Math.abs(bottom - $(window).scrollTop()) < Ref.autoscrollReattachThreshold) {
           scrollLive = true;
           app.trigger("transcript:scrollAttach", {}); // So other modules like nav can respond accordingly
         }
@@ -268,35 +282,62 @@ function(app, Overlay, Ref) {
       }
 
       // Figure out which word is at the bottom of the screen and fire an event with that word's timediff
+      // Also perform per-paragraph culling (hide paragraphs that aren't visible)
       var buffer = 50; // How far from the bottom the "bottom" is
       var scrolled = $(window).scrollTop();
       var bottomLine = $(window).scrollTop() + $(window).height() - buffer;
+
+      //var viewportTop    = $(window).scrollTop();
+      //var viewportBottom = viewportTop + $(window).height();
       
       // First loop through paragraphs
       var scrolledParagraph = null;
       var closestParagraph = null;
       var closestDistance = 1000000;
-      $(".transcriptParagraph").each(function(index, el) {
-        var paraTop = $(el).offset().top;
-        var paraBottom = paraTop + $(el).height();
+      $(".transcriptParagraph").each(function(idx, el) {
+        //var paraTop = $(el).offset().top;
+        //var paraBottom = paraTop + $(el).height();
+        var paraTop = $(el).attr('data-top');
+        var paraBottom = $(el).attr('data-bottom');
 
+        // Check if current scroll line is in this paragraph
         if(bottomLine <= paraBottom && bottomLine > paraTop) {
           scrolledParagraph = $(el);
-          return false; // break the each loop
+          //return false; // break the each loop
         }
         else if(Math.abs(paraBottom - bottomLine) < closestDistance) {
           closestDistance = Math.abs(paraBottom - bottomLine);
           closestParagraph = $(el);
         }
+
+        /*
+        // Check if current paragraph is visible
+        if(paraBottom < viewportTop || paraTop > viewportBottom)
+          $(el).css("visibility", "hidden");
+        else
+          $(el).css("visibility", "visible");
+        */
+
       });
 
       if(!scrolledParagraph) 
         scrolledParagraph = closestParagraph;
 
+      // Find timestamp of first and last word, linearly interpolate to find current time
+      var words = scrolledParagraph.find("span").not(".transcriptSentence");
+      var t0 = this.idToMessage(words.first().attr('id')).get('timeDiff');
+      var tN = this.idToMessage(words.last().attr('id')).get('timeDiff');
 
+      var paragraphScrollPercent = (bottomLine - scrolledParagraph.attr('data-top')) / (scrolledParagraph.attr('data-bottom') - scrolledParagraph.attr('data-top'));
+
+      var timeDiff = paragraphScrollPercent * (tN-t0) + t0;
+      app.trigger("transcript:scrollTo", timeDiff);
+
+      /*
       // Loop through words in this paragraph
       var scrolledWord = null;
       var closestWord = null;
+      
       closestDistance = 1000000;
       scrolledParagraph.find("span").not(".transcriptSentence").each(function(index, el) {
         var wordTop = $(el).offset().top;
@@ -312,6 +353,7 @@ function(app, Overlay, Ref) {
         }
       });
       
+      
       if(!scrolledWord)
         scrolledWord = closestWord;
 
@@ -319,6 +361,7 @@ function(app, Overlay, Ref) {
       // Find the message
       // TODO: Fix this so it doens't have to search the whole collection every time
       var timeDiff = null;
+      
       for(var i=0; i<this.options.messages.length; i++) {
         if(this.options.messages.at(i).get('id') == messageID) {
           timeDiff = this.options.messages.at(i).get('timeDiff');
@@ -328,7 +371,7 @@ function(app, Overlay, Ref) {
       if(timeDiff) {
         app.trigger("transcript:scrollTo", timeDiff);
       }
-
+      */     
 
       //EG Testing adjusting CSS transform perspective origin y based on scrollTop
       //this.el.style.webkitTransformOrigin = "50% "+arg+"px"; 
@@ -340,6 +383,14 @@ function(app, Overlay, Ref) {
       //console.log("handleScroll "+arg+" origin = "+$('#overlay').get()[0].style.webkitTransformOrigin);
     },
     
+    idToMessage : function(id) {
+      for(var i=0; i<this.options.messages.length; i++) {
+        if(this.options.messages.at(i).get('id') == id) {
+          return this.options.messages.at(i);
+        }
+      }
+    },
+
     resetToNode: function(n) {
 	    
   		// clear out following text in prep for playback

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Scrolling performance test</title>
+  <style>
+  p {
+    width: 400px;
+  }
+  p.active {
+    border: 4px dotted red;
+  }
+  p > span.active {
+    background-color: #BBB;
+  }
+  </style>
+</head>
+<body>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+  <script>
+var paraDex = [];
+var lastPara = null;
+var lastWord = null;
+$(document).ready(function(){
+  for(var i=0; i<1000; i++) {
+    var para = $("<p/>");
+    for(var j=0; j<500; j++) {
+      para.append("<span>blah</span> ");
+    }
+
+    $("body").append(para);
+    var wordDex = [];
+    para.children().each(function(idx, el) {
+      wordDex.push({'word': $(el),
+                    'top': $(el).offset().top,
+                    'bottom': $(el).offset().top + $(el).height() 
+      });
+    });
+
+    paraDex.push({'para':para,
+                  'top':para.offset().top,
+                  'bottom':para.offset().top + para.height(),
+                  'words':wordDex});
+  }
+  $(window).scroll(function() {
+    // Find paragraph in middle of screen
+    var scrollLine = $('body').scrollTop() + $(window).height()/2;
+    /*
+    $("p").each(function(idx, el) {
+      var $el = $(el);
+      var paraTop = $el.offset().top;
+      var paraBottom = paraTop + $el.height();
+      if(scrollLine < paraBottom && scrollLine > paraTop) {
+        $el.addClass("active");
+      }
+      else {
+        $el.removeClass("active");
+      }
+    });
+    */
+
+    for(var i=0; i<paraDex.length; i++) {
+      if(scrollLine > paraDex[i].top &&
+         scrollLine < paraDex[i].bottom) {
+        if(lastPara) {
+          lastPara.removeClass("active");
+        }        
+        paraDex[i].para.addClass("active");
+
+        lastPara = paraDex[i].para;
+        
+        for(var j=0; j<paraDex[i].words.length; j++) {
+          var wordTop = paraDex[i].words[j].top;
+          var wordBottom = paraDex[i].words[j].bottom;
+          if(scrollLine > wordTop && scrollLine < wordBottom) {
+            if(lastWord) {
+              lastWord.removeClass("active");
+            }
+            paraDex[i].words[j].word.addClass("active");
+            lastWord = paraDex[i].words[j].word;
+            return false;
+          }
+        }
+        
+        break;
+      }
+    }
+
+    console.log(scrollLine);
+  });  
+});
+  </script>
+</body>
+</html>
+

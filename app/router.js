@@ -35,11 +35,9 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 		  // init navigation
 		  var navigationView = new Navigation.View( {transcript: transcriptView, messages: messageCollection} );
 		  
-			
 			var live = true;
 			var startTime = new Date().getTime();
 			
-    	    
       // init speakers
     	var speakerCollection = new Speaker.Collection();
     	speakerCollection.add("moderator", "Moderator");
@@ -51,11 +49,10 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
       
       // init comparison collection
       var comparisonCollection = new Comparison.Collection();
-      var comparisonView = new Comparison.Views.List({collection: comparisonCollection});
-      comparisonCollection.add(new Comparison.EmotionModel({traitNames:["posemo"]}));      
-      comparisonCollection.add(new Comparison.Model({traitNames:["honesty"]}));
-      comparisonCollection.add(new Comparison.FancyModel({traitNames:["presidentiality"]}));
-    
+      var comparisonView = new Comparison.Views.All({collection: comparisonCollection});
+      comparisonCollection.add(new Comparison.EmotionModel({traitNames:["posemo"], title:"POSITIVITY", subtitle:"The percentage of words spoken that are positive in some way. ie. 'winning, happy, improve.'", range:[0,5.0]}));     
+      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"]}));    
+
       
       // load from static file
       if (this.qs.docName) {

@@ -18,6 +18,9 @@ function(app) {
   // Position of the most recent sentence
   Ref.overlayOffsetY = 100;
 
+  // Threshold for re-attaching autoscrolling
+  Ref.autoscrollReattachThreshold = 20;
+  
   // Var grid variables for animation of absolutely positioned elements.
 	Ref.gridColumns = [0, 160, 320, 480, 640, 800, 960];
 

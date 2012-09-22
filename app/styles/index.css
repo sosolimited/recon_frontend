@@ -61,7 +61,7 @@ body {
 	width:50px;
 	background-color:red;
 	position:absolute;
-	/* -webkit-transform: translateZ(150px);	*/
+	-webkit-transform: translateZ(-300px);	
 }
 
 .testZno {

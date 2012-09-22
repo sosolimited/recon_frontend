@@ -148,21 +148,28 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 		     	app.trigger("body:scroll", document.body.scrollTop);
 	     	}, 33));  // 33ms = Approx 30fps
     
+    
       // Listen for keydown events.
       $('body').keydown(function(event){
       	//console.log(event.which);
-				if(event.which == 84){	//t for overlay testing
+      	//t for overlay testing
+				if(event.which == 84){	
 					app.trigger("keypress:test", {type:"overlay", kind:"trait"});
-				}else if(event.which == 87){	//w for wordcount testing
+				}
+				//w for wordcount testing
+				else if(event.which == 87){	
 					app.trigger("keypress:test", {type:"overlay", kind:"wordCount"});
 				}
 				else if(event.which==73){	//Press i to insert a bunch of parallax test objects.
 					app.trigger("keypress:test", {type:"testParallax"});
 				}
-				else if(event.which==90){	//z
+				//z To nudge parallax test objects left
+				else if(event.which==90){	
 					$('#testZ6').css("left", (parseInt($('#testZ6').css("left")) - 1));
 					console.log("left = "+parseInt($('#testZ6').css("left")));
-				}else if(event.which==88){	//x
+				}
+				//x  To nudge parallax test objects right
+				else if(event.which==88){	
 					$('#testZ6').css("left", (parseInt($('#testZ6').css("left")) + 1));
 					console.log("left = "+parseInt($('#testZ6').css("left")));
 				}

@@ -7,7 +7,6 @@ define([
 function(app) {
 
 	var sentenceLengthLead = -1;
-	var speakerCount = 0;	//EG
 
   // Create a new module.
   var Speaker = app.module();
@@ -22,20 +21,21 @@ function(app) {
   			//wordCountThreshholds: [ 500, 1000, 1500 ],
   			//curWordCountThreshhold: 0,
   			frequentWordThreshold: 5,
+  			wordCountPeriod: 100, 	//1000, //EG low number for testing 
   			longestSentenceLength: 0,
   			longestSentence: "",
   			curSentence: ""
   		}
   	},
   	
-  	initialize: function(sid, sname) {
-  		//console.log("INIT SPEAKER "+sname+" "+sid);
-    	this.set({id:sid, name:sname});    	
+  	//initialize: function(sid, sname) {	//EG changed this to use no args and this.attributes...twasn't working right before.
+  	initialize: function() {
+  		//console.log("INIT SPEAKER " + this.attributes.id + " "+this.attributes.name);
+    	this.set({id:this.attributes.id, name:this.attributes.name, speakerId:this.attributes.speakerId});    	
       app.on("message:word", this.handleWord, this);
       app.on("message:sentenceEnd", this.handleSentenceEnd, this);
       app.on("message:stats", this.updateStats, this);
-      this.speakerId = speakerCount++;
-      //console.log("Speaker.Model.initialize: speakerId = " + this.get('speakerId'));
+      console.log("Speaker.Model.initialize: speakerId = " + this.get('speakerId'));
     },
     
     cleanup: function() {
@@ -43,11 +43,12 @@ function(app) {
     },
     
     handleWord: function(args) {
-    	//console.log("handleWord(), args.speaker= "+args['msg']['speaker']+" this.speakerId = "+this.speakerId);
+    	//console.log("handleWord(), args.speaker= "+args['msg']['speaker']+" this.speakerId = "+this.get('speakerId'));
     	
     	// check its self and not moderator
 	    //if (args['msg']['speaker'] == this.get('id') && this.get('id') > 0) {
-	    if (args['msg']['speaker'] == this.speakerId) {	// && this.speakerId > 0) {	//testing
+	    if (args['msg']['speaker'] == this.get("speakerId")) {	// && this.speakerId > 0) {	//EG testing
+	    	//console.log("handleWord for speaker " + this.get("speakerId") + " " + args['msg']['word']);
 	    	// inc word count if not punc
    		 	if (!args['msg']['punctuationFlag']) this.set({wordCount: this.get("wordCount")+1});
    		 	// update curSentence
@@ -58,19 +59,15 @@ function(app) {
    		 	
    		 	//console.log("instances = "+args['msg']['wordInstances']+" frequentWordThreshold = "+this.get('frequentWordThreshold'));
    		 	// Emit frequent word event.
-   		 	//if (wordCount > wordCountThreshholds[curWordCountThreshhold] ) {
    		 	if (args['msg']['wordInstances'] >= this.get('frequentWordThreshold')) {
-	   		 	//app.trigger("markup:frequentWord", {type:"frequentWord", speaker:this.get("id"), count: wordCountThreshholds[curWordCountThreshhold], word: args['word']});
 	   		 	app.trigger("markup:frequentWord", {type:"frequentWord", speaker:this.get("id"), count: args['msg']['wordInstances'], word: args['msg']['word']});
-	   		 	//console.log(args['msg']['wordInstances'] + " >= " + this.frequentWordThreshold);
-	   		 	//curWordCountThreshhold = min(curWordCountThreshhold++, wordCountThreshholds.length);
    		 	}
    		 	
    		 	// Emit 1000,2000,etc word count events.
-   		 	if((this.wordCount%1000)==0){
-	   			app.trigger("markup:wordCount", {type:"wordCount", speaker:this.get("id"), count: this.wordCount, word: args['msg']['word']}); 		   		 	
-   		 	}
-   		 	
+   		 	if((this.get("wordCount")%this.get("wordCountPeriod"))==0 && this.get("wordCount")>0){
+   		 		//console.log("handleWord just reached word "+this.get("wordCount"));
+	   			app.trigger("markup:wordCount", {type:"wordCount", speaker:this.get("id"), count: this.get("wordCount"), word: args['msg']['word']}); 		   		 	
+   		 	}	
 	    }
     },
     

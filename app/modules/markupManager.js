@@ -69,7 +69,7 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  addTraitOverlay: function(args) {
-		  var traitsOverlay = new Overlay.Views.TraitView({trait: "FORMAL", leader: "obama", posY: parseInt(this.attributes.transcript.getCurSentencePosY())});
+		  var traitsOverlay = new Overlay.Views.TraitView({ trait: "FORMAL", leader: "obama", posY: parseInt(this.attributes.transcript.getCurSentencePosY()) });
 			$('#overlay').append(traitsOverlay.el);
 			traitsOverlay.render();
 	  },
@@ -80,12 +80,16 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  addWordCountOverlay: function(args){
-		  
-		  
+	  	console.log("markupManager.addWordCountOverlay " + args['speaker'] + ", " + args['count'] + ", " + args['word']);
+	  	
+		  var wordCountOverlay = new Overlay.Views.WordCountView({ speaker: args['speaker'], count: args['count'], word: args['word'], posY: parseInt(this.attributes.transcript.getCurSentencePosY()) });
+		  $('#overlay').append(wordCountOverlay.el);
+		  wordCountOverlay.render();		  
 	  },
 	  
 	  markupFrequentWord: function(args) {
 		  // Skip common words
+		  // PEND Change this to check for LIWC topic function (we'll ues function words as our stop list).
       if($.inArray(args['word'].toLowerCase(), commonWords) > -1) return false;
 
 		  // Add a class named "frequentWord" and a "data-wordcount" attribute to
@@ -115,6 +119,7 @@ function(app, Overlay, Ref) {
 				 		this.addTraitOverlay();
 			  }else if(args['kind']=="wordCount"){
 				 		console.log("test - wordCount overlay");			  
+				 		//this.addWordCountOverlay();
 			  }
 		  }
 		  else if(args['type']=="testParallax"){

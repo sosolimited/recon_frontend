@@ -140,8 +140,13 @@ function(app, Overlay, Ref) {
         }
     	});   
     
-      // Close this sentence, start a new one.
-    	$('#curSentence').removeAttr('id');
+    	// Keep track of last sentence as well as current one.
+      if($('#lastSentence').length > 0) $('#lastSentence').removeAttr('id');
+      $('#curSentence').attr('id', 'lastSentence');
+      // Close this sentence, start a new one.      
+    	//$('#curSentence').removeAttr('id');	// Done with line above now.
+    	
+    	
     	openSentence = false;
     	if (args)
 	    	app.trigger("markup:sentenceSentiment", {type:'sentenceSentiment', speaker:args['msg']['speaker'], sentiment:args['msg']['sentiment']});
@@ -202,15 +207,26 @@ function(app, Overlay, Ref) {
 	  	});
 	  	//return;	 
     },
+    
+    getCurSentence: function() {
+	    //if($('#curSentence').length > 0){
+		    return $('#curSentence');		//If it doesn't exist, just returns empty jQuery object, (caller is responsible for iterating over elements)
+	    //}else{
+		  //  return null;
+	    //}
+    },
+    
+    getLastSentence: function() {
+	    return $('#lastSentence');	    
+	  },
 
     getCurSentencePosY: function() {
-	    //return $('#curSentence').offset().top;	//Breaks when scrollTop of div is > 0.
 	    return (this.$el.scrollTop() + $('#curParagraph').position().top + $('#curSentence').position().top);
     },
     
     keepBottomSpacing : function() {
       // Make sure there is adequate space below the current sentence
-      var sentenceTop, sentenceHEight;
+      var sentenceTop, sentenceHeight;
       if($('#curSentence').length <= 0) { sentenceTop = 0; sentenceHeight = 0; }
       else {
         sentenceTop = $('#curSentence').offset().top;

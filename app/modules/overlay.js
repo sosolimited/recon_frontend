@@ -13,6 +13,9 @@ function(app, Ref) {
   Overlay.Model = Backbone.Model.extend({
   });
 	  
+	  
+	//Psychological traits
+	//-------------------------------------------------------------------------------------  
   Overlay.Views.TraitView = Backbone.View.extend({
   	 template: "overlays/trait",
   			 
@@ -82,8 +85,179 @@ function(app, Ref) {
 	    this.expand();
     }
   });
+  
+  //Word counts (i.e. 1000th word)
+	//-------------------------------------------------------------------------------------
+	Overlay.Views.WordCountView = Backbone.View.extend({
+		template: "overlays/wordCount",
+		
+		initialize: function() {
+				this.speaker = this.options.speaker;
+				this.count = this.options.count;
+				this.word = this.options.word;
+				
+				this.posY = this.options.posY;
+				//all durations in milliseconds	
+				this.expandDur = 2*300 + 1000;		
+				this.holdDur = 2000;								
+				this.collapseDur = 1500;				
+		},
+		
+		serialize: function() {
+				return { speaker: this.speaker, count: this.count, word: this.word, posY: this.posY };
+		},
+		
+		expand: function() {
+			
+		},
+		
+		collapse: function() {
+			
+		},
+		
+		afterRender: function() {
+			this.expand();
+		}
+		
+	});
 
+	//Numbers 
+	//-------------------------------------------------------------------------------------
+	Overlay.Views.NumbersView = Backbone.View.extend({
+		template: "overlays/numbers",
+		
+		initialize: function() {
+				this.speaker = this.options.speaker;
+				this.phrase = this.options.phrase;
+				
+				this.posY = this.options.posY;
+				//all durations in milliseconds	
+				this.expandDur = 2*300 + 1000;		
+				this.holdDur = 2000;								
+				this.collapseDur = 1500;				
+		},
+		
+		serialize: function() {
+				return { speaker: this.speaker, phrase: this.phrase};
+		},
+		
+		expand: function() {
+			
+		},
+		
+		collapse: function() {
+			
+		},
+		
+		afterRender: function() {
+			this.expand();
+		}
+		
+	});
+	
+	//Longest sentence
+	//-------------------------------------------------------------------------------------
+	Overlay.Views.LongSentenceView = Backbone.View.extend({
+		template: "overlays/longSentence",
+		
+		initialize: function() {
+				this.speaker = this.options.speaker;
+				this.charCount = this.options.charCount;
+				this.wordCount = this.options.wordCount;
+				
+				this.posY = this.options.posY;
+				//all durations in milliseconds	
+				this.expandDur = 2*300 + 1000;		
+				this.holdDur = 2000;								
+				this.collapseDur = 1500;				
+		},
+		
+		serialize: function() {
+				return { speaker: this.speaker, charCount: this.charCount, wordCount: this.wordCount };
+		},
+		
+		expand: function() {
+			
+		},
+		
+		collapse: function() {
+			
+		},
+		
+		afterRender: function() {
+			this.expand();
+		}
+		
+	});
 
+	//Quotes
+	//-------------------------------------------------------------------------------------
+	Overlay.Views.QuotesView = Backbone.View.extend({
+		template: "overlays/quotes",
+		
+		initialize: function() {
+				this.speaker = this.options.speaker;
+				this.phrase = this.options.phrase;
+				
+				this.posY = this.options.posY;
+				//all durations in milliseconds	
+				this.expandDur = 2*300 + 1000;		
+				this.holdDur = 2000;								
+				this.collapseDur = 1500;				
+		},
+		
+		serialize: function() {
+				return { speaker: this.speaker, phrase: this.phrase };
+		},
+		
+		expand: function() {
+			
+		},
+		
+		collapse: function() {
+			
+		},
+		
+		afterRender: function() {
+			this.expand();
+		}
+		
+	});
+	
+	//Sentiment (aka Neg/Pos burst)
+	//-------------------------------------------------------------------------------------
+	Overlay.Views.SentimentView = Backbone.View.extend({
+		template: "overlays/sentiment",
+		
+		initialize: function() {
+				this.speaker = this.options.speaker;
+				this.polarity = this.options.polarity;		//negative/positive
+				
+				this.posY = this.options.posY;
+				//all durations in milliseconds	
+				this.expandDur = 2*300 + 1000;		
+				this.holdDur = 2000;								
+				this.collapseDur = 1500;				
+		},
+		
+		serialize: function() {
+				return { speaker: this.speaker, polarity: this.polarity };
+		},
+		
+		expand: function() {
+			
+		},
+		
+		collapse: function() {
+			
+		},
+		
+		afterRender: function() {
+			this.expand();
+		}
+		
+	});
+	
 
   // Return the module for AMD compliance.
   return Overlay;

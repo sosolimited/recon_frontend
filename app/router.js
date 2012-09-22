@@ -40,9 +40,9 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 			
       // init speakers
     	var speakerCollection = new Speaker.Collection();
-    	speakerCollection.add("moderator", "Moderator");
-    	speakerCollection.add("obama", "Barack Obama");
-    	speakerCollection.add("romney", "Mitt Romney");
+    	speakerCollection.add({ speakerId:0, id:"moderator", name:"Moderator" });
+    	speakerCollection.add({ speakerId:1, id:"obama", name:"Barack Obama" });
+    	speakerCollection.add({ speakerId:2, id:"romney", name:"Mitt Romney" });
     
     	// init uniquewords collection
       var uniqueWordCollection = new UniqueWord.Collection();

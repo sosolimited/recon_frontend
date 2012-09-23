@@ -100,23 +100,72 @@ function(app, Ref) {
 				//all durations in milliseconds	
 				this.expandDur = 2*300 + 1000;		
 				this.holdDur = 2000;								
-				this.collapseDur = 1500;				
+				this.collapseDur = 1000;				
 		},
 		
 		serialize: function() {
-				return { speaker: this.speaker, count: this.count, word: this.word, posY: this.posY };
+				return { speaker: this.speaker, count: this.count, word: this.word, posY: this.posY, grid: Ref.gridColumns };
 		},
 		
 		expand: function() {
-			
+			this.state = 1;	//expanded
+
+   		//Slide lines up into view.
+    	this.$el.find('.wordCountText').each(function(i){ 
+	    		//$(this).delay(i*300).animate({top:"0px"}, 1000); 	//Doing it with jQuery.
+	    		$(this).css("top","0px");							//This works. 
+	    		//window.setTimeout(function(){ this.css("top", "0px"); }, i*300, $(this)); //Use setTimeout to delay the lines.
+	 
+    	});
+    	//Slide word up
+    	this.$el.find('.wordCountWord').each(function(i){ 
+	    		//$(this).delay(500).animate({top:"0px"}, 1000); //jQuery
+	    		window.setTimeout(function(){ this.css("top","0px"); }, 500, $(this));	//CSS transitions
+    	}); 	
+    	
+    	//Sit for holdDur, then collapse.
+    	window.setTimeout(this.collapse, this.expandDur + this.holdDur, this);
 		},
 		
 		collapse: function() {
-			
+			//PEND we'll probably want to tag this onto the end of the animation, so it only gets set after overlay has played out collapse anim.
+  		this.state = 0;	//collapsed	
+  		   
+    	var y = this.posY;
+    	var collapseD = this.collapseDur;
+    	//Shrink text.
+    	this.$el.find('.wordCountText').each(function(i){ 
+    		//$(this).delay((3-i)*50).animate({'font-size':'36px', 'line-height':'36px'}, collapseD);
+    		$(this).css('font-size','36px');
+    		$(this).css('line-height','36px');
+    	}); 
+    	//Shrink word.
+    	this.$el.find('.wordCountWord').each(function(i){ 
+    		//$(this).animate({'font-size':'36px', 'line-height':'36px'}, collapseD);	
+    		$(this).css('font-size','36px');
+    		$(this).css('line-height','36px');
+    	}); 
+    	//Shrink and move divs.
+    	var sp = this.speaker;
+    	this.$el.find('.wordCountTextHolder').each(function(i){
+    		if(sp=="obama"){
+	    		//$(this).delay((4-i)*50).animate({'left':Ref.gridColumns[4], 'top':y+i*36+'px', 'height':'36px'}, collapseD);
+	    		$(this).css("left", Ref.gridColumns[4]);
+	    		$(this).css("top", (y+i*36)+"px");
+	    		$(this).css("height", "36px");
+	    	}else{
+	    		//$(this).delay((4-i)*50).animate({'left':Ref.gridColumns[2], 'top':y+i*36+'px', 'height':'36px'}, collapseD);
+	    		$(this).css("left", Ref.gridColumns[2]);
+	    		$(this).css("top", (y+i*36)+"px");
+	    		$(this).css("height", "36px");
+	    	}
+    		//this.style.webkitTransform = "translateZ(500px)";	
+    	}); 
 		},
 		
 		afterRender: function() {
-			this.expand();
+			//this.expand();
+			window.setTimeout(this.expand, 10, this);	//delay is necessary to ensure that initial template CSS has been inserted by render
 		}
 		
 	});

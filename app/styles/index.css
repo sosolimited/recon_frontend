@@ -247,10 +247,10 @@ hr {
 
 /* Overlays */
 
-.overlay {
+.over {
 	z-index: 2;	
 }
-.underlay {
+.under {
 	z-index: -2;
 }
 
@@ -260,6 +260,8 @@ hr {
 	height: 100000px;
 	width: 1px;
 }
+
+/* Trait overlays */
 
 .traitExpTextHolder {
 	position:absolute; 
@@ -294,6 +296,49 @@ hr {
 
 	-webkit-transform: translateZ(0px);
 }
+
+/* Word count overlays */
+
+.wordCountTextHolder {
+	position:absolute; 
+	overflow: hidden;
+	/* width:1024px; */
+	height:120px; 	
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+	/* background-color:yellow; */
+
+	-webkit-transition: -webkit-transform 1s ease-in, left 1s, top 1s, height 1s;	
+	-webkit-transform: translateZ(0px);	
+
+	
+}
+
+.wordCountText {
+	position:relative;
+	top:120px;	/* Start out of view */
+	font-size: 120px;
+	color: rgb(207,255,36);
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+	line-height:120px;
+	
+	-webkit-transition: top 1s, font-size 1s, line-height 1s;
+}
+
+.wordCountWord {
+	position:relative;
+	top:120px;	/* Start out of view */
+	font-size: 120px;
+	color: white;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+	line-height:120px;
+	
+	-webkit-transition: top 1s, font-size 1s, line-height 1s;
+}
+
+
 
 .comparisonExpText {
 	position:relative;

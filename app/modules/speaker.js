@@ -47,7 +47,7 @@ function(app) {
     	
     	// check its self and not moderator
 	    //if (args['msg']['speaker'] == this.get('id') && this.get('id') > 0) {
-	    if (args['msg']['speaker'] == this.get("speakerId")) {	// && this.speakerId > 0) {	//EG testing
+	    if (args['msg']['speaker'] == this.get("speakerId") && this.get("speakerId") > 0) {	
 	    	//console.log("handleWord for speaker " + this.get("speakerId") + " " + args['msg']['word']);
 	    	// inc word count if not punc
    		 	if (!args['msg']['punctuationFlag']) this.set({wordCount: this.get("wordCount")+1});

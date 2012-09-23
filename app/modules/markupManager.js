@@ -124,16 +124,26 @@ function(app, Overlay, Ref) {
 		  }
 		  else if(args['type']=="testParallax"){
 				//inserg some test objects
-				console.log("testParallax");
+				//console.log("testParallax");
 				
 				for(var y=0; y<10; y++){
 				  for(var i=0; i<6; i++){	
+				  
 				  $('#overlay').append("<span id='testZ" + (i+1) + "' class='testZ' style='left:" + Ref.gridZn200['grid'][i] + "px; top:" + (y*600 + 600) + "px; -webkit-transform: translateZ(-200px); background-color:blue;'>" + i + "</span>");
 				  	
 				  	$('#overlay').append("<span id='testZ" + (i+1) + "' class='testZ' style='left:" + Ref.gridZ100['grid'][i] + "px; top:"  + (y*600 + 600) + "px; -webkit-transform: translateZ(100px); background-color:yellow;'>" + i + "</span>");
 				  	
 				  	$('#overlay').append("<span id='testZ" + (i+1) + "' class='testZ' style='left:" + Ref.gridZ200['grid'][i] + "px; top:"  + (y*600 + 600) + "px; -webkit-transform: translateZ(200px); background-color:red;'>" + i + "</span>");
-				  }		  
+				  
+				  /*
+				  //EG testing with translateX instead of left for x position
+				  $('#overlay').append("<span id='testZ" + (i+1) + "' class='testZ' style='left:0px; -webkit-transform:translateX(" + Ref.gridZn200['grid'][i] + "px); top:" + (y*600 + 600) + "px; -webkit-transform: translateZ(-200px); background-color:blue;'>" + i + "</span>");
+				  	
+				  	$('#overlay').append("<span id='testZ" + (i+1) + "' class='testZ' style='left:0px; -webkit-transform:translateX(" + Ref.gridZ100['grid'][i] + "px); top:"  + (y*600 + 600) + "px; -webkit-transform: translateZ(100px); background-color:yellow;'>" + i + "</span>");
+				  	
+				  	$('#overlay').append("<span id='testZ" + (i+1) + "' class='testZ' style='left:0px; -webkit-transform:translateX(" + Ref.gridZ200['grid'][i] + "px); top:"  + (y*600 + 600) + "px; -webkit-transform: translateZ(200px); background-color:red;'>" + i + "</span>");
+				  	*/	  
+				  }	
 			  }
 		  }
 	  },

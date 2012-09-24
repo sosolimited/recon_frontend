@@ -20,7 +20,7 @@
 
 body {
   /* background: -webkit-linear-gradient(left, #9699A0, #C9D1CF, #C9D1CF, #9699A0); */
-  background-color: rgb(140,146,146);	
+  background-color: rgb(110,116,116);	
   /*
   -webkit-perspective: 1000px;	
   -webkit-perspective-origin: 50% 2000px;
@@ -53,7 +53,26 @@ body {
 }
 
 #overlay {
+	
+}
 
+#bigWords {
+	position: absolute;
+	top: 0px;
+}
+
+.bigWordsHolder {
+
+}
+
+.bigWord {
+	display: block;
+	font-size: 400px;
+	line-height: 336px;
+	font-family:"ff-meta-serif-web-pro"; 
+	font-weight:700; 
+	font-style:italic; 
+	color: rgb(116,120,120);
 }
 
 .testZ {
@@ -238,11 +257,12 @@ hr {
 
 
 /* Colors */
+.gray60{ color:rgb(60,60,60); }
 .gray80{ color:rgb(80,80,80); }
 .pink{ color:rgb(231,0,149); }
 .fgBlue{ color:rgb(64,180,229); }
 .bgBlue{ background-color:rgb(64,180,229); }
-
+.lime{ color:rgb(207,255,36); }
 
 
 /* Overlays */
@@ -338,6 +358,18 @@ hr {
 	-webkit-transition: top 1s, font-size 1s, line-height 1s;
 }
 
+.wordCountLine {
+	position:absolute;
+	height: 0; 
+	border-bottom: 2px dotted rgb(207,255,36);
+	background-color: transparent;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+	width:0px;
+	
+	-webkit-transition: width 1s;
+
+}
 
 
 .comparisonExpText {

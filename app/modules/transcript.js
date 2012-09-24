@@ -116,12 +116,12 @@ function(app, Overlay, Ref) {
     },
     
     endSentence: function(args) {
-      // Add word count superscript to frequent words.
+      // Markup frequent word with underline nad superscript
       // ---------------------------------------------
       // Frequent words are marked by a class named "frequentWord"
       // and have an attribute "data-wordcount" added by markupManager
       var mainEl = this.$el;
-    	$('#curSentence').find('.frequentWord').each(function() {
+    	$('#curSentence').find('.frequentWordMarkup').each(function() {
     		$(this).css("color", "rgb(100,100,100)");	
     		$(this).css("border-bottom", "1px solid white");	//To do different color underline.
     		
@@ -138,14 +138,21 @@ function(app, Overlay, Ref) {
           $(this).parent().append(container);
           countDiv.animate({top: '0px'}, 300);
         }
-    	});   
+    	});
+    	
+    	// Markup wordCounts words with color and underline
+    	$('#curSentence').find('.wordCountMarkup').each(function() {
+    		$(this).css("color", "rgb(207,255,36)");
+    		$(this).css("text-decoration", "underline");	    	
+    	});
+    	    	   
     
     	// Keep track of last sentence as well as current one.
       if($('#lastSentence').length > 0) $('#lastSentence').removeAttr('id');
       $('#curSentence').attr('id', 'lastSentence');
       // Close this sentence, start a new one.      
     	//$('#curSentence').removeAttr('id');	// Done with line above now.
-    	
+		    	
     	
     	openSentence = false;
     	if (args)
@@ -161,8 +168,8 @@ function(app, Overlay, Ref) {
   		if (openParagraph) this.endParagraph();	    		
     		
   		var newP = $("<div id=curParagraph class='push-" + col + " span-3 " +
-                   speakers[curSpeaker] + " transcriptParagraph'><h1 class='franklinMedIt gray80'>" +
-                   speakers[curSpeaker] + "</h1><p class='metaBook gray80'></p></div><div class=clear></div>");
+                   speakers[curSpeaker] + " transcriptParagraph'><h1 class='franklinMedIt gray60'>" +
+                   speakers[curSpeaker] + "</h1><p class='metaBook gray60'></p></div><div class=clear></div>");
       this.$el.append(newP);
      
       // Cache position in data attributes
@@ -207,7 +214,7 @@ function(app, Overlay, Ref) {
 	  	});
 	  	//return;	 
     },
-    
+        
     getCurSentence: function() {
 	    //if($('#curSentence').length > 0){
 		    return $('#curSentence');		//If it doesn't exist, just returns empty jQuery object, (caller is responsible for iterating over elements)
@@ -223,6 +230,33 @@ function(app, Overlay, Ref) {
     getCurSentencePosY: function() {
 	    return (this.$el.scrollTop() + $('#curParagraph').position().top + $('#curSentence').position().top);
     },
+   
+   	/* 
+    // Return y position in transcript of associated word span.
+    getRecentWordPosY: function(word) {
+    	var wordEl;
+    	$('#curSentence').children().each(function() {
+		  	if($.trim($(this).text()).toLowerCase() == $.trim(word).toLowerCase()){
+		  		wordEl = $(this);
+		  	}
+		  });
+		  return (this.$el.scrollTop() + $('#curParagraph').position().top + wordEl.position().top);
+    },
+    */
+    // Return position (array) in transcript of associated word span.
+    getRecentWordPos: function(word) {
+    	var wordEl;
+    	$('#curSentence').children().each(function() {
+		  	if($.trim($(this).text()).toLowerCase() == $.trim(word).toLowerCase()){
+		  		wordEl = $(this);
+		  	}
+		  });
+		
+			// Note, the x position of the paragraph is got from the left margin, cus that's how the grid is set up.	  
+		  return [(parseInt($('#curParagraph').css("margin-left")) + wordEl.position().left),
+								(this.$el.scrollTop() + $('#curParagraph').position().top + wordEl.position().top)];
+    },
+    
     
     keepBottomSpacing : function() {
       // Make sure there is adequate space below the current sentence

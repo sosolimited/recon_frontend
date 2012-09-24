@@ -81,10 +81,13 @@ function(app, Overlay, Ref) {
 	  
 	  addWordCountOverlay: function(args){
 	  	console.log("markupManager.addWordCountOverlay " + args['speaker'] + ", " + args['count'] + ", " + args['word']);
-	  	
-		  var wordCountOverlay = new Overlay.Views.WordCountView({ speaker: args['speaker'], count: args['count'], word: args['word'], posY: parseInt(this.attributes.transcript.getCurSentencePosY()) });
+	  	// Create and insert overlay.
+	  	//console.log("markupManager.addWordCountOverlay, collapseY = "+this.attributes.transcript.getRecentWordPosY(args['word']));	  	
+		  var wordCountOverlay = new Overlay.Views.WordCountView({ speaker: args['speaker'], count: args['count'], word: args['word'], posY: parseInt(this.attributes.transcript.getCurSentencePosY()), wordPos: this.attributes.transcript.getRecentWordPos(args['word']) });
 		  $('#overlay').append(wordCountOverlay.el);
-		  wordCountOverlay.render();		  
+		  wordCountOverlay.render();	
+		  // Markup word in transcript (transcript handles actual styling on endSentence)
+		  this.attributes.transcript.addClassToRecentWord(args['word'], "wordCountMarkup");
 	  },
 	  
 	  markupFrequentWord: function(args) {
@@ -97,7 +100,7 @@ function(app, Overlay, Ref) {
       // when the sentence is complete.
 	  	$('#curSentence').children().each(function() {
 		  	if($.trim($(this).text()).toLowerCase() == $.trim(args['word']).toLowerCase()){ 
-		  		$(this).addClass('frequentWord');
+		  		$(this).addClass('frequentWordMarkup');
           $(this).attr("data-wordcount", args['count']);
 		  	}
 	  	});

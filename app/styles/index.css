@@ -21,10 +21,6 @@
 body {
   /* background: -webkit-linear-gradient(left, #9699A0, #C9D1CF, #C9D1CF, #9699A0); */
   background-color: rgb(110,116,116);	
-  /*
-  -webkit-perspective: 1000px;	
-  -webkit-perspective-origin: 50% 2000px;
-  */
 }
 
 .layer {
@@ -59,10 +55,13 @@ body {
 #bigWords {
 	position: absolute;
 	top: 0px;
+	
+	-webkit-perspective: 700px; 
+	-webkit-perspective-origin: 50% 1000px;	
 }
 
 .bigWordsHolder {
-
+	-webkit-transform: translateZ(-500px);
 }
 
 .bigWord {

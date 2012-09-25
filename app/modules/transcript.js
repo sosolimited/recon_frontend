@@ -60,7 +60,7 @@ function(app, Overlay, Ref) {
 	    var word = args['msg'];
 	   
     	// check if saying word
-    	if ($.inArray('say', word['cat']) != -1) {
+    	if ($.inArray('say', word['cats']) != -1) {
 	    	app.trigger("markup:quote", {type:'quote', speaker:word['speaker']});
     	}
 	    

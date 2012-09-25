@@ -17,7 +17,7 @@ function(app) {
 	Ref.transcriptLeading = 24;
 	  
 	// For development, autoscrolling can be disabled completely
-  Ref.disableAutoScroll = true;
+  Ref.disableAutoScroll = false;
 
   // Position of the most recent sentence
   Ref.overlayOffsetY = 100;

@@ -75,7 +75,7 @@ function(app, Overlay, Ref) {
     		// emit message to add chapter marker
     		app.trigger("playback:addChapter", {msg:word});
 
-        this.startParagraph(curSpeaker);
+        this.startParagraph(word);
     	}
     	
     	
@@ -94,6 +94,7 @@ function(app, Overlay, Ref) {
       
       // Update the paragraph size cache
       $('#curParagraph').attr('data-bottom', $("#curParagraph").offset().top + $("#curParagraph").height());
+      $('#curParagraph').attr('data-end', word['timeDiff']);
 
       this.keepBottomSpacing();
 
@@ -165,7 +166,8 @@ function(app, Overlay, Ref) {
 	    	app.trigger("markup:sentenceSentiment", {type:'sentenceSentiment', speaker:args['msg']['speaker'], sentiment:args['msg']['sentiment']});
     },
 
-    startParagraph : function(curSpeaker) {
+    startParagraph : function(msg) {
+      var curSpeaker = msg["speaker"];
       if(curSpeaker==0) col = 2;	//obama
   		else if(curSpeaker==2) col = 3;	//romney
       else col = 1; // ???
@@ -181,7 +183,9 @@ function(app, Overlay, Ref) {
       // Cache position in data attributes
       newP.attr('data-top', newP.offset().top);
       newP.attr('data-bottom', newP.offset().top + newP.height());
-      
+      newP.attr('data-start', msg["timeDiff"]);
+      newP.attr('data-end', msg["timeDiff"]+1);
+
       openParagraph = true;
     },
 
@@ -201,28 +205,6 @@ function(app, Overlay, Ref) {
     	$('#curParagraph').removeAttr('id');
     	openParagraph = false;
     },
-    
-    // DEPRECATED since we're not making every every word a span.
-    /*	
-    // Used by markupManager to retrieve recently added words. Returns associated span.
-    // Gotta do this because of asynchronous messages.
-    addClassToRecentWord: function(word, className) {
-	    // Backwards traversal of current sentence words.
-	    // PEND This won't work if the current sentence is closed before this is called.
-	  	//$('#curSentence span:last-child').prevAll().each(function() {
-
-	  	// Searching forwards 
-	  	$('#curSentence').children().each(function() {
-	  		//console.log("getRecentWordEl-" + word + "-?-" + $(this).html());
-		  	if($.trim($(this).text()).toLowerCase() == $.trim(word).toLowerCase()){ 
-		  		//console.log("getRecentWordEl: found");
-		  		$(this).addClass(className);	
-		  		//return $(this);
-		  	}
-	  	});
-	  	//return;	 
-    },
-    */
     
     // Replaces word with span and adds className to it if there is one.
     addSpanToRecentWord: function(word, className) {
@@ -391,62 +373,14 @@ function(app, Overlay, Ref) {
 
       // Find timestamp of first and last word, linearly interpolate to find current time
       var words = scrolledParagraph.find("span").not(".transcriptSentence");
-      var t0 = this.idToMessage(words.first().attr('id')).get('timeDiff');
-      var tN = this.idToMessage(words.last().attr('id')).get('timeDiff');
+      var t0 = parseInt(scrolledParagraph.attr('data-start'));
+      var tN = parseInt(scrolledParagraph.attr('data-end'));
 
       var paragraphScrollPercent = (bottomLine - scrolledParagraph.attr('data-top')) / (scrolledParagraph.attr('data-bottom') - scrolledParagraph.attr('data-top'));
 
-      var timeDiff = paragraphScrollPercent * (tN-t0) + t0;
+      var timeDiff = (paragraphScrollPercent * (tN-t0)) + t0;
+      //console.log(paragraphScrollPercent + " * (" + tN + " - " + t0 + ") + " + t0 + " = " + timeDiff);
       app.trigger("transcript:scrollTo", timeDiff);
-
-      /*
-      // Loop through words in this paragraph
-      var scrolledWord = null;
-      var closestWord = null;
-      
-      closestDistance = 1000000;
-      scrolledParagraph.find("span").not(".transcriptSentence").each(function(index, el) {
-        var wordTop = $(el).offset().top;
-        var wordBottom = wordTop + $(el).height();
-        //console.log("Bottom: " + wordBottom + " < Scrolled: " + bottomLine + " < Top: " + wordTop + "??");
-        if(bottomLine < wordBottom && bottomLine > wordTop) {
-          scrolledWord = $(el);
-          return false; // break the each loop
-        }
-        else if(Math.abs(wordBottom - bottomLine) < closestDistance) {
-          closestDistance = Math.abs(wordBottom - bottomLine);
-          closestWord = $(el);
-        }
-      });
-      
-      
-      if(!scrolledWord)
-        scrolledWord = closestWord;
-
-      var messageID = scrolledWord.attr('id');
-      // Find the message
-      // TODO: Fix this so it doens't have to search the whole collection every time
-      var timeDiff = null;
-      
-      for(var i=0; i<this.options.messages.length; i++) {
-        if(this.options.messages.at(i).get('id') == messageID) {
-          timeDiff = this.options.messages.at(i).get('timeDiff');
-          break;
-        }
-      }
-      if(timeDiff) {
-        app.trigger("transcript:scrollTo", timeDiff);
-      }
-      */     
-
-      //EG Testing adjusting CSS transform perspective origin y based on scrollTop
-      //this.el.style.webkitTransformOrigin = "50% "+arg+"px"; 
-      //$('body').get()[0].style.webkitTransformOrigin = "50% -"+arg+"px"; 
-      //console.log("handleScroll: origin = 50% "+arg+"px");
-      
-      //$('#overlay').get()[0].style.webkitPerspective = "1000px";     
-      //$('body').get()[0].style.webkitTransformOrigin = "50% "+arg+"px"; 
-      //console.log("handleScroll "+arg+" origin = "+$('#overlay').get()[0].style.webkitTransformOrigin);
     },
     
     idToMessage : function(id) {

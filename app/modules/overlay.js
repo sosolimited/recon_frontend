@@ -97,6 +97,9 @@ function(app, Ref) {
 				this.word = this.options.word;
 				
 				this.posY = this.options.posY;
+				this.collapseY = this.options.wordPos[1];
+				this.wordX = this.options.wordPos[0];// + 160;	//PEND for some reason, 1 column + 1 gutter width has to be added here. Fix transcript.getRecentWordPos(). 
+				
 				//all durations in milliseconds	
 				this.expandDur = 2*300 + 1000;		
 				this.holdDur = 2000;								
@@ -104,7 +107,7 @@ function(app, Ref) {
 		},
 		
 		serialize: function() {
-				return { speaker: this.speaker, count: this.count, word: this.word, posY: this.posY, grid: Ref.gridColumns };
+				return { speaker: this.speaker, count: this.count, word: this.word, posY: this.posY, wordX: this.wordX, lineY: this.collapseY+Ref.transcriptPointSize, grid: Ref.gridColumns };
 		},
 		
 		expand: function() {
@@ -120,7 +123,7 @@ function(app, Ref) {
     	//Slide word up
     	this.$el.find('.wordCountWord').each(function(i){ 
 	    		//$(this).delay(500).animate({top:"0px"}, 1000); //jQuery
-	    		window.setTimeout(function(){ this.css("top","0px"); }, 500, $(this));	//CSS transitions
+	    		window.setTimeout(function(){ this.css("top","0px"); }, 400, $(this));	//CSS transitions
     	}); 	
     	
     	//Sit for holdDur, then collapse.
@@ -132,6 +135,8 @@ function(app, Ref) {
   		this.state = 0;	//collapsed	
   		   
     	var y = this.posY;
+    	var cY = this.collapseY;
+    	//console.log("collapse: y="+y+", cY="+cY);
     	var collapseD = this.collapseDur;
     	//Shrink text.
     	this.$el.find('.wordCountText').each(function(i){ 
@@ -142,25 +147,42 @@ function(app, Ref) {
     	//Shrink word.
     	this.$el.find('.wordCountWord').each(function(i){ 
     		//$(this).animate({'font-size':'36px', 'line-height':'36px'}, collapseD);	
-    		$(this).css('font-size','36px');
-    		$(this).css('line-height','36px');
+    		//$(this).css('font-size','36px');
+    		//$(this).css('line-height','36px');
+    		$(this).css('top', '120px');
     	}); 
     	//Shrink and move divs.
     	var sp = this.speaker;
     	this.$el.find('.wordCountTextHolder').each(function(i){
-    		if(sp=="obama"){
-	    		//$(this).delay((4-i)*50).animate({'left':Ref.gridColumns[4], 'top':y+i*36+'px', 'height':'36px'}, collapseD);
-	    		$(this).css("left", Ref.gridColumns[4]);
-	    		$(this).css("top", (y+i*36)+"px");
-	    		$(this).css("height", "36px");
-	    	}else{
-	    		//$(this).delay((4-i)*50).animate({'left':Ref.gridColumns[2], 'top':y+i*36+'px', 'height':'36px'}, collapseD);
-	    		$(this).css("left", Ref.gridColumns[2]);
-	    		$(this).css("top", (y+i*36)+"px");
-	    		$(this).css("height", "36px");
+    		if(i<3){ //don't move white word
+	    		if(sp=="obama"){
+		    		//$(this).delay((4-i)*50).animate({'left':Ref.gridColumns[4], 'top':y+i*36+'px', 'height':'36px'}, collapseD);
+		    		$(this).css("left", Ref.gridColumns[4]);
+		    		$(this).css("top", (cY-(3-i)*36+24)+"px");
+		    		$(this).css("height", "36px");
+		    	}else{
+		    		//$(this).delay((4-i)*50).animate({'left':Ref.gridColumns[2], 'top':y+i*36+'px', 'height':'36px'}, collapseD);
+		    		$(this).css("left", Ref.gridColumns[2]);
+		    		$(this).css("top", (cY-(3-i)*36+24)+"px");
+		    		$(this).css("height", "36px");
+		    	}
 	    	}
     		//this.style.webkitTransform = "translateZ(500px)";	
     	}); 
+    	
+    	//Expand line
+    	var x = this.wordX;
+	    	this.$el.find('.wordCountLine').each(function(i){
+	    		//$(this).css("top", cY+Ref.transcriptPointSize);
+	    		if(sp=="obama"){
+		    		$(this).css("width", (Ref.gridColumns[4]+Ref.gridWidth-x));
+		    		//console.log("width = "+(Ref.gridColumns[5]-x));
+		    	}else{
+		    		$(this).css("width", (x-Ref.gridColumns[2]));
+		    		//console.log("width = "+(x-Ref.gridColumns[2]));
+		    	}  
+		    	
+	    	});
 		},
 		
 		afterRender: function() {

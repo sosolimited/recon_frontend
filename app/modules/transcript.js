@@ -58,8 +58,7 @@ function(app, Overlay, Ref) {
     addWord: function(args) {
     
 	    var word = args['msg'];
-	    
-	    
+	   
     	// check if saying word
     	if ($.inArray('say', word['cat']) != -1) {
 	    	app.trigger("markup:quote", {type:'quote', speaker:word['speaker']});
@@ -90,7 +89,8 @@ function(app, Overlay, Ref) {
     	
     	if (!word["punctuationFlag"]) s += " "; // add leading space
     	
-    	$('#curSentence').append("<span id="+word["id"]+" class='transcriptWord'>"+s+word["word"]+"</span>");
+    	//$('#curSentence').append("<span id="+word["id"]+" class='transcriptWord'>"+s+word["word"]+"</span>");
+      $('#curSentence').append(s+word["word"]); // Don't make every word a span.
       
       // Update the paragraph size cache
       $('#curParagraph').attr('data-bottom', $("#curParagraph").offset().top + $("#curParagraph").height());
@@ -116,36 +116,49 @@ function(app, Overlay, Ref) {
     },
     
     endSentence: function(args) {
-      // Add word count superscript to frequent words.
-      // ---------------------------------------------
+      // Style words that have been tagged (with classes) by MarkupManager.
+      // --------------------------------------------------------------------------
+
       // Frequent words are marked by a class named "frequentWord"
       // and have an attribute "data-wordcount" added by markupManager
       var mainEl = this.$el;
-    	$('#curSentence').find('.frequentWord').each(function() {
-    		$(this).css("color", "rgb(100,100,100)");	
-    		$(this).css("border-bottom", "1px solid white");	//To do different color underline.
-    		
-    		//$(this).css("text-decoration-color", "rgb(255,255,255)");	
-        var count = $(this).attr("data-wordcount");
-        if(count != undefined) {
-          // Add a div at this point and animate it inCannot read property 'top' of null 
-          var pos = $(this).position();
-          var wordWidth = $(this).width();
-          var lineHeight = $(this).height();
-          var container = $("<div class='wordCountFrame' style='left: " + (pos.left + wordWidth) + "px; top: " + (pos.top - lineHeight/2) + "px;'></div>");
-          var countDiv = $("<div class='wordCount'>" + count + "</div>");
-          container.append(countDiv);
-          $(this).parent().append(container);
-          countDiv.animate({top: '0px'}, 300);
+    	$('#curSentence').find('.frequentWordMarkup').each(function() {
+  			// Make sure it doesn't have any of the other markup classes (which will override frequent words)  	
+	   		if(!$(this).hasClass("wordCountMarkup")){
+    	
+	    		//$(this).css("color", "rgb(100,100,100)");	
+	    		$(this).css("border-bottom", "1px solid white");	//To do different color underline.
+	    		
+	    		//$(this).css("text-decoration-color", "rgb(255,255,255)");	
+	        var count = $(this).attr("data-wordcount");
+	        if(count != undefined) {
+	          // Add a div at this point and animate it inCannot read property 'top' of null 
+	          var pos = $(this).position();
+	          var wordWidth = $(this).width();
+	          var lineHeight = $(this).height();
+	          var container = $("<div class='wordCountFrame' style='left: " + (pos.left + wordWidth) + "px; top: " + (pos.top - lineHeight/2) + "px;'></div>");
+	          var countDiv = $("<div class='wordCount'>" + count + "</div>");
+	          container.append(countDiv);
+	          $(this).parent().append(container);
+	          countDiv.animate({top: '0px'}, 300);
+	        }
         }
-    	});   
+    	});
+    	
+    	// Markup wordCounts words with color and underline
+    	$('#curSentence').find('.wordCountMarkup').each(function() {
+    		$(this).css("color", "rgb(207,255,36)");
+    		$(this).css("text-decoration", "underline");	    	
+    	});
+    	//------------------------------------------------------------------------------
+    
     
     	// Keep track of last sentence as well as current one.
       if($('#lastSentence').length > 0) $('#lastSentence').removeAttr('id');
       $('#curSentence').attr('id', 'lastSentence');
       // Close this sentence, start a new one.      
     	//$('#curSentence').removeAttr('id');	// Done with line above now.
-    	
+		    	
     	
     	openSentence = false;
     	if (args)
@@ -161,8 +174,8 @@ function(app, Overlay, Ref) {
   		if (openParagraph) this.endParagraph();	    		
     		
   		var newP = $("<div id=curParagraph class='push-" + col + " span-3 " +
-                   speakers[curSpeaker] + " transcriptParagraph'><h1 class='franklinMedIt gray80'>" +
-                   speakers[curSpeaker] + "</h1><p class='metaBook gray80'></p></div><div class=clear></div>");
+                   speakers[curSpeaker] + " transcriptParagraph'><h1 class='franklinMedIt gray60'>" +
+                   speakers[curSpeaker] + "</h1><p class='metaBook gray60'></p></div><div class=clear></div>");
       this.$el.append(newP);
      
       // Cache position in data attributes
@@ -189,6 +202,8 @@ function(app, Overlay, Ref) {
     	openParagraph = false;
     },
     
+    // DEPRECATED since we're not making every every word a span.
+    /*	
     // Used by markupManager to retrieve recently added words. Returns associated span.
     // Gotta do this because of asynchronous messages.
     addClassToRecentWord: function(word, className) {
@@ -207,7 +222,15 @@ function(app, Overlay, Ref) {
 	  	});
 	  	//return;	 
     },
+    */
     
+    // Replaces word with span and adds className to it if there is one.
+    addSpanToRecentWord: function(word, className) {
+    	//console.log("transcript.addSpanToRecentWord("+word+", "+className+")");
+	    var cS = $('#curSentence');
+	    cS.html(cS.text().replace($.trim(word), "<span class="+className+">"+$.trim(word)+"</span>"));	    
+    },
+        
     getCurSentence: function() {
 	    //if($('#curSentence').length > 0){
 		    return $('#curSentence');		//If it doesn't exist, just returns empty jQuery object, (caller is responsible for iterating over elements)
@@ -223,6 +246,33 @@ function(app, Overlay, Ref) {
     getCurSentencePosY: function() {
 	    return (this.$el.scrollTop() + $('#curParagraph').position().top + $('#curSentence').position().top);
     },
+   
+   	/* 
+    // Return y position in transcript of associated word span.
+    getRecentWordPosY: function(word) {
+    	var wordEl;
+    	$('#curSentence').children().each(function() {
+		  	if($.trim($(this).text()).toLowerCase() == $.trim(word).toLowerCase()){
+		  		wordEl = $(this);
+		  	}
+		  });
+		  return (this.$el.scrollTop() + $('#curParagraph').position().top + wordEl.position().top);
+    },
+    */
+    // Return position (array) in transcript of associated word span.
+    getRecentWordPos: function(word) {
+    	var wordEl;
+    	$('#curSentence').children().each(function() {
+		  	if($.trim($(this).text()).toLowerCase() == $.trim(word).toLowerCase()){
+		  		wordEl = $(this);
+		  	}
+		  });
+		
+			// Note, the x position of the paragraph is got from the left margin, cus that's how the grid is set up.	  
+		  return [(parseInt($('#curParagraph').css("margin-left")) + wordEl.position().left),
+								(this.$el.scrollTop() + $('#curParagraph').position().top + wordEl.position().top)];
+    },
+    
     
     keepBottomSpacing : function() {
       // Make sure there is adequate space below the current sentence

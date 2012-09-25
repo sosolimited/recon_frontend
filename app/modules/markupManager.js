@@ -41,7 +41,7 @@ function(app, Overlay, Ref) {
   	},
   	
 	  initialize: function () {
-		  //app.on("markup:frequentWord", this.markupFrequentWord, this);		//EG temp commented for dev
+		  app.on("markup:frequentWord", this.markupFrequentWord, this);		
 		  app.on("markup:wordCount", this.addWordCountOverlay, this);
 		  app.on("markup:sentenceLead", this.addTraitOverlay, this);		  	//LM, is this psych traits? 
 		  app.on("markup:quote", this.addQuoteOverlay, this);
@@ -80,24 +80,42 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  addWordCountOverlay: function(args){
-	  	console.log("markupManager.addWordCountOverlay " + args['speaker'] + ", " + args['count'] + ", " + args['word']);
+	  	//console.log("markupManager.addWordCountOverlay " + args['speaker'] + ", " + args['count'] + ", " + args['word']);
 	  	
-		  var wordCountOverlay = new Overlay.Views.WordCountView({ speaker: args['speaker'], count: args['count'], word: args['word'], posY: parseInt(this.attributes.transcript.getCurSentencePosY()) });
+	  	// Markup word in transcript (transcript handles actual styling on endSentence)
+		  //this.attributes.transcript.addClassToRecentWord(args['word'], "wordCountMarkup");
+		  // Note, gotta do this before making the overlay because the overlay needs the position of the word span.
+		  this.attributes.transcript.addSpanToRecentWord(args['word'], "wordCountMarkup");
+		  
+	  	// Create and insert overlay.
+	  	//console.log("markupManager.addWordCountOverlay, collapseY = "+this.attributes.transcript.getRecentWordPosY(args['word']));	  	
+		  var wordCountOverlay = new Overlay.Views.WordCountView({ speaker: args['speaker'], count: args['count'], word: args['word'], posY: parseInt(this.attributes.transcript.getCurSentencePosY()), wordPos: this.attributes.transcript.getRecentWordPos(args['word']) });
 		  $('#overlay').append(wordCountOverlay.el);
-		  wordCountOverlay.render();		  
+		  wordCountOverlay.render();	
+		  
 	  },
 	  
 	  markupFrequentWord: function(args) {
 		  // Skip common words
 		  // PEND Change this to check for LIWC topic function (we'll ues function words as our stop list).
       if($.inArray(args['word'].toLowerCase(), commonWords) > -1) return false;
-
+      //if($.inArray("funct", args['cats']) > -1) return false;
+      
+      /*
 		  // Add a class named "frequentWord" and a "data-wordcount" attribute to
       // words in the current sentence. DOM elements are created in transcript
       // when the sentence is complete.
 	  	$('#curSentence').children().each(function() {
 		  	if($.trim($(this).text()).toLowerCase() == $.trim(args['word']).toLowerCase()){ 
-		  		$(this).addClass('frequentWord');
+		  		$(this).addClass('frequentWordMarkup');
+          $(this).attr("data-wordcount", args['count']);
+		  	}
+	  	});
+	  	*/
+	  	// Now that there is not a span per word, gotta do it in this order.
+	  	this.attributes.transcript.addSpanToRecentWord(args['word'], "frequentWordMarkup");
+	  	$('#curSentence').children().each(function() {
+		  	if($.trim($(this).text()).toLowerCase() == $.trim(args['word']).toLowerCase()){ 
           $(this).attr("data-wordcount", args['count']);
 		  	}
 	  	});

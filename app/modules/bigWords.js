@@ -33,7 +33,7 @@ function(app, Ref) {
 	
 	    	 // Only add the next big word if there is room (to stay roughly sync'd in height with the transcript.
 	    	 if(parseInt($('#transcript > .wrapper').prop('scrollHeight')) > parseInt(this.$el.prop('scrollHeight'))){
-		    	console.log("BigWords.addWord - got a big one");
+		    	//console.log("BigWords.addWord - got a big one");
 			   	var holder = this.$el.children(".bigWordsHolder")[0];
 			   	$(holder).append("<span class='bigWord'>"+word+"</span>");
 			   }

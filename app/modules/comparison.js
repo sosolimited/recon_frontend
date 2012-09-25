@@ -48,10 +48,13 @@ function(app) {
   		for (var i=0; i<this.get("traits").length; i++){ 
   			var msgTrait = args['msg'][this.get("traits")[i]['name']];
 
-	  		if (msgTrait) // if found, update vals
+	  		if (msgTrait) {// if found, update vals
 	  			newTraits.push({name:this.get("traits")[i]['name'], vals:msgTrait});
-	  		else // otherwise keep old vals
+	  		
+	  		} else // otherwise keep old vals
 	  			newTraits.push(this.get("traits")[i]);
+	  			
+	  		console.log("updateStats " + args['msg'] + " " + this.get("traits")[i]['name']);
   		}
 	  	this.set({traits:newTraits});
   	}

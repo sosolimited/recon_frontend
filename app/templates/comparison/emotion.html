@@ -1,19 +1,21 @@
-<div style="height:800px; position:relative;">
+<div style="height:650px; position:relative;">
+
+<!--
 		<div class="span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05"></div>
 		<div class="push-1 span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05;"></div>
 		<div class="push-2 span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05;"></div>
 		<div class="push-3 span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05;"></div>
 		<div class="push-4 span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05;"></div>
 		<div class="push-5 span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05;"></div>
-
+-->
 		<p class="franklinMedIt fgBlue comparisonExpText"> <%= comparison.get("title") %></p>
 		<hr class="bgBlue" style="height:3px"/>
 					<p class="franklinMed fgBlue comparisonExpSubtitle"><%= comparison.get("subtitle") %></p>
 
 		<% 	var val0 = comparison.get("traits")[0].vals[0]; 
 				var val1 = comparison.get("traits")[0].vals[1]; 
-				var totalBarH = 650; 
-				var totalH = 800;
+				var totalBarH = 450; 
+				var totalH = 600;
 				var range = [comparison.get("range")[0], comparison.get("range")[1]]
 				
 				function mapVal(val) {

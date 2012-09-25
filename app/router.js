@@ -161,14 +161,16 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 	      	if($('#testGrid').css("visibility") == "visible") $('#testGrid').css("visibility", "hidden")
 	      	else $('#testGrid').css("visibility", "visible")
       	}
-      	//h for toggling overlay visibility
-      	else if(event.which == 72){
+      	//o for toggling overlay visibility
+      	else if(event.which == 79){
 	      	if($('#overlay').css("visibility") == "visible") $('#overlay').css("visibility", "hidden")
 	      	else $('#overlay').css("visibility", "visible")
       	}
-      	//t for overlay testing
+      	//t for toggling transcript
 				else if(event.which == 84){	
-					app.trigger("keypress:test", {type:"overlay", kind:"trait"});
+					//app.trigger("keypress:test", {type:"overlay", kind:"trait"});
+					if($('#transcript > .wrapper').css("visibility") == "visible") $('#transcript > .wrapper').css("visibility", "hidden")
+	      	else $('#transcript > .wrapper').css("visibility", "visible")
 				}
 				//w for wordcount testing
 				else if(event.which == 87){	

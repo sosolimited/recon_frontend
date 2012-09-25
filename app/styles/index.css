@@ -21,10 +21,6 @@
 body {
   /* background: -webkit-linear-gradient(left, #9699A0, #C9D1CF, #C9D1CF, #9699A0); */
   background-color: rgb(110,116,116);	
-  /*
-  -webkit-perspective: 1000px;	
-  -webkit-perspective-origin: 50% 2000px;
-  */
 }
 
 .layer {
@@ -59,20 +55,38 @@ body {
 #bigWords {
 	position: absolute;
 	top: 0px;
+	
+	
+	-webkit-perspective: 700px; 
+	-webkit-perspective-origin: 50% 1000px;	
 }
 
 .bigWordsHolder {
-
-}
-
-.bigWord {
-	display: block;
+	/* display: block; */
+	/* left: -600px; */	/* account for perspective */
 	font-size: 400px;
 	line-height: 336px;
 	font-family:"ff-meta-serif-web-pro"; 
 	font-weight:700; 
 	font-style:italic; 
 	color: rgb(116,120,120);
+	
+	/* -webkit-transform: translateZ(-500px); */
+	
+}
+
+.bigWord {
+	position: absolute;
+	display: block;
+	left: 0px;	/* account for perspective */
+	font-size: 400px;
+	line-height: 336px;
+	font-family:"ff-meta-serif-web-pro"; 
+	font-weight:700; 
+	font-style:italic; 
+	color: rgb(116,120,120);
+	
+	-webkit-transform: translateZ(-500px);
 }
 
 .testZ {

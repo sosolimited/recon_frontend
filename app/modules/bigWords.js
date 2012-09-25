@@ -18,6 +18,7 @@ function(app, Ref) {
 	  			 
 		 initialize: function() {
 		  this.bigWordLength = 10;
+		  this.curY = 0;		// Used to absolutely layout big words.
 		 	app.on("message:word", this.addWord, this);
 		 },	
 		 
@@ -35,7 +36,10 @@ function(app, Ref) {
 	    	 if(parseInt($('#transcript > .wrapper').prop('scrollHeight')) > parseInt(this.$el.prop('scrollHeight'))){
 		    	//console.log("BigWords.addWord - got a big one");
 			   	var holder = this.$el.children(".bigWordsHolder")[0];
-			   	$(holder).append("<span class='bigWord'>"+word+"</span>");
+			   	$(holder).append("<span class='bigWord' style='top:"+this.curY+"px;'>"+word+"</span>");
+
+			   	this.curY += Ref.bigWordLeading;
+			   	//$(holder).append(word+"</br>");
 			   }
 	    }
     }

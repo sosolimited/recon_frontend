@@ -56,22 +56,37 @@ body {
 	position: absolute;
 	top: 0px;
 	
+	
 	-webkit-perspective: 700px; 
 	-webkit-perspective-origin: 50% 1000px;	
 }
 
 .bigWordsHolder {
-	-webkit-transform: translateZ(-500px);
-}
-
-.bigWord {
-	display: block;
+	/* display: block; */
+	/* left: -600px; */	/* account for perspective */
 	font-size: 400px;
 	line-height: 336px;
 	font-family:"ff-meta-serif-web-pro"; 
 	font-weight:700; 
 	font-style:italic; 
 	color: rgb(116,120,120);
+	
+	/* -webkit-transform: translateZ(-500px); */
+	
+}
+
+.bigWord {
+	position: absolute;
+	display: block;
+	left: 0px;	/* account for perspective */
+	font-size: 400px;
+	line-height: 336px;
+	font-family:"ff-meta-serif-web-pro"; 
+	font-weight:700; 
+	font-style:italic; 
+	color: rgb(116,120,120);
+	
+	-webkit-transform: translateZ(-500px);
 }
 
 .testZ {

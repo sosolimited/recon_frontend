@@ -352,7 +352,7 @@ hr {
 .comparisonExpSubtitle {
 	position:relative;
 	font-size: 18px;
-	margin: 0px 0px 0px 0px;
+	margin: 10px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
 	line-height:18px;
 
@@ -361,6 +361,8 @@ hr {
 .comparisonLineContainer {
 	position:absolute;
 	height: 50px;
+	margin:0 -80px 1.5em 80px; 
+	float:left;
 }
 
 .comparisonPastCandidate {

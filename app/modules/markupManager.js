@@ -96,11 +96,9 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  markupFrequentWord: function(args) {
-		  // Skip common words
-		  // PEND Change this to check for LIWC topic function (we'll ues function words as our stop list).
-      if($.inArray(args['word'].toLowerCase(), commonWords) > -1) return false;
-      //if($.inArray("funct", args['cats']) > -1) return false;
-      
+	
+			// Skipping of common words is done in Speaker module where the markup:frequentWord event is emitted.	  
+			
       /*
 		  // Add a class named "frequentWord" and a "data-wordcount" attribute to
       // words in the current sentence. DOM elements are created in transcript
@@ -126,7 +124,8 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  handleScroll: function(val) {
-			 $('.wrapper').css("webkit-perspective-origin", "50% "+(val+500)+"px");		     	
+			 $('.wrapper').css("webkit-perspective-origin", "50% "+(val+500)+"px");
+			 $('#bigWords').css("webkit-perspective-origin", "50% "+(val+500)+"px");		     	
 	  },
 	  
 	  // For testing things with keypresses.

@@ -60,7 +60,9 @@ function(app) {
    		 	//console.log("instances = "+args['msg']['wordInstances']+" frequentWordThreshold = "+this.get('frequentWordThreshold'));
    		 	// Emit frequent word event.
    		 	if (args['msg']['wordInstances'] >= this.get('frequentWordThreshold')) {
-	   		 	app.trigger("markup:frequentWord", {type:"frequentWord", speaker:this.get("id"), count: args['msg']['wordInstances'], word: args['msg']['word']});
+   		 	 	if ($.inArray('funct', args['msg']['cats']) == -1) {	//If it's not a function word (aka common word).
+	   		 		app.trigger("markup:frequentWord", {type:"frequentWord", speaker:this.get("id"), count: args['msg']['wordInstances'], word: args['msg']['word']});
+	   		 	}
    		 	}
    		 	
    		 	// Emit 1000,2000,etc word count events.

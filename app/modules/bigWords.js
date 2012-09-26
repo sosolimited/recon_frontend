@@ -38,7 +38,7 @@ function(app, Ref) {
        // Perform culling
        var viewportTop = $('body').scrollTop();
        var viewportBottom = viewportTop + $(window).height();
-       console.log("Viewport top: " + viewportTop + " bottom: " + viewportBottom);
+       //console.log("Viewport top: " + viewportTop + " bottom: " + viewportBottom);
 
        var bottomFound = false;
        $('.bigWord').each(function() {

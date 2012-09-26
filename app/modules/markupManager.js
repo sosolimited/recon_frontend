@@ -97,8 +97,8 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  addNumberOverlay: function(args){
-		  	
-		  
+		  	console.log("addNumberOverlay: "+args['speaker']+", "+args['phrase']);
+		
 	  },
 	  
 	  markupFrequentWord: function(args) {

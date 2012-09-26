@@ -59,12 +59,20 @@ function(app, Overlay, Ref) {
     
 	    var word = args['msg'];
 	   
-    	// check if saying word
+	    // Check for special categories and emit events.
+	    // ---------------------------------------------------------------------
+    	// Say (said, say, saying, etc).
     	if ($.inArray('say', word['cats']) != -1) {
 	    	app.trigger("markup:quote", {type:'quote', speaker:word['speaker']});
     	}
+    	// Numerical.
+    	if ($.inArray('numbers', word['cats']) != -1) {
+	    	app.trigger("markup:number", {type:'number', speaker:word['speaker'], word:word['word']});
+    	}
+    	    	
 	    
-	    // add to transcript
+	    // Add to transcript.
+	    // ---------------------------------------------------------------------
     	var s = "";
 
       var col=1;

@@ -14,6 +14,7 @@ function(app) {
   	defaults: function() {
   		return {
   			traits:[],
+  			speakers:[],
   			range:[0,100],
   			wc:[0,0],
   			viewType: "simple"
@@ -31,7 +32,7 @@ function(app) {
   		
   		console.log("added traits "+options.traits.length);
   		
-  		this.set({viewType:options.viewType, title:options.title, range:options.range});
+  		this.set({viewType:options.viewType, title:options.title, range:options.range, speakers:options.speakerNames});
   		
   		app.on("message:stats", this.updateStats, this);
   		
@@ -59,7 +60,7 @@ function(app) {
 	  		} else // otherwise keep old vals
 	  			newTraits.push(this.get("traits")[i]);
 	  			
-	  		//console.log("updateStats " + args['msg'] + " " + this.get("traits")[i]['name']);
+	  		console.log("updateStats " + args['msg'] + " " + this.get("traits")[i]['name']);
   		}
 	  	this.set({traits:newTraits});
 	  	
@@ -139,21 +140,23 @@ function(app) {
   		
   		app.on("message:word", this.updateWordStats, this);  		
   	},
-  
-    updateStats: function(args) {
-	  	
-  	},
-  
+ 
     updateWordStats: function(args) {
   		
   		var msgTrait = args['msg']['speaker'];
-  		
-  		if (msgTrait == 1) {
-  			this.set({wc:[ this.get("wc")[0] +1, this.get("wc")[1]] });
-  			console.log("wc[0] ++");
-  		} else if (msgTrait == 2) {
-  			this.set({wc:[ this.get("wc")[0], this.get("wc")[1] + 1] });
-  			console.log("wc[1] ++");
+  		var punct = args['msg']['punctuationFlag'];
+  		var val1 = this.get('speakers').at(1).get("wordCount");
+  		var val2 = this.get('speakers').at(2).get("wordCount");
+  		  		
+  		if (msgTrait == 1 && !punct) {
+  			//this.set({wc:[ this.get("wc")[0] +1, this.get("wc")[1]] });
+  			this.set({wc:[ val1, val2] });
+  			console.log("speaker[1] wc = " + val1);
+  		} else if (msgTrait == 2 && !punct) {
+  			//this.set({wc:[ this.get("wc")[0], this.get("wc")[1] + 1] });
+  			this.set({wc:[ val1, val2] });
+   			console.log("speaker[2] wc = " + val2); 			
+  			//console.log("wc[1] ++");
   			
   		}
 	  	

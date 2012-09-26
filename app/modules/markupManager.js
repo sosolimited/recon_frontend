@@ -41,11 +41,12 @@ function(app, Overlay, Ref) {
   	},
   	
 	  initialize: function () {
-		  app.on("markup:frequentWord", this.markupFrequentWord, this);		
+		  //app.on("markup:frequentWord", this.markupFrequentWord, this);		
 		  app.on("markup:wordCount", this.addWordCountOverlay, this);
 		  app.on("markup:sentenceLead", this.addTraitOverlay, this);		  	//LM, is this psych traits? 
 		  app.on("markup:quote", this.addQuoteOverlay, this);
 		  app.on("markup:sentenceSentiment", this.addSentimentOverlay, this);
+		  app.on("markup:number", this.addNumberOverlay, this);
 		  app.on("body:scroll", this.handleScroll, this);
 		  //for testing
 		  app.on("keypress:test", this.test, this);
@@ -95,6 +96,11 @@ function(app, Overlay, Ref) {
 		  
 	  },
 	  
+	  addNumberOverlay: function(args){
+		  	console.log("addNumberOverlay: "+args['speaker']+", "+args['phrase']);
+		
+	  },
+	  
 	  markupFrequentWord: function(args) {
 	
 			// Skipping of common words is done in Speaker module where the markup:frequentWord event is emitted.	  
@@ -119,9 +125,7 @@ function(app, Overlay, Ref) {
 	  	});
 	  },
 	  
-	  annotateTranscript: function() {
-	  
-	  },
+
 	  
 	  handleScroll: function(val) {
 			 $('.wrapper').css("webkit-perspective-origin", "50% "+(val+500)+"px");

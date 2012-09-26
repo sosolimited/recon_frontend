@@ -10,6 +10,7 @@ function(app, Overlay, Ref) {
 
   // Create a new module.
   var Transcript = app.module();
+  
   var curSpeaker = -1;
   var speakers = ["Moderator", "Obama", "Romney"];
   var openSentence = null;
@@ -46,6 +47,12 @@ function(app, Overlay, Ref) {
         oldWindowHeight = $(window).height();
         oldScrollTop = $('body').scrollTop();
       });
+      
+      this.numberOpen = false;
+      this.numberCount = 0;		
+      this.numberWords = 2;		// Number of words to catch in number phrase, including first numerical word.
+      this.numberPhrase = "";
+      
   	},
 
     events : {
@@ -59,12 +66,37 @@ function(app, Overlay, Ref) {
     
 	    var word = args['msg'];
 	   
-    	// check if saying word
+	    // Check for special categories and emit events.
+	    // ---------------------------------------------------------------------
+    	// Say (said, say, saying, etc).
     	if ($.inArray('say', word['cats']) != -1) {
 	    	app.trigger("markup:quote", {type:'quote', speaker:word['speaker']});
     	}
+    	
+    	
+    	// Numerical.
+    	if ($.inArray('number', word['cats']) != -1) {
+    		console.log("transcript - got a number!");
+    		if (!this.numberOpen){
+	    		this.numberOpen = true;
+	    	}
+    	}
+    	if (this.numberOpen){
+    		// Update count and phrase.
+    		this.numberCount =  this.numberCount+1;
+    		if(!word['punctuationFlag']) this.numberPhrase += " ";	// Insert a space in phrase if it's not punctuation.
+    		this.numberPhrase += word['word'];
+ 
+    		
+    		// When we have the correct number of words in the phrase,
+    		if(this.numberCount >= this.numberWords){
+    			this.emitNumberEvent();
+    		}
+    	}
+    	    	
 	    
-	    // add to transcript
+	    // Add to transcript.
+	    // ---------------------------------------------------------------------
     	var s = "";
 
       var col=1;
@@ -160,6 +192,9 @@ function(app, Overlay, Ref) {
       // Close this sentence, start a new one.      
     	//$('#curSentence').removeAttr('id');	// Done with line above now.
 		    	
+		  // If any numbers are open, close them.
+		  if (this.numberOpen) this.emitNumberEvent();
+		  
     	
     	openSentence = false;
     	if (args)
@@ -255,6 +290,14 @@ function(app, Overlay, Ref) {
 								(this.$el.scrollTop() + $('#curParagraph').position().top + wordEl.position().top)];
     },
     
+    emitNumberEvent: function() {
+    	// Emit an event
+			app.trigger("markup:number", {type:'number', phrase:this.numberPhrase});	
+			// Close the number.
+			this.numberOpen = false;
+			this.numberCount = 0;
+			this.numberPhrase = "";
+    },
     
     keepBottomSpacing : function() {
       // Make sure there is adequate space below the current sentence

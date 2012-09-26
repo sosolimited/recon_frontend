@@ -19,34 +19,34 @@
 				var range = [comparison.get("range")[0], comparison.get("range")[1]]
 				
 				function mapVal(val) {
-					var h = totalBarH*(100*val-range[0])/(range[1]-range[0]);
+					var h = totalBarH*(val-range[0])/(range[1]-range[0]);
 					var t = totalH-h;
 					return [h,t];
 				}
 				%>
 
 		<div class="comparisonBarGraph bgBlue push-1 span-2" style="height:<%= mapVal(val0)[0] %>px; top:<%= mapVal(val0)[1] %>px;" >
-			<p class="franklinDemiCompIt barGraphText" > Obama </p>  <p class="franklinDemiComp barGraphValue" > <%=  Math.round(10000*val0)/100 %> </p> </div>
+			<p class="franklinDemiCompIt barGraphText" > Obama </p>  <p class="franklinDemiComp barGraphValue" > <%=  val0 %> </p> </div>
 		<div class="comparisonBarGraph bgBlue push-3 span-2" style="height:<%= mapVal(val1)[0] %>px; top:<%= mapVal(val1)[1] %>px;" >
-			<p class="franklinDemiCompIt barGraphText" > Romney </p>  <p class="franklinDemiComp barGraphValue" > <%=  Math.round(10000*val1)/100 %>  </p> </div>
+			<p class="franklinDemiCompIt barGraphText" > Romney </p>  <p class="franklinDemiComp barGraphValue" > <%=  val1 %>  </p> </div>
 		
 		<% comparison.get("traits").forEach(function(trait){ %>
 		
 			<% if (trait.name == "wc") { %> 
 				
-				<% var people = ["Palin 2008", "Obama 2008", "Kerry 2004", "Nixon 1960"];
-				var values = [4.18, 3.58, 2.88, 1.94]; %>
+				<% var people = ["Edwards 2004", "Kennedy 1960", "Bush 2004"];
+				var values = [8139, 4712, 6339]; %>
 				
-			<% } else if (trait.name == "uwc") {%>
+			<% } else if (trait.name == "uwc") { %>
 			
-				<% var people = ["Bush 2000", "Reagan 1984", "McCain 2008","Bush 2004"];
-				var values = [1.02, 1.59, 2.39, 3.23]; %>
+				<% var people = ["Bush 2000", "Reagan 1984", "McCain 2008"];
+				var values = [1.02, 1.59, 2.39]; %>
 				
 			<% } %>
 			
-				<% for (var i = 0; i < 4 ; i++) { %>
+				<% for (var i = 0; i < 3 ; i++) { %>
 				
-					<div class="comparisonLineContainer" style="top:<%= mapVal(values[i]/100.0)[1] %>px"> 
+					<div class="comparisonLineContainer" style="top:<%= mapVal(values[i])[1] %>px"> 
 					<p class="franklinDemiCompIt comparisonPastCandidate" style="top:-50px" > <%=people[i] %></p>
 					<hr class="span-5" /> 
 					<p class="franklinDemiComp comparisonPastValue" style="top:-15px" > <%=values[i]%> </p> 

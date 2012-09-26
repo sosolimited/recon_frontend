@@ -15,6 +15,7 @@ function(app) {
   		return {
   			traits:[],
   			range:[0,100],
+  			wc:[0,0],
   			viewType: "simple"
   		}
   	},
@@ -128,7 +129,7 @@ function(app) {
     }
     
   });
-/*
+
   // Extended view for word count, unique word count	
   Comparison.CountModel = Comparison.Model.extend({    	
 
@@ -137,7 +138,7 @@ function(app) {
   		this.set({viewType:"count"});
   		
   		app.on("message:word", this.updateWordStats, this);  		
-  	}
+  	},
   
     updateStats: function(args) {
 	  	
@@ -148,19 +149,17 @@ function(app) {
   		var msgTrait = args['msg']['speaker'];
   		
   		if (msgTrait == 1) {
-  			wc[0] = wc[0]+1;
+  			this.set({wc:[ this.get("wc")[0] +1, this.get("wc")[1]] });
   			console.log("wc[0] ++");
   		} else if (msgTrait == 2) {
-  			wc[1] = wc[1]+1;
+  			this.set({wc:[ this.get("wc")[0], this.get("wc")[1] + 1] });
   			console.log("wc[1] ++");
   			
   		}
 	  	
-  	},
-  
+  	}
 
   });
-
 
   Comparison.Views.Count = Backbone.View.extend({
     template: "comparison/count",
@@ -175,7 +174,6 @@ function(app) {
     }
     
   });
-*/
 
   // Extended view for top words, top n-grams	
   Comparison.ListModel = Comparison.Model.extend({    	
@@ -229,13 +227,13 @@ function(app) {
 					model: comparison
 				}));
 		}
-		/*
+		
 		else if (comparison.get("viewType") === "count") {
 			return this.insertView(new Comparison.Views.Count({
 					model: comparison
 				}));
 		}
-		*/				
+					
 		else {
 		    return this.insertView(new Comparison.Views.Simple({
 			    model: comparison

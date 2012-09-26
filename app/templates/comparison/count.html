@@ -12,8 +12,8 @@
 		<hr class="bgBlue" style="height:3px"/>
 					<p class="franklinMed fgBlue comparisonExpSubtitle"><%= comparison.get("subtitle") %></p>
 
-		<% 	var val0 = comparison.get("traits")[0].vals[0]; 
-				var val1 = comparison.get("traits")[0].vals[1]; 
+		<% 	var val0 = comparison.get("wc")[0]; 
+				var val1 = comparison.get("wc")[1]; 
 				var totalBarH = 450; 
 				var totalH = 600;
 				var range = [comparison.get("range")[0], comparison.get("range")[1]]
@@ -32,28 +32,17 @@
 		
 		<% comparison.get("traits").forEach(function(trait){ %>
 		
-			<% if (trait.name == "posemo") { %> 
+			<% if (trait.name == "wc") { %> 
 				
 				<% var people = ["Palin 2008", "Obama 2008", "Kerry 2004", "Nixon 1960"];
 				var values = [4.18, 3.58, 2.88, 1.94]; %>
 				
-			<% } else if (trait.name == "negemo") {%>
+			<% } else if (trait.name == "uwc") {%>
 			
 				<% var people = ["Bush 2000", "Reagan 1984", "McCain 2008","Bush 2004"];
 				var values = [1.02, 1.59, 2.39, 3.23]; %>
 				
-			<% } else if (trait.name == "anger") {%>
-			
-				<% var people = ["Kennedy 1960", "Biden 2008", "Bush 1992", "Kerry 2004"];
-				var values = [0.32, 0.58, 0.97, 1.6]; %>
-			
-			<% } else if (trait.name == "funct") {%>
-			
-				<% var people = ["Kennedy 1960", "Biden 2008", "Bush 1992", "Kerry 2004"];
-				var values = [20, 30, 40, 50]; %>
-			
 			<% } %>
-			
 			
 				<% for (var i = 0; i < 4 ; i++) { %>
 				

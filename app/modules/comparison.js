@@ -25,8 +25,9 @@ function(app) {
   	
   		for (var i=0; i<options.traitNames.length; i++) {
   			console.log("adding trait "+options.traitNames[i]);
-  			this.get("traits").push({name:options.traitNames[i], vals:[0,0]});
-  		}
+	  		this.get("traits").push({name:options.traitNames[i], vals:[0,0]});
+	  	}
+  		
   		console.log("added traits "+options.traits.length);
   		
   		this.set({viewType:options.viewType, title:options.title, range:options.range});
@@ -34,6 +35,7 @@ function(app) {
   		app.on("message:stats", this.updateStats, this);
   		
   		this.setValues();
+  		
   	},
   	
   	cleanup: function() {
@@ -43,9 +45,11 @@ function(app) {
   	setValues: function() {},
   	
   	updateStats: function(args) {
+  	
   		var newTraits = [];
   	
   		for (var i=0; i<this.get("traits").length; i++){ 
+  		
   			var msgTrait = args['msg'][this.get("traits")[i]['name']];
 
 	  		if (msgTrait) {// if found, update vals
@@ -54,10 +58,12 @@ function(app) {
 	  		} else // otherwise keep old vals
 	  			newTraits.push(this.get("traits")[i]);
 	  			
-	  		console.log("updateStats " + args['msg'] + " " + this.get("traits")[i]['name']);
+	  		//console.log("updateStats " + args['msg'] + " " + this.get("traits")[i]['name']);
   		}
 	  	this.set({traits:newTraits});
+	  	
   	}
+  	
   });
   
   
@@ -109,7 +115,6 @@ function(app) {
   	}
   });
 
-
   Comparison.Views.Emotion = Backbone.View.extend({
     template: "comparison/emotion",
     className: "comparison container",
@@ -123,12 +128,62 @@ function(app) {
     }
     
   });
+/*
+  // Extended view for word count, unique word count	
+  Comparison.CountModel = Comparison.Model.extend({    	
 
-  // Extended view for posemo, negemo, anger.	
+    setValues: function() {
+	  	
+  		this.set({viewType:"count"});
+  		
+  		app.on("message:word", this.updateWordStats, this);  		
+  	}
+  
+    updateStats: function(args) {
+	  	
+  	},
+  
+    updateWordStats: function(args) {
+  		
+  		var msgTrait = args['msg']['speaker'];
+  		
+  		if (msgTrait == 1) {
+  			wc[0] = wc[0]+1;
+  			console.log("wc[0] ++");
+  		} else if (msgTrait == 2) {
+  			wc[1] = wc[1]+1;
+  			console.log("wc[1] ++");
+  			
+  		}
+	  	
+  	},
+  
+
+  });
+
+
+  Comparison.Views.Count = Backbone.View.extend({
+    template: "comparison/count",
+    className: "comparison container",
+
+		initialize: function() {
+			 this.model.on("change", this.render, this);
+		},
+		
+    serialize: function() {
+      return { comparison: this.model };
+    }
+    
+  });
+*/
+
+  // Extended view for top words, top n-grams	
   Comparison.ListModel = Comparison.Model.extend({    	
   	setValues: function() {
 	  	
   		this.set({viewType:"list"});
+  		app.on("message:word", this.updateWordStats, this);
+  		  		
   	}
   });
 
@@ -136,9 +191,9 @@ function(app) {
     template: "comparison/list",
     className: "comparison container",
 
-		initialize: function() {
-			 this.model.on("change", this.render, this);
-		},
+	initialize: function() {
+		this.model.on("change", this.render, this);
+	},
 		
     serialize: function() {
       return { comparison: this.model };
@@ -159,26 +214,35 @@ function(app) {
 
     addComparison: function(comparison) {
     
-    	if (comparison.get("viewType") === "fancy") {
-    		return this.insertView(new Comparison.Views.Fancy({
+		if (comparison.get("viewType") === "fancy") {
+			return this.insertView(new Comparison.Views.Fancy({
 					model: comparison
 				}));
 		}
-    	else if (comparison.get("viewType") === "emotion") {
-    		return this.insertView(new Comparison.Views.Emotion({
+		else if (comparison.get("viewType") === "emotion") {
+			return this.insertView(new Comparison.Views.Emotion({
 					model: comparison
 				}));
 		}	
-    	else if (comparison.get("viewType") === "list") {
-    		return this.insertView(new Comparison.Views.List({
+		else if (comparison.get("viewType") === "list") {
+			return this.insertView(new Comparison.Views.List({
 					model: comparison
 				}));
-		}			
+		}
+		/*
+		else if (comparison.get("viewType") === "count") {
+			return this.insertView(new Comparison.Views.Count({
+					model: comparison
+				}));
+		}
+		*/				
 		else {
 		    return this.insertView(new Comparison.Views.Simple({
-  		    model: comparison
-  		  }));
-  	  }
+			    model: comparison
+			  }));
+  		  
+  		}
+  	  
     },
     
     cleanup: function() {

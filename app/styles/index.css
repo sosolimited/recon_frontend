@@ -61,6 +61,11 @@ body {
 	-webkit-perspective-origin: 50% 1000px;	
 }
 
+#bigWords .hiddenWord {
+  display: none;
+  -webkit-transform: none;
+}
+
 .bigWordsHolder {
 	/* display: block; */
 	/* left: -600px; */	/* account for perspective */

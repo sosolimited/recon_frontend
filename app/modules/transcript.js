@@ -101,7 +101,7 @@ function(app, Overlay, Ref) {
       $('#curSentence').append(s+word["word"]); // Don't make every word a span.
       
       // Update the paragraph size cache
-      $('#curParagraph').attr('data-bottom', $("#curParagraph").offset().top + $("#curParagraph").height());
+      $('#curParagraph').attr('data-bottom', parseInt($("#curParagraph").attr('data-top')) + $("#curParagraph").height());
       $('#curParagraph').attr('data-end', word['timeDiff']);
 
       this.keepBottomSpacing();
@@ -323,15 +323,14 @@ function(app, Overlay, Ref) {
       if(!scrollAnimating) {
         // Note: $(document).height() is height of the HTML document,
         //       $(window).height() is the height of the viewport
-        // TODO: This assumes the current sentence is appearing at the very bottom of the document
         var bottom = this.transcriptBottom() - $(window).height();
-        //if($(document).height() - ($(window).scrollTop() + $(window).height()) < reattachThreshold) {
-        if(Math.abs(bottom - $(window).scrollTop()) < Ref.autoscrollReattachThreshold) {
+        if(Math.abs(bottom - $(window).scrollTop()) < Ref.autoscrollReattachThreshold || 
+          $(document).height() - $(window).height() - $(window).scrollTop() < Ref.autoscrollReattachThreshold) {
           scrollLive = true;
           app.trigger("transcript:scrollAttach", {}); // So other modules like nav can respond accordingly
         }
         else {
-          $(window).stop(); // Stop any scroll animation in progress
+          $("body").stop(); // Stop any scroll animation in progress
           scrollLive = false;
           app.trigger("transcript:scrollDetach", {});
         }

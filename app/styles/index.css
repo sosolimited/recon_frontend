@@ -57,8 +57,10 @@ body {
 	top: 0px;
 	
 	
+	/* 
 	-webkit-perspective: 700px; 
 	-webkit-perspective-origin: 50% 1000px;	
+	*/
 }
 
 #bigWords .hiddenWord {
@@ -91,7 +93,7 @@ body {
 	font-style:italic; 
 	color: rgb(116,120,120);
 	
-	-webkit-transform: translateZ(-500px);
+	/* -webkit-transform: translateZ(-500px); */
 }
 
 .testZ {

@@ -41,7 +41,7 @@ function(app, Overlay, Ref) {
       $(window).resize(function() {
         //if(scrollLive) { thisTranscript.reattachLiveScroll(0) };
         var heightChange = $(window).height() - oldWindowHeight;
-        console.log(heightChange);
+        //console.log(heightChange);
         $('body').scrollTop(oldScrollTop - heightChange);
         oldWindowHeight = $(window).height();
         oldScrollTop = $('body').scrollTop();

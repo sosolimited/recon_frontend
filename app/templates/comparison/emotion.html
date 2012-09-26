@@ -19,7 +19,6 @@
 				function mapVal(val) {
 					var h = totalBarH*(100*val-range[0])/(range[1]-range[0]);
 					var t = totalH-h;
-					console.log(h+" "+t);
 					return [h,t];
 				}
 				%>
@@ -53,7 +52,7 @@
 		<!--Nixon -->
 		<div class="comparisonLineContainer push-0" style="top:<%= mapVal(0.0194)[1] %>px"> 
 		<p class="franklinDemiCompIt comparisonPastCandidate" style="top:-50px" > Nixon 1960</p>
-		<hr class="span-5" /> 
+		<hr class="span-5" />  
 		<p class="franklinDemiComp comparisonPastValue" style="top:-15px" > 1.94 </p> 
 		</div>			
 

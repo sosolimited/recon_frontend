@@ -40,9 +40,9 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 			
       // init speakers
     	var speakerCollection = new Speaker.Collection();
-    	speakerCollection.add("moderator", "Moderator");
-    	speakerCollection.add("obama", "Barack Obama");
-    	speakerCollection.add("romney", "Mitt Romney");
+    	speakerCollection.add(new Speaker.Model("moderator", "Moderator"));
+    	speakerCollection.add(new Speaker.Model("obama", "Barack Obama"));
+    	speakerCollection.add(new Speaker.Model("romney", "Mitt Romney"));
     
     	// init uniquewords collection
       var uniqueWordCollection = new UniqueWord.Collection();
@@ -51,8 +51,9 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
       var comparisonCollection = new Comparison.Collection();
       var comparisonView = new Comparison.Views.All({collection: comparisonCollection});
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["posemo"], title:"POSITIVITY", subtitle:"The percentage of words spoken that are positive in some way. ie. 'winning, happy, improve.'", range:[0,5.0]}));     
-      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"]}));    
-
+      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"]}));     
+      
+      
       
       // load from static file
       if (this.qs.docName) {
@@ -166,12 +167,12 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 				//z To nudge parallax test objects left
 				else if(event.which==90){	
 					$('#testZ6').css("left", (parseInt($('#testZ6').css("left")) - 1));
-					console.log("left = "+parseInt($('#testZ6').css("left")));
+					//console.log("left = "+parseInt($('#testZ6').css("left")));
 				}
 				//x  To nudge parallax test objects right
 				else if(event.which==88){	
 					$('#testZ6').css("left", (parseInt($('#testZ6').css("left")) + 1));
-					console.log("left = "+parseInt($('#testZ6').css("left")));
+					//console.log("left = "+parseInt($('#testZ6').css("left")));
 				}
       });      
       

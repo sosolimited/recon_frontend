@@ -19,7 +19,7 @@
  
 
 body {
-	position: relative;
+
   /* background: -webkit-linear-gradient(left, #9699A0, #C9D1CF, #C9D1CF, #9699A0); */
   background-color: rgb(110,116,116);	
   overflow-y: scroll;	
@@ -263,6 +263,8 @@ hr {
 
 .franklinBookComp{ font-family:"franklin-gothic-urw-comp"; font-weight:400; font-style:normal; }
 .franklinBookCompIt{ font-family:"franklin-gothic-urw-comp"; font-weight:400; font-style:italic; }
+.franklinMedComp{ font-family:"franklin-gothic-urw-comp"; font-weight:600; font-style:normal; }
+.franklinMedCompIt{ font-family:"franklin-gothic-urw-comp"; font-weight:600; font-style:italic; }
 .franklinDemiComp{ font-family:"franklin-gothic-urw-comp"; font-weight:700; font-style:normal; }
 .franklinDemiCompIt{ font-family:"franklin-gothic-urw-comp"; font-weight:700; font-style:italic; }
 
@@ -276,17 +278,22 @@ hr {
 .franklinHeavy{ font-family:"franklin-gothic-urw"; font-weight:900; font-style:normal; }
 .franklinHeavyIt{ font-family:"franklin-gothic-urw"; font-weight:900; font-style:italic; }
 
-
-
-
-
 /* Colors */
 .gray60{ color:rgb(60,60,60); }
 .gray80{ color:rgb(80,80,80); }
+.grayBlue{ color:rgb(77,77,85); }
+.bgGrayBlue{ background-color:rgb(77,77,85); }
 .pink{ color:rgb(231,0,149); }
 .fgBlue{ color:rgb(64,180,229); }
 .bgBlue{ background-color:rgb(64,180,229); }
 .lime{ color:rgb(207,255,36); }
+.bgLime{ background-color:rgb(207,255,36); }
+.fgMagenta{ color:rgb(227, 31, 130); } 
+.bgMagenta{ background-color:rgb(227, 31, 130); } 
+.redOrange{ color:rgb(255, 66, 55); } 
+.bgRedOrange{ background-color:rgb(255, 66, 55); } 
+.purple{ color:rgb(101, 45, 106); } 
+.bgPurple{ background-color:rgb(101, 45, 106); } 
 .salmon{ color:rgb(255,157,108); }
 
 /* Overlays */
@@ -308,6 +315,7 @@ hr {
 /* Trait overlays */
 
 .traitExpTextHolder {
+
 	position:absolute; 
 	overflow: hidden;
 	/* width:1024px; */
@@ -355,7 +363,6 @@ hr {
 	-webkit-transition: -webkit-transform 1s ease-in, left 1s, top 1s, height 1s;	
 	-webkit-transform: translateZ(0px);	
 
-	
 }
 
 .wordCountText {
@@ -408,7 +415,7 @@ hr {
 .comparisonExpSubtitle {
 	position:relative;
 	font-size: 18px;
-	margin: 0px 0px 0px 0px;
+	margin: 10px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
 	line-height:18px;
 
@@ -417,12 +424,13 @@ hr {
 .comparisonLineContainer {
 	position:absolute;
 	height: 50px;
+	margin:0 -80px 1.5em 80px; 
+	float:left;
 }
 
 .comparisonPastCandidate {
 	position:absolute;
 	font-size: 24px;
-	color:black;
 	width: 300px;
 	height: 10px;
 }
@@ -445,19 +453,48 @@ hr {
 	left: 10px;
 	bottom: 15px;
 	text-decoration: underline;
-	color: white;
 	line-height:48px;
 
 }
 
 .barGraphValue {
 	position:absolute;
-	font-size: 36px;
+	font-size: 32px;
 	left: 10px;
 	bottom: 5px;
-	color: white;
 	line-height:24px;
+	color: white;
+}
 
+.spectrumPointer {
+	height: 100px;
+	position: absolute;
+}
+
+.spectrumText {
+	position:absolute;
+	font-size: 48px;
+	left: 10px;
+	bottom: -5px;
+	text-decoration: underline;
+	line-height:48px;
+	color:white;
+
+}
+
+.spectrumValue {
+	position:absolute;
+	font-size: 32px;
+	left: 10px;
+	bottom: -15px;
+	line-height:24px;
+	color: white;
+}
+
+.spectrumLineContainer {
+	position:absolute;
+	height: 50px;
+	float:left;
 }
 
 .comparisonList {
@@ -473,7 +510,7 @@ hr {
 	list-style: none inside;
 	text-align: right;
 	padding: 0 0 0 0;	
-	font-size: 18px;	
+	font-size: 16px;	
     color:white;
 	line-height:24px;
 }

@@ -1,19 +1,21 @@
-<div style="height:600px; ">
+<div style="height:650px; position:relative;">
+
+<!--
 		<div class="span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05"></div>
 		<div class="push-1 span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05;"></div>
 		<div class="push-2 span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05;"></div>
 		<div class="push-3 span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05;"></div>
 		<div class="push-4 span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05;"></div>
 		<div class="push-5 span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05;"></div>
-
+-->
 		<p class="franklinMedIt fgBlue comparisonExpText"> <%= comparison.get("title") %></p>
 		<hr class="bgBlue" style="height:3px"/>
-					<p class="franklinMed fgBlue comparisonExpSubtitle"><%= comparison.get("subtitle") %></p>
+		<p class="franklinMed fgBlue comparisonExpSubtitle"><%= comparison.get("subtitle") %></p>
 
 		<% 	var val0 = comparison.get("traits")[0].vals[0]; 
 				var val1 = comparison.get("traits")[0].vals[1]; 
-				var totalBarH = 600; 
-				var totalH = 800;
+				var totalBarH = 450; 
+				var totalH = 600;
 				var range = [comparison.get("range")[0], comparison.get("range")[1]]
 				
 				function mapVal(val) {
@@ -24,37 +26,46 @@
 				%>
 
 		<div class="comparisonBarGraph bgBlue push-1 span-2" style="height:<%= mapVal(val0)[0] %>px; top:<%= mapVal(val0)[1] %>px;" >
-			<p class="franklinDemiCompIt barGraphText" > Obama </p>  <p class="franklinDemiComp barGraphValue" > <%=  Math.round(10000*val0)/100 %> </p> </div>
+			<p class="franklinMedCompIt barGraphText grayBlue" > Obama </p>  <p class="franklinMedComp barGraphValue" > <%=  Math.round(10000*val0)/100 %> </p> </div>
 		<div class="comparisonBarGraph bgBlue push-3 span-2" style="height:<%= mapVal(val1)[0] %>px; top:<%= mapVal(val1)[1] %>px;" >
-			<p class="franklinDemiCompIt barGraphText" > Romney </p>  <p class="franklinDemiComp barGraphValue" > <%=  Math.round(10000*val1)/100 %>  </p> </div>
-
-		<!--Bush -->
-		<div class="comparisonLineContainer push-0" style="top:<%= mapVal(0.0491)[1] %>px"> 
-		<p class="franklinDemiCompIt comparisonPastCandidate"  > Bush 2004</p>
-		<hr class="span-5" style="top:50px;"/> 
-		<p class="franklinDemiComp comparisonPastValue"> 4.91 </p> 
-		</div>
+			<p class="franklinMedCompIt barGraphText grayBlue" > Romney </p>  <p class="franklinMedComp barGraphValue" > <%=  Math.round(10000*val1)/100 %>  </p> </div>
 		
-		<!--Palin -->
-		<div class="comparisonLineContainer push-0" style="top:<%= mapVal(0.0418)[1] %>px"> 
-		<p class="franklinDemiCompIt comparisonPastCandidate" style="top:-50px" > Palin 2008</p>
-		<hr class="span-5" /> 
-		<p class="franklinDemiComp comparisonPastValue" style="top:-15px" > 4.18 </p> 
-		</div>
+		<% comparison.get("traits").forEach(function(trait){ %>
 		
-		<!--clinton -->
-		<div class="comparisonLineContainer push-0" style="top:<%= mapVal(0.0381)[1] %>px"> 
-		<p class="franklinDemiCompIt comparisonPastCandidate" style="top:-50px" > Clinton 1992</p>
-		<hr class="span-5" /> 
-		<p class="franklinDemiComp comparisonPastValue" style="top:-15px" > 3.81 </p> 
-		</div>
 
-		<!--Nixon -->
-		<div class="comparisonLineContainer push-0" style="top:<%= mapVal(0.0194)[1] %>px"> 
-		<p class="franklinDemiCompIt comparisonPastCandidate" style="top:-50px" > Nixon 1960</p>
-		<hr class="span-5" />  
-		<p class="franklinDemiComp comparisonPastValue" style="top:-15px" > 1.94 </p> 
-		</div>			
+			<% if (trait.name == "posemo") { %> 
+				
+				<% var people = ["Palin 2008", "Obama 2008", "Kerry 2004", "Nixon 1960"];
+				var values = [4.18, 3.58, 2.88, 1.94]; %>
+				
+			<% } else if (trait.name == "negemo") {%>
+			
+				<% var people = ["Bush 2000", "Reagan 1984", "McCain 2008","Bush 2004"];
+				var values = [1.02, 1.59, 2.39, 3.23]; %>
+				
+			<% } else if (trait.name == "anger") {%>
+			
+				<% var people = ["Kennedy 1960", "Biden 2008", "Bush 1992", "Kerry 2004"];
+				var values = [0.32, 0.58, 0.97, 1.6]; %>
+			
+			<% } else if (trait.name == "funct") {%>
+			
+				<% var people = ["Kennedy 1960", "Biden 2008", "Bush 1992", "Kerry 2004"];
+				var values = [20, 30, 40, 50]; %>
+			
+			<% } %>
+			
+				<% for (var i = 0; i < 4 ; i++) { %>
+				
+					<div class="comparisonLineContainer" style="top:<%= mapVal(values[i]/100.0)[1] %>px"> 
+					<p class="franklinDemiCompIt comparisonPastCandidate grayBlue" style="top:-50px" > <%=people[i] %></p>
+					<hr class="span-5 bgGrayBlue"  /> 
+					<p class="franklinDemiComp comparisonPastValue" style="top:-15px" > <%=values[i]%> </p> 
+					</div>
+			
+				<% } %>
+			
+		<% }); %>
 
 
 </div>

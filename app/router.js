@@ -160,19 +160,21 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
       	console.log(event.which);
       	//g for toggling test grid
       	if(event.which == 71){
-	      	if($('#testGrid').css("visibility") == "visible") $('#testGrid').css("visibility", "hidden")
-	      	else $('#testGrid').css("visibility", "visible")
+	      	if($('#testGrid').css("visibility") == "visible") $('#testGrid').css("visibility", "hidden");
+	      	else $('#testGrid').css("visibility", "visible");
       	}
       	//o for toggling overlay visibility
       	else if(event.which == 79){
-	      	if($('#overlay').css("visibility") == "visible") $('#overlay').css("visibility", "hidden")
-	      	else $('#overlay').css("visibility", "visible")
+	      	//if($('#overlay').css("visibility") == "visible") $('#overlay').css("visibility", "hidden")
+	      	//else $('#overlay').css("visibility", "visible")
+	      	if($('#overlay').css("display") == "inline") $('#overlay').css("display", "none");
+	      	else $('#overlay').css("display", "inline");
       	}
       	//t for toggling transcript
 				else if(event.which == 84){	
 					//app.trigger("keypress:test", {type:"overlay", kind:"trait"});
-					if($('#transcript > .wrapper').css("visibility") == "visible") $('#transcript > .wrapper').css("visibility", "hidden")
-	      	else $('#transcript > .wrapper').css("visibility", "visible")
+					if($('#transcript > .wrapper').css("visibility") == "visible") $('#transcript > .wrapper').css("visibility", "hidden");
+	      	else $('#transcript > .wrapper').css("visibility", "visible");
 				}
 				//w for wordcount testing
 				else if(event.which == 87){	

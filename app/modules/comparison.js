@@ -131,6 +131,28 @@ function(app) {
     
   });
 
+  // Extended view for honesty, complexity, formality	
+  Comparison.SpectrumModel = Comparison.Model.extend({    	
+  	setValues: function() {
+	  	
+  		this.set({viewType:"spectrum"});
+  	}
+  });
+
+  Comparison.Views.Spectrum = Backbone.View.extend({
+    template: "comparison/spectrum",
+    className: "comparison container",
+
+		initialize: function() {
+			 this.model.on("change", this.render, this);
+		},
+		
+    serialize: function() {
+      return { comparison: this.model };
+    }
+    
+  });
+
   // Extended view for word count, unique word count	
   Comparison.CountModel = Comparison.Model.extend({    	
 
@@ -224,7 +246,12 @@ function(app) {
 			return this.insertView(new Comparison.Views.Emotion({
 					model: comparison
 				}));
-		}	
+		}
+		else if (comparison.get("viewType") === "spectrum") {
+			return this.insertView(new Comparison.Views.Spectrum({
+					model: comparison
+				}));
+		}			
 		else if (comparison.get("viewType") === "list") {
 			return this.insertView(new Comparison.Views.List({
 					model: comparison

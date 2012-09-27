@@ -8,9 +8,9 @@
 		<div class="push-4 span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05;"></div>
 		<div class="push-5 span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05;"></div>
 -->
-		<p class="franklinMedIt fgBlue comparisonExpText"> <%= comparison.get("title") %></p>
-		<hr class="bgBlue" style="height:3px"/>
-		<p class="franklinMed fgBlue comparisonExpSubtitle"><%= comparison.get("subtitle") %></p>
+		<p class="franklinMedIt purple comparisonExpText"> <%= comparison.get("title") %></p>
+		<hr class="bgPurple" style="height:3px"/>
+		<p class="franklinMed redOrange comparisonExpSubtitle"><%= comparison.get("subtitle") %></p>
 
 		<% 	var val0 = comparison.get("traits")[0].vals[0]; 
 				var val1 = comparison.get("traits")[0].vals[1]; 
@@ -25,35 +25,24 @@
 				}
 				%>
 
-		<div class="comparisonBarGraph bgBlue push-1 span-2" style="height:<%= mapVal(val0)[0] %>px; top:<%= mapVal(val0)[1] %>px;" >
+		<div class="comparisonBarGraph bgPurple push-1 span-2" style="height:<%= mapVal(val0)[0] %>px; top:<%= mapVal(val0)[1] %>px;" >
 			<p class="franklinDemiCompIt barGraphText" > Obama </p>  <p class="franklinDemiComp barGraphValue" > <%=  Math.round(10000*val0)/100 %> </p> </div>
-		<div class="comparisonBarGraph bgBlue push-3 span-2" style="height:<%= mapVal(val1)[0] %>px; top:<%= mapVal(val1)[1] %>px;" >
+		<div class="comparisonBarGraph bgRedOrange push-3 span-2" style="height:<%= mapVal(val1)[0] %>px; top:<%= mapVal(val1)[1] %>px;" >
 			<p class="franklinDemiCompIt barGraphText" > Romney </p>  <p class="franklinDemiComp barGraphValue" > <%=  Math.round(10000*val1)/100 %>  </p> </div>
 		
 		<% comparison.get("traits").forEach(function(trait){ %>
 		
-			<% if (trait.name == "posemo") { %> 
+			<% if (trait.name == "honesty") { %> 
 				
-				<% var people = ["Palin 2008", "Obama 2008", "Kerry 2004", "Nixon 1960"];
-				var values = [4.18, 3.58, 2.88, 1.94]; %>
+				<% var people = ["Bush 2000", "Obama 2008", "Edwards 2004", "Cheney 2004"];
+				var values = [5.22, 4.15, 1.40, 0.80]; %>
 				
-			<% } else if (trait.name == "negemo") {%>
+			<% } else if (trait.name == "formality") {%>
 			
 				<% var people = ["Bush 2000", "Reagan 1984", "McCain 2008","Bush 2004"];
 				var values = [1.02, 1.59, 2.39, 3.23]; %>
 				
-			<% } else if (trait.name == "anger") {%>
-			
-				<% var people = ["Kennedy 1960", "Biden 2008", "Bush 1992", "Kerry 2004"];
-				var values = [0.32, 0.58, 0.97, 1.6]; %>
-			
-			<% } else if (trait.name == "funct") {%>
-			
-				<% var people = ["Kennedy 1960", "Biden 2008", "Bush 1992", "Kerry 2004"];
-				var values = [20, 30, 40, 50]; %>
-			
 			<% } %>
-			
 			
 				<% for (var i = 0; i < 4 ; i++) { %>
 				

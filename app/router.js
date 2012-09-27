@@ -55,10 +55,14 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
       // init comparison collection
       var comparisonCollection = new Comparison.Collection();
       var comparisonView = new Comparison.Views.All({collection: comparisonCollection});
-      comparisonCollection.add(new Comparison.EmotionModel({traitNames:["posemo"], title:"POSITIVITY", subtitle:"The percentage of words spoken that are positive in some way. ie. 'winning, happy, improve.'", range:[0,5.0]}));     
-      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"]}));     
-      
-      
+
+      comparisonCollection.add(new Comparison.CountModel({traitNames:["wc"], speakerNames:speakerCollection, title:"WORD COUNT", subtitle:"The number of total words spoken by each candidate", range:[0,10000.0]}));       
+      comparisonCollection.add(new Comparison.EmotionModel({traitNames:["funct"], speakerNames:speakerCollection, title:"FUNCTION", subtitle:"TEST!!! The percentage of words spoken that are common. ie. 'I, this, think.'", range:[0,75.0]})); 
+      comparisonCollection.add(new Comparison.EmotionModel({traitNames:["posemo"], speakerNames:speakerCollection, title:"POSITIVITY", subtitle:"The percentage of words spoken that are positive in some way. ie. 'winning, happy, improve.'", range:[0,5.0]})); 
+      comparisonCollection.add(new Comparison.EmotionModel({traitNames:["negemo"], speakerNames:speakerCollection, title:"NEGATIVITY", subtitle:"The percentage of words spoken that are negative in some way. ie. 'failure, dead, waste.'", range:[0,3.75]}));     
+      comparisonCollection.add(new Comparison.EmotionModel({traitNames:["anger"], speakerNames:speakerCollection, title:"ANGER", subtitle:"The percentage of words spoken that are angry in some way. ie. 'fight, destroy, annoy.'", range:[0,1.95]}));    
+      comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["honesty"], speakerNames:speakerCollection, title:"AUTHENTIC", subtitle:"DECEPTIVE", range:[0, 6.0]}));             
+      //comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection }));    
       
       // load from static file
       if (this.qs.docName) {
@@ -171,10 +175,12 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 	      	else $('#overlay').css("display", "inline");
       	}
       	//t for toggling transcript
-				else if(event.which == 84){	
+		else if(event.which == 84){	
 					//app.trigger("keypress:test", {type:"overlay", kind:"trait"});
-					if($('#transcript > .wrapper').css("visibility") == "visible") $('#transcript > .wrapper').css("visibility", "hidden");
+
+			if($('#transcript > .wrapper').css("visibility") == "visible") $('#transcript > .wrapper').css("visibility", "hidden");
 	      	else $('#transcript > .wrapper').css("visibility", "visible");
+
 				}
 				//w for wordcount testing
 				else if(event.which == 87){	
@@ -193,6 +199,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 					$('#testZ6').css("left", (parseInt($('#testZ6').css("left")) + 1));
 					//console.log("left = "+parseInt($('#testZ6').css("left")));
 				}
+				
       });      
       
       // Automatically load up the first debate for now

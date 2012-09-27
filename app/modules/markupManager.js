@@ -41,8 +41,8 @@ function(app, Overlay, Ref) {
   	},
   	
 	  initialize: function () {
-		  //app.on("markup:frequentWord", this.markupFrequentWord, this);		
-		  app.on("markup:wordCount", this.addWordCountOverlay, this);
+		  //app.on("markup:frequentWord", this.markupFrequentWord, this);		//EG temp for dev		
+		  //app.on("markup:wordCount", this.addWordCountOverlay, this);			//EG temp for dev
 		  app.on("markup:sentenceLead", this.addTraitOverlay, this);		  	//LM, is this psych traits? 
 		  app.on("markup:quote", this.addQuoteOverlay, this);
 		  app.on("markup:sentenceSentiment", this.addSentimentOverlay, this);
@@ -77,7 +77,6 @@ function(app, Overlay, Ref) {
 	  
 	  addQuoteOverlay: function(args) {
 		  
-		  
 	  },
 	  
 	  addWordCountOverlay: function(args){
@@ -93,12 +92,17 @@ function(app, Overlay, Ref) {
 		  var wordCountOverlay = new Overlay.Views.WordCountView({ speaker: args['speaker'], count: args['count'], word: args['word'], posY: parseInt(this.attributes.transcript.getCurSentencePosY()), wordPos: this.attributes.transcript.getRecentWordPos(args['word']) });
 		  $('#overlay').append(wordCountOverlay.el);
 		  wordCountOverlay.render();	
-		  
 	  },
 	  
 	  addNumberOverlay: function(args){
-		  	console.log("addNumberOverlay: "+args['speaker']+", "+args['phrase']);
-		
+	  		
+		  	//console.log("addNumberOverlay: "+args['speaker']+", "+args['phrase']);
+		  	if(args['speaker'] > 0){
+		  		// Markup phrase in transcript.
+		  		this.attributes.transcript.addSpanToRecentWord(args['phrase'], "numberMarkup");
+		  		// Here is where the numbers overlay would be made and inserted
+		  		
+		  	}
 	  },
 	  
 	  markupFrequentWord: function(args) {

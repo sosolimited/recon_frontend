@@ -65,35 +65,7 @@ function(app, Overlay, Ref) {
     addWord: function(args) {
     
 	    var word = args['msg'];
-	   
-	    // Check for special categories and emit events.
-	    // ---------------------------------------------------------------------
-    	// Say (said, say, saying, etc).
-    	if ($.inArray('say', word['cats']) != -1) {
-	    	app.trigger("markup:quote", {type:'quote', speaker:word['speaker']});
-    	}
-    	
-    	
-    	// Numerical.
-    	if ($.inArray('number', word['cats']) != -1) {
-    		console.log("transcript - got a number!");
-    		if (!this.numberOpen){
-	    		this.numberOpen = true;
-	    	}
-    	}
-    	if (this.numberOpen){
-    		// Update count and phrase.
-    		this.numberCount =  this.numberCount+1;
-    		if(!word['punctuationFlag']) this.numberPhrase += " ";	// Insert a space in phrase if it's not punctuation.
-    		this.numberPhrase += word['word'];
- 
-    		
-    		// When we have the correct number of words in the phrase,
-    		if(this.numberCount >= this.numberWords){
-    			this.emitNumberEvent();
-    		}
-    	}
-    	    	
+	      	    	
 	    
 	    // Add to transcript.
 	    // ---------------------------------------------------------------------
@@ -145,6 +117,37 @@ function(app, Overlay, Ref) {
         }
       }           
       //$('#curSentence').css("margin-bottom", $('#curSentence').height() - Ref.overlayOffsetY);
+      
+      // Check for special categories and emit events.
+      // Note: Gotta do this stuff after word has been added to DOM.
+	    // ---------------------------------------------------------------------
+    	// Say (said, say, saying, etc).
+    	if ($.inArray('say', word['cats']) != -1) {
+	    	app.trigger("markup:quote", {type:'quote', speaker:word['speaker']});
+    	}
+    	
+    	// Numerical.
+    	// 'number' for numerics, 'numbers' for LIWC
+    	if (($.inArray('number', word['cats']) != -1) || ($.inArray('numbers', word['cats']) != -1)) {
+    		//console.log("transcript - got a number!");
+    		if (!this.numberOpen){
+	    		this.numberOpen = true;
+	    	}
+    	}
+    	if (this.numberOpen){
+    		// Update count and phrase.
+    		this.numberCount =  this.numberCount+1;
+    		if(!word['punctuationFlag']) this.numberPhrase += " ";	// Insert a space in phrase if it's not punctuation.
+    		this.numberPhrase += word['word'];
+ 
+    		
+    		// When we have the correct number of words in the phrase,
+    		if(this.numberCount >= this.numberWords){
+    			this.emitNumberEvent();
+    		}
+    	}
+
+
       return false;
     },
     
@@ -183,6 +186,12 @@ function(app, Overlay, Ref) {
     		$(this).css("color", "rgb(207,255,36)");
     		$(this).css("text-decoration", "underline");	    	
     	});
+    	
+    	// Markup number phrases.
+    	$('#curSentence').find('.numberMarkup').each(function() {
+    		$(this).css("color", "rgb(255,157,108)");	    	    		
+    	});
+    	
     	//------------------------------------------------------------------------------
     
     
@@ -245,6 +254,7 @@ function(app, Overlay, Ref) {
     addSpanToRecentWord: function(word, className) {
     	//console.log("transcript.addSpanToRecentWord("+word+", "+className+")");
 	    var cS = $('#curSentence');
+	    //console.log("text = "+cS.text());
 	    cS.html(cS.text().replace($.trim(word), "<span class="+className+">"+$.trim(word)+"</span>"));	    
     },
         
@@ -292,7 +302,7 @@ function(app, Overlay, Ref) {
     
     emitNumberEvent: function() {
     	// Emit an event
-			app.trigger("markup:number", {type:'number', phrase:this.numberPhrase});	
+			app.trigger("markup:number", {type:'number', speaker:curSpeaker, phrase:this.numberPhrase});	
 			// Close the number.
 			this.numberOpen = false;
 			this.numberCount = 0;

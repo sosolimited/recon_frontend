@@ -90,7 +90,7 @@ function(app) {
     
     updateStats: function(args) {
     	if (this.get('speakerId') > 0) {
-	    	console.log("updateStats "+this.get('speakerId'));
+	    	//console.log("updateStats "+this.get('speakerId'));
 		    var newTraits = [];
 	  	
 	  		for (var i=0; i<this.get("traits").length; i++){ 

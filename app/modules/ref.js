@@ -11,6 +11,12 @@ function(app) {
 
   // Distance from bottom of window at which overlays appear and which open sentences sit below.
 	Ref.overlayOffsetY = 200;	
+	 
+	// Transcript leading
+	Ref.transcriptPointSize = 18;
+	Ref.transcriptLeading = 24;
+	
+	Ref.bigWordLeading = 336;
 	  
 	// For development, autoscrolling can be disabled completely
   Ref.disableAutoScroll = false;
@@ -22,6 +28,8 @@ function(app) {
   Ref.autoscrollReattachThreshold = 20;
   
   // Var grid variables for animation of absolutely positioned elements.
+  Ref.gridWidth = 136;
+  Ref.gutterWidth = 24;
 	Ref.gridColumns = [0, 160, 320, 480, 640, 800, 960];
 
   //For perspective 1000px, these are the x values to use at chosen z depths to get things to align to the grid columns.

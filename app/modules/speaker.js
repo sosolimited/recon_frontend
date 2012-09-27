@@ -21,6 +21,7 @@ function(app) {
   			//wordCountThreshholds: [ 500, 1000, 1500 ],
   			//curWordCountThreshhold: 0,
   			frequentWordThreshold: 5,
+  			wordCountPeriod: 100, 	//1000, //EG low number for testing 
   			longestSentenceLength: 0,
   			longestSentence: "",
   			curSentence: "",
@@ -29,13 +30,14 @@ function(app) {
   		}
   	},
   	
-  	initialize: function(sid, sname) {
-    	this.set({speakerId:speakerCount, name:sname});    	
+
+  	initialize: function() {
+  		//console.log("INIT SPEAKER " + this.attributes.id + " "+this.attributes.name);
+    	this.set({tag:this.attributes.tag, name:this.attributes.name, speakerId:this.attributes.speakerId});    	
       app.on("message:word", this.handleWord, this);
       app.on("message:sentenceEnd", this.handleSentenceEnd, this);
       app.on("message:stats", this.updateStats, this);
       console.log("Speaker.Model.initialize: speakerId = " + this.get('speakerId'));
-  		speakerCount++;
     },
     
     cleanup: function() {
@@ -43,11 +45,11 @@ function(app) {
     },
     
     handleWord: function(args) {
-    	//console.log("handleWord(), args.speaker= "+args['msg']['speaker']+" this.speakerId = "+this.speakerId);
+    	//console.log("handleWord(), args.speaker= "+args['msg']['speaker']+" this.speakerId = "+this.get('speakerId'));
     	
     	// check its self and not moderator
-	    //if (args['msg']['speaker'] == this.get('id') && this.get('id') > 0) {
-	    if (args['msg']['speaker'] == this.get('speakerId')) {	// && this.speakerId > 0) {	//testing
+	    if (args['msg']['speaker'] == this.get("speakerId") && this.get("speakerId") > 0) {	
+
 	    	// inc word count if not punc
    		 	if (!args['msg']['punctuationFlag']) this.set({wordCount: this.get("wordCount")+1});
    		 	// update curSentence
@@ -58,14 +60,16 @@ function(app) {
 
    		 	// Emit frequent word event.
    		 	if (args['msg']['wordInstances'] >= this.get('frequentWordThreshold')) {
-	   		 	app.trigger("markup:frequentWord", {type:"frequentWord", speaker:this.get("id"), count: args['msg']['wordInstances'], word: args['msg']['word']});
+   		 	 	if ($.inArray('funct', args['msg']['cats']) == -1) {	//If it's not a function word (aka common word).
+	   		 		app.trigger("markup:frequentWord", {type:"frequentWord", speaker:this.get("tag"), count: args['msg']['wordInstances'], word: args['msg']['word']});
+	   		 	}
    		 	}
    		 	
    		 	// Emit 1000,2000,etc word count events.
-   		 	if((this.wordCount%1000)==0){
-	   			app.trigger("markup:wordCount", {type:"wordCount", speaker:this.get("id"), count: this.wordCount, word: args['msg']['word']}); 		   		 	
-   		 	}
-   		 	
+   		 	if((this.get("wordCount")%this.get("wordCountPeriod"))==0 && this.get("wordCount")>0){
+   		 		//console.log("handleWord just reached word "+this.get("wordCount"));
+	   			app.trigger("markup:wordCount", {type:"wordCount", speaker:this.get("tag"), count: this.get("wordCount"), word: args['msg']['word']}); 		   		 	
+   		 	}	
 	    }
     },
     
@@ -128,7 +132,6 @@ function(app) {
     },
     
     compareSentenceLengths: function() {
-	  	console.log("compare sentence lengths");
 	    // check longest sentence
 	    var lead = (this.at(1).get("longestSentenceLength") > this.at(2).get("longestSentenceLength")) ? 1 : 2;
 	    if (lead != this.sentenceLengthLead) {

@@ -10,10 +10,11 @@ define([
   "modules/transcript",
   "modules/navigation",
   "modules/overlay",
-  "modules/markupManager"
+  "modules/markupManager",
+  "modules/bigWords"
 ],
 
-function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, Overlay, MarkupManager) {
+function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, Overlay, MarkupManager, BigWords) {
   // Defining the application router, you can attach sub routers here.
   var Router = Backbone.Router.extend({
     routes: {
@@ -32,6 +33,9 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 		  // init markup manager
 		  var markupManager = new MarkupManager.Model( {transcript: transcriptView} );
 		
+		  // init bigWords
+		  var bigWords = new BigWords.View();
+		  
 		  // init navigation
 		  var navigationView = new Navigation.View( {transcript: transcriptView, messages: messageCollection} );
 		  
@@ -40,9 +44,10 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 			
       // init speakers
     	var speakerCollection = new Speaker.Collection();
-    	speakerCollection.add(new Speaker.Model("moderator", "Moderator"));
-    	speakerCollection.add(new Speaker.Model("obama", "Barack Obama"));
-    	speakerCollection.add(new Speaker.Model("romney", "Mitt Romney"));
+
+    	speakerCollection.add({ speakerId:0, tag:"moderator", name:"Moderator" });
+    	speakerCollection.add({ speakerId:1, tag:"obama", name:"Barack Obama" });
+    	speakerCollection.add({ speakerId:2, tag:"romney", name:"Mitt Romney" });
     
     	// init uniquewords collection
       var uniqueWordCollection = new UniqueWord.Collection();
@@ -92,8 +97,8 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
       }).render().then(function() {	
 	      navigationView.setElement("#navigation").render();
 	      comparisonView.setElement("#comparisons").render();
-        // Need transcript to point to the actual scrolling DOM element or else scroll event handling is wack
-	     	transcriptView.setElement("#transcript > .wrapper"); 
+	     	transcriptView.setElement("#transcript > .wrapper"); // Need transcript to point to the actual scrolling DOM element or else scroll event handling is wack
+	     	bigWords.setElement("#bigWords").render();
 	     
         (function() {
           // Work with the wrappers, not the actual layers.  --> ???
@@ -152,10 +157,22 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
     
       // Listen for keydown events.
       $('body').keydown(function(event){
-      	//console.log(event.which);
-      	//t for overlay testing
-				if(event.which == 84){	
-					app.trigger("keypress:test", {type:"overlay", kind:"trait"});
+      	console.log(event.which);
+      	//g for toggling test grid
+      	if(event.which == 71){
+	      	if($('#testGrid').css("visibility") == "visible") $('#testGrid').css("visibility", "hidden")
+	      	else $('#testGrid').css("visibility", "visible")
+      	}
+      	//o for toggling overlay visibility
+      	else if(event.which == 79){
+	      	if($('#overlay').css("visibility") == "visible") $('#overlay').css("visibility", "hidden")
+	      	else $('#overlay').css("visibility", "visible")
+      	}
+      	//t for toggling transcript
+				else if(event.which == 84){	
+					//app.trigger("keypress:test", {type:"overlay", kind:"trait"});
+					if($('#transcript > .wrapper').css("visibility") == "visible") $('#transcript > .wrapper').css("visibility", "hidden")
+	      	else $('#transcript > .wrapper').css("visibility", "visible")
 				}
 				//w for wordcount testing
 				else if(event.which == 87){	

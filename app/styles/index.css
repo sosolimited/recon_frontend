@@ -20,11 +20,7 @@
 
 body {
   /* background: -webkit-linear-gradient(left, #9699A0, #C9D1CF, #C9D1CF, #9699A0); */
-  background-color: rgb(140,146,146);	
-  /*
-  -webkit-perspective: 1000px;	
-  -webkit-perspective-origin: 50% 2000px;
-  */
+  background-color: rgb(110,116,116);	
 }
 
 .layer {
@@ -53,7 +49,51 @@ body {
 }
 
 #overlay {
+	
+}
 
+#bigWords {
+	position: absolute;
+	top: 0px;
+	
+	
+	/* 
+	-webkit-perspective: 700px; 
+	-webkit-perspective-origin: 50% 1000px;	
+	*/
+}
+
+#bigWords .hiddenWord {
+  display: none;
+  -webkit-transform: none;
+}
+
+.bigWordsHolder {
+	/* display: block; */
+	/* left: -600px; */	/* account for perspective */
+	font-size: 400px;
+	line-height: 336px;
+	font-family:"ff-meta-serif-web-pro"; 
+	font-weight:700; 
+	font-style:italic; 
+	color: rgb(116,120,120);
+	
+	/* -webkit-transform: translateZ(-500px); */
+	
+}
+
+.bigWord {
+	position: absolute;
+	display: block;
+	left: 0px;	/* account for perspective */
+	font-size: 400px;
+	line-height: 336px;
+	font-family:"ff-meta-serif-web-pro"; 
+	font-weight:700; 
+	font-style:italic; 
+	color: rgb(116,120,120);
+	
+	/* -webkit-transform: translateZ(-500px); */
 }
 
 .testZ {
@@ -238,19 +278,20 @@ hr {
 
 
 /* Colors */
+.gray60{ color:rgb(60,60,60); }
 .gray80{ color:rgb(80,80,80); }
 .pink{ color:rgb(231,0,149); }
 .fgBlue{ color:rgb(64,180,229); }
 .bgBlue{ background-color:rgb(64,180,229); }
-
-
+.lime{ color:rgb(207,255,36); }
+.salmon{ color:rgb(255,157,108); }
 
 /* Overlays */
 
-.overlay {
+.over {
 	z-index: 2;	
 }
-.underlay {
+.under {
 	z-index: -2;
 }
 
@@ -260,6 +301,8 @@ hr {
 	height: 100000px;
 	width: 1px;
 }
+
+/* Trait overlays */
 
 .traitExpTextHolder {
 	position:absolute; 
@@ -294,6 +337,61 @@ hr {
 
 	-webkit-transform: translateZ(0px);
 }
+
+/* Word count overlays */
+
+.wordCountTextHolder {
+	position:absolute; 
+	overflow: hidden;
+	/* width:1024px; */
+	height:120px; 	
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+	/* background-color:yellow; */
+
+	-webkit-transition: -webkit-transform 1s ease-in, left 1s, top 1s, height 1s;	
+	-webkit-transform: translateZ(0px);	
+
+	
+}
+
+.wordCountText {
+	position:relative;
+	top:120px;	/* Start out of view */
+	font-size: 120px;
+	color: rgb(207,255,36);
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+	line-height:120px;
+	
+	-webkit-transition: top 1s, font-size 1s, line-height 1s;
+}
+
+.wordCountWord {
+	position:relative;
+	top:120px;	/* Start out of view */
+	font-size: 120px;
+	color: white;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+	line-height:120px;
+	
+	-webkit-transition: top 1s, font-size 1s, line-height 1s;
+}
+
+.wordCountLine {
+	position:absolute;
+	height: 0; 
+	border-bottom: 2px dotted rgb(207,255,36);
+	background-color: transparent;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+	width:0px;
+	
+	-webkit-transition: width 1s;
+
+}
+
 
 .comparisonExpText {
 	position:relative;

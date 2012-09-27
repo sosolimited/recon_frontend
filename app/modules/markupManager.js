@@ -41,11 +41,12 @@ function(app, Overlay, Ref) {
   	},
   	
 	  initialize: function () {
-		  //app.on("markup:frequentWord", this.markupFrequentWord, this);		//EG temp commented for dev
-		  app.on("markup:wordCount", this.addWordCountOverlay, this);
+		  //app.on("markup:frequentWord", this.markupFrequentWord, this);		//EG temp for dev		
+		  //app.on("markup:wordCount", this.addWordCountOverlay, this);			//EG temp for dev
 		  app.on("markup:sentenceLead", this.addTraitOverlay, this);		  	//LM, is this psych traits? 
 		  app.on("markup:quote", this.addQuoteOverlay, this);
 		  app.on("markup:sentenceSentiment", this.addSentimentOverlay, this);
+		  app.on("markup:number", this.addNumberOverlay, this);
 		  app.on("body:scroll", this.handleScroll, this);
 		  //for testing
 		  app.on("keypress:test", this.test, this);
@@ -69,42 +70,69 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  addTraitOverlay: function(args) {
-		  var traitsOverlay = new Overlay.Views.TraitView({trait: "FORMAL", leader: "obama", posY: parseInt(this.attributes.transcript.getCurSentencePosY())});
+		  var traitsOverlay = new Overlay.Views.TraitView({ trait: "FORMAL", leader: "obama", posY: parseInt(this.attributes.transcript.getCurSentencePosY()) });
 			$('#overlay').append(traitsOverlay.el);
 			traitsOverlay.render();
 	  },
 	  
 	  addQuoteOverlay: function(args) {
 		  
-		  
 	  },
 	  
 	  addWordCountOverlay: function(args){
+	  	//console.log("markupManager.addWordCountOverlay " + args['speaker'] + ", " + args['count'] + ", " + args['word']);
+	  	
+	  	// Markup word in transcript (transcript handles actual styling on endSentence)
+		  //this.attributes.transcript.addClassToRecentWord(args['word'], "wordCountMarkup");
+		  // Note, gotta do this before making the overlay because the overlay needs the position of the word span.
+		  this.attributes.transcript.addSpanToRecentWord(args['word'], "wordCountMarkup");
 		  
-		  
+	  	// Create and insert overlay.
+	  	//console.log("markupManager.addWordCountOverlay, collapseY = "+this.attributes.transcript.getRecentWordPosY(args['word']));	  	
+		  var wordCountOverlay = new Overlay.Views.WordCountView({ speaker: args['speaker'], count: args['count'], word: args['word'], posY: parseInt(this.attributes.transcript.getCurSentencePosY()), wordPos: this.attributes.transcript.getRecentWordPos(args['word']) });
+		  $('#overlay').append(wordCountOverlay.el);
+		  wordCountOverlay.render();	
+	  },
+	  
+	  addNumberOverlay: function(args){
+	  		
+		  	//console.log("addNumberOverlay: "+args['speaker']+", "+args['phrase']);
+		  	if(args['speaker'] > 0){
+		  		// Markup phrase in transcript.
+		  		this.attributes.transcript.addSpanToRecentWord(args['phrase'], "numberMarkup");
+		  		// Here is where the numbers overlay would be made and inserted
+		  		
+		  	}
 	  },
 	  
 	  markupFrequentWord: function(args) {
-		  // Skip common words
-      if($.inArray(args['word'].toLowerCase(), commonWords) > -1) return false;
-
+	
+			// Skipping of common words is done in Speaker module where the markup:frequentWord event is emitted.	  
+			
+      /*
 		  // Add a class named "frequentWord" and a "data-wordcount" attribute to
       // words in the current sentence. DOM elements are created in transcript
       // when the sentence is complete.
 	  	$('#curSentence').children().each(function() {
 		  	if($.trim($(this).text()).toLowerCase() == $.trim(args['word']).toLowerCase()){ 
-		  		$(this).addClass('frequentWord');
+		  		$(this).addClass('frequentWordMarkup');
+          $(this).attr("data-wordcount", args['count']);
+		  	}
+	  	});
+	  	*/
+	  	// Now that there is not a span per word, gotta do it in this order.
+	  	this.attributes.transcript.addSpanToRecentWord(args['word'], "frequentWordMarkup");
+	  	$('#curSentence').children().each(function() {
+		  	if($.trim($(this).text()).toLowerCase() == $.trim(args['word']).toLowerCase()){ 
           $(this).attr("data-wordcount", args['count']);
 		  	}
 	  	});
 	  },
 	  
-	  annotateTranscript: function() {
-	  
-	  },
+
 	  
 	  handleScroll: function(val) {
-			 $('.wrapper').css("webkit-perspective-origin", "50% "+(val+500)+"px");		     	
+			 $('.wrapper').css("webkit-perspective-origin", "50% "+(val+500)+"px");
 	  },
 	  
 	  // For testing things with keypresses.
@@ -115,20 +143,31 @@ function(app, Overlay, Ref) {
 				 		this.addTraitOverlay();
 			  }else if(args['kind']=="wordCount"){
 				 		console.log("test - wordCount overlay");			  
+				 		//this.addWordCountOverlay();
 			  }
 		  }
 		  else if(args['type']=="testParallax"){
 				//inserg some test objects
-				console.log("testParallax");
+				//console.log("testParallax");
 				
 				for(var y=0; y<10; y++){
 				  for(var i=0; i<6; i++){	
+				  
 				  $('#overlay').append("<span id='testZ" + (i+1) + "' class='testZ' style='left:" + Ref.gridZn200['grid'][i] + "px; top:" + (y*600 + 600) + "px; -webkit-transform: translateZ(-200px); background-color:blue;'>" + i + "</span>");
 				  	
 				  	$('#overlay').append("<span id='testZ" + (i+1) + "' class='testZ' style='left:" + Ref.gridZ100['grid'][i] + "px; top:"  + (y*600 + 600) + "px; -webkit-transform: translateZ(100px); background-color:yellow;'>" + i + "</span>");
 				  	
 				  	$('#overlay').append("<span id='testZ" + (i+1) + "' class='testZ' style='left:" + Ref.gridZ200['grid'][i] + "px; top:"  + (y*600 + 600) + "px; -webkit-transform: translateZ(200px); background-color:red;'>" + i + "</span>");
-				  }		  
+				  
+				  /*
+				  //EG testing with translateX instead of left for x position
+				  $('#overlay').append("<span id='testZ" + (i+1) + "' class='testZ' style='left:0px; -webkit-transform:translateX(" + Ref.gridZn200['grid'][i] + "px); top:" + (y*600 + 600) + "px; -webkit-transform: translateZ(-200px); background-color:blue;'>" + i + "</span>");
+				  	
+				  	$('#overlay').append("<span id='testZ" + (i+1) + "' class='testZ' style='left:0px; -webkit-transform:translateX(" + Ref.gridZ100['grid'][i] + "px); top:"  + (y*600 + 600) + "px; -webkit-transform: translateZ(100px); background-color:yellow;'>" + i + "</span>");
+				  	
+				  	$('#overlay').append("<span id='testZ" + (i+1) + "' class='testZ' style='left:0px; -webkit-transform:translateX(" + Ref.gridZ200['grid'][i] + "px); top:"  + (y*600 + 600) + "px; -webkit-transform: translateZ(200px); background-color:red;'>" + i + "</span>");
+				  	*/	  
+				  }	
 			  }
 		  }
 	  },

@@ -26,12 +26,13 @@
 				%>
 
 		<div class="comparisonBarGraph bgBlue push-1 span-2" style="height:<%= mapVal(val0)[0] %>px; top:<%= mapVal(val0)[1] %>px;" >
-			<p class="franklinDemiCompIt barGraphText" > Obama </p>  <p class="franklinDemiComp barGraphValue" > <%=  Math.round(10000*val0)/100 %> </p> </div>
+			<p class="franklinMedCompIt barGraphText grayBlue" > Obama </p>  <p class="franklinMedComp barGraphValue" > <%=  Math.round(10000*val0)/100 %> </p> </div>
 		<div class="comparisonBarGraph bgBlue push-3 span-2" style="height:<%= mapVal(val1)[0] %>px; top:<%= mapVal(val1)[1] %>px;" >
-			<p class="franklinDemiCompIt barGraphText" > Romney </p>  <p class="franklinDemiComp barGraphValue" > <%=  Math.round(10000*val1)/100 %>  </p> </div>
+			<p class="franklinMedCompIt barGraphText grayBlue" > Romney </p>  <p class="franklinMedComp barGraphValue" > <%=  Math.round(10000*val1)/100 %>  </p> </div>
 		
 		<% comparison.get("traits").forEach(function(trait){ %>
 		
+
 			<% if (trait.name == "posemo") { %> 
 				
 				<% var people = ["Palin 2008", "Obama 2008", "Kerry 2004", "Nixon 1960"];
@@ -54,18 +55,18 @@
 			
 			<% } %>
 			
-			
 				<% for (var i = 0; i < 4 ; i++) { %>
 				
 					<div class="comparisonLineContainer" style="top:<%= mapVal(values[i]/100.0)[1] %>px"> 
-					<p class="franklinDemiCompIt comparisonPastCandidate" style="top:-50px" > <%=people[i] %></p>
-					<hr class="span-5" /> 
+					<p class="franklinDemiCompIt comparisonPastCandidate grayBlue" style="top:-50px" > <%=people[i] %></p>
+					<hr class="span-5 bgGrayBlue"  /> 
 					<p class="franklinDemiComp comparisonPastValue" style="top:-15px" > <%=values[i]%> </p> 
 					</div>
 			
 				<% } %>
 			
 		<% }); %>
+
 
 </div>
 

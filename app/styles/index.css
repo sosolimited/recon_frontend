@@ -57,8 +57,10 @@ body {
 	top: 0px;
 	
 	
+	/* 
 	-webkit-perspective: 700px; 
 	-webkit-perspective-origin: 50% 1000px;	
+	*/
 }
 
 #bigWords .hiddenWord {
@@ -91,7 +93,7 @@ body {
 	font-style:italic; 
 	color: rgb(116,120,120);
 	
-	-webkit-transform: translateZ(-500px);
+	/* -webkit-transform: translateZ(-500px); */
 }
 
 .testZ {
@@ -258,6 +260,8 @@ hr {
 
 .franklinBookComp{ font-family:"franklin-gothic-urw-comp"; font-weight:400; font-style:normal; }
 .franklinBookCompIt{ font-family:"franklin-gothic-urw-comp"; font-weight:400; font-style:italic; }
+.franklinMedComp{ font-family:"franklin-gothic-urw-comp"; font-weight:600; font-style:normal; }
+.franklinMedCompIt{ font-family:"franklin-gothic-urw-comp"; font-weight:600; font-style:italic; }
 .franklinDemiComp{ font-family:"franklin-gothic-urw-comp"; font-weight:700; font-style:normal; }
 .franklinDemiCompIt{ font-family:"franklin-gothic-urw-comp"; font-weight:700; font-style:italic; }
 
@@ -271,14 +275,11 @@ hr {
 .franklinHeavy{ font-family:"franklin-gothic-urw"; font-weight:900; font-style:normal; }
 .franklinHeavyIt{ font-family:"franklin-gothic-urw"; font-weight:900; font-style:italic; }
 
-
-
-
-
 /* Colors */
 .gray60{ color:rgb(60,60,60); }
 .gray80{ color:rgb(80,80,80); }
 .grayBlue{ color:rgb(77,77,85); }
+.bgGrayBlue{ background-color:rgb(77,77,85); }
 .pink{ color:rgb(231,0,149); }
 .fgBlue{ color:rgb(64,180,229); }
 .bgBlue{ background-color:rgb(64,180,229); }
@@ -290,6 +291,7 @@ hr {
 .bgRedOrange{ background-color:rgb(255, 66, 55); } 
 .purple{ color:rgb(101, 45, 106); } 
 .bgPurple{ background-color:rgb(101, 45, 106); } 
+.salmon{ color:rgb(255,157,108); }
 
 /* Overlays */
 
@@ -426,7 +428,6 @@ hr {
 .comparisonPastCandidate {
 	position:absolute;
 	font-size: 24px;
-	color:black;
 	width: 300px;
 	height: 10px;
 }
@@ -455,11 +456,42 @@ hr {
 
 .barGraphValue {
 	position:absolute;
-	font-size: 36px;
+	font-size: 32px;
 	left: 10px;
 	bottom: 5px;
 	line-height:24px;
 	color: white;
+}
+
+.spectrumPointer {
+	height: 100px;
+	position: absolute;
+}
+
+.spectrumText {
+	position:absolute;
+	font-size: 48px;
+	left: 10px;
+	bottom: -5px;
+	text-decoration: underline;
+	line-height:48px;
+	color:white;
+
+}
+
+.spectrumValue {
+	position:absolute;
+	font-size: 32px;
+	left: 10px;
+	bottom: -15px;
+	line-height:24px;
+	color: white;
+}
+
+.spectrumLineContainer {
+	position:absolute;
+	height: 50px;
+	float:left;
 }
 
 .comparisonList {
@@ -475,7 +507,7 @@ hr {
 	list-style: none inside;
 	text-align: right;
 	padding: 0 0 0 0;	
-	font-size: 18px;	
+	font-size: 16px;	
     color:white;
 	line-height:24px;
 }

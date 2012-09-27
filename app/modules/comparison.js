@@ -26,11 +26,11 @@ function(app) {
   		var k = [];
   	
   		for (var i=0; i<options.traitNames.length; i++) {
-  			console.log("adding trait "+options.traitNames[i]);
-	  		this.get("traits").push({name:options.traitNames[i], vals:[0,0]});
-	  	}
-  		
-  		console.log("added traits "+options.traits.length);
+
+  			//console.log("adding trait "+options.traitNames[i]);
+  			this.get("traits").push({name:options.traitNames[i], vals:[0,0]});
+  		}
+  		//console.log("added traits "+options.traits.length);
   		
   		this.set({viewType:options.viewType, title:options.title, range:options.range, speakers:options.speakerNames});
   		

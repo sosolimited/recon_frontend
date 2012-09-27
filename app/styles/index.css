@@ -19,8 +19,11 @@
  
 
 body {
+	position: relative;
   /* background: -webkit-linear-gradient(left, #9699A0, #C9D1CF, #C9D1CF, #9699A0); */
   background-color: rgb(110,116,116);	
+  overflow-y: scroll;	
+  overflow-x: hidden;	/* not working! */
 }
 
 .layer {

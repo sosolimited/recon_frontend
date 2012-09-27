@@ -158,6 +158,42 @@ function(app, Overlay, Ref) {
       // Frequent words are marked by a class named "frequentWord"
       // and have an attribute "data-wordcount" added by markupManager
       var mainEl = this.$el;
+      
+      //Go through all spans so you can create markup heirarchy (ie specify which markups take precedence)  
+      $('#curSentence').find('span').each(function() {
+	     	 // Word count markup.
+	     	 if($(this).hasClass("wordCountMarkup")){	
+	     	   $(this).css("color", "rgb(207,255,36)");
+	     	   $(this).css("text-decoration", "underline");	    	
+	     	 }
+	     	 // Number markup.
+	     	 else if($(this).hasClass("numberMarkup")){
+	     	 		$(this).css("color", "rgb(255,157,108)");	    	    		
+	     	 }
+	     	 // Frequent word markup.
+	     	 else if($(this).hasClass("frequentWordMarkup")){
+			     	//$(this).css("color", "rgb(100,100,100)");	
+		    		$(this).css("border-bottom", "1px solid white");	//To do different color underline.
+		    		
+		    		//$(this).css("text-decoration-color", "rgb(255,255,255)");	
+		        var count = $(this).attr("data-wordcount");
+		        if(count != undefined) {
+		          // Add a div at this point and animate it inCannot read property 'top' of null 
+		          var pos = $(this).position();
+		          var wordWidth = $(this).width();
+		          var lineHeight = $(this).height();
+		          var container = $("<div class='wordCountFrame' style='left: " + (pos.left + wordWidth) + "px; top: " + (pos.top - lineHeight/2) + "px;'></div>");
+		          var countDiv = $("<div class='wordCount'>" + count + "</div>");
+		          container.append(countDiv);
+		          $(this).parent().append(container);
+		          countDiv.animate({top: '0px'}, 300);
+		        }  	     	 
+	     	 }
+	     	 
+	      
+      });
+      
+      /*	//Old way of checking for markup classes.
     	$('#curSentence').find('.frequentWordMarkup').each(function() {
   			// Make sure it doesn't have any of the other markup classes (which will override frequent words)  	
 	   		if(!$(this).hasClass("wordCountMarkup")){
@@ -191,6 +227,7 @@ function(app, Overlay, Ref) {
     	$('#curSentence').find('.numberMarkup').each(function() {
     		$(this).css("color", "rgb(255,157,108)");	    	    		
     	});
+    	*/
     	
     	//------------------------------------------------------------------------------
     

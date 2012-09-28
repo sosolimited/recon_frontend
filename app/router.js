@@ -28,9 +28,6 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 	    // Init msg collection
 			var messageCollection = new Message.Collection();
 			
-			//init landing page
-			var landingView = new Landing.View( {model: new Landing.Model()} );
-			
 		  // init transcript
 		  var transcriptView = new Transcript.View( {messages: messageCollection} );
 		  
@@ -38,10 +35,14 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 		  var markupManager = new MarkupManager.Model( {transcript: transcriptView} );
 		
 		  // init bigWords
-		  var bigWords = new BigWords.View();
+		  var bigWordsView = new BigWords.View();
 		  
 		  // init navigation
 		  var navigationView = new Navigation.View( {transcript: transcriptView, messages: messageCollection} );
+		  
+		  //init landing page
+			var landingView = new Landing.View( {model: new Landing.Model(), navigation: navigationView, transcript: transcriptView, overlay: markupManager, bigWords: bigWordsView} );
+			navigationView.setLanding(landingView);
 		  
 			var live = true;
 			var startTime = new Date().getTime();
@@ -103,12 +104,15 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 
       app.useLayout("main").setViews({
       }).render().then(function() {	
-	      //landingView.setElement("#landing").render();
+	      landingView.setElement("#landing").render();
 	      navigationView.setElement("#navigation").render();
 	      comparisonView.setElement("#comparisons").render();
 	     	transcriptView.setElement("#transcript > .wrapper"); // Need transcript to point to the actual scrolling DOM element or else scroll event handling is wack
-	     	bigWords.setElement("#bigWords").render();
-
+	     	bigWordsView.setElement("#bigWords").render();
+	     
+	     	// Init transcript view to hidden. 
+	     	// Navigation and bigWords are getting reset in afterRender()
+	     	transcriptView.reset();
 	     
         (function() {
           // Work with the wrappers, not the actual layers.  --> ???
@@ -131,7 +135,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
           });
         })();
       });
-
+     
       // WEBSOCKET MESSAGE EVENTS
       // ----------------------------------------------------------------------
       app.socket.on("stats", function(msg) {    

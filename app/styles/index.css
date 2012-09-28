@@ -74,7 +74,7 @@ body {
   -webkit-transform: none;
 }
 
-.bigWordsHolder {
+#bigWordsHolder {
 	/* display: block; */
 	/* left: -600px; */	/* account for perspective */
 	font-size: 400px;
@@ -134,7 +134,8 @@ p { /* Transcript text */
 
 #curSentence {
 	color: white;
-	background-color: rgb(64, 180, 230);	
+	/* background-color: rgb(64, 180, 230);	*/
+	background-color: rgb(50,50,50);
 }
 
 .transcriptSentence {
@@ -282,8 +283,11 @@ hr {
 .franklinHeavyIt{ font-family:"franklin-gothic-urw"; font-weight:900; font-style:italic; }
 
 /* Colors */
+.white{ color:rgb(255,255,255); }
+.gray50{ color:rgb(50,50,50); }
 .gray60{ color:rgb(60,60,60); }
 .gray80{ color:rgb(80,80,80); }
+.gray200{ color:rgb(200,200,200); }
 .grayBlue{ color:rgb(77,77,85); }
 .bgGrayBlue{ background-color:rgb(77,77,85); }
 .pink{ color:rgb(231,0,149); }
@@ -318,36 +322,116 @@ hr {
 
 /* Landing page */
 
-.landingTitle {
+#landingTitle {
+	position:absolute;
 	color: white;
-	font-size: 96px;
+	font-size: 48px;
+	line-height: 48px;
+	top: 48px;
 	display:block;
 }
 
-.landingSubTitle {
+#landingSubTitle {
+	position: absolute;
+	top: 588px;
 	color: white;
-	background-color: rgb(64,180,229);
-	font-size: 24px;
+	font-size: 42px;
+	line-height: 48px;
+	z-index:1;
+}
+
+#landingSubTitleDiv {
+	position: absolute;
+	top: 588px;
+	width: 100%;
+	height: 48px;
+	background-color: rgb(207,255,36);
+	z-index:0;
+}
+
+#landingObama {
+	position: absolute;
+	top: 132px;
+	font-size: 230px;
+	line-height: 156px;
+}
+
+#landingVersus {
+	position: absolute;
+	top: 288px;
+	left: 249px;
+	font-size: 96px;
+	line-height: 96px;
+}
+
+#landingRomney {
+	position: absolute;
+	top: 396px;
+	font-size: 200px;
+	line-height: 144px;
+}
+
+#landingButtonBox {
+	position: absolute;
+	width: 296px;
+	height: 264px;
+	top: 156px;
+	/* background-color: yellow; */
+}
+
+.landingButtonHolder {
+	position: relative;	
 }
 
 .landingButton {
-	position: absolute;
-	top: 300px;
+	position: static;
 	padding: 0 0 0 0;
 	left: 0px;
-	color: rgb(40,40,40);
 	font-size: 36px;
+	line-height: 36px;
+	margin: 12px 0px 0px 0px;
 }
 
 .landingDate {
-	position: absolute;
+	position: static;
 	top: 400px;
 	padding: 0 0 0 0;
 	left: 0px;
-	color: rgb(40,40,40);
-	font-size: 24px;
+	font-size: 20px;
+	line-height: 24px;
+	margin: 0px 0px 24px 0px;
 }
 
+.landingArrow {
+	position: absolute;
+	font-size: 96px;
+	line-height: 96px;
+	top: -6px;
+	left: 248px;	
+}
+
+.landingRule {
+	position: static; 
+	width: 296px;
+	margin: 0px 0px 0px 0px;	
+}
+
+#landingCreditsBox {
+	position: absolute;
+	left: 0px;
+	top: 672px;
+	width: 1024px;
+	height: 106px;
+}
+
+.landingCredits {
+	position: absolute;
+	font-size: 18px;
+	line-height: 24px;
+}
+
+
+/*
 .landingDescription {
 	position: absolute;
 	top: 600px;
@@ -356,6 +440,7 @@ hr {
 	font-size: 18px;
 	line-height: 24px;
 }
+*/
 
 /* Trait overlays */
 

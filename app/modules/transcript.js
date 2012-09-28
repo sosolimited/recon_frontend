@@ -513,7 +513,22 @@ function(app, Overlay, Ref) {
   		this.endParagraph();
   		$('#'+n).parent().parent().parent().nextAll().andSelf().remove();
   		
+    },
+    
+    enter: function() {
+	    $('#transcript').css("visibility", "visible");
+    },
+    
+    exit: function() {
+	    $('#transcript').css("visibility", "hidden");	    
+    },
+    
+    // Reset puts everything where it's supposed to be before entering.
+    reset: function() {
+	    $('#transcript').css("visibility", "hidden");	    
     }
+   
+   
   });
 
   // Return the module for AMD compliance.

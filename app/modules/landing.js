@@ -2,14 +2,10 @@ define([
   // Application.
   "core/app",
   "modules/ref",
-  "modules/navigation",
-  "modules/transcript",
-  "modules/overlay",
-  "modules/bigWords"
 ],
 
 // Map dependencies from above array.
-function(app, Ref, Navigation, Transcript, Overlay, BigWords) {
+function(app, Ref) {
 
   // Create a new module.
   var Landing = app.module();  
@@ -20,10 +16,11 @@ function(app, Ref, Navigation, Transcript, Overlay, BigWords) {
   		return {
 	  		startDates: [new Date(2012, 10, 3, 21, 0), new Date(2012, 10, 16, 21, 0), new Date(2012, 10, 22, 21, 0)],
 	  		endDates: [new Date(2012, 10, 3, 22, 30), new Date(2012, 10, 16, 22, 30), new Date(2012, 10, 22, 22, 30)],
-	  		description: "ReConstitution 2012 is a live web app linked to the three US Presidential Debates. As the debates are happening, language used by the candidates is fed into the app in real time, generating a live data map. Algorithms track the psychological states of Romney and Obama and compare them to past candidates, revealing hidden meaning behind their words.",
+	  		/*
+	  		description: "ReConstitution 2012 is a live web app linked to the three US Presidential Debates. As the debates are happening, language used by the candidates is fed into the app in real time, generating a live data map. Algorithms track the psychological states of Romney and Obama and compare them to past candidates, revealing hidden meaning behind their words.",*/
 	  		now: new Date(),
 	  		live: 0	// 1,2,3 if we are watching a debate live.
-	  		}	  		
+	  		}	  			
   	},
   	
   	initialize: function() {
@@ -38,6 +35,11 @@ function(app, Ref, Navigation, Transcript, Overlay, BigWords) {
     initialize: function() {
 	    this.model = this.options.model;	
 	    console.log("new Landing.View: Date = "+this.model.get("startDates")[0].getUTCDate());
+	    
+	    this.navigation = this.options.navigation;
+	    this.transcript = this.options.transcript;
+	    this.overlay = this.options.overlay;
+	    this.bigWords = this.options.bigWords;	    
     },
     
     events: {
@@ -47,7 +49,7 @@ function(app, Ref, Navigation, Transcript, Overlay, BigWords) {
     },
     
     serialize: function() {
-	    return {live: this.model.live, dates: this.model.get("startDates"), now: this.model.now, description: this.model.get("description")};	
+	    return {live: this.model.live, dates: this.model.get("startDates"), now: this.model.now};	
     },
     
     handleDebateClick: function(e) {
@@ -59,14 +61,25 @@ function(app, Ref, Navigation, Transcript, Overlay, BigWords) {
 
         }       
         this.exit();
+        //this.overlay.enter();	// Overlay enter taken care of by transcript.
     },
     
     enter: function() {
+    	// Hello landing.
 	    $('#landingWrapper').css("visibility", "visible");
+	    // Bye bye everything else.
+	    this.navigation.exit();
+      this.transcript.exit();
+      this.bigWords.exit();	
     },
     
     exit: function() {
+    	// Bye bye landing.
  	    $('#landingWrapper').css("visibility", "hidden");	    
+ 	    // Hello everything else.
+ 	    this.navigation.enter();
+      this.transcript.enter();
+      this.bigWords.enter();	
     }
     
   });

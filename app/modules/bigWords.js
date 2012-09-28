@@ -95,7 +95,25 @@ function(app, Ref) {
       
       var out = _focalLength / (_focalLength - z);
       return out;
+    },
+    
+    enter: function() {
+	    $('#bigWordsHolder').css("visibility", "visible");
+    },
+    
+    exit: function() {
+ 	    $('#bigWordsHolder').css("visibility", "hidden");	    
+    },
+    // Reset puts everything where it's supposed to be before entering.
+    reset: function() {
+	    $('#bigWordsHolder').css("visibility", "hidden");	    
+    },
+    
+    //Init it to hidden state, ready for enter.
+    afterRender: function() {
+	    this.reset();
     }
+    
   });
 
   // Return the module for AMD compliance.

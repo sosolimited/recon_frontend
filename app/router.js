@@ -29,7 +29,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 			var messageCollection = new Message.Collection();
 			
 			//init landing page
-			//var landingView = new Landing.View( {model: new Landing.Model()} );
+			var landingView = new Landing.View( {model: new Landing.Model()} );
 			
 		  // init transcript
 		  var transcriptView = new Transcript.View( {messages: messageCollection} );

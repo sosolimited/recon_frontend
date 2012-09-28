@@ -1,8 +1,9 @@
-<div class="container">
+<div id="landingWrapper" class="container">
 	<span class="landingTitle franklinDemiIt">ReConstitution2012</span>
-	<span class="landingSubTitle franklinDemiIt">A LIVE DECONSTRUCTION OF THE US PRESIDENTIAL DEBATES</span>
+	<span class="landingSubTitle franklinDemiCompIt">A LIVE DECONSTRUCTION OF THE US PRESIDENTIAL DEBATES</span>
 	<span class="landingDescription metaBook push-0 span-3"><%= description %></span>
 	<% for (var i=0; i<3; i++){ %>
-		<span class="landingButton franklinDemiIt span-2 push-<%= i*2 %>"><%= "October "+dates[i].getUTCDate() %></span>
+		<span id="landingButton<%= i %>" class="landingButton franklinDemiCompIt span-2 push-<%= i*2 %>"><%= "WATCH DEBATE "+(i+1) %></span>
+		<span class="landingDate franklinDemiCompIt span-2 push-<%= i*2 %>"><%= "October "+dates[i].getUTCDate()+", "+dates[i].getFullYear()+" "+dates[i].getHours()%12+" PM EST" %></span>
 	<% } %>
 </div>

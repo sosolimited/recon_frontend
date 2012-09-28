@@ -1,11 +1,15 @@
 define([
   // Application.
   "core/app",
-  "modules/ref"
+  "modules/ref",
+  "modules/navigation",
+  "modules/transcript",
+  "modules/overlay",
+  "modules/bigWords"
 ],
 
 // Map dependencies from above array.
-function(app, Ref) {
+function(app, Ref, Navigation, Transcript, Overlay, BigWords) {
 
   // Create a new module.
   var Landing = app.module();  
@@ -36,9 +40,35 @@ function(app, Ref) {
 	    console.log("new Landing.View: Date = "+this.model.get("startDates")[0].getUTCDate());
     },
     
+    events: {
+        'click #landingButton0': 'handleDebateClick',
+        'click #landingButton1': 'handleDebateClick',
+        'click #landingButton2': 'handleDebateClick'
+    },
+    
     serialize: function() {
-	    return {live: this.model.live, dates: this.model.get("startDates"), now: this.model.now, description: this.model.description};	
+	    return {live: this.model.live, dates: this.model.get("startDates"), now: this.model.now, description: this.model.get("description")};	
+    },
+    
+    handleDebateClick: function(e) {
+        if(e.target.getAttribute("id")=="landingButton0"){
+
+        }else if(e.target.getAttribute("id")=="landingButton1"){
+
+        }else if(e.target.getAttribute("id")=="landingButton2"){
+
+        }       
+        this.exit();
+    },
+    
+    enter: function() {
+	    $('#landingWrapper').css("visibility", "visible");
+    },
+    
+    exit: function() {
+ 	    $('#landingWrapper').css("visibility", "hidden");	    
     }
+    
   });
 
   // Return the module for AMD compliance.

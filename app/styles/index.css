@@ -333,11 +333,25 @@ hr {
 .landingButton {
 	position: absolute;
 	top: 300px;
+	padding: 0 0 0 0;
+	left: 0px;
 	color: rgb(40,40,40);
 	font-size: 36px;
 }
 
+.landingDate {
+	position: absolute;
+	top: 400px;
+	padding: 0 0 0 0;
+	left: 0px;
+	color: rgb(40,40,40);
+	font-size: 24px;
+}
+
 .landingDescription {
+	position: absolute;
+	top: 600px;
+	left: 0px;
 	color: rgb(40,40,40);
 	font-size: 18px;
 	line-height: 24px;

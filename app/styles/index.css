@@ -490,7 +490,7 @@ hr {
 	padding: 0px 0px 0px 0px;
 	/* background-color:yellow; */
 
-	-webkit-transition: -webkit-transform 1s ease-in, left 1s, top 1s, height 1s;	
+	-webkit-transition: -webkit-transform 1s ease-in, left 1s, top 1s, height 1s, width 1s;	
 	-webkit-transform: translateZ(0px);	
 
 }
@@ -534,9 +534,9 @@ hr {
 .numberPhrase {
 	position:absolute; 
 	overflow: visible;
-  width: 1024px;
-  font-size: 120px;
-  /*line-height: 120px; */
+  width: 906px;
+  font-size: 240px;
+  line-height: .75em;
 	margin: 0px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
   color: rgb(255,157,108);

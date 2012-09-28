@@ -1,6 +1,6 @@
 define([
   // Application.
-  "core/app"
+  "app"
 ],
 
 // Map dependencies from above array.

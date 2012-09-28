@@ -142,7 +142,8 @@ module.exports = function(grunt) {
 
       folders: {
         "vendor": "vendor",
-        "core": "core"
+        "core": "core",
+        "images": "images"	//Soso
       },
 
       debug: {

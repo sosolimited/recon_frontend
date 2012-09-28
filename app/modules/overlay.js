@@ -238,6 +238,7 @@ function(app, Ref) {
           window.setTimeout(function() {
             $(this).css("font-size","36px");
             $(this).css("height", "36px");
+            $(this).css("width", Ref.gridWidth);
             $(this).css("top", (_posY - 18) + 'px');  // Center on line
             if(sp == 1)
               $(this).css("left", Ref.gridColumns[4]);

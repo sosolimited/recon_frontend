@@ -19,7 +19,6 @@
  
 
 body {
-
   /* background: -webkit-linear-gradient(left, #9699A0, #C9D1CF, #C9D1CF, #9699A0); */
   background-color: rgb(110,116,116);	
   overflow-y: scroll;	
@@ -53,6 +52,10 @@ body {
 
 #overlay {
 	
+}
+
+#landing {
+	/* background-color:yellow; */
 }
 
 #bigWords {
@@ -310,6 +313,34 @@ hr {
 	top: 0px;
 	height: 100000px;
 	width: 1px;
+}
+
+
+/* Landing page */
+
+.landingTitle {
+	color: white;
+	font-size: 96px;
+	display:block;
+}
+
+.landingSubTitle {
+	color: white;
+	background-color: rgb(64,180,229);
+	font-size: 24px;
+}
+
+.landingButton {
+	position: absolute;
+	top: 300px;
+	color: rgb(40,40,40);
+	font-size: 36px;
+}
+
+.landingDescription {
+	color: rgb(40,40,40);
+	font-size: 18px;
+	line-height: 24px;
 }
 
 /* Trait overlays */

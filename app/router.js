@@ -11,10 +11,11 @@ define([
   "modules/navigation",
   "modules/overlay",
   "modules/markupManager",
-  "modules/bigWords"
+  "modules/bigWords",
+  "modules/landing"
 ],
 
-function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, Overlay, MarkupManager, BigWords) {
+function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, Overlay, MarkupManager, BigWords, Landing) {
   // Defining the application router, you can attach sub routers here.
   var Router = Backbone.Router.extend({
     routes: {
@@ -26,6 +27,9 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 	    
 	    // Init msg collection
 			var messageCollection = new Message.Collection();
+			
+			//init landing page
+			//var landingView = new Landing.View( {model: new Landing.Model()} );
 			
 		  // init transcript
 		  var transcriptView = new Transcript.View( {messages: messageCollection} );
@@ -99,10 +103,12 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 
       app.useLayout("main").setViews({
       }).render().then(function() {	
+	      //landingView.setElement("#landing").render();
 	      navigationView.setElement("#navigation").render();
 	      comparisonView.setElement("#comparisons").render();
 	     	transcriptView.setElement("#transcript > .wrapper"); // Need transcript to point to the actual scrolling DOM element or else scroll event handling is wack
 	     	bigWords.setElement("#bigWords").render();
+
 	     
         (function() {
           // Work with the wrappers, not the actual layers.  --> ???
@@ -175,10 +181,10 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 	      	else $('#overlay').css("display", "inline");
       	}
       	//t for toggling transcript
-		else if(event.which == 84){	
+      	else if(event.which == 84){	
 					//app.trigger("keypress:test", {type:"overlay", kind:"trait"});
 
-			if($('#transcript > .wrapper').css("visibility") == "visible") $('#transcript > .wrapper').css("visibility", "hidden");
+					if($('#transcript > .wrapper').css("visibility") == "visible") $('#transcript > .wrapper').css("visibility", "hidden");
 	      	else $('#transcript > .wrapper').css("visibility", "visible");
 
 				}
@@ -186,7 +192,8 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 				else if(event.which == 87){	
 					app.trigger("keypress:test", {type:"overlay", kind:"wordCount"});
 				}
-				else if(event.which==73){	//Press i to insert a bunch of parallax test objects.
+				//p for inserting parallax test objects
+				else if(event.which==80){	
 					app.trigger("keypress:test", {type:"testParallax"});
 				}
 				//z To nudge parallax test objects left

@@ -60,7 +60,7 @@ function(app) {
 	  		} else // otherwise keep old vals
 	  			newTraits.push(this.get("traits")[i]);
 	  			
-	  		console.log("updateStats " + args['msg'] + " " + this.get("traits")[i]['name']);
+	  		//console.log("updateStats " + args['msg'] + " " + this.get("traits")[i]['name']);
   		}
 	  	this.set({traits:newTraits});
 	  	

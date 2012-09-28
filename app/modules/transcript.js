@@ -146,6 +146,10 @@ function(app, Overlay, Ref) {
     			this.emitNumberEvent(word['word']);
     		}
     	}
+    	//EG for testing pos word counts
+    	if ($.inArray('posemo', word['cats']) != -1) {
+    		 app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
+    	}
 
 
       return false;
@@ -161,8 +165,12 @@ function(app, Overlay, Ref) {
       
       //Go through all spans so you can create markup heirarchy (ie specify which markups take precedence)  
       $('#curSentence').find('span').each(function() {
+      	 // EG Testing posemo counts
+      	 if($(this).hasClass("posemoMarkup")){
+	      	 $(this).css("color", "rgb(255,0,0)");
+      	 }
 	     	 // Word count markup.
-	     	 if($(this).hasClass("wordCountMarkup")){	
+	     	 else if($(this).hasClass("wordCountMarkup")){	
 	     	   $(this).css("color", "rgb(207,255,36)");
 	     	   $(this).css("text-decoration", "underline");	    	
 	     	 }

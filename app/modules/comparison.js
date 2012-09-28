@@ -1,10 +1,11 @@
 define([
   // Application.
-  "core/app"
+  "core/app",
+  "modules/ref"
 ],
 
 // Map dependencies from above array.
-function(app) {
+function(app, Ref) {
 
   // Create a new module.
   var Comparison = app.module();
@@ -79,7 +80,7 @@ function(app) {
 		},
 		
     serialize: function() {
-      return { comparison: this.model };
+      return { comparison: this.model, grid: Ref.gridColums, gutter: Ref.gutterWidth};
     }
     
   });

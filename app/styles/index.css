@@ -402,7 +402,6 @@ hr {
 
 }
 
-
 .comparisonExpText {
 	position:relative;
 	font-size: 128px;
@@ -464,6 +463,15 @@ hr {
 	bottom: 5px;
 	line-height:24px;
 	color: white;
+}
+
+.spectrumTitle {
+	position:relative;
+	font-size: 128px;
+	margin: 0px -160px 0px 160px;
+	padding: 0px 0px 0px 0px;
+	line-height:128px;
+
 }
 
 .spectrumPointer {

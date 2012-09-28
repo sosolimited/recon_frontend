@@ -1,4 +1,4 @@
-<div style="height:650px; position:relative;">
+<div style="height:700px; position:relative;">
 
 <!--
 		<div class="span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05"></div>
@@ -8,8 +8,8 @@
 		<div class="push-4 span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05;"></div>
 		<div class="push-5 span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05;"></div>
 -->
-		<p class="franklinMedIt purple comparisonExpText"> <%= comparison.get("title") %></p>
-		<hr class="bgPurple" style="height:3px"/>
+		<p class="franklinMedIt purple spectrumTitle"> <%= comparison.get("title") %></p>
+		<!-- <hr class="bgPurple" style="height:3px"/> -->
 		<div class = "span-3" style="height:450px; position:relative; border-right-style:dotted;"></div>
 
 		<!-- vals in here are incorrect. working on bug fix (dividing by 3 for now). JM -->
@@ -46,9 +46,20 @@
 				
 			} 
 			
-				for (var i = 0; i < 4 ; i++) { %>
+				for (var i = 0; i < 4 ; i++) { 
+					
+					var repub = "push-3";
+					var dem = "push-2";
+					var xpos = "";
+					
+				    if (i%2 == 0)
+				       xpos = repub;
+			        else
+				       xpos = dem;
+				       
+				    %>
 				
-					<div class="spectrumLineContainer push-<%=2+i%2%>" style="top:<%= mapVal(values[i]/100.0)[1] %>px"> 
+					<div class="spectrumLineContainer <%=xpos%>" style="top:<%= mapVal(values[i]/100.0)[1] %>px"> 
 					<p class="franklinDemiCompIt comparisonPastCandidate grayBlue" style="top:-50px" > <%=people[i] %></p>
 					<hr class="span-1 bgGrayBlue" /> 
 					<p class="franklinDemiComp comparisonPastValue" style="top:-15px" > <%=values[i]%> </p> 
@@ -58,7 +69,7 @@
 			
 		<% }); %>
 		<div style="height:450px; position:relative;"> </div>
-		<p class="franklinMedIt redOrange comparisonExpText"><%= comparison.get("subtitle") %></p>
+		<p class="franklinMedIt redOrange spectrumTitle"><%= comparison.get("subtitle") %></p>
 
 </div>
 

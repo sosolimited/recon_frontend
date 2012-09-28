@@ -42,7 +42,7 @@ function(app, Overlay, Ref) {
   	
 	  initialize: function () {
 		  //app.on("markup:frequentWord", this.markupFrequentWord, this);		//EG temp for dev		
-		  //app.on("markup:wordCount", this.addWordCountOverlay, this);			//EG temp for dev
+		  app.on("markup:wordCount", this.addWordCountOverlay, this);			//EG temp for dev
 		  app.on("markup:sentenceLead", this.addTraitOverlay, this);		  	//LM, is this psych traits? 
 		  app.on("markup:quote", this.addQuoteOverlay, this);
 		  app.on("markup:sentenceSentiment", this.addSentimentOverlay, this);

@@ -80,7 +80,7 @@ function(app, Ref) {
 		},
 		
     serialize: function() {
-      return { comparison: this.model, grid: Ref.gridColums, gutter: Ref.gutterWidth};
+      return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth};
     }
     
   });
@@ -127,7 +127,7 @@ function(app, Ref) {
 		},
 		
     serialize: function() {
-      return { comparison: this.model };
+      return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth };
     }
     
   });
@@ -149,7 +149,7 @@ function(app, Ref) {
 		},
 		
     serialize: function() {
-      return { comparison: this.model };
+      return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth};
     }
     
   });
@@ -196,7 +196,7 @@ function(app, Ref) {
 		},
 		
     serialize: function() {
-      return { comparison: this.model };
+      return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth};
     }
     
   });
@@ -220,7 +220,7 @@ function(app, Ref) {
 	},
 		
     serialize: function() {
-      return { comparison: this.model };
+      return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth };
     }
     
   });

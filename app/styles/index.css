@@ -476,12 +476,12 @@ hr {
 	margin: 10px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
 	line-height:18px;
-
 }
 
 .comparisonLineContainer {
 	position:absolute;
 	height: 50px;
+	width: 160px;
 	margin:0 -80px 1.5em 80px; 
 	float:left;
 }
@@ -489,16 +489,21 @@ hr {
 .comparisonPastCandidate {
 	position:absolute;
 	font-size: 24px;
+	line-height; 24px;
 	width: 300px;
 	height: 10px;
+	margin: 0 0 0 0;
+	top: -24px;	
+	left: 6px;
 }
 
 .comparisonPastValue {
 	position:absolute;
-	font-size: 18px;	
+	font-size: 18px;
     color:white;
 	height: 10px;
-	top: 35px;
+	margin: 0 0 0 0;
+	left: 6px;	
 }
 
 .comparisonBarGraph {
@@ -538,6 +543,16 @@ hr {
 	position: absolute;
 }
 
+.spectrumDottedLine {
+	height:3px; 
+	top:50px; 
+	position:relative;
+}
+
+.spectrumDottedLineRight {
+	left: -184px;
+}
+
 .spectrumText {
 	position:absolute;
 	font-size: 48px;
@@ -562,6 +577,10 @@ hr {
 	position:absolute;
 	height: 50px;
 	float:left;
+}
+
+.spectrumPush-3 {
+	margin:0 -456px 1.5em 456px;
 }
 
 .comparisonList {

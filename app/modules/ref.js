@@ -42,6 +42,16 @@ function(app) {
   Ref.gridZ200 = { scalar: 1, grid:[133, 249, 363, 477, 592, 706] };
   Ref.gridZ300 = { scalar: 1, grid:[201, 293, 384, 475, 567, 658] };
 
+  //Colors
+  Ref.purple = [101, 45, 106];
+  Ref.redOrange = [255, 66, 55];
+  
+  Ref.colorMap = function(color1, color2, channel, range1, range2, val) {  		
+	var val_n = (val - range1)/(range2 - range1);
+	var color = val_n*color1[channel] + (1.0-val_n)*color2[channel];
+	return color;
+  }
+  
   // Return the module for AMD compliance.
   return Ref;
 

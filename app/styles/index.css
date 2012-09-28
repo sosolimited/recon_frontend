@@ -389,6 +389,20 @@ hr {
 	width:0px;
 	
 	-webkit-transition: width 1s;
+}
+
+.numberPhrase {
+	position:absolute; 
+	overflow: visible;
+  width: 1024px;
+  font-size: 120px;
+  /*line-height: 120px; */
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+  color: rgb(255,157,108);
+	-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
+	/*-webkit-transform: translateZ(0px);	*/
+  z-index: 3;
 
 }
 

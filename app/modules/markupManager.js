@@ -101,6 +101,12 @@ function(app, Overlay, Ref) {
 		  		// Markup phrase in transcript.
 		  		this.attributes.transcript.addSpanToRecentWord(args['phrase'], "numberMarkup");
 		  		// Here is where the numbers overlay would be made and inserted
+
+          var numbersOverlay = new Overlay.Views.NumbersView({ speaker: args['speaker'], phrase: args['phrase'], posY: args['anchor'].top, wordPos: args['anchor'] });
+    		  $('#overlay').append(numbersOverlay.el);
+		      numbersOverlay.render();
+          console.log("Number alert: " + args['phrase']);
+          
 		  		
 		  	}
 	  },

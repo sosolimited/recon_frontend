@@ -202,6 +202,9 @@ function(app, Ref) {
 				this.phrase = this.options.phrase;
 				
 				this.posY = this.options.posY;
+        this.collapseY = this.options.wordPos[1];
+				this.wordX = this.options.wordPos[0];
+
 				//all durations in milliseconds	
 				this.expandDur = 2*300 + 1000;		
 				this.holdDur = 2000;								
@@ -209,18 +212,40 @@ function(app, Ref) {
 		},
 		
 		serialize: function() {
-				return { speaker: this.speaker, phrase: this.phrase};
+				return { speaker: this.speaker, phrase: this.phrase, posY: this.posY-100, lineY: this.collapseY+Ref.transcriptPointSize, grid: Ref.gridColumns};
 		},
-		
 		expand: function() {
-			
+			this.state = 1;	//expanded
+
+      
+   		//Slide word in from side.
+      var thisView = this;
+    	this.$el.find('.numberPhrase').each(function(i){ 
+          window.setTimeout(function() { thisView.speaker == 1 ? $(this).css("left","0px") : $(this).css("right","0px"); }, 1, this);
+    	});
+      
+    	
+    	//Sit for holdDur, then collapse.
+    	window.setTimeout(this.collapse, this.expandDur + this.holdDur, this);
 		},
 		
 		collapse: function() {
-			
-		},
+  		this.state = 0;	//collapsed	
+       
+      var _posY = this.posY;
+      this.$el.find('.numberPhrase').each(function(i){ 
+          window.setTimeout(function() {
+            $(this).css("font-size","36px");
+            $(this).css("height", "36px");
+            $(this).css("top", (_posY - 18) + 'px');  // Center on line
+            //console.log( (this.anchorY - 18) + 'px'));
+          },1, this);
+    	});
+  		   
+    	
+    },		
 		
-		afterRender: function() {
+    afterRender: function() {
 			this.expand();
 		}
 		

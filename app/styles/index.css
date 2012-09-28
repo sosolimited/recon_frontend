@@ -19,7 +19,6 @@
  
 
 body {
-
   /* background: -webkit-linear-gradient(left, #9699A0, #C9D1CF, #C9D1CF, #9699A0); */
   background-color: rgb(110,116,116);	
   overflow-y: scroll;	
@@ -53,6 +52,10 @@ body {
 
 #overlay {
 	
+}
+
+#landing {
+	/* background-color:yellow; */
 }
 
 #bigWords {
@@ -312,6 +315,48 @@ hr {
 	width: 1px;
 }
 
+
+/* Landing page */
+
+.landingTitle {
+	color: white;
+	font-size: 96px;
+	display:block;
+}
+
+.landingSubTitle {
+	color: white;
+	background-color: rgb(64,180,229);
+	font-size: 24px;
+}
+
+.landingButton {
+	position: absolute;
+	top: 300px;
+	padding: 0 0 0 0;
+	left: 0px;
+	color: rgb(40,40,40);
+	font-size: 36px;
+}
+
+.landingDate {
+	position: absolute;
+	top: 400px;
+	padding: 0 0 0 0;
+	left: 0px;
+	color: rgb(40,40,40);
+	font-size: 24px;
+}
+
+.landingDescription {
+	position: absolute;
+	top: 600px;
+	left: 0px;
+	color: rgb(40,40,40);
+	font-size: 18px;
+	line-height: 24px;
+}
+
 /* Trait overlays */
 
 .traitExpTextHolder {
@@ -399,6 +444,20 @@ hr {
 	width:0px;
 	
 	-webkit-transition: width 1s;
+}
+
+.numberPhrase {
+	position:absolute; 
+	overflow: visible;
+  width: 1024px;
+  font-size: 120px;
+  /*line-height: 120px; */
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+  color: rgb(255,157,108);
+	-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
+	/*-webkit-transform: translateZ(0px);	*/
+  z-index: 3;
 
 }
 

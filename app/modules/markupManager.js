@@ -50,6 +50,7 @@ function(app, Overlay, Ref) {
 		  app.on("body:scroll", this.handleScroll, this);
 		  //for testing
 		  app.on("keypress:test", this.test, this);
+		  app.on("markup:posemo", this.markupPosemo, this);
 		  //app.on("transcript:sentenceOpen", this.sentenceTest, this);
 		  
 		  
@@ -101,6 +102,12 @@ function(app, Overlay, Ref) {
 		  		// Markup phrase in transcript.
 		  		this.attributes.transcript.addSpanToRecentWord(args['phrase'], "numberMarkup");
 		  		// Here is where the numbers overlay would be made and inserted
+
+          var numbersOverlay = new Overlay.Views.NumbersView({ speaker: args['speaker'], phrase: args['phrase'], posY: args['anchor'].top, wordPos: args['anchor'] });
+    		  $('#overlay').append(numbersOverlay.el);
+		      numbersOverlay.render();
+          console.log("Number alert: " + args['phrase']);
+          
 		  		
 		  	}
 	  },
@@ -133,6 +140,14 @@ function(app, Overlay, Ref) {
 	  
 	  handleScroll: function(val) {
 			 $('.wrapper').css("webkit-perspective-origin", "50% "+(val+500)+"px");
+	  },
+	  
+	  
+	  // For testing posemo counts
+	  markupPosemo: function(args) {
+		  //console.log("markupPosemo: "+args['speaker']+", "+args['word']);
+		  this.attributes.transcript.addSpanToRecentWord(args['word'], "posemoMarkup");
+		  
 	  },
 	  
 	  // For testing things with keypresses.

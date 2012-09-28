@@ -111,7 +111,7 @@ function(app, Overlay, Ref) {
           //console.log("scrolling to: " + scrollTo);
           var duration = Math.abs(lastScrollHeight - scrollTo) * 3.0;
           scrollAnimating = true;
-          $("body").stop().animate({ scrollTop: scrollTo}, duration, function() { scrollAnimating = false;});
+          $("body").animate({ scrollTop: scrollTo}, duration, function() { scrollAnimating = false;});
           app.trigger("transcript:scrollTo", word["timeDiff"]); 
           lastScrollHeight = scrollTo;
         }
@@ -143,8 +143,12 @@ function(app, Overlay, Ref) {
     		
     		// When we have the correct number of words in the phrase,
     		if(this.numberCount >= this.numberWords){
-    			this.emitNumberEvent();
+    			this.emitNumberEvent(word['word']);
     		}
+    	}
+    	//EG for testing pos word counts
+    	if ($.inArray('posemo', word['cats']) != -1) {
+    		 app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
     	}
 
 
@@ -161,8 +165,12 @@ function(app, Overlay, Ref) {
       
       //Go through all spans so you can create markup heirarchy (ie specify which markups take precedence)  
       $('#curSentence').find('span').each(function() {
+      	 // EG Testing posemo counts
+      	 if($(this).hasClass("posemoMarkup")){
+	      	 $(this).css("color", "rgb(255,0,0)");
+      	 }
 	     	 // Word count markup.
-	     	 if($(this).hasClass("wordCountMarkup")){	
+	     	 else if($(this).hasClass("wordCountMarkup")){	
 	     	   $(this).css("color", "rgb(207,255,36)");
 	     	   $(this).css("text-decoration", "underline");	    	
 	     	 }
@@ -231,16 +239,14 @@ function(app, Overlay, Ref) {
     	
     	//------------------------------------------------------------------------------
     
-    
+      // If any numbers are open, close them.
+		  if (this.numberOpen) this.emitNumberEvent();
+
     	// Keep track of last sentence as well as current one.
       if($('#lastSentence').length > 0) $('#lastSentence').removeAttr('id');
       $('#curSentence').attr('id', 'lastSentence');
       // Close this sentence, start a new one.      
     	//$('#curSentence').removeAttr('id');	// Done with line above now.
-		    	
-		  // If any numbers are open, close them.
-		  if (this.numberOpen) this.emitNumberEvent();
-		  
     	
     	openSentence = false;
     	if (args)
@@ -308,7 +314,10 @@ function(app, Overlay, Ref) {
 	  },
 
     getCurSentencePosY: function() {
-	    return (this.$el.scrollTop() + $('#curParagraph').position().top + $('#curSentence').position().top);
+      // Do some error-checking in case #curParagraph or #curSentence don't exist
+      var paraTop = $('#curParagraph').length > 0 ? $('#curParagraph').position().top : 0;
+      var sentenceTop = $('#curSentence').length > 0 ? $('#curSentence').position().top : 0;
+	    return (this.$el.scrollTop() + paraTop + sentenceTop);
     },
    
    	/* 
@@ -333,13 +342,29 @@ function(app, Overlay, Ref) {
 		  });
 		
 			// Note, the x position of the paragraph is got from the left margin, cus that's how the grid is set up.	  
-		  return [(parseInt($('#curParagraph').css("margin-left")) + wordEl.position().left),
-								(this.$el.scrollTop() + $('#curParagraph').position().top + wordEl.position().top)];
+		  try {
+        return [(parseInt($('#curParagraph').css("margin-left")) + wordEl.position().left),
+	  							(this.$el.scrollTop() + $('#curParagraph').position().top + wordEl.position().top)];
+      }
+      catch (e) {
+        console.log(e);
+        return 0;
+      }
     },
     
-    emitNumberEvent: function() {
+    emitNumberEvent: function(word) {
+      var anchorPos;
+      word = this.numberPhrase;
+      if(word != null) {
+      	var cS = $('#curSentence');
+	      cS.html(cS.text().replace($.trim(word), "<span id='positionMarker'></span>"+$.trim(word)));
+        anchorPos = $('#positionMarker').offset();
+        $('#positionMarker').remove();
+      }
+      else anchorPos = $('#curSentence').offset();
+
     	// Emit an event
-			app.trigger("markup:number", {type:'number', speaker:curSpeaker, phrase:this.numberPhrase});	
+			app.trigger("markup:number", {type:'number', speaker:curSpeaker, phrase:this.numberPhrase, anchor:anchorPos});	
 			// Close the number.
 			this.numberOpen = false;
 			this.numberCount = 0;
@@ -375,7 +400,7 @@ function(app, Overlay, Ref) {
       if(duration > 0) {
         $("body").stop().animate({ scrollTop: scrollTo}, duration, function() {
            // If the document has grown, try again
-          if(theRealSlimShady.transcriptBottom() > transcriptHeight) theRealSlimShady.reattachLiveScroll(100);
+          if(false && theRealSlimShady.transcriptBottom() > transcriptHeight) theRealSlimShady.reattachLiveScroll(100);
           else {
             scrollAnimating = false;
             scrollLive = true;

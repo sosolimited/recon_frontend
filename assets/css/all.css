@@ -594,6 +594,12 @@ hr {
 	color: white;
 }
 
+.countBigNumber {
+	position:absolute;
+	font-size: 128px;
+	line-height:128px;
+}
+
 .spectrumTitle {
 	position:relative;
 	font-size: 128px;

@@ -23,13 +23,17 @@
 					var t = totalH-h;
 					return [h,t];
 				}
-				%>
+		%>
+
+		<p class="franklinDemiComp push-0 countBigNumber grayBlue" style="top: <%= mapVal(val0)[1] - 128%>px;" > <%=  val0 %> </p>
+		<p class="franklinDemiComp push-4 countBigNumber grayBlue" style="top: <%= mapVal(val1)[1] - 128%>px;"> <%=  val1 %>  </p>
 
 		<div class="comparisonBarGraph bgLime push-1 span-2" style="height:<%= mapVal(val0)[0] %>px; top:<%= mapVal(val0)[1] %>px;" >
-			<p class="franklinDemiCompIt barGraphText grayBlue" > Obama </p>  <p class="franklinDemiComp barGraphValue grayBlue" > <%=  val0 %> </p> </div>
+			<p class="franklinDemiCompIt barGraphText grayBlue" > Obama </p>   </div>
 		<div class="comparisonBarGraph bgLime push-3 span-2" style="height:<%= mapVal(val1)[0] %>px; top:<%= mapVal(val1)[1] %>px;" >
-			<p class="franklinDemiCompIt barGraphText grayBlue" > Romney </p>  <p class="franklinDemiComp barGraphValue grayBlue" > <%=  val1 %>  </p> </div>
-		
+			<p class="franklinDemiCompIt barGraphText grayBlue" > Romney </p>   </div>
+			
+		<!--
 		<% comparison.get("traits").forEach(function(trait){ %>
 		
 			<% if (trait.name == "wc") { %> 
@@ -55,6 +59,7 @@
 				<% } %>
 			
 		<% }); %>
+		-->
 
 </div>
 

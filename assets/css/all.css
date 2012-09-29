@@ -271,7 +271,7 @@ hr {
 .gray60{ color:rgb(60,60,60); }
 .gray80{ color:rgb(80,80,80); }
 .gray160{ color:rgb(160,160,160); }
-.grayBlue{ color:rgb(77,77,85); }
+.grayBlue{ color:rgb(67,67,75); }
 .bgGrayBlue{ background-color:rgb(77,77,85); }
 .pink{ color:rgb(231,0,149); }
 .fgBlue{ color:rgb(64,180,229); }
@@ -548,8 +548,8 @@ hr {
 .comparisonLineContainer {
 	position:absolute;
 	height: 50px;
-	width: 160px;
-	margin:0 -80px 1.5em 80px; 
+	/*width: 160px;*/
+	/*margin:0 -80px 1.5em 80px;*/
 	float:left;
 }
 
@@ -564,6 +564,16 @@ hr {
 	left: 6px;
 }
 
+.comparisonPastCandidateRight {
+	position:absolute;
+	font-size: 24px;
+	text-align: right;	
+	line-height: 24px;
+	width: 936px;
+	margin: 0 6px 0 -6px;
+	top: -24px;	
+}
+
 .comparisonPastValue {
 	position:absolute;
 	font-size: 18px;
@@ -571,6 +581,15 @@ hr {
 	height: 10px;
 	margin: 0 0 0 0;
 	left: 6px;	
+}
+
+.comparisonPastValueRight {
+	position:absolute;
+	font-size: 18px;
+	text-align: right;
+    color:white;
+	width: 936px;
+	margin: 0 6px 0 -6px;
 }
 
 .comparisonBarGraph {

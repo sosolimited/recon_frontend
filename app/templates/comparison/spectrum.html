@@ -1,4 +1,4 @@
-<div style="height:700px; position:relative;">
+<div style="height:800px; position:relative;">
 
 <!--
 		<div class="span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05"></div>
@@ -29,7 +29,6 @@
 			function mapColor(val, channel) {
 				var val_n = (100.0*val - range[0])/(range[1] - range[0]);
 				var color = parseInt(val_n*purple[channel] + (1.0-val_n)*redOrange[channel]);
-				console.log(channel + ": "+ val_n +","+ color);
 				return color;
 			}
 			var col0 = [mapColor(val0,0), mapColor(val0,1), mapColor(val0,2)];
@@ -54,8 +53,13 @@
 				
 			} else if (trait.name == "formality") {
 			
-				var people = ["Bush 2000", "Reagan 1984", "McCain 2008","Bush 2004"];
-				var values = [1.02, 1.59, 2.39, 3.23]; 
+				var people = ["Perot 1992", "Palin 2000", "Cheney 2004","Carter 1980"];
+				var values = [6.75, 8.66, 16.86, 22.88]; 
+				
+			} else if (trait.name == "depression") {
+			
+				var people = ["Palin 2008", "Obama 2008", "Reagan 1980","Kerry 2004"];
+				var values = [-0.03, 0.68, 2.64, 4.15]; 
 				
 			} 
 			

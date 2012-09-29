@@ -1,6 +1,6 @@
 define([
   // Application.
-  "core/app"
+  "app"
 ],
 
 // Map dependencies from above array.
@@ -29,6 +29,7 @@ function(app) {
     afterRender : function() {
       // Do "initialization"-type things that need to happen after the template is loaded
       this.setDebateNumber(debateNumber+1);
+      this.reset();
     },
 	
     initialize: function() {
@@ -40,6 +41,8 @@ function(app) {
       app.on("transcript:scrollTo", this.updateTime, this);
       app.on("transcript:scrollDetach", this.liveScrollOff, this);
       app.on("transcript:scrollAttach", this.liveScrollOn, this);
+      
+      this.landing = null;
     },
     
     serialize: function() {
@@ -70,6 +73,9 @@ function(app) {
 
       else if(e.target.id == 'goLive') {
         app.trigger("navigation:goLive");
+      }
+      else if(e.target.id == 'reconTitle'){
+	      this.landing.enter();
       }
     },
       
@@ -151,7 +157,27 @@ function(app) {
     timeDiffToPercent : function(diff) {
       var scaleFactor = 1;  // TODO: Set this to 1 for longer transcripts/production
       return diff / 1000 / 60 / 60 / 1.5 * scaleFactor;
+    },
+    
+    enter: function() {
+	    $('#navigation').css("visibility", "visible");
+    },
+    
+    exit: function() {
+	    $('#navigation').css("visibility", "hidden");	    
+    },
+    
+    // Reset puts everything where it's supposed to be before entering.
+    reset: function() {
+	    $('#navigation').css("visibility", "hidden");	    
+    },
+    
+    // Pass pointer to landing view so that title click can call enter on landing.
+    setLanding: function(arg) {
+	    this.landing = arg;
     }
+
+   
 
   });
 

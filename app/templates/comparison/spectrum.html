@@ -29,12 +29,13 @@
 			function mapColor(val, channel) {
 				var val_n = (val - range[0])/(range[1] - range[0]);
 				var color = val_n*purple[channel] + (1.0-val_n)*redOrange[channel];
+				
 				return color;
 			}
 			%>
 
 
-		<div class="spectrumPointer bgPurple push-1 span-1" style="top:<%= mapVal(val0)[1] - 50%>px; background-color:rgb(<%=mapColor(val0,0)%>, <%=mapColor(val0,0)%>, <%=mapColor(val0,0)%>);" >
+		<div class="spectrumPointer push-1 span-1" style="top:<%= mapVal(val0)[1] - 50%>px; background-color:rgb(<%=mapColor(val0,0)%>, <%=mapColor(val0,1)%>, <%=mapColor(val0,2)%>);" >
 		<hr class="spectrumDottedLine bgPurple span-2" />
 		<p class="franklinMedCompIt spectrumText" > Obama </p>  <p class="franklinMedComp spectrumValue" > <%=  Math.round(10000*val0)/100 %> </p> </div>
 	

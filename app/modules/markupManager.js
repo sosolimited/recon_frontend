@@ -1,6 +1,6 @@
 define([
   // Application.
-  "core/app",
+  "app",
   "modules/overlay",
   "modules/ref"
 ],
@@ -106,9 +106,7 @@ function(app, Overlay, Ref) {
           var numbersOverlay = new Overlay.Views.NumbersView({ speaker: args['speaker'], phrase: args['phrase'], posY: args['anchor'].top, wordPos: args['anchor'] });
     		  $('#overlay').append(numbersOverlay.el);
 		      numbersOverlay.render();
-          console.log("Number alert: " + args['phrase']);
-          
-		  		
+          //console.log("Number alert: " + args['phrase']);
 		  	}
 	  },
 	  
@@ -193,6 +191,19 @@ function(app, Overlay, Ref) {
 		  $('#overlay').append("<hr style= 'position:absolute; font-size: 12px; top:" + parseInt(this.attributes.transcript.getCurSentencePosY() + 24) + "px;'></hr>");
 	  }
 	  */
+	  
+	  enter: function() {
+	    $('#overlay').css("visibility", "visible");
+    },
+    
+    exit: function() {
+	    $('#overlay').css("visibility", "hidden");	    
+    },
+    
+    // Reset puts everything where it's supposed to be before entering.
+    reset: function() {
+	    $('#overlay').css("visibility", "hidden");	    
+    }
 	  
   });
 

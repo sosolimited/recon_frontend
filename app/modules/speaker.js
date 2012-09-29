@@ -1,6 +1,6 @@
 define([
   // Application.
-  "core/app"
+  "app"
 ],
 
 // Map dependencies from above array.
@@ -37,7 +37,7 @@ function(app) {
       app.on("message:word", this.handleWord, this);
       app.on("message:sentenceEnd", this.handleSentenceEnd, this);
       app.on("message:stats", this.updateStats, this);
-      console.log("Speaker.Model.initialize: speakerId = " + this.get('speakerId'));
+      //console.log("Speaker.Model.initialize: speakerId = " + this.get('speakerId'));
     },
     
     cleanup: function() {

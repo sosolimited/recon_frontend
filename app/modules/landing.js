@@ -1,6 +1,6 @@
 define([
   // Application.
-  "core/app",
+  "app",
   "modules/ref",
 ],
 
@@ -34,7 +34,7 @@ function(app, Ref) {
   	
     initialize: function() {
 	    this.model = this.options.model;	
-	    console.log("new Landing.View: Date = "+this.model.get("startDates")[0].getUTCDate());
+	    //console.log("new Landing.View: Date = "+this.model.get("startDates")[0].getUTCDate());
 	    
 	    this.navigation = this.options.navigation;
 	    this.transcript = this.options.transcript;

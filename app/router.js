@@ -1,6 +1,6 @@
 define([
   // Application.
-  "core/app",
+  "app",
 
   // Modules.
   "modules/uniqueWord",
@@ -103,12 +103,18 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 
 
       app.useLayout("main").setViews({
-      }).render().then(function() {	
+      }).render();
+
+			//EG Hack to fix loading race condition. calling render().then(... wasn't working above.
+			// I'm sure there's a less stupid way to do this.
+      window.setTimeout(function() {	
+      
 	      landingView.setElement("#landing").render();
 	      navigationView.setElement("#navigation").render();
 	      comparisonView.setElement("#comparisons").render();
 	     	transcriptView.setElement("#transcript > .wrapper"); // Need transcript to point to the actual scrolling DOM element or else scroll event handling is wack
 	     	bigWordsView.setElement("#bigWords").render();
+	     	
 	     
 	     	// Init transcript view to hidden. 
 	     	// Navigation and bigWords are getting reset in afterRender()
@@ -134,8 +140,9 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
             speaker.toggleClass("active");
           });
         })();
-      });
+      }, 50);
      
+      
       // WEBSOCKET MESSAGE EVENTS
       // ----------------------------------------------------------------------
       app.socket.on("stats", function(msg) {    
@@ -159,7 +166,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
       app.socket.on("close", function() {
         console.error("Closed");
       });
-     
+	     
       // BODY/WINDOW EVENTS
       // ----------------------------------------------------------------------
 	    	    

@@ -24,7 +24,6 @@ function(app) {
 
   Navigation.View = Backbone.View.extend({
 
-
 		template: "navigation",
     afterRender : function() {
       // Do "initialization"-type things that need to happen after the template is loaded
@@ -161,15 +160,18 @@ function(app) {
     
     enter: function() {
 	    $('#navigation').css("visibility", "visible");
+	    $('#navigation').css("webkitTransform", "translateX(0px) rotate(90deg)");
     },
     
     exit: function() {
-	    $('#navigation').css("visibility", "hidden");	    
+	    //$('#navigation').css("visibility", "hidden");	    
+	    $('#navigation').css("webkitTransform", "translateX(-50px) rotate(90deg)");
     },
     
     // Reset puts everything where it's supposed to be before entering.
     reset: function() {
 	    $('#navigation').css("visibility", "hidden");	    
+	    $('#navigation').css("webkitTransform", "translateX(-50px) rotate(90deg)");
     },
     
     // Pass pointer to landing view so that title click can call enter on landing.

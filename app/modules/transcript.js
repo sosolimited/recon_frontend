@@ -220,7 +220,6 @@ function(app, Overlay, Ref) {
     },
 
     startParagraph : function(msg) {
-    	console.log("startParagraph");
       var curSpeaker = msg["speaker"];
       if(curSpeaker==0) col = 2;	//obama
   		else if(curSpeaker==2) col = 3;	//romney
@@ -233,7 +232,7 @@ function(app, Overlay, Ref) {
                    speakers[curSpeaker] + " transcriptParagraph'><h1 class='franklinMedIt gray60'>" +
                    speakers[curSpeaker] + "</h1><p class='metaBook gray60'></p></div><div class=clear></div>");                   
       this.$el.append(newP);
-      console.log("paragraph appended");
+      
       // Cache position in data attributes
       newP.attr('data-top', newP.offset().top);
       newP.attr('data-bottom', newP.offset().top + newP.height());

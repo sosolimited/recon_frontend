@@ -181,6 +181,9 @@ hr {
 	-moz-transform:rotate(90deg); /* Firefox */
 	-webkit-transform:rotate(90deg); /* Safari and Chrome */
 	-o-transform:rotate(90deg); /* Opera */
+	
+	-webkit-transition: -webkit-transform 1s;	
+	
   left: -245px; /* width / 2 + height / 2 */
   top: 245px;
 }

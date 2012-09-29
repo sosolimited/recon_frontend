@@ -52,6 +52,9 @@ function(app) {
 	return color;
   }
   
+  // Positioning parameters for overlays
+  Ref.numberOverlayEnterY = -250; // Distance above line to have big numbers slide in
+
   // Return the module for AMD compliance.
   return Ref;
 

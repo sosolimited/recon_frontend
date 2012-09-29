@@ -212,7 +212,7 @@ function(app, Ref) {
 		},
 		
 		serialize: function() {
-				return { speaker: this.speaker, phrase: this.phrase, posY: this.posY-100, lineY: this.collapseY+Ref.transcriptPointSize, grid: Ref.gridColumns};
+				return { speaker: this.speaker, phrase: this.phrase, posY: this.posY+Ref.numberOverlayEnterY, lineY: this.collapseY+Ref.transcriptPointSize, grid: Ref.gridColumns};
 		},
 		expand: function() {
 			this.state = 1;	//expanded
@@ -221,7 +221,7 @@ function(app, Ref) {
    		//Slide word in from side.
       var thisView = this;
     	this.$el.find('.numberPhrase').each(function(i){ 
-          window.setTimeout(function() { thisView.speaker == 1 ? $(this).css("left","0px") : $(this).css("right","0px"); }, 1, this);
+          window.setTimeout(function() { thisView.speaker == 1 ? $(this).css("left",Ref.gridColumns[0]) : $(this).css("left",Ref.gridColumns[1]); }, 1, this);
     	});
       
     	
@@ -233,11 +233,19 @@ function(app, Ref) {
   		this.state = 0;	//collapsed	
        
       var _posY = this.posY;
+      var sp = this.speaker;
       this.$el.find('.numberPhrase').each(function(i){ 
           window.setTimeout(function() {
             $(this).css("font-size","36px");
             $(this).css("height", "36px");
+            $(this).css("width", Ref.gridWidth);
             $(this).css("top", (_posY - 18) + 'px');  // Center on line
+            if(sp == 1)
+              $(this).css("left", Ref.gridColumns[4]);
+            else if(sp == 2)
+              $(this).css("left", Ref.gridColumns[2]);
+            console.log(sp);
+            
             //console.log( (this.anchorY - 18) + 'px'));
           },1, this);
     	});

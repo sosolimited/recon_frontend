@@ -106,7 +106,8 @@ function($, _, Backbone, eio) {
 
       // Return the reference, for chainability.
       return layout;
-    }
+    },
+    
   }, Backbone.Events);
 
 });

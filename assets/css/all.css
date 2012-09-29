@@ -267,7 +267,7 @@ hr {
 .gray50{ color:rgb(50,50,50); }
 .gray60{ color:rgb(60,60,60); }
 .gray80{ color:rgb(80,80,80); }
-.gray200{ color:rgb(200,200,200); }
+.gray160{ color:rgb(160,160,160); }
 .grayBlue{ color:rgb(77,77,85); }
 .bgGrayBlue{ background-color:rgb(77,77,85); }
 .pink{ color:rgb(231,0,149); }
@@ -314,7 +314,6 @@ hr {
 #landingSubTitle {
 	position: absolute;
 	top: 588px;
-	color: white;
 	font-size: 42px;
 	line-height: 48px;
 	z-index:1;

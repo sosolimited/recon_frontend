@@ -245,8 +245,8 @@ function(app, Overlay, Ref) {
     endParagraph: function() {
     	console.log("endParagraph");
       // Update attributes to cache position properties
-      $('#curParagraph').attr('data-top', $("#curParagraph").offset().top);
-      $('#curParagraph').attr('data-bottom', $("#curParagraph").offset().top + $("#curParagraph").height());
+      $('#curParagraph').attr('data-top', this.$("#curParagraph").offset().top);
+      $('#curParagraph').attr('data-bottom', this.$("#curParagraph").offset().top + $("#curParagraph").height());
 
       // When #curParagraph height goes to 'auto', the page collapses and scroll jumps up
       // So save the height with a temporary div!

@@ -96,6 +96,7 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  addNumberOverlay: function(args){
+        console.log(args);
 	  		
 		  	//console.log("addNumberOverlay: "+args['speaker']+", "+args['phrase']);
 		  	if(args['speaker'] > 0){

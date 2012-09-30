@@ -50,7 +50,7 @@ function(app, Overlay, Ref) {
 		  app.on("body:scroll", this.handleScroll, this);
 		  //for testing
 		  app.on("keypress:test", this.test, this);
-		  app.on("markup:posemo", this.markupPosemo, this);
+		  //app.on("markup:posemo", this.markupPosemo, this);
 		  //app.on("transcript:sentenceOpen", this.sentenceTest, this);
 		  
 		  
@@ -90,7 +90,7 @@ function(app, Overlay, Ref) {
 	  	// Markup word in transcript (transcript handles actual styling on endSentence)
 		  //this.attributes.transcript.addClassToRecentWord(args['word'], "wordCountMarkup");
 		  // Note, gotta do this before making the overlay because the overlay needs the position of the word span.
-		  this.attributes.transcript.addSpanToRecentWord(args['word'], "wordCountMarkup");
+		  //this.attributes.transcript.addSpanToRecentWord(args['word'], "wordCountMarkup"); // EG This is now handled in transcript
 		  
 	  	// Create and insert overlay.
 	  	//console.log("markupManager.addWordCountOverlay, collapseY = "+this.attributes.transcript.getRecentWordPosY(args['word']));	  	
@@ -100,13 +100,12 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  addNumberOverlay: function(args){
-        console.log(args);
+        //console.log(args);
 	  		
 		  	//console.log("addNumberOverlay: "+args['speaker']+", "+args['phrase']);
 		  	if(args['speaker'] > 0){
 		  		// Markup phrase in transcript.
-		  		this.attributes.transcript.addSpanToRecentWord(args['phrase'], "numberMarkup");
-		  		// Here is where the numbers overlay would be made and inserted
+		  		//this.attributes.transcript.addSpanToRecentWord(args['phrase'], "numberMarkup"); 		  		// EG This is now handled in transcript
 
           var numbersOverlay = new Overlay.Views.NumbersView({ speaker: args['speaker'], phrase: args['phrase'], posY: args['anchor'].top, wordPos: args['anchor'] });
     		  $('#overlay').append(numbersOverlay.el);

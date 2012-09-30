@@ -104,7 +104,7 @@ function(app, Overlay, Ref) {
     	
     	// Check for any kind of special word events then: insert marked up word and/or trigger overlay event.
     	// -------------------------------------------------------------------------------------------------------  
-      // Check for numbers: 'number' for numerics, 'numbers' for LIWC
+      // Check for numbers: 'number' for numerics, 'numbers' for LIWC.
     	if (($.inArray('number', word['cats']) != -1) || ($.inArray('numbers', word['cats']) != -1)) {
     		//console.log("transcript - got a number!");
     		if (!this.numberOpen){
@@ -113,8 +113,30 @@ function(app, Overlay, Ref) {
     	}
     	// Only do other markup if a number phrase isn't open.
     	if(!this.numberOpen){    	
+    		//Check for quotes.
+    		if ($.inArray('hear', word['cats']) != -1) {  // PEND Should really be 'say' cat.
+	        /*	//EG PEND Get this working within this new event architecture.
+	        
+	        // Go back a word and pull it into this phrase.
+	        var cS = $('#curSentence');
+	        var cSHTML = cS.html();
+	
+	        // Find two words back.
+	        var wordIndex = this.getIndexOfPreviousWord(cS, 2);
+	        
+	        var newSpan = $("<span class='quoteMarkup'>" + cSHTML.substring(wordIndex, cSHTML.length) + "</span>");
+	        cS.html(cSHTML.substring(0,wordIndex));
+	        cS.append(newSpan);
+	
+	        var quotePhrase = newSpan.text();
+	
+	        console.log("QUOTE: " + quotePhrase);
+	        
+		    	app.trigger("markup:quote", {type:'quote', phrase:quotePhrase, speaker:word['speaker'], anchor:newSpan.offset()});
+		    	*/
+	    	}
 		  	// Check for any special events returned by speaker.addWord() and add word to DOM with appropriate markup.
-		    if(wordProps.length > 0){
+		    else if(wordProps.length > 0){
 		    	// For now, just grab whatever the first one is and apply it.
 		    	// Note: Class name is just whatever the 'type' of the arg is, so endSentence() down below has to match these class names. 
 			    $('#curSentence').append("<span class='"+wordProps[0]['type']+" transcriptWord'>"+s+word["word"]+"</span>");
@@ -133,7 +155,7 @@ function(app, Overlay, Ref) {
       else{
 	      $('#curSentence').append(s+word["word"]); 
       }
-    
+      
     	// Check for any open number phrases.  
       if (this.numberOpen){
     		// Update count and phrase.
@@ -146,7 +168,6 @@ function(app, Overlay, Ref) {
     			this.emitNumberEvent();
     		}
     	}
-    	
       
       // Update the paragraph size cache
       $('#curParagraph').attr('data-bottom', parseInt($("#curParagraph").attr('data-top')) + $("#curParagraph").height());
@@ -171,32 +192,7 @@ function(app, Overlay, Ref) {
       //$('#curSentence').css("margin-bottom", $('#curSentence').height() - Ref.overlayOffsetY);
       
       
-      // EG PEND Fit this into new transcript event architecture. 
-      /*	
-      // Check for special categories and emit events.      
-      // Note: Gotta do this stuff after word has been added to DOM.
-	    // ---------------------------------------------------------------------
-    	// Say (said, say, saying, etc).
-    	if ($.inArray('hear', word['cats']) != -1) {  // should really be 'say' cat
-        // Go back a word and pull it into this phrase
-        var cS = $('#curSentence');
-        var cSHTML = cS.html();
-
-        // Find two words back
-        var wordIndex = this.getIndexOfPreviousWord(cS, 2);
-        
-        var newSpan = $("<span class='quoteMarkup'>" + cSHTML.substring(wordIndex, cSHTML.length) + "</span>");
-        cS.html(cSHTML.substring(0,wordIndex));
-        cS.append(newSpan);
-
-        var quotePhrase = newSpan.text();
-
-        console.log("QUOTE: " + quotePhrase);
-        
-	    	app.trigger("markup:quote", {type:'quote', phrase:quotePhrase, speaker:word['speaker'], anchor:newSpan.offset()});
-    	}
-    	*/
-
+      
       return false;
     },
     

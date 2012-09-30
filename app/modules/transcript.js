@@ -53,6 +53,7 @@ function(app, Overlay, Ref) {
       this.numberWords = 2;		// Number of words to catch in number phrase, including first numerical word.
       this.numberPhrase = "";
       
+      this.speakers = this.options.speakers; // Speaker collection ref used to synchronously check on special events in addWords().
   	},
 
     events : {
@@ -65,8 +66,12 @@ function(app, Overlay, Ref) {
     addWord: function(args) {
     
 	    var word = args['msg'];
-	      	    	
 	    
+	    // Add word to speakers, which returns an array of any special events triggered by the word.
+	    var wordProps = this.speakers.addWord(args);
+	    //console.log("addWord...");
+	    //for(var i=0; i<wordProps.length; i++) console.log(wordProps[i]);
+	        
 	    // Add to transcript.
 	    // ---------------------------------------------------------------------
     	var s = "";
@@ -75,6 +80,7 @@ function(app, Overlay, Ref) {
     		
     	if (word["speaker"] != curSpeaker) {
     		curSpeaker = word["speaker"];
+
     		
     		// emit message to add chapter marker
     		app.trigger("playback:addChapter", {msg:word});
@@ -95,7 +101,52 @@ function(app, Overlay, Ref) {
     	if (!word["punctuationFlag"]) s += " "; // add leading space
     	
     	//$('#curSentence').append("<span id="+word["id"]+" class='transcriptWord'>"+s+word["word"]+"</span>");
-      $('#curSentence').append(s+word["word"]); // Don't make every word a span.
+    	
+    	// Check for any kind of special word events then: insert marked up word and/or trigger overlay event.
+    	// -------------------------------------------------------------------------------------------------------  
+      // Check for numbers: 'number' for numerics, 'numbers' for LIWC
+    	if (($.inArray('number', word['cats']) != -1) || ($.inArray('numbers', word['cats']) != -1)) {
+    		//console.log("transcript - got a number!");
+    		if (!this.numberOpen){
+	    		this.numberOpen = true;
+	    	}
+    	}
+    	// Only do other markup if a number phrase isn't open.
+    	if(!this.numberOpen){    	
+		  	// Check for any special events returned by speaker.addWord() and add word to DOM with appropriate markup.
+		    if(wordProps.length > 0){
+		    	// For now, just grab whatever the first one is and apply it.
+		    	// Note: Class name is just whatever the 'type' of the arg is, so endSentence() down below has to match these class names. 
+			    $('#curSentence').append("<span class='"+wordProps[0]['type']+" transcriptWord'>"+s+word["word"]+"</span>");
+			    // Trigger the associated overlay event.
+			    app.trigger("markup:"+wordProps[0]['type'], wordProps[0]); 		   		 	 
+		    }
+		    // Testing: Check for any positive words. 
+		  	else if ($.inArray('posemo', word['cats']) != -1) {
+		  		 //app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
+		  		 $('#curSentence').append("<span class='posemoMarkup transcriptWord'>"+s+word["word"]+"</span>"); 
+		  	}
+		    else{
+		    	$('#curSentence').append(s+word["word"]); 
+		    }
+      }
+      else{
+	      $('#curSentence').append(s+word["word"]); 
+      }
+    
+    	// Check for any open number phrases.  
+      if (this.numberOpen){
+    		// Update count and phrase.
+    		this.numberCount =  this.numberCount+1;
+    		if(!word['punctuationFlag']) this.numberPhrase += " ";	// Insert a space in phrase if it's not punctuation.
+    		this.numberPhrase += word['word'];
+ 
+    		// When we have the correct number of words in the phrase,
+    		if(this.numberCount >= this.numberWords){
+    			this.emitNumberEvent();
+    		}
+    	}
+    	
       
       // Update the paragraph size cache
       $('#curParagraph').attr('data-bottom', parseInt($("#curParagraph").attr('data-top')) + $("#curParagraph").height());
@@ -103,7 +154,7 @@ function(app, Overlay, Ref) {
 
       this.keepBottomSpacing();
 
-      // Autoscroll the window the keep up with transcript
+      // Autoscroll the window to keep up with transcript
       // ----------------------------------------------------------------------
       if(scrollLive && !Ref.disableAutoScroll) {
         var scrollTo = this.transcriptBottom() - $(window).height();
@@ -119,7 +170,10 @@ function(app, Overlay, Ref) {
       }           
       //$('#curSentence').css("margin-bottom", $('#curSentence').height() - Ref.overlayOffsetY);
       
-      // Check for special categories and emit events.
+      
+      // EG PEND Fit this into new transcript event architecture. 
+      /*	
+      // Check for special categories and emit events.      
       // Note: Gotta do this stuff after word has been added to DOM.
 	    // ---------------------------------------------------------------------
     	// Say (said, say, saying, etc).
@@ -141,32 +195,7 @@ function(app, Overlay, Ref) {
         
 	    	app.trigger("markup:quote", {type:'quote', phrase:quotePhrase, speaker:word['speaker'], anchor:newSpan.offset()});
     	}
-    	
-    	// Numerical.
-    	// 'number' for numerics, 'numbers' for LIWC
-    	if (($.inArray('number', word['cats']) != -1) || ($.inArray('numbers', word['cats']) != -1)) {
-    		//console.log("transcript - got a number!");
-    		if (!this.numberOpen){
-	    		this.numberOpen = true;
-	    	}
-    	}
-    	if (this.numberOpen){
-    		// Update count and phrase.
-    		this.numberCount =  this.numberCount+1;
-    		if(!word['punctuationFlag']) this.numberPhrase += " ";	// Insert a space in phrase if it's not punctuation.
-    		this.numberPhrase += word['word'];
- 
-    		
-    		// When we have the correct number of words in the phrase,
-    		if(this.numberCount >= this.numberWords){
-    			this.emitNumberEvent(word['word']);
-    		}
-    	}
-    	//EG for testing pos word counts
-    	if ($.inArray('posemo', word['cats']) != -1) {
-    		 app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
-    	}
-
+    	*/
 
       return false;
     },
@@ -361,18 +390,19 @@ function(app, Overlay, Ref) {
       return sourceHTML.length;
     },
     
-    emitNumberEvent: function(word) {
+    emitNumberEvent: function() {
+    	console.log("emitNumberEvent("+this.numberPhrase+")");
       var anchorPos;
-      word = this.numberPhrase;
-      if(word != null) {
+      if(this.numberPhrase != null) {
+        //console.log("numberPhrase = "+this.numberPhrase+"....sentence="+$('#curSentence').html());
       	var cS = $('#curSentence');
-	      cS.html(cS.text().replace($.trim(word), "<span id='positionMarker'></span>"+$.trim(word)));
+	      cS.html(cS.text().replace($.trim(this.numberPhrase), "<span id='positionMarker' class='transcriptWord numberMarkup'>"+$.trim(this.numberPhrase)+"</span>"));
         anchorPos = $('#positionMarker').offset();
-        $('#positionMarker').remove();
+        $('#positionMarker').removeAttr("id");        
       }
       else anchorPos = $('#curSentence').offset();
 
-    	// Emit an event
+    	// Emit an overlay event.
 			app.trigger("markup:number", {type:'number', speaker:curSpeaker, phrase:this.numberPhrase, anchor:anchorPos});	
 			// Close the number.
 			this.numberOpen = false;
@@ -538,7 +568,6 @@ function(app, Overlay, Ref) {
     reset: function() {
 	    $('#transcript').css("visibility", "hidden");	    
     }
-   
    
   });
 

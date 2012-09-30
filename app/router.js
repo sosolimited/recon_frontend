@@ -25,35 +25,36 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 
     index: function() {
 	    
-	    // Init msg collection
+	    // Init msg collection.
 			var messageCollection = new Message.Collection();
 			
-		  // init transcript
-		  var transcriptView = new Transcript.View( {messages: messageCollection} );
+			// Init speakers.
+    	var speakerCollection = new Speaker.Collection();
+
+    	speakerCollection.add({ id:0, speakerId:0, tag:"moderator", name:"Moderator" });
+    	speakerCollection.add({ id:1, speakerId:1, tag:"obama", name:"Barack Obama" });
+    	speakerCollection.add({ id:2, speakerId:2, tag:"romney", name:"Mitt Romney" });
+    	
+		  // Init transcript.
+		  var transcriptView = new Transcript.View( {messages: messageCollection, speakers: speakerCollection} );
 		  
-		  // init markup manager
+		  // Init markup manager.
 		  var markupManager = new MarkupManager.Model( {transcript: transcriptView} );
 		
-		  // init bigWords
+		  // Init bigWords.
 		  var bigWordsView = new BigWords.View();
 		  
-		  // init navigation
+		  // Init navigation.
 		  var navigationView = new Navigation.View( {transcript: transcriptView, messages: messageCollection} );
 		  
-		  //init landing page
+		  // Init landing page.
 			var landingView = new Landing.View( {model: new Landing.Model(), navigation: navigationView, transcript: transcriptView, overlay: markupManager, bigWords: bigWordsView} );
+			// Pass landing view to navigation for menu control.
 			navigationView.setLanding(landingView);
 		  
 			var live = true;
 			var startTime = new Date().getTime();
-			
-      // init speakers
-    	var speakerCollection = new Speaker.Collection();
-
-    	speakerCollection.add({ speakerId:0, tag:"moderator", name:"Moderator" });
-    	speakerCollection.add({ speakerId:1, tag:"obama", name:"Barack Obama" });
-    	speakerCollection.add({ speakerId:2, tag:"romney", name:"Mitt Romney" });
-    
+    	
     	// init uniquewords collection
       var uniqueWordCollection = new UniqueWord.Collection();
       

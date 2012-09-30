@@ -305,6 +305,18 @@ hr {
 
 /* Landing page */
 
+#landingBigWords {
+	position: absolute;
+	left:-300px;
+	font-size: 400px;
+	line-height: 336px;
+	font-family:"ff-meta-serif-web-pro"; 
+	font-weight:700; 
+	font-style:italic; 
+	color: rgb(116,120,120);
+	z-index:-1;
+}
+
 #landingTitle {
 	position:absolute;
 	color: white;

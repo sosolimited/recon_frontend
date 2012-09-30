@@ -1,6 +1,6 @@
 define([
   // Application.
-  "core/app",
+  "app",
   "modules/overlay",
   "modules/ref"
 ],
@@ -87,6 +87,7 @@ function(app, Overlay, Ref) {
     	
     	if (!openSentence) {
     		$('#curParagraph p').append("<span id=curSentence class='transcriptSentence'></span>"); // add sentence span wrapper
+    		//console.log("curSentence appended");
     		//app.trigger("transcript:sentenceOpen");	//testing for markup manager
     		openSentence = true;
     	}
@@ -219,42 +220,7 @@ function(app, Overlay, Ref) {
 	     	 
 	      
       });
-      
-      /*	//Old way of checking for markup classes.
-    	$('#curSentence').find('.frequentWordMarkup').each(function() {
-  			// Make sure it doesn't have any of the other markup classes (which will override frequent words)  	
-	   		if(!$(this).hasClass("wordCountMarkup")){
-    	
-	    		//$(this).css("color", "rgb(100,100,100)");	
-	    		$(this).css("border-bottom", "1px solid white");	//To do different color underline.
-	    		
-	    		//$(this).css("text-decoration-color", "rgb(255,255,255)");	
-	        var count = $(this).attr("data-wordcount");
-	        if(count != undefined) {
-	          // Add a div at this point and animate it inCannot read property 'top' of null 
-	          var pos = $(this).position();
-	          var wordWidth = $(this).width();
-	          var lineHeight = $(this).height();
-	          var container = $("<div class='wordCountFrame' style='left: " + (pos.left + wordWidth) + "px; top: " + (pos.top - lineHeight/2) + "px;'></div>");
-	          var countDiv = $("<div class='wordCount'>" + count + "</div>");
-	          container.append(countDiv);
-	          $(this).parent().append(container);
-	          countDiv.animate({top: '0px'}, 300);
-	        }
-        }
-    	});
-    	
-    	// Markup wordCounts words with color and underline
-    	$('#curSentence').find('.wordCountMarkup').each(function() {
-    		$(this).css("color", "rgb(207,255,36)");
-    		$(this).css("text-decoration", "underline");	    	
-    	});
-    	
-    	// Markup number phrases.
-    	$('#curSentence').find('.numberMarkup').each(function() {
-    		$(this).css("color", "rgb(255,157,108)");	    	    		
-    	});
-    	*/
+  
     	
     	//------------------------------------------------------------------------------
     
@@ -281,11 +247,11 @@ function(app, Overlay, Ref) {
   		if (openSentence) this.endSentence();
   		if (openParagraph) this.endParagraph();	    		
     		
-  		var newP = $("<div id=curParagraph class='push-" + col + " span-3 " +
+  		var newP = $("<div id='curParagraph' class='push-" + col + " span-3 " +
                    speakers[curSpeaker] + " transcriptParagraph'><h1 class='franklinMedIt gray60'>" +
-                   speakers[curSpeaker] + "</h1><p class='metaBook gray60'></p></div><div class=clear></div>");
+                   speakers[curSpeaker] + "</h1><p class='metaBook gray60'></p></div><div class=clear></div>");                   
       this.$el.append(newP);
-     
+      
       // Cache position in data attributes
       newP.attr('data-top', newP.offset().top);
       newP.attr('data-bottom', newP.offset().top + newP.height());
@@ -296,6 +262,7 @@ function(app, Overlay, Ref) {
     },
 
     endParagraph: function() {
+    	console.log("endParagraph");
       // Update attributes to cache position properties
       $('#curParagraph').attr('data-top', $("#curParagraph").offset().top);
       $('#curParagraph').attr('data-bottom', $("#curParagraph").offset().top + $("#curParagraph").height());
@@ -527,16 +494,18 @@ function(app, Overlay, Ref) {
       if(!scrolledParagraph) 
         scrolledParagraph = closestParagraph;
 
-      // Find timestamp of first and last word, linearly interpolate to find current time
-      var words = scrolledParagraph.find("span").not(".transcriptSentence");
-      var t0 = parseInt(scrolledParagraph.attr('data-start'));
-      var tN = parseInt(scrolledParagraph.attr('data-end'));
-
-      var paragraphScrollPercent = (bottomLine - scrolledParagraph.attr('data-top')) / (scrolledParagraph.attr('data-bottom') - scrolledParagraph.attr('data-top'));
-
-      var timeDiff = (paragraphScrollPercent * (tN-t0)) + t0;
-      //console.log(paragraphScrollPercent + " * (" + tN + " - " + t0 + ") + " + t0 + " = " + timeDiff);
-      app.trigger("transcript:scrollTo", timeDiff);
+      if(scrolledParagraph){  //EG Trying to fix initial race condition when you load page.
+	      // Find timestamp of first and last word, linearly interpolate to find current time
+	      var words = scrolledParagraph.find("span").not(".transcriptSentence");
+	      var t0 = parseInt(scrolledParagraph.attr('data-start'));
+	      var tN = parseInt(scrolledParagraph.attr('data-end'));
+	
+	      var paragraphScrollPercent = (bottomLine - scrolledParagraph.attr('data-top')) / (scrolledParagraph.attr('data-bottom') - scrolledParagraph.attr('data-top'));
+	
+	      var timeDiff = (paragraphScrollPercent * (tN-t0)) + t0;
+	      //console.log(paragraphScrollPercent + " * (" + tN + " - " + t0 + ") + " + t0 + " = " + timeDiff);
+	      app.trigger("transcript:scrollTo", timeDiff);
+      }
     },
     
     idToMessage : function(id) {
@@ -555,7 +524,22 @@ function(app, Overlay, Ref) {
   		this.endParagraph();
   		$('#'+n).parent().parent().parent().nextAll().andSelf().remove();
   		
+    },
+    
+    enter: function() {
+	    $('#transcript').css("visibility", "visible");
+    },
+    
+    exit: function() {
+	    $('#transcript').css("visibility", "hidden");	    
+    },
+    
+    // Reset puts everything where it's supposed to be before entering.
+    reset: function() {
+	    $('#transcript').css("visibility", "hidden");	    
     }
+   
+   
   });
 
   // Return the module for AMD compliance.

@@ -1,9 +1,28 @@
 <div id="landingWrapper" class="container">
-	<span class="landingTitle franklinDemiIt">ReConstitution2012</span>
-	<span class="landingSubTitle franklinDemiCompIt">A LIVE DECONSTRUCTION OF THE US PRESIDENTIAL DEBATES</span>
-	<span class="landingDescription metaBook push-0 span-3"><%= description %></span>
-	<% for (var i=0; i<3; i++){ %>
-		<span id="landingButton<%= i %>" class="landingButton franklinDemiCompIt span-2 push-<%= i*2 %>"><%= "WATCH DEBATE "+(i+1) %></span>
-		<span class="landingDate franklinDemiCompIt span-2 push-<%= i*2 %>"><%= "October "+dates[i].getUTCDate()+", "+dates[i].getFullYear()+" "+dates[i].getHours()%12+" PM EST" %></span>
-	<% } %>
+	<span id="landingTitle" class="franklinDemiCompIt push-0">ReConstitution2012</span>
+	<span id="landingObama" class="franklinDemiComp gray60">OBAMA</span>
+	<span id="landingVersus" class="franklinDemiComp gray60">VS</span>
+	<span id="landingRomney" class="franklinDemiComp gray60">ROMNEY</span>
+	<span id="landingSubTitle" class="franklinDemiCompIt gray160">A LIVE DECONSTRUCTION OF THE US PRESIDENTIAL DEBATES</span>
+	<div id="landingSubTitleDiv"></div>
+	<div id="landingButtonBox" class="push-4">
+		<% for (var i=0; i<3; i++){ %>
+			<div id="landingButton<%= i %>" class="landingButtonHolder">
+				<span class="landingButton franklinDemiCompIt gray60 span-2"><%= "WATCH DEBATE "+(i+1) %></span>
+				<span class="landingArrow gray60 franklinDemi">></span>
+				<span class="landingDate franklinDemiCompIt gray60 span-2"><%= "October "+dates[i].getUTCDate()+", "+dates[i].getFullYear()+" "+dates[i].getHours()%12+" PM EST" %></span>
+			</div>
+			<% if(i<2) { %>
+			 	<hr class="landingRule gray60"></hr> 
+			 <% } %>
+		<% } %>
+	</div>
+	<div id="landingCreditsBox">
+		<span class="landingCredits push-0 white franklinBook">Partners</span>
+		<a href="http://www.sosolimited.com"> <img src="images/landingSosoLogo.png" class="push-0" style="position:absolute; top:48px;"/></a>
+		<a href="http://thecreatorsproject.com"> <img src="images/landingCreatorsLogo.png" class="push-1" style="position:absolute; top:48px;"/></a>
+		<span class="landingCredits push-3 white franklinBook">In collaboration with</span>
+		<span class="landingCredits push-3 white franklinMed" style="top:36px;">Bocoup</br>Tim Branyen</span>
+		<span class="landingCredits push-4 white franklinMed" style="top:36px;">James Pennebaker, UT Austin</br>Cindy Chung, UT Austin</span>
+	</div>
 </div>

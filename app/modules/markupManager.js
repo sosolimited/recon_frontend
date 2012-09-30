@@ -77,6 +77,10 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  addQuoteOverlay: function(args) {
+      var quoteOverlay = new Overlay.Views.QuotesView(args);
+			//console.log("Anchor: " + args['anchor'].top);
+      $('#overlay').append(quoteOverlay.el);
+			quoteOverlay.render();
 		  
 	  },
 	  
@@ -96,6 +100,7 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  addNumberOverlay: function(args){
+        console.log(args);
 	  		
 		  	//console.log("addNumberOverlay: "+args['speaker']+", "+args['phrase']);
 		  	if(args['speaker'] > 0){

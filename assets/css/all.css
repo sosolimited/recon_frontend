@@ -540,6 +540,28 @@ hr {
 
 }
 
+.quotePhrase {
+	position:absolute; 
+	overflow: visible;
+  width: 906px;
+  font-size: 240px;
+  line-height: .75em;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+  color: rgb(124,51,64);
+	-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
+	/*-webkit-transform: translateZ(0px);	*/
+  z-index: 3;
+}
+.quoteLeftQuote, .quoteRightQuote {
+  position: absolute;
+  font-size: 400px;
+  color: rgb(124,51,64);
+  -webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
+  z-index: 0;
+}
+
+
 
 .comparisonExpText {
 	position:relative;

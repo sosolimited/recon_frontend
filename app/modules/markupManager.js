@@ -77,6 +77,10 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  addQuoteOverlay: function(args) {
+      var quoteOverlay = new Overlay.Views.QuotesView(args);
+			//console.log("Anchor: " + args['anchor'].top);
+      $('#overlay').append(quoteOverlay.el);
+			quoteOverlay.render();
 		  
 	  },
 	  

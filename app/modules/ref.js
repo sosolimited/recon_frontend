@@ -43,7 +43,7 @@ function(app) {
   Ref.gridZ300 = { scalar: 1, grid:[201, 293, 384, 475, 567, 658] };
 
   // Positioning parameters for overlays
-  Ref.numberOverlayEnterY = -250; // Distance above line to have big numbers slide in
+  Ref.overlayEnterY = -250; // Distance above line to have big words slide in
 
   // Return the module for AMD compliance.
   return Ref;

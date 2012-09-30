@@ -212,7 +212,7 @@ function(app, Ref) {
 		},
 		
 		serialize: function() {
-				return { speaker: this.speaker, phrase: this.phrase, posY: this.posY+Ref.numberOverlayEnterY, lineY: this.collapseY+Ref.transcriptPointSize, grid: Ref.gridColumns};
+				return { speaker: this.speaker, phrase: this.phrase, posY: this.posY+Ref.overlayEnterY, lineY: this.collapseY+Ref.transcriptPointSize, grid: Ref.gridColumns};
 		},
 		expand: function() {
 			this.state = 1;	//expanded
@@ -258,6 +258,104 @@ function(app, Ref) {
 		}
 		
 	});
+
+	// Quotes
+	//-------------------------------------------------------------------------------------
+	Overlay.Views.QuotesView = Backbone.View.extend({
+		template: "overlays/quotes",
+		
+		initialize: function() {
+				this.speaker = this.options.speaker;
+				this.phrase = this.options.phrase;
+				
+				this.anchor = this.options.anchor;
+
+        //all durations in milliseconds	
+				this.expandDur = 2*300 + 1000;		
+				this.holdDur = 2000;								
+				this.collapseDur = 1500;				
+		},
+		
+		serialize: function() {
+				return { speaker: this.speaker, phrase: this.phrase, posY: this.anchor.top + Ref.overlayEnterY, grid: Ref.gridColumns};
+		},
+		expand: function() {
+			this.state = 1;	//expanded
+
+      
+   		//Slide word in from side.
+      // TODO: Get the positioning of this just right. Warning: Magic numbers abound!
+      var thisView = this;
+      var quoteHeight = this.$el.find('.quotePhrase').height();
+     
+    	this.$el.find('.quotePhrase').each(function(i){ 
+          window.setTimeout(function() { thisView.speaker == 1 ? $(this).css("left",Ref.gridColumns[0]) : $(this).css("left",Ref.gridColumns[1]); }, 1, this);
+    	});
+    	this.$el.find('.quoteLeftQuote').each(function(i){ 
+          window.setTimeout(function() { $(this).css("left", (thisView.speaker == 1 ? Ref.gridColumns[0] : Ref.gridColumns[1]) - 180); }, 1, this);
+          $(this).css("top", "-=180px");
+    	});
+    	this.$el.find('.quoteRightQuote').each(function(i){ 
+          window.setTimeout(function() {
+            $(this).css("left", (thisView.speaker == 1 ? Ref.gridColumns[0] : Ref.gridColumns[1]) + 900);
+            $(this).css("top", "+=" + (quoteHeight - 240) + "px");
+          }, 1, this);
+    	});
+      
+    	
+    	//Sit for holdDur, then collapse.
+    	window.setTimeout(this.collapse, this.expandDur + this.holdDur, this);
+		},
+		
+		collapse: function() {
+  		this.state = 0;	//collapsed	
+       
+      var _posY = this.anchor.top;
+      var sp = this.speaker;
+      this.$el.find('.quotePhrase').each(function(i){ 
+          window.setTimeout(function() {
+            $(this).css("font-size","26px");
+            $(this).css("width", Ref.gridWidth);
+            $(this).css("top", (_posY - 18) + 'px');  // Center on line
+            if(sp == 1)
+              $(this).css("left", Ref.gridColumns[4]);
+            else if(sp == 2)
+              $(this).css("left", Ref.gridColumns[2]);
+            console.log(sp);
+            
+            //console.log( (this.anchorY - 18) + 'px'));
+          },1, this);
+    	});
+      this.$el.find('.quoteLeftQuote').each(function(i){ 
+          window.setTimeout(function() {
+            $(this).css("font-size","80px");
+            $(this).css("top", (_posY - 60) + 'px');  // Center on line
+            $(this).css("left", (Ref.gridColumns[(sp == 1 ? 4 : 2)] - 40) + 'px');
+            console.log(sp);
+            
+            //console.log( (this.anchorY - 18) + 'px'));
+          },1, this);
+    	});  		   
+      this.$el.find('.quoteRightQuote').each(function(i){ 
+          window.setTimeout(function() {
+            $(this).css("font-size","80px");
+            $(this).css("top", (_posY - 18) + 'px');  // Center on linea
+            $(this).css("left", (Ref.gridColumns[(sp == 1 ? 4 : 2)] + Ref.gridWidth) + 'px');
+            console.log(sp);
+            
+            //console.log( (this.anchorY - 18) + 'px'));
+          },1, this);
+    	});  		   
+      
+    	
+    },		
+		
+    afterRender: function() {
+			this.expand();
+		}
+		
+	});
+
 	
 	//Longest sentence
 	//-------------------------------------------------------------------------------------
@@ -294,39 +392,6 @@ function(app, Ref) {
 		
 	});
 
-	//Quotes
-	//-------------------------------------------------------------------------------------
-	Overlay.Views.QuotesView = Backbone.View.extend({
-		template: "overlays/quotes",
-		
-		initialize: function() {
-				this.speaker = this.options.speaker;
-				this.phrase = this.options.phrase;
-				
-				this.posY = this.options.posY;
-				//all durations in milliseconds	
-				this.expandDur = 2*300 + 1000;		
-				this.holdDur = 2000;								
-				this.collapseDur = 1500;				
-		},
-		
-		serialize: function() {
-				return { speaker: this.speaker, phrase: this.phrase };
-		},
-		
-		expand: function() {
-			
-		},
-		
-		collapse: function() {
-			
-		},
-		
-		afterRender: function() {
-			this.expand();
-		}
-		
-	});
 	
 	//Sentiment (aka Neg/Pos burst)
 	//-------------------------------------------------------------------------------------

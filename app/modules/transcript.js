@@ -122,8 +122,23 @@ function(app, Overlay, Ref) {
       // Note: Gotta do this stuff after word has been added to DOM.
 	    // ---------------------------------------------------------------------
     	// Say (said, say, saying, etc).
-    	if ($.inArray('say', word['cats']) != -1) {
-	    	app.trigger("markup:quote", {type:'quote', speaker:word['speaker']});
+    	if ($.inArray('hear', word['cats']) != -1) {  // should really be 'say' cat
+        // Go back a word and pull it into this phrase
+        var cS = $('#curSentence');
+        var cSHTML = cS.html();
+
+        // Find two words back
+        var wordIndex = this.getIndexOfPreviousWord(cS, 2);
+        
+        var newSpan = $("<span class='quoteMarkup'>" + cSHTML.substring(wordIndex, cSHTML.length) + "</span>");
+        cS.html(cSHTML.substring(0,wordIndex));
+        cS.append(newSpan);
+
+        var quotePhrase = newSpan.text();
+
+        console.log("QUOTE: " + quotePhrase);
+        
+	    	app.trigger("markup:quote", {type:'quote', phrase:quotePhrase, speaker:word['speaker'], anchor:newSpan.offset()});
     	}
     	
     	// Numerical.
@@ -178,6 +193,10 @@ function(app, Overlay, Ref) {
 	     	 else if($(this).hasClass("numberMarkup")){
 	     	 		$(this).css("color", "rgb(255,157,108)");	    	    		
 	     	 }
+	     	 // Quotation markup.
+	     	 else if($(this).hasClass("quoteMarkup")){
+	     	 		$(this).css("color", "rgb(124,51,64)");	    	    		
+	     	 }         
 	     	 // Frequent word markup.
 	     	 else if($(this).hasClass("frequentWordMarkup")){
 			     	//$(this).css("color", "rgb(100,100,100)");	
@@ -350,6 +369,29 @@ function(app, Overlay, Ref) {
         console.log(e);
         return 0;
       }
+    },
+
+    getIndexOfPreviousWord : function(source, n) {
+      var sourceHTML = $(source).html();
+      var wordsPassed = 0;
+      var inTag = false;
+      var inWord = false;
+      for(var i=sourceHTML.length; i>=0; i--) {
+        var c = sourceHTML.charAt(i);
+        if(c == '>') inTag = true;
+        else if(c == '<' && inTag) inTag = false;
+        else if(!inTag && c != ' ') inWord = true;
+        else if(inWord && !inTag && c == ' ') {
+          inWord = false;
+          wordsPassed++;
+        }
+        if(wordsPassed == n + 1) {
+          return i;
+        }
+        if(i == 0) return i;
+      }
+      
+      return sourceHTML.length;
     },
     
     emitNumberEvent: function(word) {

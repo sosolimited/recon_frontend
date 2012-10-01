@@ -7,20 +7,22 @@
 		
 	<!-- Obama top 20 -->					
 	<div class="push-0" style="position:absolute;">
-	<span class="comparisonListCandidate grayBlue franklinDemiCompIt" > Obama <br></span>  	
+	<span class="comparisonListCandidate grayBlue franklinDemiCompIt" > <br>Obama <br></span>
+	<hr class="bgGrayBlue span-2" style="height:3px"/>  	
 
 	<% for (var i = 0 ; i < 20 ; i++) {%>
-		<span class="comparisonListWord gray80 franklinDemiCompIt"><%=comparison.get("obamaList")[i]%> </span><span class="comparisonListValue lime franklinBookComp"><sup><%=comparison.get("obamaValues")[i] %> </sup><br></span>
+		<span class="comparisonListWord gray80 franklinDemiComp"><%=comparison.get("obamaList")[i]%> </span><span class="comparisonListValue lime franklinBookComp"><sup><%=comparison.get("obamaValues")[i] %> </sup><br></span>
 	<% } %>	
 
 	</div>
 	
 	<!-- Romney top 20 -->					
 	<div class="push-3" style="position:absolute;">
-	<span class="comparisonListCandidate grayBlue franklinDemiCompIt" > Romney<br> </span> 
-
+	<span class="comparisonListCandidate grayBlue franklinDemiCompIt" > <br>Romney<br> </span> 
+	<hr class="bgGrayBlue span-2" style="height:3px"/> 
+	
 	<% for (var i = 0 ; i < 20 ; i++) {%>
-		<span class="comparisonListWord gray80 franklinDemiCompIt"><%=comparison.get("romneyList")[i]%> </span><span class="comparisonListValue lime franklinBookComp"> <sup><%=comparison.get("romneyValues")[i] %> </sup><br></span>
+		<span class="comparisonListWord gray80 franklinDemiComp"><%=comparison.get("romneyList")[i]%> </span><span class="comparisonListValue lime franklinBookComp"> <sup><%=comparison.get("romneyValues")[i] %> </sup><br></span>
 	<% } %>				
 	</div>
 					

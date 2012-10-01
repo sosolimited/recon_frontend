@@ -18,6 +18,8 @@ function(app, Ref) {
   			speakers:[],
   			range:[0,100],
   			wc:[0,0],
+  			obamaTop20:[],
+  			romneyTop20:[],
  			
   			viewType: "simple"
   		}
@@ -210,15 +212,27 @@ function(app, Ref) {
 	  	var oVals = [51,36,35,33,32,31,27,26,24,24,21,20,17,17,16,15,15,14,13,13];
 	  	var rVals = [55,44,40,36,35,34,27,26,24,24,21,20,17,16,15,15,15,14,14,12];
 	  	
-  		this.set({viewType:"list", obamaList: oList, obamaValues: oVals, romneyList: rList, romneyValues: rVals, uniqueWords:options.uniqueWords, obamaTop20:null, romneyTop20:null});
+  		this.set({viewType:"list", obamaList: oList, obamaValues: oVals, romneyList: rList, romneyValues: rVals, uniqueWords:options.uniqueWords});
   		app.on("message:word", this.updateWordStats, this);		  		
   	},
   	
   	updateWordStats: function() {
   	
-	  	obamaTop20 = this.get("uniqueWords").getTop20Words(1);
-	  	romneyTop20 = this.get("uniqueWords").getTop20Words(2);
-	  	console.log(this.get("uniqueWords").getTop20Words(1));
+  	    var oList = ["going", "make", "think", "got", "opponent", "Romney", "right", "know", "Mitt", "president", "sure", "said", "tax", "years", "Afghanistan", "look", "troops", "need", "nuclear", "important"];
+  	    var rList = ["president", "Obama", "know", "said", "spending", "united", "got", "states", "want", "people", "going", "government", "strategy", "make ", "think", "time", "way", "go", "look", "new"];
+	  	var oVals = [51,36,35,33,32,31,27,26,24,24,21,20,17,17,16,15,15,14,13,13];
+	  	var rVals = [55,44,40,36,35,34,27,26,24,24,21,20,17,16,15,15,15,14,14,12];  	
+  	
+  		for (var i = 0 ; i < 20 ; i++) {
+  		  oList[i] = this.get('uniqueWords').getTop20Words(1)[i]['word'];
+  		  rList[i] = this.get('uniqueWords').getTop20Words(2)[i]['word'];
+  		  oVals[i] = this.get('uniqueWords').getTop20Words(1)[i]['count'];
+  		  rVals[i] = this.get('uniqueWords').getTop20Words(2)[i]['count'];
+  		  
+  		}
+  	
+	  	this.set({obamaTop20: oList, romneyTop20: rList, obamaValues: oVals, romneyValues: rVals});
+	  	//console.log(this.get('uniqueWords').getTop20Words(2));
   	}
 
   });
@@ -231,10 +245,8 @@ function(app, Ref) {
 		this.model.on("change", this.render, this);
 	},
 		
-
 	  serialize: function() {
-	    return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth, obamaList: this.obamaList, 
-	    				 obamaTop20: this.model.get("obamaTop20"), romneyTop20: this.model.get("romneyTop20") };
+	    return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth};
 	  }
     
   });

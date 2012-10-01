@@ -202,16 +202,26 @@ function(app, Ref) {
 
   // Extended view for top words, top n-grams	
   Comparison.ListModel = Comparison.Model.extend({    	
+  
   	setValues: function() {
-  	    var oList = ["going", "make", "think", "got", "opponent", "Romney", "right", "know", "Mitt", "president", "sure", "said", "tax", "years", "Afghanistan", "look", "troops", "need", "nuclear", "important"];
+  	
+  		this.set({viewType:"list" });
+  		
+  		app.on("message:word", this.updateWordStats, this);
+  		
+  		
+  		var oList = ["going", "make", "think", "got", "opponent", "Romney", "right", "know", "Mitt", "president", "sure", "said", "tax", "years", "Afghanistan", "look", "troops", "need", "nuclear", "important"];
   	    var rList = ["president", "Obama", "know", "said", "spending", "united", "got", "states", "want", "people", "going", "government", "strategy", "make ", "think", "time", "way", "go", "look", "new"];
 	  	var oVals = [51,36,35,33,32,31,27,26,24,24,21,20,17,17,16,15,15,14,13,13];
 	  	var rVals = [55,44,40,36,35,34,27,26,24,24,21,20,17,16,15,15,15,14,14,12];
-	  	
-  		this.set({viewType:"list", obamaList: oList, obamaValues: oVals, romneyList: rList, romneyValues: rVals});
-  		app.on("message:word", this.updateWordStats, this);
-  		  		
-  	}
+	  	this.set({ obamaList: oList, obamaValues: oVals, romneyList: rList, romneyValues: rVals});		
+  	},
+  	
+  	
+    updateWordStats: function(args) {
+    	
+  	}  	
+  	
   });
 
   Comparison.Views.List = Backbone.View.extend({
@@ -224,7 +234,8 @@ function(app, Ref) {
 	},
 		
     serialize: function() {
-      return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth, obamaList: this.obamaList };
+	  console.log(this.model.get("obamaList"));
+      return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth};
     }
     
   });

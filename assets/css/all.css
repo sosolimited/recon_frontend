@@ -545,6 +545,27 @@ hr {
 	line-height:18px;
 }
 
+.comparisonListCandidate {
+	font-size: 48px;
+	text-decoration: underline;
+	line-height:60px;
+
+}
+
+.comparisonListWord {
+	text-align: left;
+	padding: 0 0 0 0;
+	font-size: 48px;
+	line-height: 60px;
+}
+
+.comparisonListValue {
+	text-align: right;	
+	font-size: 42px;	
+	line-height: 48px;
+	
+}
+
 .comparisonLineContainer {
 	position:absolute;
 	height: 50px;
@@ -552,6 +573,8 @@ hr {
 	/*margin:0 -80px 1.5em 80px;*/
 	float:left;
 }
+
+
 
 .comparisonPastCandidate {
 	position:absolute;
@@ -673,24 +696,6 @@ hr {
 
 .spectrumPush-3 {
 	margin:0 -456px 1.5em 456px;
-}
-
-.comparisonList {
-	list-style: none outside;
-	text-align: left;
-	padding: 0 0 0 0;
-	font-size: 24px;
-	line-height:24px;
-	color:black;
-}
-
-.comparisonListValue {
-	list-style: none inside;
-	text-align: right;
-	padding: 0 0 0 0;	
-	font-size: 16px;	
-    color:white;
-	line-height:24px;
 }
 
 #transcript .wordCountFrame {

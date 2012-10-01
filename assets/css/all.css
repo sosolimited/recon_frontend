@@ -41,8 +41,7 @@ body {
 
 #bigWords {
 	position: absolute;
-	top: 0px;
-	
+	top: 0px;	
 	/* 
 	-webkit-perspective: 700px; 
 	-webkit-perspective-origin: 50% 1000px;	
@@ -63,8 +62,12 @@ body {
 	font-weight:700; 
 	font-style:italic; 
 	color: rgb(116,120,120);
-	background-color:
 	
+	/*
+	background-color: yellow;
+	height: 300px;
+	width: 1024px;
+	*/
 	/* -webkit-transform: translateZ(-500px); */
 	
 }

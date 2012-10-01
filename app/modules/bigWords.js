@@ -24,7 +24,7 @@ function(app, Ref) {
 
       focalLength = parseInt($("#bigWords").css("webkit-perspective"));
 
-      app.on("body:scroll", this.handleScroll, this);
+      app.on("body:scroll", this.handleScroll, this);		
 		 },	
 		 
 		 serialize: function() {
@@ -66,9 +66,9 @@ function(app, Ref) {
 	    	 // Only add the next big word if there is room (to stay roughly sync'd in height with the transcript.
 	    	 if(parseInt($('#transcript > .wrapper').prop('scrollHeight')) > parseInt(this.$el.prop('scrollHeight'))){
 		    	//console.log("BigWords.addWord - got a big one");
-			   	var holder = this.$el.children(".bigWordsHolder")[0];
+			   	//var holder = this.$el.children(".bigWordsHolder")[0];
           var bigWord = $("<span class='bigWord' style='top:"+this.curY+"px;'>"+word+"</span>");
-          $(holder).append(bigWord);
+          $('#bigWordsHolder').append(bigWord);
           
           var s = this.foreshortening(bigWord);
           var top = parseInt(bigWord.css('top'));
@@ -76,7 +76,7 @@ function(app, Ref) {
           bigWord.attr("data-top", top);
           bigWord.attr("data-bottom", bottom);
           bigWord.attr("data-scale", s);
-
+          
 			   	this.curY += Ref.bigWordLeading;
 			   	//$(holder).append(word+"</br>");
 			   }

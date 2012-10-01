@@ -242,8 +242,6 @@ function(app, Overlay, Ref) {
 		          countDiv.animate({top: '0px'}, 300);
 		        }  	     	 
 	     	 }
-	     	 
-	      
       });
   
     	

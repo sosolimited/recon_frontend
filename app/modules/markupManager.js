@@ -41,8 +41,8 @@ function(app, Overlay, Ref) {
   	},
   	
 	  initialize: function () {
-		  //app.on("markup:frequentWord", this.markupFrequentWord, this);		//EG temp for dev		
-		  app.on("markup:wordCount", this.addWordCountOverlay, this);			
+		  app.on("markup:frequentWordMarkup", this.markupFrequentWord, this);		
+		  app.on("markup:wordCountMarkup", this.addWordCountOverlay, this);			
 		  app.on("markup:sentenceLead", this.addTraitOverlay, this);		  	
 		  app.on("markup:quote", this.addQuoteOverlay, this);
 		  app.on("markup:sentenceSentiment", this.addSentimentOverlay, this);
@@ -129,6 +129,7 @@ function(app, Overlay, Ref) {
 		  	}
 	  	});
 	  	*/
+	  	/*
 	  	// Now that there is not a span per word, gotta do it in this order.
 	  	this.attributes.transcript.addSpanToRecentWord(args['word'], "frequentWordMarkup");
 	  	$('#curSentence').children().each(function() {
@@ -136,6 +137,7 @@ function(app, Overlay, Ref) {
           $(this).attr("data-wordcount", args['count']);
 		  	}
 	  	});
+	  	*/
 	  },
 	  
 

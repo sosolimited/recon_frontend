@@ -18,7 +18,7 @@ function(app, Ref) {
   	 template: "bigWords",
 	  			 
 		 initialize: function() {
-		  this.bigWordLength = 10;
+		  this.bigWordLength = 8;
 		  this.curY = 0;		// Used to absolutely layout big words.
 		 	app.on("message:word", this.addWord, this);
 
@@ -99,6 +99,7 @@ function(app, Ref) {
     
     enter: function() {
 	    $('#bigWordsHolder').css("visibility", "visible");
+	    //console.log("bigWords.enter()");
     },
     
     exit: function() {
@@ -107,6 +108,7 @@ function(app, Ref) {
     // Reset puts everything where it's supposed to be before entering.
     reset: function() {
 	    $('#bigWordsHolder').css("visibility", "hidden");	    
+	    //console.log("bigWords.reset()");
     },
     
     //Init it to hidden state, ready for enter.

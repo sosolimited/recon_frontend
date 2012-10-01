@@ -64,7 +64,7 @@ function(app, Overlay, Ref) {
     },
 
     addWord: function(args) {
-    
+    	//console.log("transcript.addWord("+args['msg']['word']+")");
 	    var word = args['msg'];
 	    
 	    // Add word to speakers, which returns an array of any special events triggered by the word.
@@ -106,8 +106,9 @@ function(app, Overlay, Ref) {
 	    		this.numberOpen = true;
 	    	}
     	}
-    	// Only do other markup if a number phrase isn't open.
-    	if(!this.numberOpen){    	
+    	
+    	// Only do other markup if a number phrase isn't open, and only if obama or romney are speaking
+    	if(!this.numberOpen && (curSpeaker==1 || curSpeaker==2)){    	
     		//Check for quotes.
     		if ($.inArray('hear', word['cats']) != -1) {  // PEND Should really be 'say' cat.
 	        /*	//EG PEND Get this working within this new event architecture.
@@ -241,8 +242,6 @@ function(app, Overlay, Ref) {
 		          countDiv.animate({top: '0px'}, 300);
 		        }  	     	 
 	     	 }
-	     	 
-	      
       });
   
     	
@@ -263,6 +262,7 @@ function(app, Overlay, Ref) {
     },
 
     startParagraph : function(msg) {
+     	//console.log("transcript.startParagraph()");
       var curSpeaker = msg["speaker"];
       if(curSpeaker==0) col = 2;	//obama
   		else if(curSpeaker==2) col = 3;	//romney
@@ -286,6 +286,7 @@ function(app, Overlay, Ref) {
     },
 
     endParagraph: function() {
+    	//console.log("transcript.endParagraph()");
       // Update attributes to cache position properties
       $('#curParagraph').attr('data-top', this.$("#curParagraph").offset().top);
       $('#curParagraph').attr('data-bottom', this.$("#curParagraph").offset().top + $("#curParagraph").height());

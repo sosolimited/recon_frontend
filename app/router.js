@@ -146,30 +146,32 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
         })();
       }, 50);
      
-      
-      // WEBSOCKET MESSAGE EVENTS
-      // ----------------------------------------------------------------------
-      app.socket.on("stats", function(msg) {    
-      	app.trigger("message:stats", {msg:msg});
-      });
-      
-      app.socket.on("word", function(msg) {    
-      	app.trigger("message:word", {msg:msg,live:live});
-      });
-
-      app.socket.on("sentenceEnd", function(msg) {  
-      	app.trigger("message:sentenceEnd", {msg:msg,live:live});   
-      });
-
-      app.socket.on("transcriptDone", function(msg) {   
-      	app.trigger("message:transcriptDone", {msg:msg,live:live});
-	    	live = false;
-      	console.log("transcriptDone");
-      });
-
-      app.socket.on("close", function() {
-        console.error("Closed");
-      });
+			// EG Again, stupid hack to fix loading. This seems to work, though: basically, wait until the DOM elements have been set to fire up events. 
+      window.setTimeout(function() {
+	      // WEBSOCKET MESSAGE EVENTS
+	      // ----------------------------------------------------------------------
+	      app.socket.on("stats", function(msg) {    
+	      	app.trigger("message:stats", {msg:msg});
+	      });
+	      
+	      app.socket.on("word", function(msg) {    
+	      	app.trigger("message:word", {msg:msg,live:live});
+	      });
+	
+	      app.socket.on("sentenceEnd", function(msg) {  
+	      	app.trigger("message:sentenceEnd", {msg:msg,live:live});   
+	      });
+	
+	      app.socket.on("transcriptDone", function(msg) {   
+	      	app.trigger("message:transcriptDone", {msg:msg,live:live});
+		    	live = false;
+	      	console.log("transcriptDone");
+	      });
+	
+	      app.socket.on("close", function() {
+	        console.error("Closed");
+	      });
+      }, 100);
 	     
       // BODY/WINDOW EVENTS
       // ----------------------------------------------------------------------

@@ -271,7 +271,7 @@ hr {
 .gray60{ color:rgb(60,60,60); }
 .gray80{ color:rgb(80,80,80); }
 .gray160{ color:rgb(160,160,160); }
-.grayBlue{ color:rgb(77,77,85); }
+.grayBlue{ color:rgb(67,67,75); }
 .bgGrayBlue{ background-color:rgb(77,77,85); }
 .pink{ color:rgb(231,0,149); }
 .fgBlue{ color:rgb(64,180,229); }
@@ -561,8 +561,6 @@ hr {
   z-index: 0;
 }
 
-
-
 .comparisonExpText {
 	position:relative;
 	font-size: 128px;
@@ -578,29 +576,75 @@ hr {
 	margin: 10px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
 	line-height:18px;
+}
 
+.comparisonListCandidate {
+	font-size: 48px;
+	line-height:60px;
+
+}
+
+.comparisonListWord {
+	text-align: left;
+	padding: 0 0 0 0;
+	font-size: 48px;
+	line-height: 60px;
+}
+
+.comparisonListValue {
+	text-align: right;	
+	font-size: 42px;	
+	line-height: 48px;
+	
 }
 
 .comparisonLineContainer {
 	position:absolute;
 	height: 50px;
-	margin:0 -80px 1.5em 80px; 
+	/*width: 160px;*/
+	/*margin:0 -80px 1.5em 80px;*/
 	float:left;
 }
+
+
 
 .comparisonPastCandidate {
 	position:absolute;
 	font-size: 24px;
+	line-height; 24px;
 	width: 300px;
 	height: 10px;
+	margin: 0 0 0 0;
+	top: -24px;	
+	left: 6px;
+}
+
+.comparisonPastCandidateRight {
+	position:absolute;
+	font-size: 24px;
+	text-align: right;	
+	line-height: 24px;
+	width: 936px;
+	margin: 0 6px 0 -6px;
+	top: -24px;	
 }
 
 .comparisonPastValue {
 	position:absolute;
-	font-size: 18px;	
+	font-size: 18px;
     color:white;
 	height: 10px;
-	top: 35px;
+	margin: 0 0 0 0;
+	left: 6px;	
+}
+
+.comparisonPastValueRight {
+	position:absolute;
+	font-size: 18px;
+	text-align: right;
+    color:white;
+	width: 936px;
+	margin: 0 6px 0 -6px;
 }
 
 .comparisonBarGraph {
@@ -626,9 +670,34 @@ hr {
 	color: white;
 }
 
+.countBigNumber {
+	position:absolute;
+	font-size: 128px;
+	line-height:128px;
+}
+
+.spectrumTitle {
+	position:relative;
+	font-size: 128px;
+	margin: 0px -160px 0px 160px;
+	padding: 0px 0px 0px 0px;
+	line-height:128px;
+
+}
+
 .spectrumPointer {
 	height: 100px;
 	position: absolute;
+}
+
+.spectrumDottedLine {
+	height:3px; 
+	top:50px; 
+	position:relative;
+}
+
+.spectrumDottedLineRight {
+	left: -184px;
 }
 
 .spectrumText {
@@ -657,22 +726,8 @@ hr {
 	float:left;
 }
 
-.comparisonList {
-	list-style: none outside;
-	text-align: left;
-	padding: 0 0 0 0;
-	font-size: 24px;
-	line-height:24px;
-	color:black;
-}
-
-.comparisonListValue {
-	list-style: none inside;
-	text-align: right;
-	padding: 0 0 0 0;	
-	font-size: 16px;	
-    color:white;
-	line-height:24px;
+.spectrumPush-3 {
+	margin:0 -456px 1.5em 456px;
 }
 
 #transcript .wordCountFrame {

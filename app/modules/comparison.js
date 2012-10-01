@@ -1,10 +1,11 @@
 define([
   // Application.
-  "app"
+  "app",
+  "modules/ref"
 ],
 
 // Map dependencies from above array.
-function(app) {
+function(app, Ref) {
 
   // Create a new module.
   var Comparison = app.module();
@@ -17,6 +18,7 @@ function(app) {
   			speakers:[],
   			range:[0,100],
   			wc:[0,0],
+ 			
   			viewType: "simple"
   		}
   	},
@@ -68,7 +70,6 @@ function(app) {
   	
   });
   
-  
   // Default view for a single comparison.		
   Comparison.Views.Simple = Backbone.View.extend({
     template: "comparison/simple",
@@ -79,11 +80,10 @@ function(app) {
 		},
 		
     serialize: function() {
-      return { comparison: this.model };
+      return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth};
     }
     
   });
-  
   
   
   // here is where you can override methods and implement new ones
@@ -126,7 +126,7 @@ function(app) {
 		},
 		
     serialize: function() {
-      return { comparison: this.model };
+      return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth };
     }
     
   });
@@ -148,7 +148,7 @@ function(app) {
 		},
 		
     serialize: function() {
-      return { comparison: this.model };
+      return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth};
     }
     
   });
@@ -195,7 +195,7 @@ function(app) {
 		},
 		
     serialize: function() {
-      return { comparison: this.model };
+      return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth};
     }
     
   });
@@ -203,8 +203,12 @@ function(app) {
   // Extended view for top words, top n-grams	
   Comparison.ListModel = Comparison.Model.extend({    	
   	setValues: function() {
+  	    var oList = ["going", "make", "think", "got", "opponent", "Romney", "right", "know", "Mitt", "president", "sure", "said", "tax", "years", "Afghanistan", "look", "troops", "need", "nuclear", "important"];
+  	    var rList = ["president", "Obama", "know", "said", "spending", "united", "got", "states", "want", "people", "going", "government", "strategy", "make ", "think", "time", "way", "go", "look", "new"];
+	  	var oVals = [51,36,35,33,32,31,27,26,24,24,21,20,17,17,16,15,15,14,13,13];
+	  	var rVals = [55,44,40,36,35,34,27,26,24,24,21,20,17,16,15,15,15,14,14,12];
 	  	
-  		this.set({viewType:"list"});
+  		this.set({viewType:"list", obamaList: oList, obamaValues: oVals, romneyList: rList, romneyValues: rVals});
   		app.on("message:word", this.updateWordStats, this);
   		  		
   	}
@@ -216,10 +220,11 @@ function(app) {
 
 	initialize: function() {
 		this.model.on("change", this.render, this);
+
 	},
 		
     serialize: function() {
-      return { comparison: this.model };
+      return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth, obamaList: this.obamaList };
     }
     
   });

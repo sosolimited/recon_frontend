@@ -1,4 +1,4 @@
-<div style="height:650px; position:relative;">
+<div style="height:700px; position:relative;">
 
 <!--
 		<div class="span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05"></div>
@@ -16,7 +16,7 @@
 				var val1 = comparison.get("traits")[0].vals[1]; 
 				var totalBarH = 450; 
 				var totalH = 600;
-				var range = [comparison.get("range")[0], comparison.get("range")[1]]
+				var range = [comparison.get("range")[0], comparison.get("range")[1]];
 				
 				function mapVal(val) {
 					var h = totalBarH*(100*val-range[0])/(range[1]-range[0]);
@@ -36,21 +36,32 @@
 			<% if (trait.name == "posemo") { %> 
 				
 				<% var people = ["Palin 2008", "Obama 2008", "Kerry 2004", "Nixon 1960"];
-				var values = [4.18, 3.58, 2.88, 1.94]; %>
+				var values = [4.18, 3.58, 2.88, 1.94]; 
+				var pos = ["comparisonPastCandidateRight", "comparisonPastCandidate", "comparisonPastCandidate", "comparisonPastCandidateRight"];
+				var pos2 = ["Right", "", "", "Right"];			
+				%>
 				
 			<% } else if (trait.name == "negemo") {%>
 			
-				<% var people = ["Bush 2000", "Reagan 1984", "McCain 2008","Bush 2004"];
-				var values = [1.02, 1.59, 2.39, 3.23]; %>
+				<% var people = ["Bush 2000", "Obama 2008", "McCain 2008","Bush 2004"];
+				var values = [1.02, 1.48, 2.39, 3.23]; 
+				var pos = ["comparisonPastCandidateRight", "comparisonPastCandidate", "comparisonPastCandidateRight", "comparisonPastCandidateRight"];
+				var pos2 = ["Right", "", "Right", "Right" ];
+				%>
 				
 			<% } else if (trait.name == "anger") {%>
 			
 				<% var people = ["Kennedy 1960", "Biden 2008", "Bush 1992", "Kerry 2004"];
-				var values = [0.32, 0.58, 0.97, 1.6]; %>
+				var values = [0.32, 0.58, 0.97, 1.6]; 
+				var pos = ["comparisonPastCandidate", "comparisonPastCandidate", "comparisonPastCandidateRight", "comparisonPastCandidate" ];
+				var pos2 = ["", "", "Right", "" ];				
+				%>
 			
 			<% } else if (trait.name == "funct") {%>
 			
 				<% var people = ["Kennedy 1960", "Biden 2008", "Bush 1992", "Kerry 2004"];
+				var pos = ["comparisonPastCandidate", "comparisonPastCandidate", "comparisonPastCandidateRight", "comparisonPastCandidate" ];
+				var pos2 = ["", "", "Right", "" ];						
 				var values = [20, 30, 40, 50]; %>
 			
 			<% } %>
@@ -58,9 +69,9 @@
 				<% for (var i = 0; i < 4 ; i++) { %>
 				
 					<div class="comparisonLineContainer" style="top:<%= mapVal(values[i]/100.0)[1] %>px"> 
-					<p class="franklinDemiCompIt comparisonPastCandidate grayBlue" style="top:-50px" > <%=people[i] %></p>
-					<hr class="span-5 bgGrayBlue"  /> 
-					<p class="franklinDemiComp comparisonPastValue" style="top:-15px" > <%=values[i]%> </p> 
+					<p class="franklinDemiCompIt comparisonPastCandidate grayBlue"> <%=people[i]%> </p>
+					<hr class="span-6 bgGrayBlue"  /> 
+					<p class="franklinDemiComp comparisonPastValue" > <%=values[i]%> </p> 
 					</div>
 			
 				<% } %>

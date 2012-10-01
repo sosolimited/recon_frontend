@@ -186,7 +186,7 @@ function(app, Overlay, Ref) {
           //console.log("scrolling to: " + scrollTo);
           var duration = Math.abs(lastScrollHeight - scrollTo) * 3.0;
           scrollAnimating = true;
-          $("body").animate({ scrollTop: scrollTo}, duration, function() { scrollAnimating = false;});
+          $("body").animate({ scrollTop: scrollTo}, duration, function() { window.setTimeout(function() { scrollAnimating = false; }, 15); });
           app.trigger("transcript:scrollTo", word["timeDiff"]); 
           lastScrollHeight = scrollTo;
         }
@@ -450,13 +450,14 @@ function(app, Overlay, Ref) {
         scrollLive = true;
         app.trigger("transcript:scrollAttach", {});
       }
+      lastScrollHeight = scrollTo;
     },
 
     transcriptBottom : function() {
       try {
         return $('#curParagraph').offset().top + $('#curParagraph').height();
       }
-      catch(e) { return 0; }
+      catch(e) { console.log("NO CURRENT PARAGRAPH"); return 0; }
     },
 
     handleScroll : function() {
@@ -467,12 +468,12 @@ function(app, Overlay, Ref) {
         // Note: $(document).height() is height of the HTML document,
         //       $(window).height() is the height of the viewport
         var bottom = this.transcriptBottom() - $(window).height();
-        if(Math.abs(bottom - $(window).scrollTop()) < Ref.autoscrollReattachThreshold || 
+        if(!scrollLive && Math.abs(bottom - $(window).scrollTop()) < Ref.autoscrollReattachThreshold || 
           $(document).height() - $(window).height() - $(window).scrollTop() < Ref.autoscrollReattachThreshold) {
           scrollLive = true;
           app.trigger("transcript:scrollAttach", {}); // So other modules like nav can respond accordingly
         }
-        else {
+        else if(scrollLive) {
           $("body").stop(); // Stop any scroll animation in progress
           scrollLive = false;
           app.trigger("transcript:scrollDetach", {});

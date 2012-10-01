@@ -146,7 +146,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
         })();
       }, 50);
      
-			// EG Again, stupid hack. Just trying to see why we're still getting that load error.      
+			// EG Again, stupid hack to fix loading. This seems to work, though: basically, wait until the DOM elements have been set to fire up events. 
       window.setTimeout(function() {
 	      // WEBSOCKET MESSAGE EVENTS
 	      // ----------------------------------------------------------------------

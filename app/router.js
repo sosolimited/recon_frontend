@@ -146,30 +146,32 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
         })();
       }, 50);
      
-      
-      // WEBSOCKET MESSAGE EVENTS
-      // ----------------------------------------------------------------------
-      app.socket.on("stats", function(msg) {    
-      	app.trigger("message:stats", {msg:msg});
-      });
-      
-      app.socket.on("word", function(msg) {    
-      	app.trigger("message:word", {msg:msg,live:live});
-      });
-
-      app.socket.on("sentenceEnd", function(msg) {  
-      	app.trigger("message:sentenceEnd", {msg:msg,live:live});   
-      });
-
-      app.socket.on("transcriptDone", function(msg) {   
-      	app.trigger("message:transcriptDone", {msg:msg,live:live});
-	    	live = false;
-      	console.log("transcriptDone");
-      });
-
-      app.socket.on("close", function() {
-        console.error("Closed");
-      });
+			// EG Again, stupid hack. Just trying to see why we're still getting that load error.      
+      window.setTimeout(function() {
+	      // WEBSOCKET MESSAGE EVENTS
+	      // ----------------------------------------------------------------------
+	      app.socket.on("stats", function(msg) {    
+	      	app.trigger("message:stats", {msg:msg});
+	      });
+	      
+	      app.socket.on("word", function(msg) {    
+	      	app.trigger("message:word", {msg:msg,live:live});
+	      });
+	
+	      app.socket.on("sentenceEnd", function(msg) {  
+	      	app.trigger("message:sentenceEnd", {msg:msg,live:live});   
+	      });
+	
+	      app.socket.on("transcriptDone", function(msg) {   
+	      	app.trigger("message:transcriptDone", {msg:msg,live:live});
+		    	live = false;
+	      	console.log("transcriptDone");
+	      });
+	
+	      app.socket.on("close", function() {
+	        console.error("Closed");
+	      });
+      }, 100);
 	     
       // BODY/WINDOW EVENTS
       // ----------------------------------------------------------------------

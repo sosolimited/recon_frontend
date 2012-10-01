@@ -179,9 +179,8 @@ function(app, Ref) {
   			this.set({wc:[ val1, val2] });
    			//console.log("speaker[2] wc = " + val2); 			
   			//console.log("wc[1] ++");
-  			
-  		}
-	  	
+	
+  		}	
   	}
 
   });

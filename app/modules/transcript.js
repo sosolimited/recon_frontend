@@ -100,10 +100,12 @@ function(app, Overlay, Ref) {
     	// Check for any kind of special word events then: insert marked up word and/or trigger overlay event.
     	// -------------------------------------------------------------------------------------------------------  
       // Check for numbers: 'number' for numerics, 'numbers' for LIWC.
-    	if (($.inArray('number', word['cats']) != -1) || ($.inArray('numbers', word['cats']) != -1)) {
-    		//console.log("transcript - got a number!");
-    		if (!this.numberOpen){
-	    		this.numberOpen = true;
+      if(curSpeaker==1 || curSpeaker==2){
+	    	if (($.inArray('number', word['cats']) != -1) || ($.inArray('numbers', word['cats']) != -1)) {
+	    		//console.log("transcript - got a number!");
+	    		if (!this.numberOpen){
+		    		this.numberOpen = true;
+		    	}
 	    	}
     	}
     	

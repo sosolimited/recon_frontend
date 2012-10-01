@@ -21,7 +21,7 @@ function(app) {
   			//wordCountThreshholds: [ 500, 1000, 1500 ],
   			//curWordCountThreshhold: 0,
   			frequentWordThreshold: 5,
-  			wordCountPeriod: 100, 	//1000, //EG low number for testing 
+  			wordCountPeriod: 500, 	//1000, //EG low number for testing 
   			longestSentenceLength: 0,
   			longestSentence: "",
   			curSentence: "",

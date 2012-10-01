@@ -50,20 +50,12 @@ function(app, Overlay, Ref) {
 		  app.on("body:scroll", this.handleScroll, this);
 		  //for testing
 		  app.on("keypress:test", this.test, this);
-		  //app.on("markup:posemo", this.markupPosemo, this);
-		  //app.on("transcript:sentenceOpen", this.sentenceTest, this);
-		  
-		  
 	  },
 	  
 	  cleanup: function() {
 		  app.off(null, null, this);
 	  },
 	  
-	  addOverlay: function(args) {
-		  console.log("markupManager:addOverlay "+args['type']+" "+args['speaker']);
-		  
-	  },
 	  
 	  addSentimentOverlay: function(args) {
 		  
@@ -87,9 +79,7 @@ function(app, Overlay, Ref) {
 	  addWordCountOverlay: function(args){
 	  	//console.log("markupManager.addWordCountOverlay " + args['speaker'] + ", " + args['count'] + ", " + args['word']);
 	  	
-	  	// Markup word in transcript (transcript handles actual styling on endSentence)
-		  //this.attributes.transcript.addClassToRecentWord(args['word'], "wordCountMarkup");
-		  // Note, gotta do this before making the overlay because the overlay needs the position of the word span.
+	  	// Note, gotta do this before making the overlay because the overlay needs the position of the word span.
 		  //this.attributes.transcript.addSpanToRecentWord(args['word'], "wordCountMarkup"); // EG This is now handled in transcript
 		  
 	  	// Create and insert overlay.
@@ -100,8 +90,6 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  addNumberOverlay: function(args){
-        //console.log(args);
-	  		
 		  	//console.log("addNumberOverlay: "+args['speaker']+", "+args['phrase']);
 		  	if(args['speaker'] > 0){
 		  		// Markup phrase in transcript.
@@ -116,20 +104,7 @@ function(app, Overlay, Ref) {
 	  
 	  markupFrequentWord: function(args) {
 	
-			// Skipping of common words is done in Speaker module where the markup:frequentWord event is emitted.	  
-			
-      /*
-		  // Add a class named "frequentWord" and a "data-wordcount" attribute to
-      // words in the current sentence. DOM elements are created in transcript
-      // when the sentence is complete.
-	  	$('#curSentence').children().each(function() {
-		  	if($.trim($(this).text()).toLowerCase() == $.trim(args['word']).toLowerCase()){ 
-		  		$(this).addClass('frequentWordMarkup');
-          $(this).attr("data-wordcount", args['count']);
-		  	}
-	  	});
-	  	*/
-	  	/*
+	  	/* // EG This is now handled in transcript
 	  	// Now that there is not a span per word, gotta do it in this order.
 	  	this.attributes.transcript.addSpanToRecentWord(args['word'], "frequentWordMarkup");
 	  	$('#curSentence').children().each(function() {
@@ -139,9 +114,7 @@ function(app, Overlay, Ref) {
 	  	});
 	  	*/
 	  },
-	  
 
-	  
 	  handleScroll: function(val) {
 			 $('.wrapper').css("webkit-perspective-origin", "50% "+(val+500)+"px");
 	  },
@@ -190,13 +163,6 @@ function(app, Overlay, Ref) {
 			  }
 		  }
 	  },
-	  //Testing sentence positioning
-	  /*
-	  sentenceTest: function() {
-	  	console.log("sentenceTest");
-		  $('#overlay').append("<hr style= 'position:absolute; font-size: 12px; top:" + parseInt(this.attributes.transcript.getCurSentencePosY() + 24) + "px;'></hr>");
-	  }
-	  */
 	  
 	  enter: function() {
 	    $('#overlay').css("visibility", "visible");

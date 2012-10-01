@@ -18,8 +18,6 @@ function(app, Ref) {
   			speakers:[],
   			range:[0,100],
   			wc:[0,0],
-  			obamaTop20:[],
-  			romneyTop20:[],
  			
   			viewType: "simple"
   		}
@@ -205,23 +203,21 @@ function(app, Ref) {
   // Extended view for top words, top n-grams	
 
   Comparison.ListModel = Comparison.Model.extend({
-      	
+        	     	
   	setValues: function(options) {
-  	    var oList = ["going", "make", "think", "got", "opponent", "Romney", "right", "know", "Mitt", "president", "sure", "said", "tax", "years", "Afghanistan", "look", "troops", "need", "nuclear", "important"];
-  	    var rList = ["president", "Obama", "know", "said", "spending", "united", "got", "states", "want", "people", "going", "government", "strategy", "make ", "think", "time", "way", "go", "look", "new"];
-	  	var oVals = [51,36,35,33,32,31,27,26,24,24,21,20,17,17,16,15,15,14,13,13];
-	  	var rVals = [55,44,40,36,35,34,27,26,24,24,21,20,17,16,15,15,15,14,14,12];
-	  	
-  		this.set({viewType:"list", obamaList: oList, obamaValues: oVals, romneyList: rList, romneyValues: rVals, uniqueWords:options.uniqueWords});
+
+  		this.set({viewType:"list", uniqueWords:options.uniqueWords, obamaList: new Array(), romneyList: new Array(), obamaValues: new Array(), romneyValues: new Array()});
   		app.on("message:word", this.updateWordStats, this);		  		
   	},
   	
   	updateWordStats: function() {
   	
-  	    var oList = ["going", "make", "think", "got", "opponent", "Romney", "right", "know", "Mitt", "president", "sure", "said", "tax", "years", "Afghanistan", "look", "troops", "need", "nuclear", "important"];
-  	    var rList = ["president", "Obama", "know", "said", "spending", "united", "got", "states", "want", "people", "going", "government", "strategy", "make ", "think", "time", "way", "go", "look", "new"];
-	  	var oVals = [51,36,35,33,32,31,27,26,24,24,21,20,17,17,16,15,15,14,13,13];
-	  	var rVals = [55,44,40,36,35,34,27,26,24,24,21,20,17,16,15,15,15,14,14,12];  	
+  		// massive memory leak here! move these new's out of here!
+  		// this is the only way I could get this to pass info correctly
+  	    var oList = new Array();
+  	    var rList = new Array();
+	  	var oVals = new Array();
+	  	var rVals = new Array();  	
   	
   		for (var i = 0 ; i < 20 ; i++) {
   		  oList[i] = this.get('uniqueWords').getTop20Words(1)[i]['word'];
@@ -231,8 +227,8 @@ function(app, Ref) {
   		  
   		}
   	
-	  	this.set({obamaTop20: oList, romneyTop20: rList, obamaValues: oVals, romneyValues: rVals});
-	  	//console.log(this.get('uniqueWords').getTop20Words(2));
+	  	this.set({obamaList: oList, romneyList: rList, obamaValues: oVals, romneyValues: rVals});
+	  	//console.log("#1: " + this.get("oList")[5] + " "  + this.get("rList")[5]);
   	}
 
   });

@@ -42,7 +42,6 @@ body {
 	position: absolute;
 	top: 0px;
 	
-	
 	/* 
 	-webkit-perspective: 700px; 
 	-webkit-perspective-origin: 50% 1000px;	
@@ -63,6 +62,7 @@ body {
 	font-weight:700; 
 	font-style:italic; 
 	color: rgb(116,120,120);
+	background-color:
 	
 	/* -webkit-transform: translateZ(-500px); */
 	
@@ -449,7 +449,7 @@ hr {
 	/* background-color:yellow; */
 
 	-webkit-transition: -webkit-transform 1s ease-in;	
-	-webkit-transform: translateZ(0px);	
+	/* -webkit-transform: translateZ(0px);	*/
 	
 }
 
@@ -470,7 +470,7 @@ hr {
 	line-height:100px;
 	left:-450px;	/* Start out of view */
 
-	-webkit-transform: translateZ(0px);
+	/* -webkit-transform: translateZ(0px); */
 }
 
 /* Word count overlays */
@@ -485,7 +485,7 @@ hr {
 	/* background-color:yellow; */
 
 	-webkit-transition: -webkit-transform 1s ease-in, left 1s, top 1s, height 1s, width 1s;	
-	-webkit-transform: translateZ(0px);	
+	/* -webkit-transform: translateZ(0px);	*/
 
 }
 

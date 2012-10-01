@@ -55,15 +55,16 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 			var live = true;
 			var startTime = new Date().getTime();
     	
-    	// init uniquewords collection
-      var uniqueWordCollection = new UniqueWord.Collection();
+    	// Init uniquewords collection.
+      //var uniqueWordCollection = new UniqueWord.Collection();
+      var uniqueWords = new UniqueWord.Model.AllWords();
       
-      // init comparison collection
+      // Init comparison collection.
       var comparisonCollection = new Comparison.Collection();
       var comparisonView = new Comparison.Views.All({collection: comparisonCollection});
 
       comparisonCollection.add(new Comparison.CountModel({traitNames:["wc"], speakerNames:speakerCollection, title:"WORD COUNT", subtitle:"The number of total words spoken by each candidate", range:[0,10000.0]})); 
-      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 20 WORDS", subtitle:"The top twenty words of each candidate (excluding 'the', 'I', 'if', etc.)" }));      
+      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 20 WORDS", subtitle:"The top twenty words of each candidate (excluding 'the', 'I', 'if', etc.)", uniqueWords:uniqueWords}));      
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["funct"], speakerNames:speakerCollection, title:"FUNCTION", subtitle:"TEST!!! The percentage of words spoken that are common. ie. 'I, this, think.'", range:[0,65.0]})); 
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["posemo"], speakerNames:speakerCollection, title:"POSITIVITY", subtitle:"The percentage of words spoken that are positive in some way. ie. 'winning, happy, improve.'", range:[0,5.0]})); 
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["negemo"], speakerNames:speakerCollection, title:"NEGATIVITY", subtitle:"The percentage of words spoken that are negative in some way. ie. 'failure, dead, waste.'", range:[0,3.75]}));     
@@ -72,7 +73,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
       comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["formality"], speakerNames:speakerCollection, title:"FORMAL", subtitle:"CASUAL", range:[0, 23.0]})); 
       comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["depression"], speakerNames:speakerCollection, title:"DEPRESSED", subtitle:"CHEERY", range:[-0.5, 4.5]}));                  
       
-      // load from static file
+      // Load from static file.
       if (this.qs.docName) {
       
 	      app.socket.send(JSON.stringify({
@@ -85,7 +86,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 	      }));
 	    }
 	        
-      // send msg to get past msgs in bulk
+      // Send msg to get past msgs in bulk.
       //else {
 	      /*app.socket.send(JSON.stringify({
 	        event: "loadHistory"
@@ -93,7 +94,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 	    //}
 	    
 	    
-	    // testing playback (delay is how long to wait after start of connect to server)
+	    // Testing playback (delay is how long to wait after start of connect to server).
 	    if (this.qs.playback) {
 	    	live = false;
 	    	setTimeout(function() {
@@ -108,7 +109,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
       app.useLayout("main").setViews({
       }).render();
 
-			//EG Hack to fix loading race condition. calling render().then(... wasn't working above.
+			// EG Hack to fix loading race condition. calling render().then(... wasn't working above.
 			// I'm sure there's a less stupid way to do this.
       window.setTimeout(function() {	
       
@@ -219,6 +220,14 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 				else if(event.which==88){	
 					$('#testZ6').css("left", (parseInt($('#testZ6').css("left")) + 1));
 					//console.log("left = "+parseInt($('#testZ6').css("left")));
+				}
+				//q Test top words.
+				else if(event.which==81){
+					var sp = 1;
+					var top20 = uniqueWords.getTop20Words(sp);
+					for(var i=0; i<20; i++){
+						console.log(i+" = "+top20[i]['word']+" > "+top20[i]['count']);
+					}
 				}
 				
       });      

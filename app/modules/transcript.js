@@ -64,7 +64,7 @@ function(app, Overlay, Ref) {
     },
 
     addWord: function(args) {
-    	console.log("transcript.addWord("+args['msg']['word']+")");
+    	//console.log("transcript.addWord("+args['msg']['word']+")");
 	    var word = args['msg'];
 	    
 	    // Add word to speakers, which returns an array of any special events triggered by the word.
@@ -264,7 +264,7 @@ function(app, Overlay, Ref) {
     },
 
     startParagraph : function(msg) {
-     	console.log("transcript.startParagraph()");
+     	//console.log("transcript.startParagraph()");
       var curSpeaker = msg["speaker"];
       if(curSpeaker==0) col = 2;	//obama
   		else if(curSpeaker==2) col = 3;	//romney
@@ -288,7 +288,7 @@ function(app, Overlay, Ref) {
     },
 
     endParagraph: function() {
-    	console.log("transcript.endParagraph()");
+    	//console.log("transcript.endParagraph()");
       // Update attributes to cache position properties
       $('#curParagraph').attr('data-top', this.$("#curParagraph").offset().top);
       $('#curParagraph').attr('data-bottom', this.$("#curParagraph").offset().top + $("#curParagraph").height());

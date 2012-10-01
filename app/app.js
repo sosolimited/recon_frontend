@@ -47,7 +47,7 @@ function($, _, Backbone, eio) {
 
       // If cached, use the compiled template.
       if (JST[path]) {
-        return JST[path];
+        return done(JST[path]);
       }
 
       // Otherwise seek out the template asynchronously.
@@ -79,27 +79,14 @@ function($, _, Backbone, eio) {
     // Helper for using layouts.
     useLayout: function(name) {
       // If already using this Layout, then don't re-inject into the DOM.
-      if (this.layout && this.layout.options.template === name) {
-        return this.layout;
-      }
-
-      // If a layout already exists, remove it from the DOM.
       if (this.layout) {
-        this.layout.remove();
+        return this.layout;
       }
 
       // Create a new Layout.
       var layout = new Backbone.Layout({
-        template: name,
-        className: "layout " + name,
-        id: "layout"
+        el: "#layout"
       });
-
-      // Insert into the DOM.
-      $("#main").empty().append(layout.el);
-
-      // Render the layout.
-      layout.render();
 
       // Cache the refererence.
       this.layout = layout;

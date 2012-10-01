@@ -305,6 +305,18 @@ hr {
 
 /* Landing page */
 
+#landingBigWords {
+	position: absolute;
+	left:-300px;
+	font-size: 400px;
+	line-height: 336px;
+	font-family:"ff-meta-serif-web-pro"; 
+	font-weight:700; 
+	font-style:italic; 
+	color: rgb(116,120,120);
+	z-index:-1;
+}
+
 #landingTitle {
 	position:absolute;
 	color: white;
@@ -526,6 +538,27 @@ hr {
 	/*-webkit-transform: translateZ(0px);	*/
   z-index: 3;
 
+}
+
+.quotePhrase {
+	position:absolute; 
+	overflow: visible;
+  width: 906px;
+  font-size: 240px;
+  line-height: .75em;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+  color: rgb(124,51,64);
+	-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
+	/*-webkit-transform: translateZ(0px);	*/
+  z-index: 3;
+}
+.quoteLeftQuote, .quoteRightQuote {
+  position: absolute;
+  font-size: 400px;
+  color: rgb(124,51,64);
+  -webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
+  z-index: 0;
 }
 
 .comparisonExpText {

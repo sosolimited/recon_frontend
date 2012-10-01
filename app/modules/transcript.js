@@ -80,28 +80,23 @@ function(app, Overlay, Ref) {
     		
     	if (word["speaker"] != curSpeaker) {
     		curSpeaker = word["speaker"];
-
-    		
+    			
     		// emit message to add chapter marker
     		app.trigger("playback:addChapter", {msg:word});
 
         this.startParagraph(word);
     	}
     	
-    	
     	if (word["sentenceStartFlag"]) this.endSentence();
     	
     	if (!openSentence) {
     		$('#curParagraph p').append("<span id=curSentence class='transcriptSentence'></span>"); // add sentence span wrapper
-    		//console.log("curSentence appended");
-    		//app.trigger("transcript:sentenceOpen");	//testing for markup manager
     		openSentence = true;
     	}
     	
-    	if (!word["punctuationFlag"]) s += " "; // add leading space
+    	if (!word["punctuationFlag"]) s += " "; // Add leading space.
     	
-    	//$('#curSentence').append("<span id="+word["id"]+" class='transcriptWord'>"+s+word["word"]+"</span>");
-    	
+    	    	
     	// Check for any kind of special word events then: insert marked up word and/or trigger overlay event.
     	// -------------------------------------------------------------------------------------------------------  
       // Check for numbers: 'number' for numerics, 'numbers' for LIWC.
@@ -139,7 +134,13 @@ function(app, Overlay, Ref) {
 		    else if(wordProps.length > 0){
 		    	// For now, just grab whatever the first one is and apply it.
 		    	// Note: Class name is just whatever the 'type' of the arg is, so endSentence() down below has to match these class names. 
-			    $('#curSentence').append("<span class='"+wordProps[0]['type']+" transcriptWord'>"+s+word["word"]+"</span>");
+		    	if(wordProps[0]['type']=="frequentWordMarkup"){
+		    		var sp = $("<span class='"+wordProps[0]['type']+" transcriptWord'>"+s+word["word"]+"</span>");
+			    	sp.attr("data-wordcount", wordProps[0]['count']);
+			    	$('#curSentence').append(sp);	
+		    	}else{
+			    	$('#curSentence').append("<span class='"+wordProps[0]['type']+" transcriptWord'>"+s+word["word"]+"</span>");	
+		    	}
 			    // Trigger the associated overlay event.
 			    app.trigger("markup:"+wordProps[0]['type'], wordProps[0]); 		   		 	 
 		    }
@@ -190,8 +191,6 @@ function(app, Overlay, Ref) {
         }
       }           
       //$('#curSentence').css("margin-bottom", $('#curSentence').height() - Ref.overlayOffsetY);
-      
-      
       
       return false;
     },
@@ -287,7 +286,6 @@ function(app, Overlay, Ref) {
     },
 
     endParagraph: function() {
-    	console.log("endParagraph");
       // Update attributes to cache position properties
       $('#curParagraph').attr('data-top', this.$("#curParagraph").offset().top);
       $('#curParagraph').attr('data-bottom', this.$("#curParagraph").offset().top + $("#curParagraph").height());
@@ -387,7 +385,7 @@ function(app, Overlay, Ref) {
     },
     
     emitNumberEvent: function() {
-    	console.log("emitNumberEvent("+this.numberPhrase+")");
+    	//console.log("emitNumberEvent("+this.numberPhrase+")");
       var anchorPos;
       if(this.numberPhrase != null) {
         //console.log("numberPhrase = "+this.numberPhrase+"....sentence="+$('#curSentence').html());

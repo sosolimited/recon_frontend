@@ -175,12 +175,17 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 	     
       // BODY/WINDOW EVENTS
       // ----------------------------------------------------------------------
+      // EG Trying this as alternative to listening to scroll events for overlays.
+	    (function animloop(){
+      	requestAnimFrame(animloop);
+      	//render();
+      	markupManager.handleScroll(document.body.scrollTop);
+      })();
 	    	    
       //Throttle body scroll events and emit them as messages.
       $(window).scroll(_.throttle(function(ev) {
 		     	app.trigger("body:scroll", document.body.scrollTop);
 	     	}, 33));  // 33ms = Approx 30fps
-    
     
       // Listen for keydown events.
       $('body').keydown(function(event){

@@ -1,10 +1,11 @@
 define([
   // Application.
-  "core/app"
+  "app",
+  "modules/ref"
 ],
 
 // Map dependencies from above array.
-function(app) {
+function(app, Ref) {
 
   // Create a new module.
   var Comparison = app.module();
@@ -14,7 +15,10 @@ function(app) {
   	defaults: function() {
   		return {
   			traits:[],
+  			speakers:[],
   			range:[0,100],
+  			wc:[0,0],
+ 			
   			viewType: "simple"
   		}
   	},
@@ -24,39 +28,47 @@ function(app) {
   		var k = [];
   	
   		for (var i=0; i<options.traitNames.length; i++) {
+
   			//console.log("adding trait "+options.traitNames[i]);
   			this.get("traits").push({name:options.traitNames[i], vals:[0,0]});
   		}
   		//console.log("added traits "+options.traits.length);
   		
-  		this.set({viewType:options.viewType, title:options.title, range:options.range});
+  		this.set({viewType:options.viewType, title:options.title, range:options.range, speakers:options.speakerNames});
   		
   		app.on("message:stats", this.updateStats, this);
   		
-  		this.setValues();
+  		this.setValues(options);
+  		
   	},
   	
   	cleanup: function() {
 	  	app.off(null, null, this);
   	},
   	
-  	setValues: function() {},
+  	setValues: function(options) {},
   	
   	updateStats: function(args) {
+  	
   		var newTraits = [];
   	
   		for (var i=0; i<this.get("traits").length; i++){ 
+  		
   			var msgTrait = args['msg'][this.get("traits")[i]['name']];
 
-	  		if (msgTrait) // if found, update vals
+	  		if (msgTrait) {// if found, update vals
 	  			newTraits.push({name:this.get("traits")[i]['name'], vals:msgTrait});
-	  		else // otherwise keep old vals
+	  		
+	  		} else // otherwise keep old vals
 	  			newTraits.push(this.get("traits")[i]);
+	  			
+	  		//console.log("updateStats " + args['msg'] + " " + this.get("traits")[i]['name']);
   		}
 	  	this.set({traits:newTraits});
+	  	
   	}
+  	
   });
-  
   
   // Default view for a single comparison.		
   Comparison.Views.Simple = Backbone.View.extend({
@@ -68,16 +80,15 @@ function(app) {
 		},
 		
     serialize: function() {
-      return { comparison: this.model };
+      return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth};
     }
     
   });
   
   
-  
   // here is where you can override methods and implement new ones
   Comparison.FancyModel = Comparison.Model.extend({    	
-  	setValues: function() {
+  	setValues: function(options) {
 	  	
   		this.set({viewType:"fancy"});
   	}
@@ -100,12 +111,11 @@ function(app) {
 
   // Extended view for posemo, negemo, anger.	
   Comparison.EmotionModel = Comparison.Model.extend({    	
-  	setValues: function() {
+  	setValues: function(options) {
 	  	
   		this.set({viewType:"emotion"});
   	}
   });
-
 
   Comparison.Views.Emotion = Backbone.View.extend({
     template: "comparison/emotion",
@@ -116,21 +126,21 @@ function(app) {
 		},
 		
     serialize: function() {
-      return { comparison: this.model };
+      return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth };
     }
     
   });
 
-  // Extended view for posemo, negemo, anger.	
-  Comparison.ListModel = Comparison.Model.extend({    	
-  	setValues: function() {
+  // Extended view for honesty, complexity, formality	
+  Comparison.SpectrumModel = Comparison.Model.extend({    	
+  	setValues: function(options) {
 	  	
-  		this.set({viewType:"list"});
+  		this.set({viewType:"spectrum"});
   	}
   });
 
-  Comparison.Views.List = Backbone.View.extend({
-    template: "comparison/list",
+  Comparison.Views.Spectrum = Backbone.View.extend({
+    template: "comparison/spectrum",
     className: "comparison container",
 
 		initialize: function() {
@@ -138,8 +148,101 @@ function(app) {
 		},
 		
     serialize: function() {
-      return { comparison: this.model };
+      return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth};
     }
+    
+  });
+
+  // Extended view for word count, unique word count	
+  Comparison.CountModel = Comparison.Model.extend({    	
+
+    setValues: function(options) {
+	  	
+  		this.set({viewType:"count"});
+  		
+  		app.on("message:word", this.updateWordStats, this);  		
+  	},
+ 
+    updateWordStats: function(args) {
+  		
+  		var msgTrait = args['msg']['speaker'];
+  		var punct = args['msg']['punctuationFlag'];
+  		var val1 = this.get('speakers').at(1).get("wordCount");
+  		var val2 = this.get('speakers').at(2).get("wordCount");
+  		  		
+  		if (msgTrait == 1 && !punct) {
+  			//this.set({wc:[ this.get("wc")[0] +1, this.get("wc")[1]] });
+  			this.set({wc:[ val1, val2] });
+  			//console.log("speaker[1] wc = " + val1);
+  		} else if (msgTrait == 2 && !punct) {
+  			//this.set({wc:[ this.get("wc")[0], this.get("wc")[1] + 1] });
+  			this.set({wc:[ val1, val2] });
+   			//console.log("speaker[2] wc = " + val2); 			
+  			//console.log("wc[1] ++");
+	
+  		}	
+  	}
+
+  });
+
+  Comparison.Views.Count = Backbone.View.extend({
+    template: "comparison/count",
+    className: "comparison container",
+
+		initialize: function() {
+			 this.model.on("change", this.render, this);
+		},
+		
+    serialize: function() {
+      return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth};
+    }
+    
+  });
+
+  // Extended view for top words, top n-grams	
+
+  Comparison.ListModel = Comparison.Model.extend({
+        	     	
+  	setValues: function(options) {
+
+  		this.set({viewType:"list", uniqueWords:options.uniqueWords, obamaList: new Array(), romneyList: new Array(), obamaValues: new Array(), romneyValues: new Array()});
+  		app.on("message:word", this.updateWordStats, this);		  		
+  	},
+  	
+  	updateWordStats: function() {
+  	
+  		// massive memory leak here! move these new's out of here!
+  		// this is the only way I could get this to pass info correctly
+  	    var oList = new Array();
+  	    var rList = new Array();
+	  	var oVals = new Array();
+	  	var rVals = new Array();  	
+  	
+  		for (var i = 0 ; i < 20 ; i++) {
+  		  oList[i] = this.get('uniqueWords').getTop20Words(1)[i]['word'];
+  		  rList[i] = this.get('uniqueWords').getTop20Words(2)[i]['word'];
+  		  oVals[i] = this.get('uniqueWords').getTop20Words(1)[i]['count'];
+  		  rVals[i] = this.get('uniqueWords').getTop20Words(2)[i]['count'];
+  		  
+  		}
+  	
+	  	this.set({obamaList: oList, romneyList: rList, obamaValues: oVals, romneyValues: rVals});
+	  	//console.log("#1: " + this.get("oList")[5] + " "  + this.get("rList")[5]);
+  	}
+
+  });
+
+  Comparison.Views.List = Backbone.View.extend({
+    template: "comparison/list",
+    className: "comparison container",
+
+	initialize: function() {
+		this.model.on("change", this.render, this);
+	},
+		
+	  serialize: function() {
+	    return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth};
+	  }
     
   });
 
@@ -153,29 +256,47 @@ function(app) {
   Comparison.Views.All = Backbone.View.extend({
   	el: '#comparisons',
     template: "comparison/all",
+    
+    initialize: function() {
+	    this.uniqueWords = this.options.uWords;
+    },
 
     addComparison: function(comparison) {
     
-    	if (comparison.get("viewType") === "fancy") {
-    		return this.insertView(new Comparison.Views.Fancy({
+		if (comparison.get("viewType") === "fancy") {
+			return this.insertView(new Comparison.Views.Fancy({
 					model: comparison
 				}));
 		}
-    	else if (comparison.get("viewType") === "emotion") {
-    		return this.insertView(new Comparison.Views.Emotion({
+		else if (comparison.get("viewType") === "emotion") {
+			return this.insertView(new Comparison.Views.Emotion({
 					model: comparison
 				}));
-		}	
-    	else if (comparison.get("viewType") === "list") {
-    		return this.insertView(new Comparison.Views.List({
+		}
+		else if (comparison.get("viewType") === "spectrum") {
+			return this.insertView(new Comparison.Views.Spectrum({
 					model: comparison
 				}));
 		}			
+		else if (comparison.get("viewType") === "list") {
+			return this.insertView(new Comparison.Views.List({
+					model: comparison
+				}));
+		}
+		
+		else if (comparison.get("viewType") === "count") {
+			return this.insertView(new Comparison.Views.Count({
+					model: comparison
+				}));
+		}
+					
 		else {
 		    return this.insertView(new Comparison.Views.Simple({
-  		    model: comparison
-  		  }));
-  	  }
+			    model: comparison
+			  }));
+  		  
+  		}
+  	  
     },
     
     cleanup: function() {

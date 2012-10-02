@@ -1,6 +1,6 @@
 define([
   // Application.
-  "core/app"
+  "app"
 ],
 
 // Map dependencies from above array.
@@ -25,7 +25,7 @@ function(app) {
   Ref.overlayOffsetY = 100;
 
   // Threshold for re-attaching autoscrolling
-  Ref.autoscrollReattachThreshold = 20;
+  Ref.autoscrollReattachThreshold = 50;
   
   // Var grid variables for animation of absolutely positioned elements.
   Ref.gridWidth = 136;
@@ -41,6 +41,19 @@ function(app) {
   Ref.gridZ100 = { scalar: 1, grid:[68, 204, 342, 479, 616, 754] };
   Ref.gridZ200 = { scalar: 1, grid:[133, 249, 363, 477, 592, 706] };
   Ref.gridZ300 = { scalar: 1, grid:[201, 293, 384, 475, 567, 658] };
+
+  //Colors
+  Ref.purple = [101, 45, 106];
+  Ref.redOrange = [255, 66, 55];
+  
+  Ref.colorMap = function(color1, color2, channel, range1, range2, val) {  		
+	var val_n = (val - range1)/(range2 - range1);
+	var color = val_n*color1[channel] + (1.0-val_n)*color2[channel];
+	return color;
+  }
+  
+  // Positioning parameters for overlays
+  Ref.overlayEnterY = -250; // Distance above line to have big words slide in
 
   // Return the module for AMD compliance.
   return Ref;

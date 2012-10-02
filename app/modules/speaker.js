@@ -1,6 +1,6 @@
 define([
   // Application.
-  "core/app"
+  "app"
 ],
 
 // Map dependencies from above array.
@@ -21,23 +21,25 @@ function(app) {
   			//wordCountThreshholds: [ 500, 1000, 1500 ],
   			//curWordCountThreshhold: 0,
   			frequentWordThreshold: 5,
-  			wordCountPeriod: 100, 	//1000, //EG low number for testing 
+  			wordCountPeriod: 500, 	//1000, //EG low number for testing 
   			longestSentenceLength: 0,
   			longestSentence: "",
   			curSentence: "",
   			traits: [{name: "posemo", val: 0},
-  							 {name: "negemo", val: 0}]
+  							 {name: "negemo", val: 0}],
+  			wordProps: []	// Reuseable array for handleWord()
   		}
   	},
   	
 
   	initialize: function() {
   		//console.log("INIT SPEAKER " + this.attributes.id + " "+this.attributes.name);
+  		// PEND Get rid of speakerId and just use id.
     	this.set({tag:this.attributes.tag, name:this.attributes.name, speakerId:this.attributes.speakerId});    	
-      app.on("message:word", this.handleWord, this);
+      //app.on("message:word", this.handleWord, this);	// EG This will now be called by Transcript.addWord() to ensure synchronicity.
       app.on("message:sentenceEnd", this.handleSentenceEnd, this);
       app.on("message:stats", this.updateStats, this);
-      console.log("Speaker.Model.initialize: speakerId = " + this.get('speakerId'));
+      //console.log("Speaker.Model.initialize: speakerId = " + this.get('speakerId'));
     },
     
     cleanup: function() {
@@ -46,10 +48,14 @@ function(app) {
     
     handleWord: function(args) {
     	//console.log("handleWord(), args.speaker= "+args['msg']['speaker']+" this.speakerId = "+this.get('speakerId'));
+    	// Empty out return array. Will this cause a memory leak?
+    	// Note: The order in which you add the event objects to wordProps determines their priority in transcript.
+    	this.get("wordProps").length = 0;	
     	
-    	// check its self and not moderator
+    	// Check its self and not moderator.
 	    if (args['msg']['speaker'] == this.get("speakerId") && this.get("speakerId") > 0) {	
 
+		    //console.log("speaker "+this.get("id")+" handleWord()");
 	    	// inc word count if not punc
    		 	if (!args['msg']['punctuationFlag']) this.set({wordCount: this.get("wordCount")+1});
    		 	// update curSentence
@@ -58,19 +64,24 @@ function(app) {
    		 		
    		 	this.curSentence += args['msg']['word'];
 
-   		 	// Emit frequent word event.
-   		 	if (args['msg']['wordInstances'] >= this.get('frequentWordThreshold')) {
-   		 	 	if ($.inArray('funct', args['msg']['cats']) == -1) {	//If it's not a function word (aka common word).
-	   		 		app.trigger("markup:frequentWord", {type:"frequentWord", speaker:this.get("tag"), count: args['msg']['wordInstances'], word: args['msg']['word']});
-	   		 	}
-   		 	}
-   		 	
    		 	// Emit 1000,2000,etc word count events.
    		 	if((this.get("wordCount")%this.get("wordCountPeriod"))==0 && this.get("wordCount")>0){
    		 		//console.log("handleWord just reached word "+this.get("wordCount"));
-	   			app.trigger("markup:wordCount", {type:"wordCount", speaker:this.get("tag"), count: this.get("wordCount"), word: args['msg']['word']}); 		   		 	
+	   			//app.trigger("markup:wordCount", {type:"wordCount", speaker:this.get("tag"), count: this.get("wordCount"), word: args['msg']['word']}); 		   		 	
+	   			this.get("wordProps").push({type:'wordCountMarkup', speaker:this.get('tag'), count: this.get('wordCount'), word: args['msg']['word']});
    		 	}	
+   		 	// Emit frequent word event.
+   		 	if (args['msg']['wordInstances'] >= this.get('frequentWordThreshold')) {
+   		 	 	if ($.inArray('funct', args['msg']['cats']) == -1) {	//If it's not a function word (aka common word).
+	   		 		//app.trigger("markup:frequentWord", {type:"frequentWord", speaker:this.get("tag"), count: args['msg']['wordInstances'], word: args['msg']['word']});
+	   		 		this.get("wordProps").push({type:'frequentWordMarkup', speaker:this.get('tag'), count: args['msg']['wordInstances'], word: args['msg']['word']});
+	   		 	}
+   		 	}
+   		 	
+   		 	
 	    }
+	    // Return array of events (to transcript who calls this) instead of triggering them.
+	    return this.get("wordProps");
     },
     
     handleSentenceEnd: function(args) {
@@ -90,7 +101,7 @@ function(app) {
     
     updateStats: function(args) {
     	if (this.get('speakerId') > 0) {
-	    	console.log("updateStats "+this.get('speakerId'));
+	    	//console.log("updateStats "+this.get('speakerId'));
 		    var newTraits = [];
 	  	
 	  		for (var i=0; i<this.get("traits").length; i++){ 
@@ -139,7 +150,7 @@ function(app) {
 		    this.sentenceLengthLead = lead;
 	    }
     },
-    
+        
     setCompareTraits: function() {
     	var collection = this;
 	  	setTimeout(function() {collection.compareTraits();}, 1000); // wait a second for speakers to update first
@@ -164,6 +175,11 @@ function(app) {
 	    }
 	    
 	    this.leads = newLeads;
+    },
+    
+    addWord: function(arg) {
+    	// Add word to correct speaker and return result.
+	    return this.get(arg['msg']['speaker']).handleWord(arg);
     }
   });
 

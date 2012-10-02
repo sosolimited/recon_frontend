@@ -1,6 +1,6 @@
 define([
   // Application.
-  "core/app",
+  "app",
   "modules/overlay",
   "modules/ref"
 ],
@@ -41,28 +41,21 @@ function(app, Overlay, Ref) {
   	},
   	
 	  initialize: function () {
-		  //app.on("markup:frequentWord", this.markupFrequentWord, this);		//EG temp for dev		
-		  //app.on("markup:wordCount", this.addWordCountOverlay, this);			//EG temp for dev
-		  app.on("markup:sentenceLead", this.addTraitOverlay, this);		  	//LM, is this psych traits? 
+		  app.on("markup:frequentWordMarkup", this.markupFrequentWord, this);		
+		  app.on("markup:wordCountMarkup", this.addWordCountOverlay, this);			
+		  app.on("markup:sentenceLead", this.addTraitOverlay, this);		  	
 		  app.on("markup:quote", this.addQuoteOverlay, this);
 		  app.on("markup:sentenceSentiment", this.addSentimentOverlay, this);
-		  app.on("markup:number", this.addNumberOverlay, this);
-		  app.on("body:scroll", this.handleScroll, this);
+		  app.on("markup:number", this.addNumberOverlay, this);		
+		  //app.on("body:scroll", this.handleScroll, this);	//EG Testing requestAnimFrame for this.
 		  //for testing
 		  app.on("keypress:test", this.test, this);
-		  //app.on("transcript:sentenceOpen", this.sentenceTest, this);
-		  
-		  
 	  },
 	  
 	  cleanup: function() {
 		  app.off(null, null, this);
 	  },
 	  
-	  addOverlay: function(args) {
-		  console.log("markupManager:addOverlay "+args['type']+" "+args['speaker']);
-		  
-	  },
 	  
 	  addSentimentOverlay: function(args) {
 		  
@@ -76,16 +69,18 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  addQuoteOverlay: function(args) {
+      var quoteOverlay = new Overlay.Views.QuotesView(args);
+			//console.log("Anchor: " + args['anchor'].top);
+      $('#overlay').append(quoteOverlay.el);
+			quoteOverlay.render();
 		  
 	  },
 	  
 	  addWordCountOverlay: function(args){
 	  	//console.log("markupManager.addWordCountOverlay " + args['speaker'] + ", " + args['count'] + ", " + args['word']);
 	  	
-	  	// Markup word in transcript (transcript handles actual styling on endSentence)
-		  //this.attributes.transcript.addClassToRecentWord(args['word'], "wordCountMarkup");
-		  // Note, gotta do this before making the overlay because the overlay needs the position of the word span.
-		  this.attributes.transcript.addSpanToRecentWord(args['word'], "wordCountMarkup");
+	  	// Note, gotta do this before making the overlay because the overlay needs the position of the word span.
+		  //this.attributes.transcript.addSpanToRecentWord(args['word'], "wordCountMarkup"); // EG This is now handled in transcript
 		  
 	  	// Create and insert overlay.
 	  	//console.log("markupManager.addWordCountOverlay, collapseY = "+this.attributes.transcript.getRecentWordPosY(args['word']));	  	
@@ -95,31 +90,21 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  addNumberOverlay: function(args){
-	  		
 		  	//console.log("addNumberOverlay: "+args['speaker']+", "+args['phrase']);
 		  	if(args['speaker'] > 0){
 		  		// Markup phrase in transcript.
-		  		this.attributes.transcript.addSpanToRecentWord(args['phrase'], "numberMarkup");
-		  		// Here is where the numbers overlay would be made and inserted
-		  		
+		  		//this.attributes.transcript.addSpanToRecentWord(args['phrase'], "numberMarkup"); 		  		// EG This is now handled in transcript
+
+          var numbersOverlay = new Overlay.Views.NumbersView({ speaker: args['speaker'], phrase: args['phrase'], posY: args['anchor'].top, wordPos: args['anchor'] });
+    		  $('#overlay').append(numbersOverlay.el);
+		      numbersOverlay.render();
+          //console.log("Number alert: " + args['phrase']);
 		  	}
 	  },
 	  
 	  markupFrequentWord: function(args) {
 	
-			// Skipping of common words is done in Speaker module where the markup:frequentWord event is emitted.	  
-			
-      /*
-		  // Add a class named "frequentWord" and a "data-wordcount" attribute to
-      // words in the current sentence. DOM elements are created in transcript
-      // when the sentence is complete.
-	  	$('#curSentence').children().each(function() {
-		  	if($.trim($(this).text()).toLowerCase() == $.trim(args['word']).toLowerCase()){ 
-		  		$(this).addClass('frequentWordMarkup');
-          $(this).attr("data-wordcount", args['count']);
-		  	}
-	  	});
-	  	*/
+	  	/* // EG This is now handled in transcript
 	  	// Now that there is not a span per word, gotta do it in this order.
 	  	this.attributes.transcript.addSpanToRecentWord(args['word'], "frequentWordMarkup");
 	  	$('#curSentence').children().each(function() {
@@ -127,12 +112,20 @@ function(app, Overlay, Ref) {
           $(this).attr("data-wordcount", args['count']);
 		  	}
 	  	});
+	  	*/
 	  },
-	  
 
-	  
 	  handleScroll: function(val) {
 			 $('.wrapper').css("webkit-perspective-origin", "50% "+(val+500)+"px");
+			 //console.log("markupManager.handleScroll("+val+")");
+	  },
+	  
+	  
+	  // For testing posemo counts
+	  markupPosemo: function(args) {
+		  //console.log("markupPosemo: "+args['speaker']+", "+args['word']);
+		  this.attributes.transcript.addSpanToRecentWord(args['word'], "posemoMarkup");
+		  
 	  },
 	  
 	  // For testing things with keypresses.
@@ -171,13 +164,19 @@ function(app, Overlay, Ref) {
 			  }
 		  }
 	  },
-	  //Testing sentence positioning
-	  /*
-	  sentenceTest: function() {
-	  	console.log("sentenceTest");
-		  $('#overlay').append("<hr style= 'position:absolute; font-size: 12px; top:" + parseInt(this.attributes.transcript.getCurSentencePosY() + 24) + "px;'></hr>");
-	  }
-	  */
+	  
+	  enter: function() {
+	    $('#overlay').css("visibility", "visible");
+    },
+    
+    exit: function() {
+	    $('#overlay').css("visibility", "hidden");	    
+    },
+    
+    // Reset puts everything where it's supposed to be before entering.
+    reset: function() {
+	    $('#overlay').css("visibility", "hidden");	    
+    }
 	  
   });
 

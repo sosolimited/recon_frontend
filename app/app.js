@@ -49,7 +49,7 @@ function($, _, Backbone, eio) {
 
       // If cached, use the compiled template.
       if (JST[path]) {
-        return JST[path];
+        return done(JST[path]);
       }
 
       // Otherwise seek out the template asynchronously.
@@ -60,7 +60,7 @@ function($, _, Backbone, eio) {
   });
   
   
- 	//Non-native setTimeout function that lets you pass 'this' context.
+ 	// Non-native setTimeout function that lets you pass 'this' context.
 	var _nativeST_ = window.setTimeout;
 	
 	window.setTimeout = function (vCallback, nDelay, iThis/*, argumentToPass1, argumentToPass2, etc. */) {
@@ -69,7 +69,18 @@ function($, _, Backbone, eio) {
 	    vCallback.apply(oThis, aArgs);
 	  } : vCallback, nDelay);
 	};
-
+	
+	// Shim layer with setTimeout fallback
+  window.requestAnimFrame = (function(){
+  	return	window.requestAnimationFrame       || 
+           	window.webkitRequestAnimationFrame || 
+           	window.mozRequestAnimationFrame    || 
+           	window.oRequestAnimationFrame      || 
+           	window.msRequestAnimationFrame     || 
+           	function( callback ){
+	           	window.setTimeout(callback, 1000 / 60);
+	          };
+	          })(); 
 
   // Mix Backbone.Events, modules, and layout management into the app object.
   return _.extend(app, {
@@ -81,34 +92,22 @@ function($, _, Backbone, eio) {
     // Helper for using layouts.
     useLayout: function(name) {
       // If already using this Layout, then don't re-inject into the DOM.
-      if (this.layout && this.layout.options.template === name) {
-        return this.layout;
-      }
-
-      // If a layout already exists, remove it from the DOM.
       if (this.layout) {
-        this.layout.remove();
+        return this.layout;
       }
 
       // Create a new Layout.
       var layout = new Backbone.Layout({
-        template: name,
-        className: "layout " + name,
-        id: "layout"
+        el: "#layout"
       });
-
-      // Insert into the DOM.
-      $("#main").empty().append(layout.el);
-
-      // Render the layout.
-      layout.render();
 
       // Cache the refererence.
       this.layout = layout;
 
       // Return the reference, for chainability.
       return layout;
-    }
+    },
+    
   }, Backbone.Events);
 
 });

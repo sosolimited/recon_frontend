@@ -124,6 +124,11 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 
       // WEBSOCKET MESSAGE EVENTS
       // ----------------------------------------------------------------------
+
+      app.socket.on("open", function(msg) {    
+      	console.log("connection opened "+msg);
+      });
+
       app.socket.on("stats", function(msg) {    
       	app.trigger("message:stats", {msg:msg});
       });

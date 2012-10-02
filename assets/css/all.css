@@ -322,6 +322,7 @@ hr {
 .purple{ color:rgb(101, 45, 106); } 
 .bgPurple{ background-color:rgb(101, 45, 106); } 
 .salmon{ color:rgb(255,157,108); }
+.seaGreen{ color:rgb(124,240,179); }
 
 /* Overlays */
 
@@ -666,11 +667,11 @@ landingTitleImage {
 	position:absolute; 
 	overflow: visible;
   width: 906px;
-  font-size: 240px;
+  font-size: 270px;
   line-height: .75em;
 	margin: 0px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
-  color: rgb(255,157,108);
+  color: rgb(64,180,229);
 	-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
 	-webkit-transform: translateZ(0px);	
   z-index: 3;
@@ -700,15 +701,15 @@ landingTitleImage {
 
 
 
-#transcript .wordCountFrame {
+#transcript .freqWordFrame {
   position: absolute;
   overflow: hidden;
   z-index: 2;
   height: 16px;
-  font-size: 10px;
+  font-size: 14px;
 }
 
-#transcript .wordCount {
+#transcript .freqWordCount {
   position: relative;
   top: 1em;
   color: rgb(207,255,36);

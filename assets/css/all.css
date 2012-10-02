@@ -144,20 +144,23 @@ p { /* Transcript text */
   height: 250%;
 }
 
-.comparisons .active {
+#comparisons .active {
   z-index: 5000;
 }
 
-.comparisons .active.wrapper {
-  -webkit-transform: scale(1);
-  transform: scale(1);
+#comparisons .active.wrapper {
+  /*-webkit-transform: scale(1);
+  transform: scale(1);*/
+  opacity: 1.0 !important;
 }
 
-.comparisons .wrapper {
+#comparisons .wrapper {
   -webkit-transition:  1s linear; 
   transition:  1s linear; 
-  -webkit-transform: scale(0);
-  transform: scale(0);
+  opacity: 0 !important;
+  position: fixed;
+  /*-webkit-transform: scale(0);
+  transform: scale(0);*/
 
 }
 

@@ -101,7 +101,7 @@ function(app, Overlay, Ref) {
     	// -------------------------------------------------------------------------------------------------------  
       // Check for numbers: 'number' for numerics, 'numbers' for LIWC.
       if(curSpeaker==1 || curSpeaker==2){
-	    	if (($.inArray('number', word['cats']) != -1) || ($.inArray('numbers', word['cats']) != -1)) {
+	    	if ($.inArray('numbrz', word['cats']) != -1) {
 	    		//console.log("transcript - got a number!");
 	    		if (!this.numberOpen){
 		    		this.numberOpen = true;

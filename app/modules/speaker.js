@@ -71,12 +71,14 @@ function(app) {
 	   			this.get("wordProps").push({type:'wordCountMarkup', speaker:this.get('tag'), count: this.get('wordCount'), word: args['msg']['word']});
    		 	}	
    		 	// Emit frequent word event.
+   		 	/*	//EG Moving this logic to uniqueWords, so it is based on top20Words, instead of just straight-up word counts.
    		 	if (args['msg']['wordInstances'] >= this.get('frequentWordThreshold')) {
    		 	 	if ($.inArray('funct', args['msg']['cats']) == -1) {	//If it's not a function word (aka common word).
 	   		 		//app.trigger("markup:frequentWord", {type:"frequentWord", speaker:this.get("tag"), count: args['msg']['wordInstances'], word: args['msg']['word']});
 	   		 		this.get("wordProps").push({type:'frequentWordMarkup', speaker:this.get('tag'), count: args['msg']['wordInstances'], word: args['msg']['word']});
 	   		 	}
    		 	}
+   		 	*/
    		 	
    		 	
 	    }

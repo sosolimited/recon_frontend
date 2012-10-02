@@ -11,7 +11,7 @@ define([
 ],
 
 function($, _, Backbone, eio) {
-
+	
   // Provide a global location to place configuration settings and module
   // creation.
   var app = {
@@ -22,7 +22,11 @@ function($, _, Backbone, eio) {
     views: {},
 
     // Create a socket connection to the server.
+    
+    
     socket: new eio.Socket({ host: location.hostname, port: 8081 })
+    //socket: new eio.Socket({ host: "198.61.191.97", port: 8081 })
+    
   };
 
   // Localize or create a new JavaScript Template object.
@@ -58,7 +62,7 @@ function($, _, Backbone, eio) {
   });
   
   
- 	//Non-native setTimeout function that lets you pass 'this' context.
+ 	// Non-native setTimeout function that lets you pass 'this' context.
 	var _nativeST_ = window.setTimeout;
 	
 	window.setTimeout = function (vCallback, nDelay, iThis/*, argumentToPass1, argumentToPass2, etc. */) {
@@ -67,7 +71,18 @@ function($, _, Backbone, eio) {
 	    vCallback.apply(oThis, aArgs);
 	  } : vCallback, nDelay);
 	};
-
+	
+	// Shim layer with setTimeout fallback
+  window.requestAnimFrame = (function(){
+  	return	window.requestAnimationFrame       || 
+           	window.webkitRequestAnimationFrame || 
+           	window.mozRequestAnimationFrame    || 
+           	window.oRequestAnimationFrame      || 
+           	window.msRequestAnimationFrame     || 
+           	function( callback ){
+	           	window.setTimeout(callback, 1000 / 60);
+	          };
+	          })(); 
 
   // Mix Backbone.Events, modules, and layout management into the app object.
   return _.extend(app, {

@@ -35,8 +35,12 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
     	speakerCollection.add({ id:1, speakerId:1, tag:"obama", name:"Barack Obama" });
     	speakerCollection.add({ id:2, speakerId:2, tag:"romney", name:"Mitt Romney" });
     	
+    	// Init uniquewords collection.
+      //var uniqueWordCollection = new UniqueWord.Collection();
+      var uniqueWords = new UniqueWord.Model.AllWords();
+      
 		  // Init transcript.
-		  var transcriptView = new Transcript.View( {messages: messageCollection, speakers: speakerCollection} );
+		  var transcriptView = new Transcript.View( {messages: messageCollection, speakers: speakerCollection, uniqueWords: uniqueWords} );
 		  
 		  // Init markup manager.
 		  var markupManager = new MarkupManager.Model( {transcript: transcriptView} );
@@ -54,11 +58,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 		  
 			var live = true;
 			var startTime = new Date().getTime();
-    	
-    	// Init uniquewords collection.
-      //var uniqueWordCollection = new UniqueWord.Collection();
-      var uniqueWords = new UniqueWord.Model.AllWords();
-      
+    	    	      
       // Init comparison collection.
       var comparisonCollection = new Comparison.Collection();
       var comparisonView = new Comparison.Views.All({collection: comparisonCollection});
@@ -118,7 +118,6 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 	     	transcriptView.setElement("#transcript > .wrapper"); // Need transcript to point to the actual scrolling DOM element or else scroll event handling is wack
 	     	bigWordsView.setElement("#bigWords").render();
 	     	
-	     
 	     	// Init transcript view to hidden. 
 	     	// Navigation and bigWords are getting reset in afterRender()
 	     	transcriptView.reset();
@@ -174,12 +173,42 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 	     
       // BODY/WINDOW EVENTS
       // ----------------------------------------------------------------------
-	    	    
+      
       //Throttle body scroll events and emit them as messages.
+      var lastScrollY = 0;
+      var ticking = false;
       $(window).scroll(_.throttle(function(ev) {
-		     	app.trigger("body:scroll", document.body.scrollTop);
-	     	}, 33));  // 33ms = Approx 30fps
-    
+		     	//app.trigger("body:scroll", document.body.scrollTop);
+		     	
+		     	// Intead of emitting events, keep track of scroll position for requestAnimFrame below.
+		     	lastScrollY = document.body.scrollTop;
+		     	requestTick();
+	     	}, 15));  // 33ms = Approx 30fps
+	     	
+	     	
+	    // EG Trying this as alternative to emitting scroll events.
+	    function requestTick() {
+		  	if(!ticking){
+			  	requestAnimFrame(update);
+			  }
+			  ticking = true;
+			}	
+	     
+	    function update() {
+		  	ticking = false;
+		  	// Do everything that was previously handled on scroll events.
+		    markupManager.handleScroll(lastScrollY);		     
+		    bigWordsView.handleScroll(lastScrollY);
+		    transcriptView.handleScroll(lastScrollY);
+	    }
+	     	
+	     /*
+	    (function animloop(){
+      	requestAnimFrame(animloop);
+      	//render();
+      	markupManager.handleScroll(document.body.scrollTop);
+      })();
+	    */	    
     
       // Listen for keydown events.
       $('body').keydown(function(event){
@@ -202,7 +231,6 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 
 					if($('#transcript > .wrapper').css("visibility") == "visible") $('#transcript > .wrapper').css("visibility", "hidden");
 	      	else $('#transcript > .wrapper').css("visibility", "visible");
-
 				}
 				//w for wordcount testing
 				else if(event.which == 87){	

@@ -62,6 +62,10 @@ function(app) {
 	    }
     },
     
+    getCollectionSize: function() {
+	    return this.models.length;
+    },
+    
     comparator: function(word) { 
     	// Sort collection based on count.
     	// Negative makes it sort backwards.	
@@ -74,14 +78,40 @@ function(app) {
 		  var index=0;
 		  while((i<20) && (index<this.models.length)){
 		  	// If it's NOT a function word.
-				if ($.inArray('funct', this.at(index)) == -1){
-						this.top20Words[i]['word'] = this.at(index).get("word");
-						this.top20Words[i]['count'] = this.at(index).get("count");
-						i++;
+				if (this.filterWord(this.at(index))){
+					this.top20Words[i]['word'] = this.at(index).get("word");
+					this.top20Words[i]['count'] = this.at(index).get("count");
+					i++;
 				}
 				index++;	  	
 			}	
 			return this.top20Words;
+	  },
+	  
+	  // Returns 0 if ain't, word count if it is.
+	  isTop20Word: function(word) {
+		  var i=0;
+		  var index=0;
+		  while((i<20) && (index<this.models.length)){
+		  	// If it's NOT a function word.
+				if (this.filterWord(this.at(index))){
+					if(this.at(index).get("word")==word){
+						return this.at(index).get("count");
+					}else{						
+						i++;
+					}
+				}
+				index++;	  	
+			}	
+			return  0;
+	  },
+	  
+	  filterWord: function(model){
+	  	if (($.inArray('funct', model.get("cats")) == -1) && (model.get("word") != " ")){
+		  	return true;	
+	  	}else{
+		  	return false;
+	  	}
 	  }
   });
 
@@ -126,7 +156,29 @@ function(app) {
 			}else if(speakerId==2){
 			 	return this.get("romney").getTop20Words();	
 			}
+		},
+		
+		// Returns 0 if it ain't, word count if it is.
+		isTop20Word: function(speakerId, word) {
+			if(speakerId==0){
+			 	return this.get("moderator").isTop20Word(word);
+			}else if (speakerId==1){
+				return this.get("obama").isTop20Word(word);
+			}else if(speakerId==2){
+			 	return this.get("romney").isTop20Word(word);
+			}		
+		},
+		
+		getTotalUniqueWords: function(speakerId) {
+			if(speakerId==0){
+			 	return this.get("moderator").getCollectionSize();
+			}else if (speakerId==1){
+				return this.get("obama").getCollectionSize();
+			}else if(speakerId==2){
+			 	return this.get("romney").getCollectionSize();
+			}	
 		}
+		
 	});  
 
   // Return the module for AMD compliance.

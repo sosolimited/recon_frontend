@@ -59,6 +59,7 @@ function(app, Overlay, Ref) {
       this.numberPhrase = "";
       
       this.speakers = this.options.speakers; // Speaker collection ref used to synchronously check on special events in addWords().
+      this.uniqueWords = this.options.uniqueWords;	
   	},
 
     events : {
@@ -114,6 +115,7 @@ function(app, Overlay, Ref) {
 	    	}
     	}
     	
+    	var top20Count = 0;
     	// Only do other markup if a number phrase isn't open, and only if obama or romney are speaking
     	if(!this.numberOpen && (curSpeaker==1 || curSpeaker==2)){    	
     		//Check for quotes.
@@ -142,20 +144,31 @@ function(app, Overlay, Ref) {
 		    else if(wordProps.length > 0){
 		    	// For now, just grab whatever the first one is and apply it.
 		    	// Note: Class name is just whatever the 'type' of the arg is, so endSentence() down below has to match these class names. 
-		    	if(wordProps[0]['type']=="frequentWordMarkup"){
-		    		var sp = $("<span class='"+wordProps[0]['type']+" transcriptWord'>"+s+word["word"]+"</span>");
-			    	sp.attr("data-wordcount", wordProps[0]['count']);
-			    	$('#curSentence').append(sp);	
-		    	}else{
+		    	
+		    	//if(wordProps[0]['type']=="frequentWordMarkup"){
+		    	//	var sp = $("<span class='"+wordProps[0]['type']+" transcriptWord'>"+s+word["word"]+"</span>");
+			    //	sp.attr("data-wordcount", wordProps[0]['count']);
+			    //	$('#curSentence').append(sp);	
+		    	//}else{
 			    	$('#curSentence').append("<span class='"+wordProps[0]['type']+" transcriptWord'>"+s+word["word"]+"</span>");	
-		    	}
+		    	//}
 			    // Trigger the associated overlay event.
 			    app.trigger("markup:"+wordProps[0]['type'], wordProps[0]); 		   		 	 
 		    }
-		    // Testing: Check for any positive words. 
+		    else if(top20Count = this.uniqueWords.isTop20Word(curSpeaker, word['word'])){
+		    	if(this.uniqueWords.getTotalUniqueWords(curSpeaker) > 100){
+				    var sp = $("<span class='frequentWordMarkup transcriptWord'>"+s+word["word"]+"</span>");
+			    	sp.attr("data-wordcount", top20Count);
+			    	$('#curSentence').append(sp);	
+		    	}
+		    }
 		  	else if ($.inArray('posemo', word['cats']) != -1) {
 		  		 //app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
 		  		 $('#curSentence').append("<span class='posemoMarkup transcriptWord'>"+s+word["word"]+"</span>"); 
+		  	}
+		  	else if ($.inArray('negemo', word['cats']) != -1) {
+		  		 //app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
+		  		 $('#curSentence').append("<span class='negemoMarkup transcriptWord'>"+s+word["word"]+"</span>"); 
 		  	}
 		    else{
 		    	$('#curSentence').append(s+word["word"]); 
@@ -213,9 +226,11 @@ function(app, Overlay, Ref) {
       
       //Go through all spans so you can create markup heirarchy (ie specify which markups take precedence)  
       $('#curSentence').find('span').each(function() {
-      	 // EG Testing posemo counts
       	 if($(this).hasClass("posemoMarkup")){
 	      	 $(this).css("color", "rgb(100,0,0)");
+      	 }
+      	 else if($(this).hasClass("negemoMarkup")){
+	      	 $(this).css("color", "rgb(0,0,100)");
       	 }
 	     	 // Word count markup.
 	     	 else if($(this).hasClass("wordCountMarkup")){	
@@ -309,9 +324,13 @@ function(app, Overlay, Ref) {
     		
   		if (openSentence) this.endSentence();
   		if (openParagraph) this.endParagraph();	    		
+    	
+    	// Color candidates white and speaker gray.
+    	var spColor = "white";
+    	//if(curSpeaker == 0) spColor = "gray60";	
     		
   		var newP = $("<div id='curParagraph' class='push-" + col + " span-3 " +
-                   speakers[curSpeaker] + " transcriptParagraph'><h1 class='franklinMedIt white'>" +
+                   speakers[curSpeaker] + " transcriptParagraph'><h1 class='franklinMedIt " + spColor + "'>" +
                    speakers[curSpeaker] + "</h1><p class='metaBook gray60'></p></div><div class=clear></div>");                   
       this.$el.append(newP);
       

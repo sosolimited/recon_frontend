@@ -1,0 +1,196 @@
+.compareContainer {
+	
+	position:relative; 
+	
+	border-bottom: 3px gray !important;
+	padding-bottom: 50px !important;
+
+}
+
+
+
+.list {
+
+height:1600px;
+
+}
+
+.count {
+	
+	height:650px;
+}
+
+.emotion {
+	
+	height:700px;
+}
+
+.comparisonExpText {
+	position:relative;
+	font-size: 128px;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+	line-height:128px;
+
+}
+
+.comparisonExpSubtitle {
+	position:relative;
+	font-size: 18px;
+	margin: 10px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+	line-height:18px;
+}
+
+.comparisonListCandidate {
+	font-size: 48px;
+	line-height:60px;
+
+}
+
+.comparisonListWord {
+	text-align: left;
+	padding: 0 0 0 0;
+	font-size: 30px;
+	line-height: 36px;
+}
+
+.comparisonListValue {
+	text-align: right;	
+	font-size: 20px;	
+	line-height: 38px;
+	
+}
+
+.comparisonLineContainer {
+	position:absolute;
+	height: 50px;
+	/*width: 160px;*/
+	/*margin:0 -80px 1.5em 80px;*/
+	float:left;
+}
+
+
+
+.comparisonPastCandidate {
+	position:absolute;
+	font-size: 24px;
+	line-height; 24px;
+	width: 300px;
+	height: 10px;
+	margin: 0 0 0 0;
+	top: -24px;	
+	left: 6px;
+}
+
+.comparisonPastCandidateRight {
+	position:absolute;
+	font-size: 24px;
+	text-align: right;	
+	line-height: 24px;
+	width: 936px;
+	margin: 0 6px 0 -6px;
+	top: -24px;	
+}
+
+.comparisonPastValue {
+	position:absolute;
+	font-size: 18px;
+    color:white;
+	height: 10px;
+	margin: 0 0 0 0;
+	left: 6px;	
+}
+
+.comparisonPastValueRight {
+	position:absolute;
+	font-size: 18px;
+	text-align: right;
+    color:white;
+	width: 936px;
+	margin: 0 6px 0 -6px;
+}
+
+.comparisonBarGraph {
+	position:absolute;
+}
+
+.barGraphText {
+	position:absolute;
+	font-size: 48px;
+	left: 10px;
+	bottom: 15px;
+	text-decoration: underline;
+	line-height:48px;
+
+}
+
+.barGraphValue {
+	position:absolute;
+	font-size: 32px;
+	left: 10px;
+	bottom: 5px;
+	line-height:24px;
+	color: white;
+}
+
+.countBigNumber {
+	position:absolute;
+	font-size: 128px;
+	line-height:128px;
+}
+
+.spectrumTitle {
+	position:relative;
+	font-size: 128px;
+	margin: 0px -160px 0px 160px;
+	padding: 0px 0px 0px 0px;
+	line-height:128px;
+
+}
+
+.spectrumPointer {
+	height: 100px;
+	position: absolute;
+}
+
+.spectrumDottedLine {
+	height:3px; 
+	top:50px; 
+	position:relative;
+}
+
+.spectrumDottedLineRight {
+	left: -184px;
+}
+
+.spectrumText {
+	position:absolute;
+	font-size: 48px;
+	left: 10px;
+	bottom: -5px;
+	text-decoration: underline;
+	line-height:48px;
+	color:white;
+
+}
+
+.spectrumValue {
+	position:absolute;
+	font-size: 32px;
+	left: 10px;
+	bottom: -15px;
+	line-height:24px;
+	color: white;
+}
+
+.spectrumLineContainer {
+	position:absolute;
+	height: 50px;
+	float:left;
+}
+
+.spectrumPush-3 {
+	margin:0 -456px 1.5em 456px;
+}
+

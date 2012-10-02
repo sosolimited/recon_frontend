@@ -19,13 +19,13 @@ function(app) {
 	Ref.bigWordLeading = 336;
 	  
 	// For development, autoscrolling can be disabled completely
-  Ref.disableAutoScroll = false;
+  Ref.disableAutoScroll = true;
 
   // Position of the most recent sentence
   Ref.overlayOffsetY = 100;
 
   // Threshold for re-attaching autoscrolling
-  Ref.autoscrollReattachThreshold = 20;
+  Ref.autoscrollReattachThreshold = 50;
   
   // Var grid variables for animation of absolutely positioned elements.
   Ref.gridWidth = 136;

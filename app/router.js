@@ -35,8 +35,12 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
     	speakerCollection.add({ id:1, speakerId:1, tag:"obama", name:"Barack Obama" });
     	speakerCollection.add({ id:2, speakerId:2, tag:"romney", name:"Mitt Romney" });
     	
+    	// Init uniquewords collection.
+      //var uniqueWordCollection = new UniqueWord.Collection();
+      var uniqueWords = new UniqueWord.Model.AllWords();
+      
 		  // Init transcript.
-		  var transcriptView = new Transcript.View( {messages: messageCollection, speakers: speakerCollection} );
+		  var transcriptView = new Transcript.View( {messages: messageCollection, speakers: speakerCollection, uniqueWords: uniqueWords} );
 		  
 		  // Init markup manager.
 		  var markupManager = new MarkupManager.Model( {transcript: transcriptView} );
@@ -54,16 +58,13 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 		  
 			var live = true;
 			var startTime = new Date().getTime();
-    	
-    	// init uniquewords collection
-      var uniqueWordCollection = new UniqueWord.Collection();
-      
-      // init comparison collection
+    	    	      
+      // Init comparison collection.
       var comparisonCollection = new Comparison.Collection();
       var comparisonView = new Comparison.Views.All({collection: comparisonCollection});
 
       comparisonCollection.add(new Comparison.CountModel({traitNames:["wc"], speakerNames:speakerCollection, title:"WORD COUNT", subtitle:"The number of total words spoken by each candidate", range:[0,10000.0]})); 
-      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 20 WORDS", subtitle:"The top twenty words of each candidate (excluding 'the', 'I', 'if', etc.)" }));      
+      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 20 WORDS", subtitle:"The top twenty words of each candidate (excluding 'the', 'I', 'if', etc.)", uniqueWords:uniqueWords}));      
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["funct"], speakerNames:speakerCollection, title:"FUNCTION", subtitle:"TEST!!! The percentage of words spoken that are common. ie. 'I, this, think.'", range:[0,65.0]})); 
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["posemo"], speakerNames:speakerCollection, title:"POSITIVITY", subtitle:"The percentage of words spoken that are positive in some way. ie. 'winning, happy, improve.'", range:[0,5.0]})); 
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["negemo"], speakerNames:speakerCollection, title:"NEGATIVITY", subtitle:"The percentage of words spoken that are negative in some way. ie. 'failure, dead, waste.'", range:[0,3.75]}));     
@@ -72,7 +73,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
       comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["formality"], speakerNames:speakerCollection, title:"FORMAL", subtitle:"CASUAL", range:[0, 23.0]})); 
       comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["depression"], speakerNames:speakerCollection, title:"DEPRESSED", subtitle:"CHEERY", range:[-0.5, 4.5]}));                  
       
-      // load from static file
+      // Load from static file.
       if (this.qs.docName) {
       
 	      app.socket.send(JSON.stringify({
@@ -85,7 +86,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 	      }));
 	    }
 	        
-      // send msg to get past msgs in bulk
+      // Send msg to get past msgs in bulk.
       //else {
 	      /*app.socket.send(JSON.stringify({
 	        event: "loadHistory"
@@ -93,7 +94,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 	    //}
 	    
 	    
-	    // testing playback (delay is how long to wait after start of connect to server)
+	    // Testing playback (delay is how long to wait after start of connect to server).
 	    if (this.qs.playback) {
 	    	live = false;
 	    	setTimeout(function() {
@@ -108,7 +109,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
       app.useLayout("main").setViews({
       }).render();
 
-			//EG Hack to fix loading race condition. calling render().then(... wasn't working above.
+			// EG Hack to fix loading race condition. calling render().then(... wasn't working above.
 			// I'm sure there's a less stupid way to do this.
       window.setTimeout(function() {	
       
@@ -118,7 +119,6 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 	     	transcriptView.setElement("#transcript > .wrapper"); // Need transcript to point to the actual scrolling DOM element or else scroll event handling is wack
 	     	bigWordsView.setElement("#bigWords").render();
 	     	
-	     
 	     	// Init transcript view to hidden. 
 	     	// Navigation and bigWords are getting reset in afterRender()
 	     	transcriptView.reset();
@@ -145,39 +145,71 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
         })();
       }, 50);
      
-      
-      // WEBSOCKET MESSAGE EVENTS
-      // ----------------------------------------------------------------------
-      app.socket.on("stats", function(msg) {    
-      	app.trigger("message:stats", {msg:msg});
-      });
-      
-      app.socket.on("word", function(msg) {    
-      	app.trigger("message:word", {msg:msg,live:live});
-      });
-
-      app.socket.on("sentenceEnd", function(msg) {  
-      	app.trigger("message:sentenceEnd", {msg:msg,live:live});   
-      });
-
-      app.socket.on("transcriptDone", function(msg) {   
-      	app.trigger("message:transcriptDone", {msg:msg,live:live});
-	    	live = false;
-      	console.log("transcriptDone");
-      });
-
-      app.socket.on("close", function() {
-        console.error("Closed");
-      });
+			// EG Again, stupid hack to fix loading. This seems to work, though: basically, wait until the DOM elements have been set to fire up events. 
+      window.setTimeout(function() {
+	      // WEBSOCKET MESSAGE EVENTS
+	      // ----------------------------------------------------------------------
+	      app.socket.on("stats", function(msg) {    
+	      	app.trigger("message:stats", {msg:msg});
+	      });
+	      
+	      app.socket.on("word", function(msg) {    
+	      	app.trigger("message:word", {msg:msg,live:live});
+	      });
+	
+	      app.socket.on("sentenceEnd", function(msg) {  
+	      	app.trigger("message:sentenceEnd", {msg:msg,live:live});   
+	      });
+	
+	      app.socket.on("transcriptDone", function(msg) {   
+	      	app.trigger("message:transcriptDone", {msg:msg,live:live});
+		    	live = false;
+	      	console.log("transcriptDone");
+	      });
+	
+	      app.socket.on("close", function() {
+	        console.error("Closed");
+	      });
+      }, 100);
 	     
       // BODY/WINDOW EVENTS
       // ----------------------------------------------------------------------
-	    	    
+      
       //Throttle body scroll events and emit them as messages.
+      var lastScrollY = 0;
+      var ticking = false;
       $(window).scroll(_.throttle(function(ev) {
-		     	app.trigger("body:scroll", document.body.scrollTop);
-	     	}, 33));  // 33ms = Approx 30fps
-    
+		     	//app.trigger("body:scroll", document.body.scrollTop);
+		     	
+		     	// Intead of emitting events, keep track of scroll position for requestAnimFrame below.
+		     	lastScrollY = document.body.scrollTop;
+		     	requestTick();
+	     	}, 15));  // 33ms = Approx 30fps
+	     	
+	     	
+	    // EG Trying this as alternative to emitting scroll events.
+	    function requestTick() {
+		  	if(!ticking){
+			  	requestAnimFrame(update);
+			  }
+			  ticking = true;
+			}	
+	     
+	    function update() {
+		  	ticking = false;
+		  	// Do everything that was previously handled on scroll events.
+		    markupManager.handleScroll(lastScrollY);		     
+		    bigWordsView.handleScroll(lastScrollY);
+		    transcriptView.handleScroll(lastScrollY);
+	    }
+	     	
+	     /*
+	    (function animloop(){
+      	requestAnimFrame(animloop);
+      	//render();
+      	markupManager.handleScroll(document.body.scrollTop);
+      })();
+	    */	    
     
       // Listen for keydown events.
       $('body').keydown(function(event){
@@ -200,7 +232,6 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 
 					if($('#transcript > .wrapper').css("visibility") == "visible") $('#transcript > .wrapper').css("visibility", "hidden");
 	      	else $('#transcript > .wrapper').css("visibility", "visible");
-
 				}
 				//w for wordcount testing
 				else if(event.which == 87){	
@@ -219,6 +250,14 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 				else if(event.which==88){	
 					$('#testZ6').css("left", (parseInt($('#testZ6').css("left")) + 1));
 					//console.log("left = "+parseInt($('#testZ6').css("left")));
+				}
+				//q Test top words.
+				else if(event.which==81){
+					var sp = 1;
+					var top20 = uniqueWords.getTop20Words(sp);
+					for(var i=0; i<20; i++){
+						console.log(i+" = "+top20[i]['word']+" > "+top20[i]['count']);
+					}
 				}
 				
       });      

@@ -35,7 +35,7 @@ function(app, Overlay, Ref) {
     initialize : function() {
       app.on("message:word", this.addWord, this);
       app.on("message:sentenceEnd", this.endSentence, this);
-      app.on("body:scroll", this.handleScroll, this);
+      //app.on("body:scroll", this.handleScroll, this);  	//EG This is handled by requestAnimFrame now in router.
       app.on("navigation:goLive", this.reattachLiveScroll, this);
 
       var thisTranscript = this;
@@ -54,6 +54,7 @@ function(app, Overlay, Ref) {
       this.numberPhrase = "";
       
       this.speakers = this.options.speakers; // Speaker collection ref used to synchronously check on special events in addWords().
+      this.uniqueWords = this.options.uniqueWords;	
   	},
 
     events : {
@@ -64,7 +65,7 @@ function(app, Overlay, Ref) {
     },
 
     addWord: function(args) {
-    
+    	//console.log("transcript.addWord("+args['msg']['word']+")");
 	    var word = args['msg'];
 	    
 	    // Add word to speakers, which returns an array of any special events triggered by the word.
@@ -100,14 +101,18 @@ function(app, Overlay, Ref) {
     	// Check for any kind of special word events then: insert marked up word and/or trigger overlay event.
     	// -------------------------------------------------------------------------------------------------------  
       // Check for numbers: 'number' for numerics, 'numbers' for LIWC.
-    	if (($.inArray('number', word['cats']) != -1) || ($.inArray('numbers', word['cats']) != -1)) {
-    		//console.log("transcript - got a number!");
-    		if (!this.numberOpen){
-	    		this.numberOpen = true;
+      if(curSpeaker==1 || curSpeaker==2){
+	    	if (($.inArray('number', word['cats']) != -1) || ($.inArray('numbers', word['cats']) != -1)) {
+	    		//console.log("transcript - got a number!");
+	    		if (!this.numberOpen){
+		    		this.numberOpen = true;
+		    	}
 	    	}
     	}
-    	// Only do other markup if a number phrase isn't open.
-    	if(!this.numberOpen){    	
+    	
+    	var top20Count = 0;
+    	// Only do other markup if a number phrase isn't open, and only if obama or romney are speaking
+    	if(!this.numberOpen && (curSpeaker==1 || curSpeaker==2)){    	
     		//Check for quotes.
     		if ($.inArray('hear', word['cats']) != -1) {  // PEND Should really be 'say' cat.
 	        /*	//EG PEND Get this working within this new event architecture.
@@ -134,20 +139,31 @@ function(app, Overlay, Ref) {
 		    else if(wordProps.length > 0){
 		    	// For now, just grab whatever the first one is and apply it.
 		    	// Note: Class name is just whatever the 'type' of the arg is, so endSentence() down below has to match these class names. 
-		    	if(wordProps[0]['type']=="frequentWordMarkup"){
-		    		var sp = $("<span class='"+wordProps[0]['type']+" transcriptWord'>"+s+word["word"]+"</span>");
-			    	sp.attr("data-wordcount", wordProps[0]['count']);
-			    	$('#curSentence').append(sp);	
-		    	}else{
+		    	
+		    	//if(wordProps[0]['type']=="frequentWordMarkup"){
+		    	//	var sp = $("<span class='"+wordProps[0]['type']+" transcriptWord'>"+s+word["word"]+"</span>");
+			    //	sp.attr("data-wordcount", wordProps[0]['count']);
+			    //	$('#curSentence').append(sp);	
+		    	//}else{
 			    	$('#curSentence').append("<span class='"+wordProps[0]['type']+" transcriptWord'>"+s+word["word"]+"</span>");	
-		    	}
+		    	//}
 			    // Trigger the associated overlay event.
 			    app.trigger("markup:"+wordProps[0]['type'], wordProps[0]); 		   		 	 
 		    }
-		    // Testing: Check for any positive words. 
+		    else if(top20Count = this.uniqueWords.isTop20Word(curSpeaker, word['word'])){
+		    	if(this.uniqueWords.getTotalUniqueWords(curSpeaker) > 100){
+				    var sp = $("<span class='frequentWordMarkup transcriptWord'>"+s+word["word"]+"</span>");
+			    	sp.attr("data-wordcount", top20Count);
+			    	$('#curSentence').append(sp);	
+		    	}
+		    }
 		  	else if ($.inArray('posemo', word['cats']) != -1) {
 		  		 //app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
 		  		 $('#curSentence').append("<span class='posemoMarkup transcriptWord'>"+s+word["word"]+"</span>"); 
+		  	}
+		  	else if ($.inArray('negemo', word['cats']) != -1) {
+		  		 //app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
+		  		 $('#curSentence').append("<span class='negemoMarkup transcriptWord'>"+s+word["word"]+"</span>"); 
 		  	}
 		    else{
 		    	$('#curSentence').append(s+word["word"]); 
@@ -185,7 +201,7 @@ function(app, Overlay, Ref) {
           //console.log("scrolling to: " + scrollTo);
           var duration = Math.abs(lastScrollHeight - scrollTo) * 3.0;
           scrollAnimating = true;
-          $("body").animate({ scrollTop: scrollTo}, duration, function() { scrollAnimating = false;});
+          $("body").animate({ scrollTop: scrollTo}, duration, function() { window.setTimeout(function() { scrollAnimating = false; }, 15); });
           app.trigger("transcript:scrollTo", word["timeDiff"]); 
           lastScrollHeight = scrollTo;
         }
@@ -205,9 +221,11 @@ function(app, Overlay, Ref) {
       
       //Go through all spans so you can create markup heirarchy (ie specify which markups take precedence)  
       $('#curSentence').find('span').each(function() {
-      	 // EG Testing posemo counts
       	 if($(this).hasClass("posemoMarkup")){
-	      	 $(this).css("color", "rgb(255,0,0)");
+	      	 $(this).css("color", "rgb(100,0,0)");
+      	 }
+      	 else if($(this).hasClass("negemoMarkup")){
+	      	 $(this).css("color", "rgb(0,0,100)");
       	 }
 	     	 // Word count markup.
 	     	 else if($(this).hasClass("wordCountMarkup")){	
@@ -241,8 +259,6 @@ function(app, Overlay, Ref) {
 		          countDiv.animate({top: '0px'}, 300);
 		        }  	     	 
 	     	 }
-	     	 
-	      
       });
   
     	
@@ -263,6 +279,7 @@ function(app, Overlay, Ref) {
     },
 
     startParagraph : function(msg) {
+     	//console.log("transcript.startParagraph()");
       var curSpeaker = msg["speaker"];
       if(curSpeaker==0) col = 2;	//obama
   		else if(curSpeaker==2) col = 3;	//romney
@@ -270,9 +287,13 @@ function(app, Overlay, Ref) {
     		
   		if (openSentence) this.endSentence();
   		if (openParagraph) this.endParagraph();	    		
+    	
+    	// Color candidates white and speaker gray.
+    	var spColor = "white";
+    	//if(curSpeaker == 0) spColor = "gray60";	
     		
   		var newP = $("<div id='curParagraph' class='push-" + col + " span-3 " +
-                   speakers[curSpeaker] + " transcriptParagraph'><h1 class='franklinMedIt gray60'>" +
+                   speakers[curSpeaker] + " transcriptParagraph'><h1 class='franklinMedIt " + spColor + "'>" +
                    speakers[curSpeaker] + "</h1><p class='metaBook gray60'></p></div><div class=clear></div>");                   
       this.$el.append(newP);
       
@@ -286,6 +307,7 @@ function(app, Overlay, Ref) {
     },
 
     endParagraph: function() {
+    	//console.log("transcript.endParagraph()");
       // Update attributes to cache position properties
       $('#curParagraph').attr('data-top', this.$("#curParagraph").offset().top);
       $('#curParagraph').attr('data-bottom', this.$("#curParagraph").offset().top + $("#curParagraph").height());
@@ -447,13 +469,14 @@ function(app, Overlay, Ref) {
         scrollLive = true;
         app.trigger("transcript:scrollAttach", {});
       }
+      lastScrollHeight = scrollTo;
     },
 
     transcriptBottom : function() {
       try {
         return $('#curParagraph').offset().top + $('#curParagraph').height();
       }
-      catch(e) { return 0; }
+      catch(e) { console.log("NO CURRENT PARAGRAPH"); return 0; }
     },
 
     handleScroll : function() {
@@ -464,12 +487,12 @@ function(app, Overlay, Ref) {
         // Note: $(document).height() is height of the HTML document,
         //       $(window).height() is the height of the viewport
         var bottom = this.transcriptBottom() - $(window).height();
-        if(Math.abs(bottom - $(window).scrollTop()) < Ref.autoscrollReattachThreshold || 
+        if(!scrollLive && Math.abs(bottom - $(window).scrollTop()) < Ref.autoscrollReattachThreshold || 
           $(document).height() - $(window).height() - $(window).scrollTop() < Ref.autoscrollReattachThreshold) {
           scrollLive = true;
           app.trigger("transcript:scrollAttach", {}); // So other modules like nav can respond accordingly
         }
-        else {
+        else if(scrollLive) {
           $("body").stop(); // Stop any scroll animation in progress
           scrollLive = false;
           app.trigger("transcript:scrollDetach", {});

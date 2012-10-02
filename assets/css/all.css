@@ -38,13 +38,12 @@ body {
 
 #landing {
 	/* background-color:yellow; */
+	position: fixed;
 }
 
 #bigWords {
 	position: absolute;
-	top: 0px;
-	
-	
+	top: 0px;	
 	/* 
 	-webkit-perspective: 700px; 
 	-webkit-perspective-origin: 50% 1000px;	
@@ -68,6 +67,11 @@ body {
 		
 	/*color: rgb(116,120,120);*/
 	
+	/*
+	background-color: yellow;
+	height: 300px;
+	width: 1024px;
+	*/
 	/* -webkit-transform: translateZ(-500px); */
 	
 }
@@ -582,7 +586,7 @@ landingTitleImage {
 	/* background-color:yellow; */
 
 	-webkit-transition: -webkit-transform 1s ease-in;	
-	-webkit-transform: translateZ(0px);	
+	-webkit-transform: translateZ(0px);
 	
 }
 
@@ -618,7 +622,7 @@ landingTitleImage {
 	/* background-color:yellow; */
 
 	-webkit-transition: -webkit-transform 1s ease-in, left 1s, top 1s, height 1s, width 1s;	
-	-webkit-transform: translateZ(0px);	
+	-webkit-transform: translateZ(0px);
 
 }
 
@@ -668,7 +672,7 @@ landingTitleImage {
 	padding: 0px 0px 0px 0px;
   color: rgb(255,157,108);
 	-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
-	/*-webkit-transform: translateZ(0px);	*/
+	-webkit-transform: translateZ(0px);	
   z-index: 3;
 
 }
@@ -683,7 +687,7 @@ landingTitleImage {
 	padding: 0px 0px 0px 0px;
   color: rgb(124,51,64);
 	-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
-	/*-webkit-transform: translateZ(0px);	*/
+	-webkit-transform: translateZ(0px);	
   z-index: 3;
 }
 .quoteLeftQuote, .quoteRightQuote {

@@ -1,6 +1,8 @@
 body {
   /* background: -webkit-linear-gradient(left, #9699A0, #C9D1CF, #C9D1CF, #9699A0); */
-  background-color: rgb(110,116,116);	
+  /*background-color: rgb(110,116,116);*/
+  background-color: rgb(140,146,146);	 
+
   overflow-y: scroll;	
   overflow-x: hidden;	/* not working! */
 }
@@ -62,7 +64,9 @@ body {
 	font-family:"ff-meta-serif-web-pro"; 
 	font-weight:700; 
 	font-style:italic; 
-	color: rgb(116,120,120);
+
+		
+	/*color: rgb(116,120,120);*/
 	
 	/* -webkit-transform: translateZ(-500px); */
 	
@@ -77,8 +81,11 @@ body {
 	font-family:"ff-meta-serif-web-pro"; 
 	font-weight:700; 
 	font-style:italic; 
-	color: rgb(116,120,120);
 	
+	color: rgb(146,152,152);
+
+	/*color: rgb(135,140,140);*/
+	/*color: rgb(116,120,120);*/
 	/* -webkit-transform: translateZ(-500px); */
 }
 
@@ -248,27 +255,53 @@ hr {
 .metaBold{ font-family:"ff-meta-serif-web-pro"; font-weight:700; font-style:normal; }
 .metaBoldIt{ font-family:"ff-meta-serif-web-pro"; font-weight:700; font-style:italic; }
 
-.franklinBookComp{ font-family:"franklin-gothic-urw-comp"; font-weight:400; font-style:normal; }
-.franklinBookCompIt{ font-family:"franklin-gothic-urw-comp"; font-weight:400; font-style:italic; }
-.franklinMedComp{ font-family:"franklin-gothic-urw-comp"; font-weight:600; font-style:normal; }
-.franklinMedCompIt{ font-family:"franklin-gothic-urw-comp"; font-weight:600; font-style:italic; }
-.franklinDemiComp{ font-family:"franklin-gothic-urw-comp"; font-weight:700; font-style:normal; }
-.franklinDemiCompIt{ font-family:"franklin-gothic-urw-comp"; font-weight:700; font-style:italic; }
+/* Franklin Compressed */
 
-.franklinLight{ font-family:"franklin-gothic-urw"; font-weight:300; font-style:normal; }
-.franklinBook{ font-family:"franklin-gothic-urw"; font-weight:400; font-style:normal; }
-.franklinBookIt{ font-family:"franklin-gothic-urw"; font-weight:400; font-style:italic; }
-.franklinMed{ font-family:"franklin-gothic-urw"; font-weight:500; font-style:normal; }
-.franklinMedIt{ font-family:"franklin-gothic-urw"; font-weight:500; font-style:italic; }
-.franklinDemi{ font-family:"franklin-gothic-urw"; font-weight:700; font-style:normal; }
-.franklinDemiIt{ font-family:"franklin-gothic-urw"; font-weight:700; font-style:italic; }
-.franklinHeavy{ font-family:"franklin-gothic-urw"; font-weight:900; font-style:normal; }
-.franklinHeavyIt{ font-family:"franklin-gothic-urw"; font-weight:900; font-style:italic; }
+.franklinBookComp{ font-family:"franklin-gothic-urw-comp-n4", "franklin-gothic-urw-comp"; font-weight:400; font-style:normal; }
+.franklinBookCompIt{ font-family:"franklin-gothic-urw-comp-i4", "franklin-gothic-urw-comp"; font-weight:400; font-style:italic; }
+
+.franklinDemiComp{ font-family:"franklin-gothic-urw-comp-n7", "franklin-gothic-urw-comp"; font-weight:700; font-style:normal; }
+.franklinDemiCompIt{ font-family:"franklin-gothic-urw-comp-i7", "franklin-gothic-urw-comp"; font-weight:700; font-style:italic; }
+
+
+/* Franklin Extra Compressed */
+
+.franklinExBookComp{ font-family:"franklin-gothic-ext-comp-urw-n4", "franklin-gothic-ext-comp-urw"; font-weight:400; font-style:normal; }
+.franklinExDemiComp{ font-family:"franklin-gothic-ext-comp-urw-n7", "franklin-gothic-ext-comp-urw"; font-weight:700; font-style:normal; }
+
+
+
+
+
+
+
+/* Franklin Condensed */
+.franklinMedComp{ font-family:"franklin-gothic-urw-cond-n5", "franklin-gothic-urw-cond"; font-weight:600; font-style:normal; }
+.franklinMedCompIt{ font-family:"franklin-gothic-urw-cond-i5", "franklin-gothic-urw-cond"; font-weight:600; font-style:italic; }
+
+
+/* Franklin reg */
+
+.franklinLight{ font-family:"franklin-gothic-urw-n3", "franklin-gothic-urw"; font-weight:300; font-style:normal; }
+.franklinBook{ font-family:"franklin-gothic-urw-n4", "franklin-gothic-urw"; font-weight:400; font-style:normal; }
+.franklinBookIt{ font-family:"franklin-gothic-urw-i4", "franklin-gothic-urw"; font-weight:400; font-style:italic; }
+
+.franklinMed{ font-family:"franklin-gothic-urw-n5", "franklin-gothic-urw"; font-weight:500; font-style:normal; }
+.franklinMedIt{ font-family:"franklin-gothic-urw-i5", "franklin-gothic-urw"; font-weight:500; font-style:italic; }
+
+
+.franklinDemi{ font-family:"franklin-gothic-urw-n7", "franklin-gothic-urw"; font-weight:700; font-style:normal; }
+.franklinDemiIt{ font-family:"franklin-gothic-urw-i7", "franklin-gothic-urw"; font-weight:700; font-style:italic; }
+.franklinHeavy{ font-family:"franklin-gothic-urw-n9", "franklin-gothic-urw"; font-weight:900; font-style:normal; }
+.franklinHeavyIt{ font-family:"franklin-gothic-urw-i9", "franklin-gothic-urw"; font-weight:900; font-style:italic; }
 
 /* Colors */
 .white{ color:rgb(255,255,255); }
 .gray50{ color:rgb(50,50,50); }
-.gray60{ color:rgb(60,60,60); }
+
+.gray60{ color:rgb(76,76,76); }
+/*.gray60{ color:rgb(60,60,60); }*/
+
 .gray80{ color:rgb(80,80,80); }
 .gray160{ color:rgb(160,160,160); }
 .grayBlue{ color:rgb(67,67,75); }
@@ -307,13 +340,14 @@ hr {
 
 #landingBigWords {
 	position: absolute;
+	top:-70px;
 	left:-300px;
 	font-size: 400px;
 	line-height: 336px;
 	font-family:"ff-meta-serif-web-pro"; 
 	font-weight:700; 
 	font-style:italic; 
-	color: rgb(116,120,120);
+	color: rgb(146,152,152);
 	z-index:-1;
 }
 
@@ -321,48 +355,84 @@ hr {
 	position:absolute;
 	color: white;
 	font-size: 48px;
+	/*letter-spacing: .02em;*/
 	line-height: 48px;
 	top: 48px;
 	display:block;
 }
 
+landingTitleImage {
+	width:324px;
+	height:27px;
+	background: url("images/ReconLogo.png");
+	position:absolute;
+	top: 48px;
+	display:block;
+	
+	
+	
+}
+
 #landingSubTitle {
+
 	position: absolute;
 	top: 588px;
 	font-size: 42px;
 	line-height: 48px;
 	z-index:1;
+	padding-left: 25px;
 }
 
 #landingSubTitleDiv {
-	position: absolute;
+	position: relative;
 	top: 588px;
-	width: 100%;
 	height: 48px;
 	background-color: rgb(207,255,36);
 	z-index:0;
+	width: 3000px;
+	left:-900px;
+
 }
 
 #landingObama {
 	position: absolute;
 	top: 132px;
-	font-size: 230px;
+	font-size: 200px;
 	line-height: 156px;
+	
+	left:141px;
+	
+	/*left:99px;*/
+	/*left:10px;*/
+	/*font-size: 238px;*/
+	/*line-height: 156px;*/
 }
 
 #landingVersus {
+
 	position: absolute;
-	top: 288px;
-	left: 249px;
+	top: 300px;
+	left: 286px;
 	font-size: 96px;
-	line-height: 96px;
+	line-height: 90px;
+	
+	/*line-height: 98px;
+	left: 244px;
+	left: 312px;
+
+	*/
+
 }
 
 #landingRomney {
+	left:110px;
 	position: absolute;
 	top: 396px;
 	font-size: 200px;
 	line-height: 144px;
+	/*left:136px;*/
+	/*left:68px;*/
+
 }
 
 #landingButtonBox {
@@ -407,7 +477,70 @@ hr {
 .landingRule {
 	position: static; 
 	width: 296px;
-	margin: 0px 0px 0px 0px;	
+	margin: 0px 0px 0px 0px;
+	background-color: rgb(76,76,76)!important;	
+}
+
+.landingMakingof {
+	position: static;
+	padding: 0 0 0 0;
+	left: 0px;
+	line-height: 36px;
+	margin: 12px 0px 0px 0px;
+	font-size: 22px;
+	color:#000 !important;
+	 
+}
+
+.landingMakingofSubTitle {
+	position: static;
+	padding: 0 0 0 0;
+	left: 0px;
+	font-size: 17px;
+	line-height: 27px;
+	margin: 12px 0px 0px 0px;
+	font-size: ;
+	color:#000 !important;
+	 
+}
+
+
+.landingWhiteRule1 {
+	position: absolute;
+	border-bottom:1px dashed rgb(200,200,200)!important;
+	top:284px; 
+	left:59px;
+	width: 420px;
+	margin: 0px 0px 0px 0px;
+}
+
+
+.landingWhiteRule2 {
+	position: absolute;
+	border-bottom:1px dashed rgb(200,200,200)!important;
+	top:380px; 
+	left:170px;
+	width: 150px;
+	margin: 0px 0px 0px 0px;
+}
+
+
+.landingWhiteRule0 {
+	position: absolute;
+	border-bottom:1px dashed rgb(200,200,200)!important;
+	top:84px; 
+	left:-80px;
+	width: 400px;
+	margin: 0px 0px 0px 0px;
+}
+
+.landingWhiteRule3 {
+	position: absolute;
+	border-bottom:1px dashed rgb(200,200,200)!important;
+	top:541px; 
+	left:-70px;
+	width: 496px;
+	margin: 0px 0px 0px 0px;
 }
 
 #landingCreditsBox {
@@ -561,174 +694,7 @@ hr {
   z-index: 0;
 }
 
-.comparisonExpText {
-	position:relative;
-	font-size: 128px;
-	margin: 0px 0px 0px 0px;
-	padding: 0px 0px 0px 0px;
-	line-height:128px;
 
-}
-
-.comparisonExpSubtitle {
-	position:relative;
-	font-size: 18px;
-	margin: 10px 0px 0px 0px;
-	padding: 0px 0px 0px 0px;
-	line-height:18px;
-}
-
-.comparisonListCandidate {
-	font-size: 48px;
-	line-height:60px;
-
-}
-
-.comparisonListWord {
-	text-align: left;
-	padding: 0 0 0 0;
-	font-size: 48px;
-	line-height: 60px;
-}
-
-.comparisonListValue {
-	text-align: right;	
-	font-size: 42px;	
-	line-height: 48px;
-	
-}
-
-.comparisonLineContainer {
-	position:absolute;
-	height: 50px;
-	/*width: 160px;*/
-	/*margin:0 -80px 1.5em 80px;*/
-	float:left;
-}
-
-
-
-.comparisonPastCandidate {
-	position:absolute;
-	font-size: 24px;
-	line-height; 24px;
-	width: 300px;
-	height: 10px;
-	margin: 0 0 0 0;
-	top: -24px;	
-	left: 6px;
-}
-
-.comparisonPastCandidateRight {
-	position:absolute;
-	font-size: 24px;
-	text-align: right;	
-	line-height: 24px;
-	width: 936px;
-	margin: 0 6px 0 -6px;
-	top: -24px;	
-}
-
-.comparisonPastValue {
-	position:absolute;
-	font-size: 18px;
-    color:white;
-	height: 10px;
-	margin: 0 0 0 0;
-	left: 6px;	
-}
-
-.comparisonPastValueRight {
-	position:absolute;
-	font-size: 18px;
-	text-align: right;
-    color:white;
-	width: 936px;
-	margin: 0 6px 0 -6px;
-}
-
-.comparisonBarGraph {
-	position:absolute;
-}
-
-.barGraphText {
-	position:absolute;
-	font-size: 48px;
-	left: 10px;
-	bottom: 15px;
-	text-decoration: underline;
-	line-height:48px;
-
-}
-
-.barGraphValue {
-	position:absolute;
-	font-size: 32px;
-	left: 10px;
-	bottom: 5px;
-	line-height:24px;
-	color: white;
-}
-
-.countBigNumber {
-	position:absolute;
-	font-size: 128px;
-	line-height:128px;
-}
-
-.spectrumTitle {
-	position:relative;
-	font-size: 128px;
-	margin: 0px -160px 0px 160px;
-	padding: 0px 0px 0px 0px;
-	line-height:128px;
-
-}
-
-.spectrumPointer {
-	height: 100px;
-	position: absolute;
-}
-
-.spectrumDottedLine {
-	height:3px; 
-	top:50px; 
-	position:relative;
-}
-
-.spectrumDottedLineRight {
-	left: -184px;
-}
-
-.spectrumText {
-	position:absolute;
-	font-size: 48px;
-	left: 10px;
-	bottom: -5px;
-	text-decoration: underline;
-	line-height:48px;
-	color:white;
-
-}
-
-.spectrumValue {
-	position:absolute;
-	font-size: 32px;
-	left: 10px;
-	bottom: -15px;
-	line-height:24px;
-	color: white;
-}
-
-.spectrumLineContainer {
-	position:absolute;
-	height: 50px;
-	float:left;
-}
-
-.spectrumPush-3 {
-	margin:0 -456px 1.5em 456px;
-}
 
 #transcript .wordCountFrame {
   position: absolute;

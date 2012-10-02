@@ -132,25 +132,20 @@ function(app, Overlay, Ref) {
 	
 	        console.log("QUOTE: " + quotePhrase);
 	        
-		    	app.trigger("markup:quote", {type:'quote', phrase:quotePhrase, speaker:word['speaker'], anchor:newSpan.offset()});
+		    	app.trigger("markup", {type:'quoteMarkup', phrase:quotePhrase, speaker:word['speaker'], anchor:newSpan.offset()});
 		    	*/
 	    	}
 		  	// Check for any special events returned by speaker.addWord() and add word to DOM with appropriate markup.
 		    else if(wordProps.length > 0){
 		    	// For now, just grab whatever the first one is and apply it.
 		    	// Note: Class name is just whatever the 'type' of the arg is, so endSentence() down below has to match these class names. 
-		    	
-		    	//if(wordProps[0]['type']=="frequentWordMarkup"){
-		    	//	var sp = $("<span class='"+wordProps[0]['type']+" transcriptWord'>"+s+word["word"]+"</span>");
-			    //	sp.attr("data-wordcount", wordProps[0]['count']);
-			    //	$('#curSentence').append(sp);	
-		    	//}else{
-			    	$('#curSentence').append("<span class='"+wordProps[0]['type']+" transcriptWord'>"+s+word["word"]+"</span>");	
-		    	//}
+		    	$('#curSentence').append("<span class='"+wordProps[0]['type']+" transcriptWord'>"+s+word["word"]+"</span>");	
 			    // Trigger the associated overlay event.
-			    app.trigger("markup:"+wordProps[0]['type'], wordProps[0]); 		   		 	 
+			    //app.trigger("markup:"+wordProps[0]['type'], wordProps[0]); 		   		 	 
+			    app.trigger("markup", wordProps[0]); 		   		 	 
 		    }
-		    else if(top20Count = this.uniqueWords.isTop20Word(curSpeaker, word['word'])){
+		    // Check if the word is in the top N words. (20 was too busy, so we're trying 10)
+		    else if(top20Count = this.uniqueWords.isTopWord(curSpeaker, word['word'], 10)){
 		    	if(this.uniqueWords.getTotalUniqueWords(curSpeaker) > 100){
 				    var sp = $("<span class='frequentWordMarkup transcriptWord'>"+s+word["word"]+"</span>");
 			    	sp.attr("data-wordcount", top20Count);
@@ -234,7 +229,7 @@ function(app, Overlay, Ref) {
 	     	 }
 	     	 // Number markup.
 	     	 else if($(this).hasClass("numberMarkup")){
-	     	 		$(this).css("color", "rgb(255,157,108)");	    	    		
+	     	 		$(this).css("background-color", "rgb(64,180,229)");	    	    		
 	     	 }
 	     	 // Quotation markup.
 	     	 else if($(this).hasClass("quoteMarkup")){
@@ -252,8 +247,8 @@ function(app, Overlay, Ref) {
 		          var pos = $(this).position();
 		          var wordWidth = $(this).width();
 		          var lineHeight = $(this).height();
-		          var container = $("<div class='wordCountFrame' style='left: " + (pos.left + wordWidth) + "px; top: " + (pos.top - lineHeight/2) + "px;'></div>");
-		          var countDiv = $("<div class='wordCount'>" + count + "</div>");
+		          var container = $("<div class='freqWordFrame' style='left: " + (pos.left + wordWidth) + "px; top: " + (pos.top - lineHeight/2) + "px;'></div>");
+		          var countDiv = $("<div class='freqWordCount'>" + count + "</div>");
 		          container.append(countDiv);
 		          $(this).parent().append(container);
 		          countDiv.animate({top: '0px'}, 300);
@@ -419,7 +414,7 @@ function(app, Overlay, Ref) {
       else anchorPos = $('#curSentence').offset();
 
     	// Emit an overlay event.
-			app.trigger("markup:number", {type:'number', speaker:curSpeaker, phrase:this.numberPhrase, anchor:anchorPos});	
+			app.trigger("markup", {type:'numberMarkup', speaker:curSpeaker, phrase:this.numberPhrase, anchor:anchorPos});	
 			// Close the number.
 			this.numberOpen = false;
 			this.numberCount = 0;

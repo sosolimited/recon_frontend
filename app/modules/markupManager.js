@@ -31,32 +31,55 @@ function(app, Overlay, Ref) {
                      "know", "knows", "knowing", "knew", "take", "takes"];
                      
 
-  // Default model.
   MarkupManager.Model = Backbone.Model.extend({
   
   	defaults: function() {
   		return {
-  			overlays: []
+  			"overlays":[]
   		}	
   	},
   	
 	  initialize: function () {
-		  app.on("markup:frequentWordMarkup", this.markupFrequentWord, this);		
-		  app.on("markup:wordCountMarkup", this.addWordCountOverlay, this);			
-		  app.on("markup:sentenceLead", this.addTraitOverlay, this);		  	
-		  app.on("markup:quote", this.addQuoteOverlay, this);
-		  app.on("markup:sentenceSentiment", this.addSentimentOverlay, this);
-		  app.on("markup:number", this.addNumberOverlay, this);		
-		  //app.on("body:scroll", this.handleScroll, this);	//EG Testing requestAnimFrame for this.
-		  //for testing
-		  app.on("keypress:test", this.test, this);
+		  app.on("markup", this.addOverlay, this);			
+		  app.on("markup:sentenceLead", this.addTraitOverlay, this);		  	// EG FIXME convert to "markup", type="sentenceLeadMarkup" style.
+		  app.on("markup:sentenceSentiment", this.addSentimentOverlay, this); // EG FIXME convert to "markup", type="sentenceLeadMarkup" style.
+		  
+		  //app.on("body:scroll", this.handleScroll, this);	//EG Now using requestAnimFrame for this.
+		  app.on("keypress:test", this.test, this); // For testing.
+		  
 	  },
 	  
 	  cleanup: function() {
 		  app.off(null, null, this);
 	  },
 	  
+	  // All overlay events get funnelled through this function.
+	  addOverlay: function(args) {
+	  	//console.log("markupManager.addOverlay(" + args['type'] + ")");
+
+	  	if(!this.isAnyOverlayExpanded()){
+			  if(args['type']=="wordCountMarkup"){
+				  this.addWordCountOverlay(args);			  
+			  }
+			  else if(args['type']=="numberMarkup"){
+				  this.addNumberOverlay(args);			  
+			  }
+			  else if(args['type']=="quoteMarkup"){
+				  this.addQuoteOverlay(args);			  
+			  }
+		  }
+	  },
 	  
+	  isAnyOverlayExpanded: function() {
+		  for(var i=0; i<this.get("overlays").length; i++){
+				if(this.get("overlays")[i].state == 1)
+					return true;  	 			  
+		  }
+		  return false;		  
+	  },
+	  
+	  // Functions for adding specific overlays.
+	  // -----------------------------------------------------------------------------------
 	  addSentimentOverlay: function(args) {
 		  
 		  
@@ -66,69 +89,59 @@ function(app, Overlay, Ref) {
 		  var traitsOverlay = new Overlay.Views.TraitView({ trait: "FORMAL", leader: "obama", posY: parseInt(this.attributes.transcript.getCurSentencePosY()) });
 			$('#overlay').append(traitsOverlay.el);
 			traitsOverlay.render();
+			
+			this.get("overlays").push(traitsOverlay);			
 	  },
 	  
 	  addQuoteOverlay: function(args) {
       var quoteOverlay = new Overlay.Views.QuotesView(args);
 			//console.log("Anchor: " + args['anchor'].top);
       $('#overlay').append(quoteOverlay.el);
-			quoteOverlay.render();
-		  
+			quoteOverlay.render();		  
+			
+			this.get("overlays").push(quoteOverlay);			
 	  },
 	  
 	  addWordCountOverlay: function(args){
-	  	//console.log("markupManager.addWordCountOverlay " + args['speaker'] + ", " + args['count'] + ", " + args['word']);
-	  	
-	  	// Note, gotta do this before making the overlay because the overlay needs the position of the word span.
-		  //this.attributes.transcript.addSpanToRecentWord(args['word'], "wordCountMarkup"); // EG This is now handled in transcript
-		  
-	  	// Create and insert overlay.
 	  	//console.log("markupManager.addWordCountOverlay, collapseY = "+this.attributes.transcript.getRecentWordPosY(args['word']));	  	
 		  var wordCountOverlay = new Overlay.Views.WordCountView({ speaker: args['speaker'], count: args['count'], word: args['word'], posY: parseInt(this.attributes.transcript.getCurSentencePosY()), wordPos: this.attributes.transcript.getRecentWordPos(args['word']) });
 		  $('#overlay').append(wordCountOverlay.el);
 		  wordCountOverlay.render();	
+		  
+		  this.get("overlays").push(wordCountOverlay);			
 	  },
 	  
 	  addNumberOverlay: function(args){
 		  	//console.log("addNumberOverlay: "+args['speaker']+", "+args['phrase']);
-		  	if(args['speaker'] > 0){
-		  		// Markup phrase in transcript.
-		  		//this.attributes.transcript.addSpanToRecentWord(args['phrase'], "numberMarkup"); 		  		// EG This is now handled in transcript
-
-          var numbersOverlay = new Overlay.Views.NumbersView({ speaker: args['speaker'], phrase: args['phrase'], posY: args['anchor'].top, wordPos: args['anchor'] });
-    		  $('#overlay').append(numbersOverlay.el);
-		      numbersOverlay.render();
-          //console.log("Number alert: " + args['phrase']);
-		  	}
+        var numbersOverlay = new Overlay.Views.NumbersView({ speaker: args['speaker'], phrase: args['phrase'], posY: args['anchor'].top, wordPos: args['anchor'] });
+  		  $('#overlay').append(numbersOverlay.el);
+	      numbersOverlay.render();
+        //console.log("Number alert: " + args['phrase']);
+        
+        this.get("overlays").push(numbersOverlay);			
 	  },
 	  
-	  markupFrequentWord: function(args) {
-	
-	  	/* // EG This is now handled in transcript
-	  	// Now that there is not a span per word, gotta do it in this order.
-	  	this.attributes.transcript.addSpanToRecentWord(args['word'], "frequentWordMarkup");
-	  	$('#curSentence').children().each(function() {
-		  	if($.trim($(this).text()).toLowerCase() == $.trim(args['word']).toLowerCase()){ 
-          $(this).attr("data-wordcount", args['count']);
-		  	}
-	  	});
-	  	*/
-	  },
-
+ 	  // -----------------------------------------------------------------------------------
+	  	  
 	  handleScroll: function(val) {
+ 			 //console.log("markupManager.handleScroll("+val+")");
 			 $('.wrapper').css("webkit-perspective-origin", "50% "+(val+500)+"px");
-			 //console.log("markupManager.handleScroll("+val+")");
 	  },
 	  
-	  
-	  // For testing posemo counts
-	  markupPosemo: function(args) {
-		  //console.log("markupPosemo: "+args['speaker']+", "+args['word']);
-		  this.attributes.transcript.addSpanToRecentWord(args['word'], "posemoMarkup");
-		  
-	  },
-	  
-	  // For testing things with keypresses.
+	  enter: function() {
+	    $('#overlay').css("visibility", "visible");
+    },
+    
+    exit: function() {
+	    $('#overlay').css("visibility", "hidden");	    
+    },
+    
+    // Reset puts everything where it's supposed to be before entering.
+    reset: function() {
+	    $('#overlay').css("visibility", "hidden");	    
+    },
+    
+    // For testing things with keypresses.
 	  test: function(args) {
 		  if(args['type']=="overlay"){
 			  if(args['kind']=="trait"){
@@ -163,20 +176,7 @@ function(app, Overlay, Ref) {
 				  }	
 			  }
 		  }
-	  },
-	  
-	  enter: function() {
-	    $('#overlay').css("visibility", "visible");
-    },
-    
-    exit: function() {
-	    $('#overlay').css("visibility", "hidden");	    
-    },
-    
-    // Reset puts everything where it's supposed to be before entering.
-    reset: function() {
-	    $('#overlay').css("visibility", "hidden");	    
-    }
+	  }
 	  
   });
 

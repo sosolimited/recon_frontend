@@ -114,7 +114,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
       
 	      landingView.setElement("#landing").render();
 	      navigationView.setElement("#navigation").render();
-	      comparisonView.setElement("#comparisons").render();
+	      comparisonView.setElement("#comparisons > .wrapper").render();
 	     	transcriptView.setElement("#transcript > .wrapper"); // Need transcript to point to the actual scrolling DOM element or else scroll event handling is wack
 	     	bigWordsView.setElement("#bigWords").render();
 	     	
@@ -124,23 +124,32 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 	     
         (function() {
           // Work with the wrappers, not the actual layers.  --> ???
-          var transcript = $(".transcript > div");
-          var speaker = $(".comparisons > div");
-
-          transcript.on("click", "h1", function(ev) {
+          var transcript = $("#transcript > .wrapper");
+          var comparisons = $("#comparisons > .wrapper");
+          
+          var enterComp = function() {
+	          
             var dist = transcript.offsetHeight;
             transcript.scrollTop = dist;
 
             transcript.toggleClass("fade");
-            speaker.parent().toggleClass("active");
-            speaker.toggleClass("active");
-          });
+            //comparisons.parent().toggleClass("active");
+            comparisons.toggleClass("active");
+          };
 
-          speaker.on("click", ".close", function(ev) {
+          transcript.on("click", "h1", enterComp);
+
+          transcript.on("click", ".numbersClick" , enterComp);
+          transcript.on("click", ".quotesClick" , enterComp);
+          transcript.on("click", ".sentimentClick" , enterComp);
+          transcript.on("click", ".traitClick" , enterComp);
+          transcript.on("click", ".countClick" , enterComp);
+
+          comparisons.on("click", function(ev) {
             transcript.toggleClass("fade");
-            speaker.parent().toggleClass("active");
-            speaker.toggleClass("active");
+            comparisons.toggleClass("active");
           });
+          
         })();
       }, 50);
      

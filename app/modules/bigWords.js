@@ -24,7 +24,7 @@ function(app, Ref) {
 
       focalLength = parseInt($("#bigWords").css("webkit-perspective"));
 
-      app.on("body:scroll", this.handleScroll, this);		
+      //app.on("body:scroll", this.handleScroll, this);			//EG This is handled by requestAnimFrame now in router.
 		 },	
 		 
 		 serialize: function() {
@@ -61,24 +61,27 @@ function(app, Ref) {
     	var word = args['msg']['word'];
     	//console.log("BigWords addWord("+word+") - "+word.length+" ... "+this.bigWordLength);
 	    if(word.length >= this.bigWordLength){
-	    	 //console.log("transcript = "+parseInt($('#transcript > .wrapper').css("height"))+", bigWords = "+parseInt(this.$el.css("height")));
-	
-	    	 // Only add the next big word if there is room (to stay roughly sync'd in height with the transcript.
-	    	 if(parseInt($('#transcript > .wrapper').prop('scrollHeight')) > parseInt(this.$el.prop('scrollHeight'))){
-		    	//console.log("BigWords.addWord - got a big one");
-			   	//var holder = this.$el.children(".bigWordsHolder")[0];
-          var bigWord = $("<span class='bigWord' style='top:"+this.curY+"px;'>"+word+"</span>");
-          $('#bigWordsHolder').append(bigWord);
-          
-          var s = this.foreshortening(bigWord);
-          var top = parseInt(bigWord.css('top'));
-          var bottom = top + parseInt(bigWord.height());
-          bigWord.attr("data-top", top);
-          bigWord.attr("data-bottom", bottom);
-          bigWord.attr("data-scale", s);
-          
-			   	this.curY += Ref.bigWordLeading;
-			   	//$(holder).append(word+"</br>");
+		    // Filter out hyphenated words cus they're line breaking.
+	    	 if(word.indexOf('-') == -1){
+		    	 //console.log("transcript = "+parseInt($('#transcript > .wrapper').css("height"))+", bigWords = "+parseInt(this.$el.css("height")));
+		
+		    	 // Only add the next big word if there is room (to stay roughly sync'd in height with the transcript.
+		    	 if(parseInt($('#transcript > .wrapper').prop('scrollHeight')) > parseInt(this.$el.prop('scrollHeight'))){
+			    	//console.log("BigWords.addWord - got a big one");
+				   	//var holder = this.$el.children(".bigWordsHolder")[0];
+	          var bigWord = $("<span class='bigWord' style='top:"+this.curY+"px;'>"+word+"</span>");
+	          $('#bigWordsHolder').append(bigWord);
+	          
+	          var s = this.foreshortening(bigWord);
+	          var top = parseInt(bigWord.css('top'));
+	          var bottom = top + parseInt(bigWord.height());
+	          bigWord.attr("data-top", top);
+	          bigWord.attr("data-bottom", bottom);
+	          bigWord.attr("data-scale", s);
+	          
+				   	this.curY += Ref.bigWordLeading;
+				   	//$(holder).append(word+"</br>");
+				   }
 			   }
 	    }
     },

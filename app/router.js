@@ -175,17 +175,42 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 	     
       // BODY/WINDOW EVENTS
       // ----------------------------------------------------------------------
-      // EG Trying this as alternative to listening to scroll events for overlays.
+      
+      //Throttle body scroll events and emit them as messages.
+      var lastScrollY = 0;
+      var ticking = false;
+      $(window).scroll(_.throttle(function(ev) {
+		     	//app.trigger("body:scroll", document.body.scrollTop);
+		     	
+		     	// Intead of emitting events, keep track of scroll position for requestAnimFrame below.
+		     	lastScrollY = document.body.scrollTop;
+		     	requestTick();
+	     	}, 15));  // 33ms = Approx 30fps
+	     	
+	     	
+	    // EG Trying this as alternative to emitting scroll events.
+	    function requestTick() {
+		  	if(!ticking){
+			  	requestAnimFrame(update);
+			  }
+			  ticking = true;
+			}	
+	     
+	    function update() {
+		  	ticking = false;
+		  	// Do everything that was previously handled on scroll events.
+		    markupManager.handleScroll(lastScrollY);		     
+		    bigWordsView.handleScroll(lastScrollY);
+		    transcriptView.handleScroll(lastScrollY);
+	    }
+	     	
+	     /*
 	    (function animloop(){
       	requestAnimFrame(animloop);
       	//render();
       	markupManager.handleScroll(document.body.scrollTop);
       })();
-	    	    
-      //Throttle body scroll events and emit them as messages.
-      $(window).scroll(_.throttle(function(ev) {
-		     	app.trigger("body:scroll", document.body.scrollTop);
-	     	}, 33));  // 33ms = Approx 30fps
+	    */	    
     
       // Listen for keydown events.
       $('body').keydown(function(event){

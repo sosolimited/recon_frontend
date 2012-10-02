@@ -35,7 +35,7 @@ function(app, Overlay, Ref) {
     initialize : function() {
       app.on("message:word", this.addWord, this);
       app.on("message:sentenceEnd", this.endSentence, this);
-      app.on("body:scroll", this.handleScroll, this);
+      //app.on("body:scroll", this.handleScroll, this);  	//EG This is handled by requestAnimFrame now in router.
       app.on("navigation:goLive", this.reattachLiveScroll, this);
 
       var thisTranscript = this;
@@ -274,7 +274,7 @@ function(app, Overlay, Ref) {
   		if (openParagraph) this.endParagraph();	    		
     		
   		var newP = $("<div id='curParagraph' class='push-" + col + " span-3 " +
-                   speakers[curSpeaker] + " transcriptParagraph'><h1 class='franklinMedIt gray60'>" +
+                   speakers[curSpeaker] + " transcriptParagraph'><h1 class='franklinMedIt white'>" +
                    speakers[curSpeaker] + "</h1><p class='metaBook gray60'></p></div><div class=clear></div>");                   
       this.$el.append(newP);
       

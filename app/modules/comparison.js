@@ -254,7 +254,7 @@ function(app, Ref) {
 	// View for full list of comparisons.
 	// Must be created before comparison models are added to collection.
   Comparison.Views.All = Backbone.View.extend({
-  	el: '#comparisons',
+
     template: "comparison/all",
     
     initialize: function() {

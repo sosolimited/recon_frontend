@@ -47,7 +47,7 @@ function(app, Overlay, Ref) {
 		  app.on("markup:quote", this.addQuoteOverlay, this);
 		  app.on("markup:sentenceSentiment", this.addSentimentOverlay, this);
 		  app.on("markup:number", this.addNumberOverlay, this);		
-		  app.on("body:scroll", this.handleScroll, this);
+		  //app.on("body:scroll", this.handleScroll, this);	//EG Testing requestAnimFrame for this.
 		  //for testing
 		  app.on("keypress:test", this.test, this);
 	  },
@@ -117,6 +117,7 @@ function(app, Overlay, Ref) {
 
 	  handleScroll: function(val) {
 			 $('.wrapper').css("webkit-perspective-origin", "50% "+(val+500)+"px");
+			 //console.log("markupManager.handleScroll("+val+")");
 	  },
 	  
 	  

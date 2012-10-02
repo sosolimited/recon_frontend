@@ -210,7 +210,7 @@ function(app, Overlay, Ref) {
       $('#curSentence').find('span').each(function() {
       	 // EG Testing posemo counts
       	 if($(this).hasClass("posemoMarkup")){
-	      	 $(this).css("color", "rgb(255,0,0)");
+	      	 $(this).css("color", "rgb(100,0,0)");
       	 }
 	     	 // Word count markup.
 	     	 else if($(this).hasClass("wordCountMarkup")){	

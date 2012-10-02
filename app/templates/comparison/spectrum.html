@@ -10,9 +10,8 @@
 -->
 		<p class="franklinMedCompIt purple spectrumTitle"> <%= comparison.get("title") %></p>
 		<!-- <hr class="bgPurple" style="height:3px"/> -->
-		<div class = "span-3" style="height:450px; position:relative; border-right-style:dotted;"></div>
+		<div class = "spectrumPush-3 spectrumGradientPurpleRed" style="height:450px; width:3px; position:relative; "></div>
 
-		<!-- vals in here are incorrect. working on bug fix (dividing by 3 for now). JM -->
 		<%  var val0 = comparison.get("traits")[0].vals[0]; 
 			var val1 = comparison.get("traits")[0].vals[1]; 
 			var totalBarH = 450; 
@@ -36,11 +35,11 @@
 			
 		%>
 
-		<div class="spectrumPointer push-1 span-1" style="top:<%= mapVal(val0)[1] - 50%>px; background-color:rgb(<%=col0[0]%>, <%=col0[1]%>, <%=col0[2]%>);" >
-		<hr class="spectrumDottedLine span-2" style="background-color:rgb(<%=col0[0]%>, <%=col0[1]%>, <%=col0[2]%>);"/>
+		<div class="spectrumPointer push-0 span-2" style="top:<%= mapVal(val0)[1] - 50%>px; background-color:rgb(<%=col0[0]%>, <%=col0[1]%>, <%=col0[2]%>);" >
+		<hr class="spectrumDottedLine span-3" style="background-color:rgb(<%=col0[0]%>, <%=col0[1]%>, <%=col0[2]%>);"/>
 		<p class="franklinMedCompIt spectrumText" > Obama </p>  <p class="franklinMedComp spectrumValue" > <%=  Math.round(10000*val0)/100 %> </p> </div>
 	
-		<div class="spectrumPointer push-4 span-1" style="top:<%= mapVal(val1)[1] - 50%>px; background-color:rgb(<%=col1[0]%>, <%=col1[1]%>, <%=col1[2]%>);" >
+		<div class="spectrumPointer push-4 span-2" style="top:<%= mapVal(val1)[1] - 50%>px; background-color:rgb(<%=col1[0]%>, <%=col1[1]%>, <%=col1[2]%>);" >
 		<hr class="spectrumDottedLine spectrumDottedLineRight span-2" style = "background-color:rgb(<%=col1[0]%>, <%=col1[1]%>, <%=col1[2]%>);"/>
 		<p class="franklinMedCompIt spectrumText" > Romney </p>  <p class="franklinMedComp spectrumValue" > <%=  Math.round(10000*val1)/100 %>  </p> </div>
 		
@@ -86,8 +85,7 @@
 				<% } %>
 			
 		<% }); %>
-		<div style="height:450px; position:relative;"> </div>
-		<p class="franklinMedCompIt redOrange spectrumTitle"><%= comparison.get("subtitle") %></p>
+		<p class="franklinMedCompIt redOrange spectrumTitle" style="top:-20px"><%= comparison.get("subtitle") %></p>
 
 </div>
 

@@ -238,10 +238,10 @@ function(app, Overlay, Ref) {
 	      	 $(this).css("color", "rgb(122,52,183)");
       	 }
       	 else if($(this).hasClass("certainMarkup")){
-	      	 $(this).css("color", "rgb(0,100,100)");
+	      	 $(this).css("color", "rgb(255,175,108)");
       	 }
       	 else if($(this).hasClass("tentatMarkup")){
-	      	 $(this).css("color", "rgb(100,0,100)");
+	      	 $(this).css("color", "rgb(193,186,134)");
       	 }
 	     	 // Word count markup.
 	     	 else if($(this).hasClass("wordCountMarkup")){	

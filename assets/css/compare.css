@@ -32,7 +32,7 @@ height:1200px;
 
 }
 
-.comparisonExpSubtitle {
+.comparisonSubtitle {
 	position:relative;
 	font-size: 18px;
 	margin: 10px 0px 0px 0px;
@@ -118,7 +118,8 @@ height:1200px;
 	font-size: 48px;
 	left: 10px;
 	bottom: 15px;
-	text-decoration: underline;
+	/*text-decoration: underline;*/
+	border-bottom-style: solid;
 	line-height:48px;
 
 }
@@ -127,15 +128,28 @@ height:1200px;
 	position:absolute;
 	font-size: 32px;
 	left: 10px;
-	bottom: 5px;
-	line-height:24px;
+	bottom: 12px;
+	line-height:2px;
 	color: white;
 }
 
+
+
+.countCandidate {
+	position: relative;
+	font-size: 48px;
+	border-bottom-style: solid;
+	margin: 0 0 0 0;
+	line-height:48px;
+	
+}
+
 .countBigNumber {
-	position:absolute;
+	position: relative;
 	font-size: 128px;
-	line-height:128px;
+	margin: 0 0 0 0;	
+	line-height: 128px;
+	color: white;	
 }
 
 .spectrumTitle {
@@ -180,9 +194,10 @@ height:1200px;
 	font-size: 48px;
 	left: 10px;
 	bottom: -5px;
-	text-decoration: underline;
+	/*text-decoration: underline;*/
+	border-bottom-style: solid;
 	line-height:48px;
-	color:white;
+	color: black;
 
 }
 
@@ -190,7 +205,7 @@ height:1200px;
 	position:absolute;
 	font-size: 32px;
 	left: 10px;
-	bottom: -15px;
+	bottom: -18px;
 	line-height:24px;
 	color: white;
 }

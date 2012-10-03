@@ -148,6 +148,18 @@ function(app, Ref) {
 		
     serialize: function() {
       return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth};
+    },
+    
+    afterRender: function() {
+    
+    	console.log("afterRender ");
+    	/*
+    	$(this).children(".className").each(function () { 
+    	
+    		$(this).css("background-color", "rgb(50,100,150)");
+    	
+    	});
+    	*/
     }
     
   });

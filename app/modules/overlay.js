@@ -279,9 +279,9 @@ function(app, Ref) {
 		serialize: function() {
 				return { speaker: this.speaker, phrase: this.phrase, posY: this.anchor.top + Ref.overlayEnterY, grid: Ref.gridColumns};
 		},
+		
 		expand: function() {
 			this.state = 1;	//expanded
-
       
    		//Slide word in from side.
       // TODO: Get the positioning of this just right. Warning: Magic numbers abound!
@@ -401,7 +401,7 @@ function(app, Ref) {
 		
 		initialize: function() {
 				this.speaker = this.options.speaker;
-				this.type = this.options.type;		//posemo or negemo
+				this.type = this.options.polarity;		//posemo or negemo
         this.strength = this.options.strength;
 				
 				this.posY = this.options.anchor.top;

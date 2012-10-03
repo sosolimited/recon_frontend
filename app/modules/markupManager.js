@@ -46,7 +46,6 @@ function(app, Overlay, Ref) {
 	  initialize: function () {
 		  app.on("markup", this.addOverlay, this);			
 		  
-		  app.on("markup:sentimentBurst", this.addSentimentOverlay, this);
 		  app.on("markup:sentenceLead", this.addTraitOverlay, this);		  	// EG FIXME convert to "markup", type="sentenceLeadMarkup" style.
 		  //app.on("body:scroll", this.handleScroll, this);	//EG Testing requestAnimFrame for this.
 		  //for testing
@@ -76,6 +75,9 @@ function(app, Overlay, Ref) {
 			  }
 			  else if(args['type']=="quoteMarkup"){
 				  this.addQuoteOverlay(args);			  
+			  }
+			  else if(args['type']=="sentimentMarkup"){
+				  this.addSentimentOverlay(args);
 			  }
 		  }
 	  },

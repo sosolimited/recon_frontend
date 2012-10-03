@@ -1,3 +1,14 @@
+.backgroundGradient{
+height:444px; 
+position:relative; 
+background-color:rgb(255,255,255); 
+background-repeat:no-repeat; 
+opacity:0.2; 
+z-index:-2;
+
+}
+
+
 .compareContainer {
 	
 	position:relative; 

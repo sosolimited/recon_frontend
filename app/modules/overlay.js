@@ -26,7 +26,7 @@ function(app, Ref) {
 			this.posY = this.options.posY;
 			//all durations in milliseconds	
 			this.expandDur = 2*300 + 1000;		
-			this.holdDur = 2000;								
+			this.holdDur = 3000;								
 			this.collapseDur = 1500;		
 			this.state = 0;	
 				
@@ -103,7 +103,7 @@ function(app, Ref) {
 			
 			//all durations in milliseconds	
 			this.expandDur = 2*300 + 1000;		
-			this.holdDur = 2000;								
+			this.holdDur = 3000;								
 			this.collapseDur = 1000;				
 			this.state = 0;	
 		},
@@ -218,7 +218,7 @@ function(app, Ref) {
 
 			// All durations in milliseconds.
 			this.expandDur = 2*300 + 1000;		
-			this.holdDur = 2000;								
+			this.holdDur = 3000;								
 			this.collapseDur = 1500;				
 		},
 		
@@ -285,7 +285,7 @@ function(app, Ref) {
 
       //all durations in milliseconds	
 			this.expandDur = 2*300 + 1000;		
-			this.holdDur = 2000;								
+			this.holdDur = 3000;								
 			this.collapseDur = 1500;
 			this.state = 0;					
 		},
@@ -374,7 +374,7 @@ function(app, Ref) {
 			this.posY = this.options.posY;
 			//all durations in milliseconds	
 			this.expandDur = 2*300 + 1000;		
-			this.holdDur = 2000;								
+			this.holdDur = 3000;								
 			this.collapseDur = 1500;
 			this.state = 0;					
 		},
@@ -416,7 +416,7 @@ function(app, Ref) {
       this.anchor = this.options.anchor;
 			//all durations in milliseconds	
 			this.expandDur = 2*300 + 1000;		
-			this.holdDur = 2000;								
+			this.holdDur = 3000;								
 			this.collapseDur = 1500;				
 			this.state = 0;
 			

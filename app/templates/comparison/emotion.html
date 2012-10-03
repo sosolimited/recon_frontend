@@ -1,4 +1,4 @@
-<div class="compareContainer emotion">
+<div class="compareContainer emotion" >
 
 <!--
 		<div class="span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05"></div>
@@ -11,7 +11,7 @@
 		<p class="franklinMedCompIt comparisonTitle <%=comparison.get("color1").toLowerCase()%>"> <%= comparison.get("title") %></p>
 		<hr class="bg<%=comparison.get("color1")%>" style="height:3px"/>
 		<p class="franklinBook <%=comparison.get("color1").toLowerCase()%> comparisonExpSubtitle"><%= comparison.get("subtitle") %></p>
-		<div style="height:445px; position:relative; background-image:url('images/bg_strokes.png'); background-repeat:no-repeat; opacity:0.2"></div>
+		<div style="height:444px; position:relative; background-image:url('images/bg_strokes.png'); background-repeat:no-repeat; opacity:0.2; z-index:-2;"></div>
 		
 		<% 	var val0 = comparison.get("traits")[0].vals[0]; 
 				var val1 = comparison.get("traits")[0].vals[1]; 

@@ -161,6 +161,14 @@ module.exports = function(grunt) {
       }
     },
 
+    // Remove console.logs from production builds.
+    removelogging: {
+      dist: {
+        src: "dist/debug/require.js",
+        dest: "dist/debug/require.js"
+      }
+    },
+
     // This task uses James Burke's excellent r.js AMD build tool.  In the
     // future other builders may be contributed as drop-in alternatives.
     requirejs: {
@@ -190,6 +198,23 @@ module.exports = function(grunt) {
     }
   });
 
+  var rConsole = /console.(?:log|warn|error|assert|count|clear|group|groupEnd|trace|debug|dir|dirxml|profile|profileEnd|time|timeEnd)\([^;]*\);?/gi;
+
+  grunt.registerMultiTask("removelogging", "Remove console logging", function() {
+    var src = grunt.task.directive(this.file.src, grunt.file.read);
+    var opts = this.data.options;
+    grunt.file.write(this.file.dest, grunt.helper("removelogging", src, opts));
+  });
+
+  grunt.registerHelper("removelogging", function(src, opts) {
+    if(!opts) {
+      opts = {};
+    }
+
+    return src.replace(rConsole, opts.replaceWith || "");
+  });
+  
+
   // The debug task will remove all contents inside the dist/ folder, lint
   // all your code, precompile all the underscore templates into
   // dist/debug/templates.js, compile all the application code into
@@ -199,6 +224,6 @@ module.exports = function(grunt) {
 
   // The release task will run the debug tasks and then minify the
   // dist/debug/require.js file and CSS files.
-  grunt.registerTask("release", "debug min mincss");
+  grunt.registerTask("release", "debug removelogging min mincss");
 
 };

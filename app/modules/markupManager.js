@@ -35,7 +35,11 @@ function(app, Overlay, Ref) {
   
   	defaults: function() {
   		return {
-  			"overlays":[]
+  			"overlays":[],
+  			"catOverlays": {"posemo": new Overlay.Views.CatView({ category: 'posemo' }),
+  											"negemo": new Overlay.Views.CatView({ category: 'negemo' }),
+  											"certain": new Overlay.Views.CatView({ category: 'certain' }),
+  											"tentat": new Overlay.Views.CatView({ category: 'tentat' })}
   		}	
   	},
   	
@@ -52,6 +56,13 @@ function(app, Overlay, Ref) {
 		  app.on("markup", this.addOverlay, this);			
 		  app.on("markup:sentenceLead", this.addTraitOverlay, this);		  	// EG FIXME convert to "markup", type="sentenceLeadMarkup" style.
       // TODO: Merge these markup message changes better
+      
+      // add resuable cat overlays to dom
+      for (var cat in this.get("catOverlays")) {
+      console.log(this.get("catOverlays")[cat]);
+	      $('#overlay').append(this.get("catOverlays")[cat].el);
+	      this.get("catOverlays")[cat].render();
+      }
 	  },
 	  
 	  cleanup: function() {
@@ -125,6 +136,17 @@ function(app, Overlay, Ref) {
         //console.log("Number alert: " + args['phrase']);
         
         this.get("overlays").push(numbersOverlay);			
+	  },
+	  
+	  
+	  // reusable overlays
+	  fireCatOverlay: function(cat) {
+	  	var lay = this.get("catOverlays")[cat];
+
+	  	if (lay) {		  	
+	  		lay.expand();
+		  	window.setTimeout(function(){lay.collapse();}, 3000);
+		  } else console.log("NO LAY");
 	  },
 	  
  	  // -----------------------------------------------------------------------------------

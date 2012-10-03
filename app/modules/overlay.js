@@ -163,12 +163,12 @@ function(app, Ref) {
     		if(i<3){ //don't move white word
 	    		if(sp=="obama"){
 		    		//$(this).delay((4-i)*50).animate({'left':Ref.gridColumns[4], 'top':y+i*36+'px', 'height':'36px'}, collapseD);
-		    		$(this).css("left", Ref.gridColumns[4]);
+		    		$(this).css("left", Ref.gridColumns[5]);
 		    		$(this).css("top", (cY-(3-i)*36+24)+"px");
 		    		$(this).css("height", "36px");
 		    	}else{
 		    		//$(this).delay((4-i)*50).animate({'left':Ref.gridColumns[2], 'top':y+i*36+'px', 'height':'36px'}, collapseD);
-		    		$(this).css("left", Ref.gridColumns[2]);
+		    		$(this).css("left", Ref.gridColumns[1]);
 		    		$(this).css("top", (cY-(3-i)*36+24)+"px");
 		    		$(this).css("height", "36px");
 		    	}
@@ -182,10 +182,10 @@ function(app, Ref) {
 	      	if (force) $(this).css('-webkit-transition', '0s');
 	    		//$(this).css("top", cY+Ref.transcriptPointSize);
 	    		if(sp=="obama"){
-		    		$(this).css("width", (Ref.gridColumns[4]+Ref.gridWidth-x));
+		    		$(this).css("width", (Ref.gridColumns[5]+Ref.gridWidth-x));
 		    		//console.log("width = "+(Ref.gridColumns[5]-x));
 		    	}else{
-		    		$(this).css("width", (x-Ref.gridColumns[2]));
+		    		$(this).css("width", (x-Ref.gridColumns[1]));
 		    		//console.log("width = "+(x-Ref.gridColumns[2]));
 		    	}  
 		    	
@@ -425,7 +425,7 @@ function(app, Ref) {
 		},
 		
 		serialize: function() {
-			return { speaker: this.speaker, type: this.type, gridColumns: Ref.gridColumns, posY: this.posY, posX: this.posX };
+			return { speaker: this.speaker, type: this.type, gridColumns: Ref.gridColumns, posY: this.posY+Ref.overlayEnterY/2, posX: this.posX };
 		},
 		
 		expand: function() {
@@ -436,7 +436,7 @@ function(app, Ref) {
       var signChar = this.type == 'posemo' ? '+' : '-';
       signChar = this.type == 'posemo' ? "<div class='plusSignA' /><div class='plusSignB'>" : "<div class='negativeSign' />";
       for(var i=0; i<this.nSigns; i++) {
-        var startPos = "left: " + (this.posX-150) + "px; top: " + (this.posY-125) + "px;";
+        var startPos = "left: " + (this.posX-150) + "px; top: " + (this.posY+Ref.overlayEnterY/2-125) + "px;";
         var newSign = $("<div class='emoSign " + this.type + "' style='" + startPos + "'>" + signChar + "</div>");
         $(container.append(newSign));
         this.newSigns.push(newSign);
@@ -480,17 +480,17 @@ function(app, Ref) {
       }
 
       // Do some cleanup after all elements are gone
-        window.setTimeout(function() {
-          this.$el.find('.emoTextBig').remove();
-          for(var i=0; i<this.nSigns; i++) {
-            this.newSigns[i].remove();
-          }
-          this.newSigns = [];
-        }, 1000, this);      
+      window.setTimeout(function() {
+        this.$el.find('.emoTextBig').remove();
+        for(var i=0; i<this.nSigns; i++) {
+          this.newSigns[i].remove();
+        }
+        this.newSigns = [];
+      }, 1000, this);      
 	    
       // Fade in small text
 	    if (force) this.$el.find('.emoTextSmall').css('-webkit-transition', '0s');
-      this.$el.find('.emoTextSmall').css({'visibility': 'visible', 'opacity': 1});
+      this.$el.find('.emoTextSmall').css({'visibility': 'visible', 'opacity': 1, 'top' : this.posY});
 
 		},
 		
@@ -501,7 +501,7 @@ function(app, Ref) {
 		
 	});
 	
-		//Resuable Categories 
+	// Resuable Categories 
 	//-------------------------------------------------------------------------------------  
   Overlay.Views.CatView = Backbone.View.extend({
   	 template: "overlays/category",

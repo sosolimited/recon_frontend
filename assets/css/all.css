@@ -333,6 +333,20 @@ hr {
 .bgSalmon{ background-color:rgb(255,157,108); }
 .seaGreen{ color:rgb(124,240,179); }
 
+.angry{color:rgb(255,67,55);}
+.bgAngry{background-color:rgb(255,67,55);}
+
+.casual{color:rgb(254,131,35);}
+
+.formal{color:rgb(0,95,113);}
+
+.cheery{color:rgb(232,12,122);}
+
+.depressed{color:rgb(122,52,64);}
+
+
+
+
 /* Overlays */
 
 .over {

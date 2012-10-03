@@ -69,15 +69,16 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
           
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["posemo"], speakerNames:speakerCollection, title:"POSITIVITY", subtitle:"The percentage of words spoken that are positive in some way. ie. 'winning, happy, improve.'", range:[0,5.0], color1:"Sky"}));
        
-      comparisonCollection.add(new Comparison.EmotionModel({traitNames:["negemo"], speakerNames:speakerCollection, title:"NEGATIVITY", subtitle:"The percentage of words spoken that are negative in some way. ie. 'failure, dead, waste.'", range:[0,3.75], color1:"Pink"})); 
+      comparisonCollection.add(new Comparison.EmotionModel({traitNames:["negemo"], speakerNames:speakerCollection, title:"NEGATIVITY", subtitle:"The percentage of words spoken that are negative in some way. ie. 'failure, dead, waste.'", range:[0,3.75], color1:"GrayBlue"})); 
           
-      comparisonCollection.add(new Comparison.EmotionModel({traitNames:["anger"], speakerNames:speakerCollection, title:"ANGER", subtitle:"The percentage of words spoken that are angry in some way. ie. 'fight, destroy, annoy.'", range:[0,1.95], color1:"Magenta"})); 
+      comparisonCollection.add(new Comparison.EmotionModel({traitNames:["anger"], speakerNames:speakerCollection, title:"ANGER", subtitle:"The percentage of words spoken that are angry in some way. ie. 'fight, destroy, annoy.'", range:[0,1.95], color1:"Angry"})); 
          
-      comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["honesty"], speakerNames:speakerCollection, title:"AUTHENTIC", subtitle:"DECEPTIVE", range:[0, 6.0], color1:"Purple", color2:"Cherry"}));      
+        
+      comparisonCollection.add(new Comparison.FormalityModel({traitNames:["formality"], speakerNames:speakerCollection, title:"FORMAL", subtitle:"CASUAL", range:[3, 25.0], color1:"Formal", color2:"Casual"})); 
       
-      comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["formality"], speakerNames:speakerCollection, title:"FORMAL", subtitle:"CASUAL", range:[3, 25.0], color1:"Purple", color2:"Cherry"})); 
+      comparisonCollection.add(new Comparison.DispositionModel({traitNames:["depression"], speakerNames:speakerCollection, title:"CHEERY", subtitle:"DEPRESSED", range:[4.75, -1.0], color1:"Cheery", color2:"Depressed"}));  
       
-      comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["depression"], speakerNames:speakerCollection, title:"CHEERY", subtitle:"DEPRESSED", range:[4.75, -1.0], color1:"Purple", color2:"Cherry"}));                  
+      comparisonCollection.add(new Comparison.HonestyModel({traitNames:["honesty"], speakerNames:speakerCollection, title:"AUTHENTIC", subtitle:"DECEPTIVE", range:[0, 6.0], color1:"Purple", color2:"Cherry"}));                   
       
       // Load from static file.
       if (this.qs.docName) {
@@ -232,11 +233,11 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 			}	
 	     
 	    function update() {
-		  	ticking = false;
 		  	// Do everything that was previously handled on scroll events.
 		    markupManager.handleScroll(lastScrollY);		     
 		    bigWordsView.handleScroll(lastScrollY);
 		    transcriptView.handleScroll(lastScrollY);
+        ticking = false;
 	    }
 	     	
 	     /*

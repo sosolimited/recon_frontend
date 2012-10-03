@@ -49,16 +49,18 @@ function(app) {
     addWord: function(args) {
     	if (args['live']) {
 	    	var word = args['msg'];
-	    
-	    	//console.log("UniqueWord.Collection.addWord("+word['word']+")");
-	    	var w = this.get(word["dbid"]); //PEND Change 0s.
-	    	if (w) {
-	    		//console.log("found word - "+word['word']+" ... "+word['speaker']);
-	    		w.increment();
-	    	} else {
-	    		//console.log("new word - "+word['word']+" ... "+word['speaker']);
-	    		this.add(word);
-	    	}
+	    	// Only add word if it's NOT punctuation.
+	    	if(word['punctuationFlag'] == 0){
+		    	//console.log("UniqueWord.Collection.addWord("+word['word']+")");
+		    	var w = this.get(word["dbid"]); //PEND Change 0s.
+		    	if (w) {
+		    		//console.log("found word - "+word['word']+" ... "+word['speaker']);
+		    		w.increment();
+		    	} else {
+		    		//console.log("new word - "+word['word']+" ... "+word['speaker']);
+		    		this.add(word);
+		    	}
+		    }
 	    }
     },
     

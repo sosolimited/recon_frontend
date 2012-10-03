@@ -156,28 +156,27 @@ function(app, Overlay, Ref) {
 			    app.trigger("markup", wordProps[0]); 		   		 	 
 		    }
 		    // Check if the word is in the top N words. (20 was too busy, so we're trying 10)
-		    else if(top20Count = this.uniqueWords.isTopWord(curSpeaker, word['word'], 10)){
-		    	if(this.uniqueWords.getTotalUniqueWords(curSpeaker) > 100){
-				    var sp = $("<span class='frequentWordMarkup transcriptWord'>"+s+word["word"]+"</span>");
-			    	sp.attr("data-wordcount", top20Count);
-			    	$('#curSentence').append(sp);	
-		    	}
+		    else if((top20Count = this.uniqueWords.isTopWord(curSpeaker, word['word'], 10))
+		    	&& (this.uniqueWords.getTotalUniqueWords(curSpeaker) > 100)){
+				  var sp = $("<span class='frequentWordMarkup transcriptWord'>"+s+word["word"]+"</span>");
+				  sp.attr("data-wordcount", top20Count);
+			   	$('#curSentence').append(sp);	
 		    }
 		  	else if ($.inArray('posemo', word['cats']) != -1) {
 		  		 //app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
-		  		 $('#curSentence').append("<span class='catMarkup posemoMarkup transcriptWord'>"+s+word["word"]+"</span>"); 
+		  		 $('#curSentence').append(s+"<span class='catMarkup posemoMarkup transcriptWord'>"+word["word"]+"</span>"); 
 		  	}
 		  	else if ($.inArray('negemo', word['cats']) != -1) {
 		  		 //app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
-		  		 $('#curSentence').append("<span class='catMarkup negemoMarkup transcriptWord'>"+s+word["word"]+"</span>"); 
+		  		 $('#curSentence').append(s+"<span class='catMarkup negemoMarkup transcriptWord'>"+word["word"]+"</span>"); 
 		  	}		  	
 		  	else if ($.inArray('certain', word['cats']) != -1) {
 		  		 //app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
-		  		 $('#curSentence').append("<span class='catMarkup certainMarkup transcriptWord'>"+s+word["word"]+"</span>"); 
+		  		 $('#curSentence').append(s+"<span class='catMarkup certainMarkup transcriptWord'>"+word["word"]+"</span>"); 
 		  	}
 		  	else if ($.inArray('tentat', word['cats']) != -1) {
 		  		 //app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
-		  		 $('#curSentence').append("<span class='catMarkup tentatMarkup transcriptWord'>"+s+word["word"]+"</span>"); 
+		  		 $('#curSentence').append(s+"<span class='catMarkup tentatMarkup transcriptWord'>"+word["word"]+"</span>"); 
 		  	}
 		    else{
 		    	$('#curSentence').append(s+word["word"]); 

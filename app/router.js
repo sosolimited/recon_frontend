@@ -144,7 +144,25 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
           transcript.on("click", ".sentimentClick" , enterComp);
           transcript.on("click", ".traitClick" , enterComp);
           transcript.on("click", ".countClick" , enterComp);
-
+          
+          transcript.on("click", ".catMarkup", function(ev) {
+          	var name;
+          	if ($(this).hasClass("posemoMarkup")) {
+	          	name = "posemo";
+          	} else if ($(this).hasClass("negemoMarkup")) {
+	          	name = "negemo";
+          	} else if ($(this).hasClass("certainMarkup")) {
+	          	name = "certain";
+          	} else if ($(this).hasClass("tentatMarkup")) {
+	          	name = "tentat";
+          	}
+          
+          	console.log(name);
+          	$('.'+name+'Markup').addClass('reverse');
+          	setTimeout(function(){$('.'+name+'Markup').removeClass('reverse');}, 3000);
+          	markupManager.fireCatOverlay(name);
+          });
+         
           comparisons.on("click", function(ev) {
             transcript.toggleClass("fade");
             comparisons.toggleClass("active");

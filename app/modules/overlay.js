@@ -13,7 +13,6 @@ function(app, Ref) {
   Overlay.Model = Backbone.Model.extend({
   });
 	  
-	  
 	//Psychological traits
 	//-------------------------------------------------------------------------------------  
   Overlay.Views.TraitView = Backbone.View.extend({
@@ -483,6 +482,36 @@ function(app, Ref) {
 		}
 		
 	});
+	
+		//Resuable Categories 
+	//-------------------------------------------------------------------------------------  
+  Overlay.Views.CatView = Backbone.View.extend({
+  	 template: "overlays/category",
+  			 
+		 initialize: function() {
+				this.category = this.options.category;
+		 },	
+		 
+		 serialize: function() {
+      return { category: this.category };
+    },
+    
+    expand: function() {
+	    this.$el.fadeIn(500);
+    },
+    
+    collapse: function() {
+	    this.$el.fadeOut(500);    
+    },
+    
+    hide: function() {
+	    this.$el.css({'display':'none'});
+    },
+    
+    afterRender: function() {
+	    this.hide();
+    }
+  });
 	
 
   // Return the module for AMD compliance.

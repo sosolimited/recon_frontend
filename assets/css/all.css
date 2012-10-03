@@ -705,6 +705,17 @@ landingTitleImage {
 }
 
 
+.posemoMarkup.reverse{
+	background-color: rgb(100, 0, 0) !important;
+	color: rgb(255, 255, 255) !important;
+}
+
+.negemoMarkup.reverse{
+	background-color: rgb(0, 0, 100) !important;
+	color: rgb(255, 255, 255) !important;
+}
+
+
 .emoTextBig {
   position: absolute;
   color: rgb(140,146,146);	

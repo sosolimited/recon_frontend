@@ -204,6 +204,10 @@ function(app, Overlay, Ref) {
 
       // Autoscroll the window to keep up with transcript
       // ----------------------------------------------------------------------
+      if(scrollTo != lastScrollHeight && !scrollAnimating && this.scrollShouldReattach()) {
+        scrollLive = true;
+        app.trigger("transcript:scrollAttach", {});         
+      }
       if(scrollLive && !Ref.disableAutoScroll) {
         var scrollTo = this.transcriptBottom() - $(window).height();
         //var scrollTo = $(document).height() - $(window).height();
@@ -211,7 +215,7 @@ function(app, Overlay, Ref) {
           //console.log("scrolling to: " + scrollTo);
           var duration = Math.abs(lastScrollHeight - scrollTo) * 3.0;
           scrollAnimating = true;
-          $("body").animate({ scrollTop: scrollTo}, duration, function() { window.setTimeout(function() { scrollAnimating = false; }, 15); });
+          $("body").animate({ scrollTop: scrollTo}, duration, function() { scrollAnimating = false; });
           app.trigger("transcript:scrollTo", word["timeDiff"]); 
           lastScrollHeight = scrollTo;
         }
@@ -521,18 +525,18 @@ function(app, Overlay, Ref) {
 
     handleScroll : function() {
       oldScrollTop = $('body').scrollTop(); // To keep scroll position on resize
+      //console.log("SCROLL animating? " + (scrollAnimating ? "YES" : "NO") + " live? " + (scrollLive ? "YES" : "NO"));
 
       // If this is a user scrolling, decide whether to break or reattach live autoscrolling
       if(!scrollAnimating) {
         // Note: $(document).height() is height of the HTML document,
         //       $(window).height() is the height of the viewport
         var bottom = this.transcriptBottom() - $(window).height();
-        if(!scrollLive && Math.abs(bottom - $(window).scrollTop()) < Ref.autoscrollReattachThreshold || 
-          $(document).height() - $(window).height() - $(window).scrollTop() < Ref.autoscrollReattachThreshold) {
+        if(!scrollLive && this.scrollShouldReattach()) {
           scrollLive = true;
           app.trigger("transcript:scrollAttach", {}); // So other modules like nav can respond accordingly
         }
-        else if(scrollLive) {
+        else if(scrollLive && !this.scrollShouldReattach()) {
           $("body").stop(); // Stop any scroll animation in progress
           scrollLive = false;
           app.trigger("transcript:scrollDetach", {});
@@ -602,6 +606,14 @@ function(app, Overlay, Ref) {
         }
       }
     },
+
+    scrollShouldReattach : function() {
+      var bottom = this.transcriptBottom() - $(window).height();
+      return Math.abs(bottom - $(window).scrollTop()) < Ref.autoscrollReattachThreshold;
+        // || $(document).height() - $(window).height() - $(window).scrollTop() < Ref.autoscrollReattachThreshold;
+        // Second case is to bounce from the bottom
+    },      
+
 
     resetToNode: function(n) {
 	    

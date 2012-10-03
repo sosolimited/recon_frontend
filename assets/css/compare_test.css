@@ -1,29 +1,5 @@
-.compareContainer {
-	
-	position:relative; 
-	
-	border-bottom: 3px gray !important;
-	padding-bottom: 50px !important;
 
-}
-
-.list {
-
-height:1200px;
-
-}
-
-.count {
-	
-	height:650px;
-}
-
-.emotion {
-	
-	height:700px;
-}
-
-.comparisonTitle {
+.comparisonExpText {
 	position:relative;
 	font-size: 128px;
 	margin: 0px 0px 0px 0px;
@@ -49,14 +25,14 @@ height:1200px;
 .comparisonListWord {
 	text-align: left;
 	padding: 0 0 0 0;
-	font-size: 30px;
-	line-height: 36px;
+	font-size: 48px;
+	line-height: 60px;
 }
 
 .comparisonListValue {
 	text-align: right;	
-	font-size: 24px;	
-	line-height: 38px;
+	font-size: 42px;	
+	line-height: 48px;
 	
 }
 
@@ -66,6 +42,7 @@ height:1200px;
 	/*width: 160px;*/
 	/*margin:0 -80px 1.5em 80px;*/
 	float:left;
+	z-index: -1;
 }
 
 
@@ -79,6 +56,8 @@ height:1200px;
 	margin: 0 0 0 0;
 	top: -24px;	
 	left: 6px;
+	z-index: -1;
+	
 }
 
 .comparisonPastCandidateRight {
@@ -89,6 +68,8 @@ height:1200px;
 	width: 936px;
 	margin: 0 6px 0 -6px;
 	top: -24px;	
+	z-index: 0;
+	
 }
 
 .comparisonPastValue {
@@ -98,6 +79,8 @@ height:1200px;
 	height: 10px;
 	margin: 0 0 0 0;
 	left: 6px;	
+	z-index: -1;
+	
 }
 
 .comparisonPastValueRight {
@@ -107,10 +90,14 @@ height:1200px;
     color:white;
 	width: 936px;
 	margin: 0 6px 0 -6px;
+	z-index: -1;	
 }
 
 .comparisonBarGraph {
 	position:absolute;
+	opacity:0.5;
+	z-index: 1;
+	
 }
 
 .barGraphText {
@@ -118,9 +105,10 @@ height:1200px;
 	font-size: 48px;
 	left: 10px;
 	bottom: 15px;
-	text-decoration: underline;
+	/*text-decoration: underline;
+	border-stlye: solid;*/
 	line-height:48px;
-
+	z-index: 2;
 }
 
 .barGraphValue {
@@ -130,6 +118,7 @@ height:1200px;
 	bottom: 5px;
 	line-height:24px;
 	color: white;
+	z-index: 2;	
 }
 
 .countBigNumber {
@@ -139,24 +128,11 @@ height:1200px;
 }
 
 .spectrumTitle {
-
 	position:relative;
 	font-size: 128px;
 	margin: 0px -160px 0px 160px;
 	padding: 0px 0px 0px 0px;
 	line-height:128px;
-
-}
-
-.spectrumGradientPurpleRed {
-
-	background: #652d6a; /* Old browsers */
-	background: -moz-linear-gradient(top, #652d6a 0%, #ff4237 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#652d6a), color-stop(100%,#ff4237)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top, #652d6a 0%,#ff4237 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top, #652d6a 0%,#ff4237 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top, #652d6a 0%,#ff4237 100%); /* IE10+ */
-	background: linear-gradient(to bottom, #652d6a 0%,#ff4237 100%); /* W3C */
 
 }
 

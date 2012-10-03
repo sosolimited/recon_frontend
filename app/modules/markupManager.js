@@ -129,7 +129,7 @@ function(app, Overlay, Ref) {
 	  
 	  addNumberOverlay: function(args){
 		  	//console.log("addNumberOverlay: "+args['speaker']+", "+args['phrase']);
-        var numbersOverlay = new Overlay.Views.NumbersView({ speaker: args['speaker'], phrase: args['phrase'], posY: args['anchor'].top, wordPos: args['anchor'], forceCollapse: true });
+        var numbersOverlay = new Overlay.Views.NumbersView({ speaker: args['speaker'], phrase: args['phrase'], posY: args['anchor'].top, wordPos: args['anchor'], forceCollapse: false });
   		  $('#overlay').append(numbersOverlay.el);
 	      numbersOverlay.render();
         //console.log("Number alert: " + args['phrase']);

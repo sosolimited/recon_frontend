@@ -228,10 +228,10 @@ function(app, Overlay, Ref) {
       //Go through all spans so you can create markup heirarchy (ie specify which markups take precedence)  
       $('#curSentence').find('span').each(function() {
       	 if($(this).hasClass("posemoMarkup")){
-	      	 $(this).css("color", "rgb(100,0,0)");
+	      	 $(this).css("color", "rgb(124,240,179)");
       	 }
       	 else if($(this).hasClass("negemoMarkup")){
-	      	 $(this).css("color", "rgb(0,0,100)");
+	      	 $(this).css("color", "rgb(122,52,183)");
       	 }
 	     	 // Word count markup.
 	     	 else if($(this).hasClass("wordCountMarkup")){	

@@ -151,8 +151,6 @@ function(app, Ref) {
     },
     
     afterRender: function() {
-    
-    	console.log("afterRender ");
     	/*
     	$(this).children(".className").each(function () { 
     	

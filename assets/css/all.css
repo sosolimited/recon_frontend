@@ -489,10 +489,10 @@ landingTitleImage {
 	position: static;
 	padding: 0 0 0 0;
 	left: 0px;
-	line-height: 36px;
+	font-size: 25px;
+	line-height: 25px;
 	margin: 12px 0px 0px 0px;
-	font-size: 22px;
-	color:#000 !important;
+	color:rgb(200,200,200) !important;
 	 
 }
 
@@ -500,11 +500,10 @@ landingTitleImage {
 	position: static;
 	padding: 0 0 0 0;
 	left: 0px;
-	font-size: 17px;
-	line-height: 27px;
+	font-size: 20px;
+	line-height: 0px;
 	margin: 12px 0px 0px 0px;
-	font-size: ;
-	color:#000 !important;
+	color:rgb(200,200,200) !important;
 	 
 }
 
@@ -555,10 +554,18 @@ landingTitleImage {
 	height: 106px;
 }
 
+#SocialMediaLinks {
+	position: absolute;
+	top:30px;
+	left: 700px;
+		
+		
+	}
+
 .landingCredits {
 	position: absolute;
-	font-size: 18px;
-	line-height: 24px;
+	font-size: 14px;
+	line-height: 18px;
 }
 
 

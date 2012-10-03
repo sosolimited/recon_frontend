@@ -227,39 +227,38 @@ function(app, Overlay, Ref) {
       	 else if($(this).hasClass("negemoMarkup")){
 	      	 $(this).css("color", "rgb(0,0,100)");
       	 }
-     	 // Word count markup.
-     	 else if($(this).hasClass("wordCountMarkup")){	
-     	   $(this).css("color", "rgb(207,255,36)");
-     	   $(this).css("text-decoration", "underline");	    	
-     	 }
-     	 // Number markup.
-     	 else if($(this).hasClass("numberMarkup")){
-     	 		$(this).css("color", "rgb(255,157,108)");	    	    		
-     	 }
-     	 // Quotation markup.
-     	 else if($(this).hasClass("quoteMarkup")){
-     	 		$(this).css("color", "rgb(124,51,64)");	    	    		
-     	 }         
-     	 // Frequent word markup.
-     	 else if($(this).hasClass("frequentWordMarkup")){
-		     	//$(this).css("color", "rgb(100,100,100)");	
-	    		$(this).css("border-bottom", "1px solid white");	//To do different color underline.
-	    		// edit this == $(this).css("border-bottom", "1px solid white");	//To do different color underline.
-
-	    		//$(this).css("text-decoration-color", "rgb(255,255,255)");	
-	        var count = $(this).attr("data-wordcount");
-	        if(count != undefined) {
-	          // Add a div at this point and animate it inCannot read property 'top' of null 
-	          var pos = $(this).position();
-	          var wordWidth = $(this).width();
-	          var lineHeight = $(this).height();
-	          var container = $("<div class='wordCountFrame' style='left: " + (pos.left + wordWidth) + "px; top: " + (pos.top - lineHeight/2) + "px;'></div>");
-	          var countDiv = $("<div class='wordCount'>" + count + "</div>");
-	          container.append(countDiv);
-	          $(this).parent().append(container);
-	          countDiv.animate({top: '0px'}, 300);
-	        }  	     	 
-     	 }
+	     	 // Word count markup.
+	     	 else if($(this).hasClass("wordCountMarkup")){	
+	     	   $(this).css("color", "rgb(207,255,36)");
+	     	   $(this).css("text-decoration", "underline");	    	
+	     	 }
+	     	 // Number markup.
+	     	 else if($(this).hasClass("numberMarkup")){
+	     	 		$(this).css("color", "rgb(255,157,108)");	    	    		
+	     	 }
+	     	 // Quotation markup.
+	     	 else if($(this).hasClass("quoteMarkup")){
+	     	 		$(this).css("color", "rgb(124,51,64)");	    	    		
+	     	 }         
+	     	 // Frequent word markup.
+	     	 else if($(this).hasClass("frequentWordMarkup")){
+			     	//$(this).css("color", "rgb(100,100,100)");	
+		    		$(this).css("border-bottom", "1px solid white");	//To do different color underline.
+		    		
+		    		//$(this).css("text-decoration-color", "rgb(255,255,255)");	
+		        var count = $(this).attr("data-wordcount");
+		        if(count != undefined) {
+		          // Add a div at this point and animate it inCannot read property 'top' of null 
+		          var pos = $(this).position();
+		          var wordWidth = $(this).width();
+		          var lineHeight = $(this).height();
+		          var container = $("<div class='wordCountFrame' style='left: " + (pos.left + wordWidth) + "px; top: " + (pos.top - lineHeight/2) + "px;'></div>");
+		          var countDiv = $("<div class='wordCount'>" + count + "</div>");
+		          container.append(countDiv);
+		          $(this).parent().append(container);
+		          countDiv.animate({top: '0px'}, 300);
+		        }  	     	 
+	     	 }
       });
   
     	

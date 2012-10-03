@@ -144,6 +144,12 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
           transcript.on("click", ".sentimentClick" , enterComp);
           transcript.on("click", ".traitClick" , enterComp);
           transcript.on("click", ".countClick" , enterComp);
+          
+          transcript.on("click", ".posemoMarkup", enterComp);
+          transcript.on("click", ".negemoMarkup", function(ev) {
+          	$('.negemoMarkup').addClass('reverse');
+          	setTimeout(function(){$('.negemoMarkup').removeClass('reverse');}, 1000);
+          });
 
           comparisons.on("click", function(ev) {
             transcript.toggleClass("fade");

@@ -19,7 +19,7 @@ function(app) {
 	Ref.bigWordLeading = 336;
 	  
 	// For development, autoscrolling can be disabled completely
-  Ref.disableAutoScroll = false;
+  Ref.disableAutoScroll = true;
 
   // Position of the most recent sentence
   Ref.overlayOffsetY = 100;

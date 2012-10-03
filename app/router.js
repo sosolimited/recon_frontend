@@ -245,55 +245,59 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 	    */	    
     
       // Listen for keydown events.
-      $('body').keydown(function(event){
-      	console.log(event.which);
-      	//g for toggling test grid
-      	if(event.which == 71){
-	      	if($('#testGrid').css("visibility") == "visible") $('#testGrid').css("visibility", "hidden");
-	      	else $('#testGrid').css("visibility", "visible");
-      	}
-      	//o for toggling overlay visibility
-      	else if(event.which == 79){
-	      	//if($('#overlay').css("visibility") == "visible") $('#overlay').css("visibility", "hidden")
-	      	//else $('#overlay').css("visibility", "visible")
-	      	if($('#overlay').css("display") == "inline") $('#overlay').css("display", "none");
-	      	else $('#overlay').css("display", "inline");
-      	}
-      	//t for toggling transcript
-      	else if(event.which == 84){	
-					//app.trigger("keypress:test", {type:"overlay", kind:"trait"});
-
-					if($('#transcript > .wrapper').css("visibility") == "visible") $('#transcript > .wrapper').css("visibility", "hidden");
-	      	else $('#transcript > .wrapper').css("visibility", "visible");
-				}
-				//w for wordcount testing
-				else if(event.which == 87){	
-					app.trigger("keypress:test", {type:"overlay", kind:"wordCount"});
-				}
-				//p for inserting parallax test objects
-				else if(event.which==80){	
-					app.trigger("keypress:test", {type:"testParallax"});
-				}
-				//z To nudge parallax test objects left
-				else if(event.which==90){	
-					$('#testZ6').css("left", (parseInt($('#testZ6').css("left")) - 1));
-					//console.log("left = "+parseInt($('#testZ6').css("left")));
-				}
-				//x  To nudge parallax test objects right
-				else if(event.which==88){	
-					$('#testZ6').css("left", (parseInt($('#testZ6').css("left")) + 1));
-					//console.log("left = "+parseInt($('#testZ6').css("left")));
-				}
-				//q Test top words.
-				else if(event.which==81){
-					var sp = 1;
-					var top20 = uniqueWords.getTop20Words(sp);
-					for(var i=0; i<20; i++){
-						console.log(i+" = "+top20[i]['word']+" > "+top20[i]['count']);
+      var keyboardEnabled = false;	
+      
+      if(keyboardEnabled){
+	      $('body').keydown(function(event){
+	      	console.log(event.which);
+	      	//g for toggling test grid
+	      	if(event.which == 71){
+		      	if($('#testGrid').css("visibility") == "visible") $('#testGrid').css("visibility", "hidden");
+		      	else $('#testGrid').css("visibility", "visible");
+	      	}
+	      	//o for toggling overlay visibility
+	      	else if(event.which == 79){
+		      	//if($('#overlay').css("visibility") == "visible") $('#overlay').css("visibility", "hidden")
+		      	//else $('#overlay').css("visibility", "visible")
+		      	if($('#overlay').css("display") == "inline") $('#overlay').css("display", "none");
+		      	else $('#overlay').css("display", "inline");
+	      	}
+	      	//t for toggling transcript
+	      	else if(event.which == 84){	
+						//app.trigger("keypress:test", {type:"overlay", kind:"trait"});
+	
+						if($('#transcript > .wrapper').css("visibility") == "visible") $('#transcript > .wrapper').css("visibility", "hidden");
+		      	else $('#transcript > .wrapper').css("visibility", "visible");
 					}
-				}
-				
-      });      
+					//w for wordcount testing
+					else if(event.which == 87){	
+						app.trigger("keypress:test", {type:"overlay", kind:"wordCount"});
+					}
+					//p for inserting parallax test objects
+					else if(event.which==80){	
+						app.trigger("keypress:test", {type:"testParallax"});
+					}
+					//z To nudge parallax test objects left
+					else if(event.which==90){	
+						$('#testZ6').css("left", (parseInt($('#testZ6').css("left")) - 1));
+						//console.log("left = "+parseInt($('#testZ6').css("left")));
+					}
+					//x  To nudge parallax test objects right
+					else if(event.which==88){	
+						$('#testZ6').css("left", (parseInt($('#testZ6').css("left")) + 1));
+						//console.log("left = "+parseInt($('#testZ6').css("left")));
+					}
+					//q Test top words.
+					else if(event.which==81){
+						var sp = 1;
+						var top20 = uniqueWords.getTop20Words(sp);
+						for(var i=0; i<20; i++){
+							console.log(i+" = "+top20[i]['word']+" > "+top20[i]['count']);
+						}
+					}
+					
+	      });      
+      }
       
       // Automatically load up the first debate for now
       if(this.qs.debate)

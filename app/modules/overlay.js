@@ -27,7 +27,8 @@ function(app, Ref) {
 				//all durations in milliseconds	
 				this.expandDur = 2*300 + 1000;		
 				this.holdDur = 2000;								
-				this.collapseDur = 1500;				
+				this.collapseDur = 1500;		
+				this.state = 0;	
 				
 				//console.log("posY = " + this.posY);
 				
@@ -104,6 +105,7 @@ function(app, Ref) {
 				this.expandDur = 2*300 + 1000;		
 				this.holdDur = 2000;								
 				this.collapseDur = 1000;				
+				this.state = 0;	
 		},
 		
 		serialize: function() {
@@ -205,7 +207,7 @@ function(app, Ref) {
         this.collapseY = this.options.wordPos[1];
 				this.wordX = this.options.wordPos[0];
 
-				//all durations in milliseconds	
+				// All durations in milliseconds.
 				this.expandDur = 2*300 + 1000;		
 				this.holdDur = 2000;								
 				this.collapseDur = 1500;				
@@ -215,35 +217,33 @@ function(app, Ref) {
 				return { speaker: this.speaker, phrase: this.phrase, posY: this.posY+Ref.overlayEnterY, lineY: this.collapseY+Ref.transcriptPointSize, grid: Ref.gridColumns};
 		},
 		expand: function() {
-			this.state = 1;	//expanded
+			this.state = 1;	// Expanded.
 
-      
-   		//Slide word in from side.
+   		// Slide word in from side.
       var thisView = this;
     	this.$el.find('.numberPhrase').each(function(i){ 
           window.setTimeout(function() { thisView.speaker == 1 ? $(this).css("left",Ref.gridColumns[0]) : $(this).css("left",Ref.gridColumns[1]); }, 1, this);
     	});
       
-    	
-    	//Sit for holdDur, then collapse.
+    	// Sit for holdDur, then collapse.
     	window.setTimeout(this.collapse, this.expandDur + this.holdDur, this);
 		},
 		
 		collapse: function() {
-  		this.state = 0;	//collapsed	
+  		this.state = 0;	// Collapsed.	
        
       var _posY = this.posY;
       var sp = this.speaker;
       this.$el.find('.numberPhrase').each(function(i){ 
           window.setTimeout(function() {
-            $(this).css("font-size","36px");
-            $(this).css("height", "36px");
+            $(this).css("font-size","54px");
+            $(this).css("height", "72px");
             $(this).css("width", Ref.gridWidth);
             $(this).css("top", (_posY - 18) + 'px');  // Center on line
             if(sp == 1)
               $(this).css("left", Ref.gridColumns[4]);
             else if(sp == 2)
-              $(this).css("left", Ref.gridColumns[2]);
+              $(this).css("left", Ref.gridColumns[1]);
             console.log(sp);
             
             //console.log( (this.anchorY - 18) + 'px'));
@@ -273,7 +273,8 @@ function(app, Ref) {
         //all durations in milliseconds	
 				this.expandDur = 2*300 + 1000;		
 				this.holdDur = 2000;								
-				this.collapseDur = 1500;				
+				this.collapseDur = 1500;
+				this.state = 0;					
 		},
 		
 		serialize: function() {
@@ -371,7 +372,8 @@ function(app, Ref) {
 				//all durations in milliseconds	
 				this.expandDur = 2*300 + 1000;		
 				this.holdDur = 2000;								
-				this.collapseDur = 1500;				
+				this.collapseDur = 1500;
+				this.state = 0;					
 		},
 		
 		serialize: function() {

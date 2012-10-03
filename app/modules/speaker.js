@@ -21,7 +21,8 @@ function(app) {
   			//wordCountThreshholds: [ 500, 1000, 1500 ],
   			//curWordCountThreshhold: 0,
   			frequentWordThreshold: 5,
-  			wordCountPeriod: 500, 	//1000, //EG low number for testing 
+  			//wordCountPeriod: 500, 	//1000, //EG low number for testing 
+  			wordCountThresholds: [666, 911, 1776, 2012, 11111],	
   			longestSentenceLength: 0,
   			longestSentence: "",
   			curSentence: "",
@@ -65,7 +66,9 @@ function(app) {
    		 	this.curSentence += args['msg']['word'];
 
    		 	// Emit 1000,2000,etc word count events.
-   		 	if((this.get("wordCount")%this.get("wordCountPeriod"))==0 && this.get("wordCount")>0){
+   		 	//if((this.get("wordCount")%this.get("wordCountPeriod"))==0 && this.get("wordCount")>0){
+   		 	if($.inArray(this.get("wordCount"), this.get("wordCountThresholds")) != -1){
+   		 	
    		 		//console.log("handleWord just reached word "+this.get("wordCount"));
 	   			//app.trigger("markup:wordCount", {type:"wordCount", speaker:this.get("tag"), count: this.get("wordCount"), word: args['msg']['word']}); 		   		 	
 	   			this.get("wordProps").push({type:'wordCountMarkup', speaker:this.get('tag'), count: this.get('wordCount'), word: args['msg']['word']});

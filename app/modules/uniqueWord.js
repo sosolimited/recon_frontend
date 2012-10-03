@@ -89,10 +89,10 @@ function(app) {
 	  },
 	  
 	  // Returns 0 if ain't, word count if it is.
-	  isTop20Word: function(word) {
+	  isTopWord: function(word, numWords) {
 		  var i=0;
 		  var index=0;
-		  while((i<20) && (index<this.models.length)){
+		  while((i<numWords) && (index<this.models.length)){
 		  	// If it's NOT a function word.
 				if (this.filterWord(this.at(index))){
 					if(this.at(index).get("word")==word){
@@ -159,13 +159,13 @@ function(app) {
 		},
 		
 		// Returns 0 if it ain't, word count if it is.
-		isTop20Word: function(speakerId, word) {
+		isTopWord: function(speakerId, word, numWords) {
 			if(speakerId==0){
-			 	return this.get("moderator").isTop20Word(word);
+			 	return this.get("moderator").isTopWord(word, numWords);
 			}else if (speakerId==1){
-				return this.get("obama").isTop20Word(word);
+				return this.get("obama").isTopWord(word, numWords);
 			}else if(speakerId==2){
-			 	return this.get("romney").isTop20Word(word);
+			 	return this.get("romney").isTopWord(word, numWords);
 			}		
 		},
 		

@@ -3,7 +3,7 @@ define([
   "app",
   "modules/ref"
 ],
-
+		
 // Map dependencies from above array.
 function(app, Ref) {
 	
@@ -15,27 +15,30 @@ function(app, Ref) {
 	  
 	//Psychological traits
 	//-------------------------------------------------------------------------------------  
-  Overlay.Views.TraitView = Backbone.View.extend({
-  	 template: "overlays/trait",
-  			 
-		 initialize: function() {
-				this.trait = this.options.trait;
-				this.leader = this.options.leader; 
+	Overlay.Views.TraitView = Backbone.View.extend({
+		template: "overlays/trait",
+		
+		initialize: function() {
+		
+			this.forceCollapse = this.options.forceCollapse;
+			
+			this.trait = this.options.trait;
+			this.leader = this.options.leader; 
 
-				this.posY = this.options.posY;
-				//all durations in milliseconds	
-				this.expandDur = 2*300 + 1000;		
-				this.holdDur = 2000;								
-				this.collapseDur = 1500;		
-				this.state = 0;	
+			this.posY = this.options.posY;
+			//all durations in milliseconds	
+			this.expandDur = 2*300 + 1000;		
+			this.holdDur = 2000;								
+			this.collapseDur = 1500;		
+			this.state = 0;	
 				
-				//console.log("posY = " + this.posY);
+			//console.log("posY = " + this.posY);
 				
-				if(this.options.leader==="obama") this.trailer="romney";
-				else this.trailer = "obama";
-		 },	
+			if(this.options.leader==="obama") this.trailer="romney";
+			else this.trailer = "obama";
+		},	
 		 
-		 serialize: function() {
+		serialize: function() {
       return { trait: this.trait, leader: this.leader, trailer: this.trailer, startPosY: this.posY-96};
     },
 
@@ -55,7 +58,7 @@ function(app, Ref) {
     	window.setTimeout(this.collapse, this.expandDur + this.holdDur, this);
     }, 
     
-    collapse: function() {
+    collapse: function(force) {
     	//PEND we'll probably want to tag this onto the end of the animation, so it only gets set after overlay has played out collapse anim.
   		this.state = 0;	//collapsed	
   		   
@@ -63,26 +66,30 @@ function(app, Ref) {
     	var collapseD = this.collapseDur;
     	//Shrink text.
     	this.$el.find('.traitExpText').each(function(i){ 
+      	if (force) $(this).css('-webkit-transition', '0s');
     		$(this).animate({'font-size':'20px', 'line-height':'24px'}, collapseD);
     	}); 
     	//Shrink and move divs.
     	this.$el.find('.traitExpTextHolder').each(function(i){
+      	if (force) $(this).css('-webkit-transition', '0s');
     		$(this).animate({'left':Ref.gridColumns[0], 'top':y+i*24+'px', 'height':'24px'}, collapseD);
     		//$(this).animate({'-webkit-transform':'translateZ(1000px)'}, collapseD);   	//Move div forward in Z.	
     		this.style.webkitTransform = "translateZ(500px)";	//We're using CSS transitions to animate this.
     	});
     	//Shrink and position big arrow.
     	this.$el.find('.traitSymbol').each(function(){
-	    		$(this).animate({left:Ref.gridColumns[1]+'px'}, collapseD);
-	    		//$(this).animate({'-webkit-transform':'translateZ(-1000px)'}, collapseD);	//Move arrow back in Z.
-	    		//this.style.webkitTransform = "translateZ(0px)";	//We're using CSS transitions to animate this.
+      	if (force) $(this).css('-webkit-transition', '0s');
+	    	$(this).animate({left:Ref.gridColumns[1]+'px'}, collapseD);
+	    	//$(this).animate({'-webkit-transform':'translateZ(-1000px)'}, collapseD);	//Move arrow back in Z.
+	    	//this.style.webkitTransform = "translateZ(0px)";	//We're using CSS transitions to animate this.
     	});
 
     
     },
     
     afterRender: function() {
-	    this.expand();
+	    if (!this.forceCollapse) this.expand();
+	    else this.collapse(true);
     }
   });
   
@@ -92,19 +99,22 @@ function(app, Ref) {
 		template: "overlays/wordCount",
 		
 		initialize: function() {
-				this.speaker = this.options.speaker;
-				this.count = this.options.count;
-				this.word = this.options.word;
-				
-				this.posY = this.options.posY;
-				this.collapseY = this.options.wordPos[1];
-				this.wordX = this.options.wordPos[0];// + 160;	//PEND for some reason, 1 column + 1 gutter width has to be added here. Fix transcript.getRecentWordPos(). 
-				
-				//all durations in milliseconds	
-				this.expandDur = 2*300 + 1000;		
-				this.holdDur = 2000;								
-				this.collapseDur = 1000;				
-				this.state = 0;	
+
+			this.forceCollapse = this.options.forceCollapse;
+			
+			this.speaker = this.options.speaker;
+			this.count = this.options.count;
+			this.word = this.options.word;
+			
+			this.posY = this.options.posY;
+			this.collapseY = this.options.wordPos[1];
+			this.wordX = this.options.wordPos[0];// + 160;	//PEND for some reason, 1 column + 1 gutter width has to be added here. Fix transcript.getRecentWordPos(). 
+			
+			//all durations in milliseconds	
+			this.expandDur = 2*300 + 1000;		
+			this.holdDur = 2000;								
+			this.collapseDur = 1000;				
+			this.state = 0;	
 		},
 		
 		serialize: function() {
@@ -131,7 +141,7 @@ function(app, Ref) {
     	window.setTimeout(this.collapse, this.expandDur + this.holdDur, this);
 		},
 		
-		collapse: function() {
+		collapse: function(force) {
 			//PEND we'll probably want to tag this onto the end of the animation, so it only gets set after overlay has played out collapse anim.
   		this.state = 0;	//collapsed	
   		   
@@ -141,12 +151,14 @@ function(app, Ref) {
     	var collapseD = this.collapseDur;
     	//Shrink text.
     	this.$el.find('.wordCountText').each(function(i){ 
+      	if (force) $(this).css('-webkit-transition', '0s');
     		//$(this).delay((3-i)*50).animate({'font-size':'36px', 'line-height':'36px'}, collapseD);
     		$(this).css('font-size','36px');
     		$(this).css('line-height','36px');
     	}); 
     	//Shrink word.
-    	this.$el.find('.wordCountWord').each(function(i){ 
+    	this.$el.find('.wordCountWord').each(function(i){
+      	if (force) $(this).css('-webkit-transition', '0s'); 
     		//$(this).animate({'font-size':'36px', 'line-height':'36px'}, collapseD);	
     		//$(this).css('font-size','36px');
     		//$(this).css('line-height','36px');
@@ -155,6 +167,7 @@ function(app, Ref) {
     	//Shrink and move divs.
     	var sp = this.speaker;
     	this.$el.find('.wordCountTextHolder').each(function(i){
+      	if (force) $(this).css('-webkit-transition', '0s');
     		if(i<3){ //don't move white word
 	    		if(sp=="obama"){
 		    		//$(this).delay((4-i)*50).animate({'left':Ref.gridColumns[4], 'top':y+i*36+'px', 'height':'36px'}, collapseD);
@@ -173,22 +186,23 @@ function(app, Ref) {
     	
     	//Expand line
     	var x = this.wordX;
-	    	this.$el.find('.wordCountLine').each(function(i){
-	    		//$(this).css("top", cY+Ref.transcriptPointSize);
-	    		if(sp=="obama"){
-		    		$(this).css("width", (Ref.gridColumns[4]+Ref.gridWidth-x));
-		    		//console.log("width = "+(Ref.gridColumns[5]-x));
-		    	}else{
-		    		$(this).css("width", (x-Ref.gridColumns[2]));
-		    		//console.log("width = "+(x-Ref.gridColumns[2]));
-		    	}  
-		    	
-	    	});
+    	this.$el.find('.wordCountLine').each(function(i){
+	    	if (force) $(this).css('-webkit-transition', '0s');
+    		//$(this).css("top", cY+Ref.transcriptPointSize);
+    		if(sp=="obama"){
+	    		$(this).css("width", (Ref.gridColumns[4]+Ref.gridWidth-x));
+	    		//console.log("width = "+(Ref.gridColumns[5]-x));
+	    	}else{
+	    		$(this).css("width", (x-Ref.gridColumns[2]));
+	    		//console.log("width = "+(x-Ref.gridColumns[2]));
+	    	}  
+	    	
+    	});
 		},
 		
 		afterRender: function() {
-			//this.expand();
-			window.setTimeout(this.expand, 10, this);	//delay is necessary to ensure that initial template CSS has been inserted by render
+			if (!this.forceCollapse) window.setTimeout(this.expand, 10, this);	//delay is necessary to ensure that initial template CSS has been inserted by render
+			else this.collapse(true);
 		}
 		
 	});
@@ -199,17 +213,20 @@ function(app, Ref) {
 		template: "overlays/numbers",
 		
 		initialize: function() {
-				this.speaker = this.options.speaker;
-				this.phrase = this.options.phrase;
+		
+			this.forceCollapse = this.options.forceCollapse;
+		
+			this.speaker = this.options.speaker;
+			this.phrase = this.options.phrase;
 				
-				this.posY = this.options.posY;
-        this.collapseY = this.options.wordPos[1];
-				this.wordX = this.options.wordPos[0];
+			this.posY = this.options.posY;
+      this.collapseY = this.options.wordPos[1];
+			this.wordX = this.options.wordPos[0];
 
-				// All durations in milliseconds.
-				this.expandDur = 2*300 + 1000;		
-				this.holdDur = 2000;								
-				this.collapseDur = 1500;				
+			// All durations in milliseconds.
+			this.expandDur = 2*300 + 1000;		
+			this.holdDur = 2000;								
+			this.collapseDur = 1500;				
 		},
 		
 		serialize: function() {
@@ -228,32 +245,34 @@ function(app, Ref) {
     	window.setTimeout(this.collapse, this.expandDur + this.holdDur, this);
 		},
 		
-		collapse: function() {
+		collapse: function(force) {
   		this.state = 0;	// Collapsed.	
        
       var _posY = this.posY;
       var sp = this.speaker;
       this.$el.find('.numberPhrase').each(function(i){ 
-          window.setTimeout(function() {
-            $(this).css("font-size","54px");
-            $(this).css("height", "72px");
-            $(this).css("width", Ref.gridWidth);
-            $(this).css("top", (_posY - 18) + 'px');  // Center on line
-            if(sp == 1)
-              $(this).css("left", Ref.gridColumns[4]);
-            else if(sp == 2)
-              $(this).css("left", Ref.gridColumns[1]);
-            console.log(sp);
-            
-            //console.log( (this.anchorY - 18) + 'px'));
-          },1, this);
+      if (force) $(this).css('-webkit-transition', '0s');
+      
+      window.setTimeout(function() {
+        $(this).css("font-size","54px");
+        $(this).css("height", "72px");
+        $(this).css("width", Ref.gridWidth);
+        $(this).css("top", (_posY - 18) + 'px');  // Center on line
+        if(sp == 1)
+          $(this).css("left", Ref.gridColumns[4]);
+        else if(sp == 2)
+          $(this).css("left", Ref.gridColumns[1]);
+          //console.log(sp);
+          //console.log( (this.anchorY - 18) + 'px'));
+        },1, this);
     	});
   		   
     	
-    },		
+    },
 		
     afterRender: function() {
-			this.expand();
+			if(!this.forceCollapse) this.expand();
+			else this.collapse(true);
 		}
 		
 	});
@@ -264,16 +283,18 @@ function(app, Ref) {
 		template: "overlays/quotes",
 		
 		initialize: function() {
-				this.speaker = this.options.speaker;
-				this.phrase = this.options.phrase;
-				
-				this.anchor = this.options.anchor;
+			this.forceCollapse = this.options.forceCollapse;
+			
+			this.speaker = this.options.speaker;
+			this.phrase = this.options.phrase;
+			
+			this.anchor = this.options.anchor;
 
-        //all durations in milliseconds	
-				this.expandDur = 2*300 + 1000;		
-				this.holdDur = 2000;								
-				this.collapseDur = 1500;
-				this.state = 0;					
+      //all durations in milliseconds	
+			this.expandDur = 2*300 + 1000;		
+			this.holdDur = 2000;								
+			this.collapseDur = 1500;
+			this.state = 0;					
 		},
 		
 		serialize: function() {
@@ -307,51 +328,55 @@ function(app, Ref) {
     	window.setTimeout(this.collapse, this.expandDur + this.holdDur, this);
 		},
 		
-		collapse: function() {
+		collapse: function(force) {
   		this.state = 0;	//collapsed	
        
       var _posY = this.anchor.top;
       var sp = this.speaker;
       this.$el.find('.quotePhrase').each(function(i){ 
-          window.setTimeout(function() {
-            $(this).css("font-size","26px");
-            $(this).css("width", Ref.gridWidth);
-            $(this).css("top", (_posY - 18) + 'px');  // Center on line
-            if(sp == 1)
-              $(this).css("left", Ref.gridColumns[4]);
-            else if(sp == 2)
-              $(this).css("left", Ref.gridColumns[2]);
-            console.log(sp);
-            
-            //console.log( (this.anchorY - 18) + 'px'));
-          },1, this);
+      	if (force) $(this).css('-webkit-transition', '0s');
+        window.setTimeout(function() {
+          $(this).css("font-size","26px");
+          $(this).css("width", Ref.gridWidth);
+          $(this).css("top", (_posY - 18) + 'px');  // Center on line
+          if(sp == 1)
+            $(this).css("left", Ref.gridColumns[4]);
+          else if(sp == 2)
+            $(this).css("left", Ref.gridColumns[2]);
+          console.log(sp);
+          
+          //console.log( (this.anchorY - 18) + 'px'));
+        },1, this);
     	});
       this.$el.find('.quoteLeftQuote').each(function(i){ 
+      if (force) $(this).css('-webkit-transition', '0s');
           window.setTimeout(function() {
-            $(this).css("font-size","80px");
-            $(this).css("top", (_posY - 60) + 'px');  // Center on line
-            $(this).css("left", (Ref.gridColumns[(sp == 1 ? 4 : 2)] - 40) + 'px');
-            console.log(sp);
-            
-            //console.log( (this.anchorY - 18) + 'px'));
-          },1, this);
+          $(this).css("font-size","80px");
+          $(this).css("top", (_posY - 60) + 'px');  // Center on line
+          $(this).css("left", (Ref.gridColumns[(sp == 1 ? 4 : 2)] - 40) + 'px');
+          console.log(sp);
+          
+          //console.log( (this.anchorY - 18) + 'px'));
+        },1, this);
     	});  		   
       this.$el.find('.quoteRightQuote').each(function(i){ 
-          window.setTimeout(function() {
-            $(this).css("font-size","80px");
-            $(this).css("top", (_posY - 18) + 'px');  // Center on linea
-            $(this).css("left", (Ref.gridColumns[(sp == 1 ? 4 : 2)] + Ref.gridWidth) + 'px');
-            console.log(sp);
-            
-            //console.log( (this.anchorY - 18) + 'px'));
-          },1, this);
+      	if (force) $(this).css('-webkit-transition', '0s');
+        window.setTimeout(function() {
+          $(this).css("font-size","80px");
+          $(this).css("top", (_posY - 18) + 'px');  // Center on linea
+          $(this).css("left", (Ref.gridColumns[(sp == 1 ? 4 : 2)] + Ref.gridWidth) + 'px');
+          console.log(sp);
+          
+          //console.log( (this.anchorY - 18) + 'px'));
+        },1, this);
     	});  		   
       
     	
     },		
 		
     afterRender: function() {
-			this.expand();
+			if (!this.forceCollapse) this.expand();
+			else this.collapse(true);
 		}
 		
 	});
@@ -363,16 +388,18 @@ function(app, Ref) {
 		template: "overlays/longSentence",
 		
 		initialize: function() {
-				this.speaker = this.options.speaker;
-				this.charCount = this.options.charCount;
-				this.wordCount = this.options.wordCount;
-				
-				this.posY = this.options.posY;
-				//all durations in milliseconds	
-				this.expandDur = 2*300 + 1000;		
-				this.holdDur = 2000;								
-				this.collapseDur = 1500;
-				this.state = 0;					
+			this.forceCollapse = this.options.forceCollapse;
+			
+			this.speaker = this.options.speaker;
+			this.charCount = this.options.charCount;
+			this.wordCount = this.options.wordCount;
+			
+			this.posY = this.options.posY;
+			//all durations in milliseconds	
+			this.expandDur = 2*300 + 1000;		
+			this.holdDur = 2000;								
+			this.collapseDur = 1500;
+			this.state = 0;					
 		},
 		
 		serialize: function() {
@@ -383,12 +410,14 @@ function(app, Ref) {
 			
 		},
 		
-		collapse: function() {
+		collapse: function(force) {
 			
+      //if (force) $(this).css('-webkit-transition', '0s');
 		},
 		
 		afterRender: function() {
-			this.expand();
+			if (!this.forceCollapse) this.expand();
+			else this.collapse(true);
 		}
 		
 	});
@@ -400,23 +429,25 @@ function(app, Ref) {
 		template: "overlays/emoburst",
 		
 		initialize: function() {
-				this.speaker = this.options.speaker;
-				this.type = this.options.type;		//posemo or negemo
-        this.strength = this.options.strength;
-				
-				this.posY = this.options.anchor.top;
-        this.posX = this.speaker == 1 ? Ref.gridColumns[4] : Ref.gridColumns[1];
-        this.anchor = this.options.anchor;
-				//all durations in milliseconds	
-				this.expandDur = 2*300 + 1000;		
-				this.holdDur = 2000;								
-				this.collapseDur = 1500;				
-        this.newSigns = [];
-        this.nSigns = 0;
+			this.forceCollapse = this.options.forceCollapse;
+		
+			this.speaker = this.options.speaker;
+			this.type = this.options.type;		//posemo or negemo
+      this.strength = this.options.strength;
+			
+			this.posY = this.options.anchor.top;
+      this.posX = this.speaker == 1 ? Ref.gridColumns[4] : Ref.gridColumns[1];
+      this.anchor = this.options.anchor;
+			//all durations in milliseconds	
+			this.expandDur = 2*300 + 1000;		
+			this.holdDur = 2000;								
+			this.collapseDur = 1500;				
+      this.newSigns = [];
+      this.nSigns = 0;
 		},
 		
 		serialize: function() {
-				return { speaker: this.speaker, type: this.type, gridColumns: Ref.gridColumns, posY: this.posY, posX: this.posX };
+			return { speaker: this.speaker, type: this.type, gridColumns: Ref.gridColumns, posY: this.posY, posX: this.posX };
 		},
 		
 		expand: function() {
@@ -450,7 +481,7 @@ function(app, Ref) {
     	window.setTimeout(this.collapse, this.expandDur + this.holdDur, this);
 		},
 		
-		collapse: function() {
+		collapse: function(force) {
       this.$el.find('.emoTextBig').css({'opacity': 0, 'font-size': 120});
       for(var i=0; i<this.nSigns; i++) {
         var flipOut = Math.random() > 0.8;
@@ -458,21 +489,23 @@ function(app, Ref) {
         var translateY = (Math.random() - 0.5) * (flipOut ? 1000 : 100);
         var transform = 'rotate(' + (Math.random()*360) + 'deg) translate(' + translateX*10 + 'px, ' + translateY*10 + 'px) scale(3)';
         // Random transition time
-        this.newSigns[i].css('-webkit-transition', '-webkit-transform ' + (Math.random()*2+1) + 's, opacity 1s');
+        if (force) this.newSigns[i].css('-webkit-transition', '0s');
+        else this.newSigns[i].css('-webkit-transition', '-webkit-transform ' + (Math.random()*2+1) + 's, opacity 1s');
         this.newSigns[i].css({'-webkit-transform': transform});
         this.newSigns[i].css('opacity',0); 
       }
 
       // Do some cleanup after all elements are gone
-        window.setTimeout(function() {
-          this.$el.find('.emoTextBig').remove();
-          for(var i=0; i<this.nSigns; i++) {
-            this.newSigns[i].remove();
-          }
-          this.newSigns = [];
-        }, 1000, this);      
+      window.setTimeout(function() {
+        this.$el.find('.emoTextBig').remove();
+        for(var i=0; i<this.nSigns; i++) {
+          this.newSigns[i].remove();
+        }
+        this.newSigns = [];
+      }, 1000, this);      
 	    
       // Fade in small text
+      if (force) this.$el.find('.emoTextSmall').css('-webkit-transition', '0s');
       this.$el.find('.emoTextSmall').css({'visibility': 'visible', 'opacity': 1});
 
 		},
@@ -497,15 +530,17 @@ function(app, Ref) {
     },
     
     expand: function() {
-	    this.$el.fadeIn(500);
+    	this.$el.css('-webkit-transition', 'opacity 1s');
+      this.$el.css('opacity',1.0); 
     },
     
     collapse: function() {
-	    this.$el.fadeOut(500);    
+    	this.$el.css('-webkit-transition', 'opacity 1s');
+      this.$el.css('opacity',0); 
     },
     
     hide: function() {
-	    this.$el.css({'display':'none'});
+      this.$el.css('opacity',0); 
     },
     
     afterRender: function() {

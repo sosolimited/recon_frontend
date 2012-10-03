@@ -35,23 +35,28 @@ function(app, Overlay, Ref) {
   
   	defaults: function() {
   		return {
-  			"overlays":[]
+  			"overlays":[],
+  			"catOverlays": {"posemo": new Overlay.Views.CatView({ category: 'posemo' }),
+  											"negemo": new Overlay.Views.CatView({ category: 'negemo' }),
+  											"certain": new Overlay.Views.CatView({ category: 'certain' }),
+  											"tentat": new Overlay.Views.CatView({ category: 'tentat' })}
   		}	
   	},
   	
 	  initialize: function () {
-		  app.on("markup:frequentWordMarkup", this.markupFrequentWord, this);		
-		  app.on("markup:wordCountMarkup", this.addWordCountOverlay, this);			
-		  app.on("markup:sentenceLead", this.addTraitOverlay, this);		  	
-		  app.on("markup:quote", this.addQuoteOverlay, this);
+		  app.on("markup", this.addOverlay, this);			
+		  
 		  app.on("markup:sentimentBurst", this.addSentimentOverlay, this);
-		  app.on("markup:number", this.addNumberOverlay, this);		
+		  app.on("markup:sentenceLead", this.addTraitOverlay, this);		  	// EG FIXME convert to "markup", type="sentenceLeadMarkup" style.
 		  //app.on("body:scroll", this.handleScroll, this);	//EG Testing requestAnimFrame for this.
 		  //for testing
 		  app.on("keypress:test", this.test, this);
-		  app.on("markup", this.addOverlay, this);			
-		  app.on("markup:sentenceLead", this.addTraitOverlay, this);		  	// EG FIXME convert to "markup", type="sentenceLeadMarkup" style.
-      // TODO: Merge these markup message changes better
+		        
+      // add resuable cat overlays to dom
+      for (var cat in this.get("catOverlays")) {
+	      $('#overlay').append(this.get("catOverlays")[cat].el);
+	      this.get("catOverlays")[cat].render();
+      }
 	  },
 	  
 	  cleanup: function() {
@@ -89,6 +94,8 @@ function(app, Overlay, Ref) {
 		  var sentimentOverlay = new Overlay.Views.SentimentView(args);
 		  $('#overlay').append(sentimentOverlay.el);
       sentimentOverlay.render();
+      
+      this.get("overlays").push(sentimentOverlay);
 	  },
 	  
 	  addTraitOverlay: function(args) {
@@ -125,6 +132,17 @@ function(app, Overlay, Ref) {
         //console.log("Number alert: " + args['phrase']);
         
         this.get("overlays").push(numbersOverlay);			
+	  },
+	  
+	  
+	  // reusable overlays
+	  fireCatOverlay: function(cat) {
+	  	var lay = this.get("catOverlays")[cat];
+
+	  	if (lay) {		  	
+	  		lay.expand();
+		  	window.setTimeout(function(){lay.collapse();}, 3000);
+		  } else console.log("NO LAY");
 	  },
 	  
  	  // -----------------------------------------------------------------------------------

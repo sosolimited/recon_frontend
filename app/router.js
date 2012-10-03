@@ -230,11 +230,11 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 			}	
 	     
 	    function update() {
-		  	ticking = false;
 		  	// Do everything that was previously handled on scroll events.
 		    markupManager.handleScroll(lastScrollY);		     
 		    bigWordsView.handleScroll(lastScrollY);
 		    transcriptView.handleScroll(lastScrollY);
+        ticking = false;
 	    }
 	     	
 	     /*

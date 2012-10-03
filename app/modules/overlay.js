@@ -425,7 +425,7 @@ function(app, Ref) {
 		},
 		
 		serialize: function() {
-			return { speaker: this.speaker, type: this.type, gridColumns: Ref.gridColumns, posY: this.posY, posX: this.posX };
+			return { speaker: this.speaker, type: this.type, gridColumns: Ref.gridColumns, posY: this.posY+Ref.overlayEnterY, posX: this.posX };
 		},
 		
 		expand: function() {
@@ -436,7 +436,7 @@ function(app, Ref) {
       var signChar = this.type == 'posemo' ? '+' : '-';
       signChar = this.type == 'posemo' ? "<div class='plusSignA' /><div class='plusSignB'>" : "<div class='negativeSign' />";
       for(var i=0; i<this.nSigns; i++) {
-        var startPos = "left: " + (this.posX-150) + "px; top: " + (this.posY-125) + "px;";
+        var startPos = "left: " + (this.posX-150) + "px; top: " + (this.posY+Ref.overlayEnterY-125) + "px;";
         var newSign = $("<div class='emoSign " + this.type + "' style='" + startPos + "'>" + signChar + "</div>");
         $(container.append(newSign));
         this.newSigns.push(newSign);
@@ -490,7 +490,7 @@ function(app, Ref) {
 	    
       // Fade in small text
 	    if (force) this.$el.find('.emoTextSmall').css('-webkit-transition', '0s');
-      this.$el.find('.emoTextSmall').css({'visibility': 'visible', 'opacity': 1});
+      this.$el.find('.emoTextSmall').css({'visibility': 'visible', 'opacity': 1, 'top' : this.posY});
 
 		},
 		

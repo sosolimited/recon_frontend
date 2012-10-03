@@ -88,6 +88,12 @@ body {
 	
 	color: rgb(146,152,152);
 
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 	/*color: rgb(135,140,140);*/
 	/*color: rgb(116,120,120);*/
 	/* -webkit-transform: translateZ(-500px); */

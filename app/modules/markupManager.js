@@ -138,13 +138,13 @@ function(app, Overlay, Ref) {
 	  
 	  
 	  // reusable overlays
-	  fireCatOverlay: function(cat) {
+	  fireCatOverlay: function(cat, offset, delay) {
 	  	var lay = this.get("catOverlays")[cat];
 
 	  	if (lay) {		  	
-	  		lay.expand();
-		  	window.setTimeout(function(){lay.collapse();}, 3000);
-		  } else console.log("NO LAY");
+	  		lay.expand(offset);
+		  	window.setTimeout(function(){lay.collapse();}, delay);
+		  }
 	  },
 	  
  	  // -----------------------------------------------------------------------------------

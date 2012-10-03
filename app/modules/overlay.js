@@ -480,13 +480,13 @@ function(app, Ref) {
       }
 
       // Do some cleanup after all elements are gone
-        window.setTimeout(function() {
-          this.$el.find('.emoTextBig').remove();
-          for(var i=0; i<this.nSigns; i++) {
-            this.newSigns[i].remove();
-          }
-          this.newSigns = [];
-        }, 1000, this);      
+      window.setTimeout(function() {
+        this.$el.find('.emoTextBig').remove();
+        for(var i=0; i<this.nSigns; i++) {
+          this.newSigns[i].remove();
+        }
+        this.newSigns = [];
+      }, 1000, this);      
 	    
       // Fade in small text
 	    if (force) this.$el.find('.emoTextSmall').css('-webkit-transition', '0s');

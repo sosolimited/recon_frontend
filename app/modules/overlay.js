@@ -515,13 +515,17 @@ function(app, Ref) {
       return { category: this.category, title: this.title };
     },
     
-    expand: function() {
-    	this.$el.css('-webkit-transition', 'opacity 1s');
+    expand: function(offset) {
+    	//this.$el.css('-webkit-transition', 'opacity 1s');
       this.$el.css('opacity',1.0); 
+      
+	    this.$el.find('.catWrapper').css('left', Ref.gridColumns[0]+'px');
+	    this.$el.find('.catWrapper').css('top', offset+'px');
+	    console.log(offset);
     },
     
     collapse: function() {
-    	this.$el.css('-webkit-transition', 'opacity 1s');
+    	//this.$el.css('-webkit-transition', 'opacity 1s');
       this.$el.css('opacity',0); 
     },
     

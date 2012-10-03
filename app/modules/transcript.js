@@ -132,9 +132,9 @@ function(app, Overlay, Ref) {
 	        var cSHTML = cS.html();
 	
 	        // Find two words back.
-	        var wordIndex = this.getIndexOfPreviousWord(cS, 2);
+	        var wordIndex = this.getIndexOfPreviousWord(cS, 1);
 	        
-	        var newSpan = $("<span class='quoteMarkup'>" + cSHTML.substring(wordIndex, cSHTML.length) + "</span>");
+	        var newSpan = $("<span class='quoteMarkup'>" + cSHTML.substring(wordIndex, cSHTML.length) + s+word['word'] + "</span>");
 	        cS.html(cSHTML.substring(0,wordIndex));
 	        cS.append(newSpan);
 	

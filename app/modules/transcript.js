@@ -265,7 +265,7 @@ function(app, Overlay, Ref) {
 	     	 // Frequent word markup.
 	     	 else if($(this).hasClass("frequentWordMarkup")){
 			     	//$(this).css("color", "rgb(100,100,100)");	
-		    		$(this).css("border-bottom", "1px solid white");	//To do different color underline.
+		    		//$(this).css("border-bottom", "1px solid white");	//To do different color underline.
 		    		
 		    		//$(this).css("text-decoration-color", "rgb(255,255,255)");	
 		        var count = $(this).attr("data-wordcount");
@@ -274,11 +274,16 @@ function(app, Overlay, Ref) {
 		          var pos = $(this).position();
 		          var wordWidth = $(this).width();
 		          var lineHeight = $(this).height();
-		          var container = $("<div class='freqWordFrame' style='left: " + (pos.left + wordWidth) + "px; top: " + (pos.top - lineHeight/2) + "px;'></div>");
+              var leftInset = 2; // Keep the superscripts a little tighter to the word
+		          var container = $("<div class='freqWordFrame' style='left: " + (pos.left + wordWidth - leftInset) + "px; top: " + (pos.top - lineHeight*.25) + "px;'></div>");
 		          var countDiv = $("<div class='freqWordCount'>" + count + "</div>");
 		          container.append(countDiv);
 		          $(this).parent().append(container);
 		          countDiv.animate({top: '0px'}, 300);
+
+              var spaceWidth = 5;  // To avoid underlining the leading space. This is an ugly hack.
+              var underlineDiv = $("<div class='freqWordUnderline' style='position: absolute; left: " + (pos.left+spaceWidth) + "px; top: " + (pos.top + lineHeight*0.8) + "px; background-color: white; width: " + (wordWidth-spaceWidth) + "px; height: 1px;' />");
+              $(this).parent().append(underlineDiv);
 		        }  	     	 
 	     	 }
       });

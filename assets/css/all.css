@@ -761,7 +761,7 @@ landingTitleImage {
   color: rgb(64,180,229);
 	-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
 	-webkit-transform: translateZ(0px);	
-  z-index: 3;
+  z-index: 2;
 
 }
 
@@ -776,7 +776,7 @@ landingTitleImage {
   color: rgb(124,51,64);
 	-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
 	-webkit-transform: translateZ(0px);	
-  z-index: 3;
+  z-index: 2;
 }
 
 
@@ -799,7 +799,7 @@ landingTitleImage {
   visibility: hidden;
   opacity: 0;
   -webkit-transition: font-size 1s, opacity 1s;
-  z-index: 2;
+  z-index: 3;
 }
 
 .emoTextSmall {
@@ -821,7 +821,7 @@ landingTitleImage {
 
 .emoSign {
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   -webkit-transform: scale(0.0001);
   -webkit-transition: font-size 1s, -webkit-transform 2s, opacity 1s;
   -webkit-transform-origin: 50% 50%;
@@ -853,7 +853,7 @@ landingTitleImage {
 #transcript .freqWordFrame {
   position: absolute;
   overflow: hidden;
-  z-index: 2;
+  z-index: 1;
   height: 16px;
   font-size: 14px;
 }

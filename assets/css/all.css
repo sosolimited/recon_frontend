@@ -459,6 +459,7 @@ landingTitleImage {
 
 .landingButtonHolder {
 	position: relative;	
+  cursor: pointer;
 }
 
 .landingButton {
@@ -847,6 +848,10 @@ landingTitleImage {
   position: relative;
   top: 1em;
   color: rgb(207,255,36);
+}
+
+.tapable {
+  cursor: pointer;
 }
 
 /*

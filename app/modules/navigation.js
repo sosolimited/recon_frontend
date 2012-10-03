@@ -115,7 +115,7 @@ function(app) {
 
       // Create a new div of 0 width at this point
       // TODO: Put real colors in here
-      var colors = ["red", "orange", "yellow", "green", "blue", "purple"];
+      var colors = ["grayBlue", "bgGrayBlue"];      
       $("<div></div>", {
         id : "CH" + id,
         class : "navChapterBar",

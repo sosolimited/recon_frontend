@@ -53,7 +53,7 @@ function(app) {
   }
   
   // Positioning parameters for overlays
-  Ref.overlayEnterY = -250; // Distance above line to have big words slide in
+  Ref.overlayEnterY = -325; // Distance above line to have big words slide in
 
   // Return the module for AMD compliance.
   return Ref;

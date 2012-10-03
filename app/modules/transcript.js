@@ -296,16 +296,18 @@ function(app, Overlay, Ref) {
         negativeTotal += recentNegativeEnergy[energyBurstWindow-1];
         
         if(positiveTotal > energyBurstThreshold) {
+
           app.trigger("markup", {type:"sentimentMarkup", polarity:"posemo", speaker:args['msg']['speaker'], strength:positiveTotal, anchor: $('#curSentence').offset()});
-          console.log("POSITIVE BURST");
+
           // Flush recent energy so the next sentence is less likely to trigger
           for(var i=0; i<recentPositiveEnergy.length; i++)
             recentPositiveEnergy[i] = 0;
         }
         // TODO: Make this not just an else, but alternate pos/neg bursts when both happen at the same time
         else if(-negativeTotal > energyBurstThreshold) {  
+
           app.trigger("markup", {type:"sentimentMarkup", polarity:"negemo", speaker:args['msg']['speaker'], strength:negativeTotal, anchor: $('#curSentence').offset()});
-          console.log("NEGATIVE BURST");
+
           // Flush recent energy so the next sentence is less likely to trigger
           for(var i=0; i<recentNegativeEnergy.length; i++)
             recentNegativeEnergy[i] = 0;

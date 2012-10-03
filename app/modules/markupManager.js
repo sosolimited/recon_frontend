@@ -119,7 +119,7 @@ function(app, Overlay, Ref) {
 	  
 	  addWordCountOverlay: function(args){
 	  	//console.log("markupManager.addWordCountOverlay, collapseY = "+this.attributes.transcript.getRecentWordPosY(args['word']));	  	
-		  var wordCountOverlay = new Overlay.Views.WordCountView({ speaker: args['speaker'], count: args['count'], word: args['word'], posY: parseInt(this.attributes.transcript.getCurSentencePosY()), wordPos: this.attributes.transcript.getRecentWordPos(args['word']) });
+		  var wordCountOverlay = new Overlay.Views.WordCountView({ speaker: args['speaker'], count: args['count'], word: args['word'], posY: parseInt(this.attributes.transcript.getCurSentencePosY()), wordPos: this.attributes.transcript.getRecentWordPos(args['word']), forceCollapse: false });
 		  $('#overlay').append(wordCountOverlay.el);
 		  wordCountOverlay.render();	
 		  
@@ -128,7 +128,7 @@ function(app, Overlay, Ref) {
 	  
 	  addNumberOverlay: function(args){
 		  	//console.log("addNumberOverlay: "+args['speaker']+", "+args['phrase']);
-        var numbersOverlay = new Overlay.Views.NumbersView({ speaker: args['speaker'], phrase: args['phrase'], posY: args['anchor'].top, wordPos: args['anchor'] });
+        var numbersOverlay = new Overlay.Views.NumbersView({ speaker: args['speaker'], phrase: args['phrase'], posY: args['anchor'].top, wordPos: args['anchor'], forceCollapse: false });
   		  $('#overlay').append(numbersOverlay.el);
 	      numbersOverlay.render();
         //console.log("Number alert: " + args['phrase']);

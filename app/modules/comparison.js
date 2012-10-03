@@ -18,7 +18,6 @@ function(app, Ref) {
   			speakers:[],
   			range:[0,100],
   			wc:[0,0],
- 			
   			viewType: "simple"
   		}
   	},
@@ -34,7 +33,7 @@ function(app, Ref) {
   		}
   		//console.log("added traits "+options.traits.length);
   		
-  		this.set({viewType:options.viewType, title:options.title, range:options.range, speakers:options.speakerNames});
+  		this.set({viewType:options.viewType, title:options.title, range:options.range, speakers:options.speakerNames, color1:options.color1, color2:options.color2});
   		
   		app.on("message:stats", this.updateStats, this);
   		

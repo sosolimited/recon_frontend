@@ -320,17 +320,19 @@ hr {
 .grayBlue{ color:rgb(67,67,75); }
 .bgGrayBlue{ background-color:rgb(77,77,85); }
 .pink{ color:rgb(231,0,149); }
-.fgBlue{ color:rgb(64,180,229); }
-.bgBlue{ background-color:rgb(64,180,229); }
+.bgPink{ background-color:rgb(231,0,149); }
+.sky{ color:rgb(64,180,229); }
+.bgSky{ background-color:rgb(64,180,229); }
 .lime{ color:rgb(207,255,36); }
 .bgLime{ background-color:rgb(207,255,36); }
-.fgMagenta{ color:rgb(227, 31, 130); } 
+.magenta{ color:rgb(227, 31, 130); } 
 .bgMagenta{ background-color:rgb(227, 31, 130); } 
-.redOrange{ color:rgb(255, 66, 55); } 
-.bgRedOrange{ background-color:rgb(255, 66, 55); } 
+.cherry{ color:rgb(255, 66, 55); } 
+.bgCherry{ background-color:rgb(255, 66, 55); } 
 .purple{ color:rgb(101, 45, 106); } 
 .bgPurple{ background-color:rgb(101, 45, 106); } 
 .salmon{ color:rgb(255,157,108); }
+.bgSalmon{ background-color:rgb(255,157,108); }
 .seaGreen{ color:rgb(124,240,179); }
 
 /* Overlays */
@@ -706,6 +708,17 @@ landingTitleImage {
   color: rgb(124,51,64);
   -webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
   z-index: 0;
+}
+
+
+.posemoMarkup.reverse{
+	background-color: rgb(100, 0, 0) !important;
+	color: rgb(255, 255, 255) !important;
+}
+
+.negemoMarkup.reverse{
+	background-color: rgb(0, 0, 100) !important;
+	color: rgb(255, 255, 255) !important;
 }
 
 

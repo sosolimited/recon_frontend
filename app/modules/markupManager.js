@@ -59,7 +59,6 @@ function(app, Overlay, Ref) {
       
       // add resuable cat overlays to dom
       for (var cat in this.get("catOverlays")) {
-      console.log(this.get("catOverlays")[cat]);
 	      $('#overlay').append(this.get("catOverlays")[cat].el);
 	      this.get("catOverlays")[cat].render();
       }

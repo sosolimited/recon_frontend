@@ -69,15 +69,16 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
           
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["posemo"], speakerNames:speakerCollection, title:"POSITIVITY", subtitle:"The percentage of words spoken that are positive in some way. ie. 'winning, happy, improve.'", range:[0,5.0], color1:"Sky"}));
        
-      comparisonCollection.add(new Comparison.EmotionModel({traitNames:["negemo"], speakerNames:speakerCollection, title:"NEGATIVITY", subtitle:"The percentage of words spoken that are negative in some way. ie. 'failure, dead, waste.'", range:[0,3.75], color1:"Pink"})); 
+      comparisonCollection.add(new Comparison.EmotionModel({traitNames:["negemo"], speakerNames:speakerCollection, title:"NEGATIVITY", subtitle:"The percentage of words spoken that are negative in some way. ie. 'failure, dead, waste.'", range:[0,3.75], color1:"GrayBlue"})); 
           
-      comparisonCollection.add(new Comparison.EmotionModel({traitNames:["anger"], speakerNames:speakerCollection, title:"ANGER", subtitle:"The percentage of words spoken that are angry in some way. ie. 'fight, destroy, annoy.'", range:[0,1.95], color1:"Magenta"})); 
+      comparisonCollection.add(new Comparison.EmotionModel({traitNames:["anger"], speakerNames:speakerCollection, title:"ANGER", subtitle:"The percentage of words spoken that are angry in some way. ie. 'fight, destroy, annoy.'", range:[0,1.95], color1:"Angry"})); 
          
-      comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["honesty"], speakerNames:speakerCollection, title:"AUTHENTIC", subtitle:"DECEPTIVE", range:[0, 6.0], color1:"Purple", color2:"Cherry"}));      
+        
+      comparisonCollection.add(new Comparison.FormalityModel({traitNames:["formality"], speakerNames:speakerCollection, title:"FORMAL", subtitle:"CASUAL", range:[3, 25.0], color1:"Formal", color2:"Casual"})); 
       
-      comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["formality"], speakerNames:speakerCollection, title:"FORMAL", subtitle:"CASUAL", range:[3, 25.0], color1:"Purple", color2:"Cherry"})); 
+      comparisonCollection.add(new Comparison.DispositionModel({traitNames:["depression"], speakerNames:speakerCollection, title:"CHEERY", subtitle:"DEPRESSED", range:[4.75, -1.0], color1:"Cheery", color2:"Depressed"}));  
       
-      comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["depression"], speakerNames:speakerCollection, title:"CHEERY", subtitle:"DEPRESSED", range:[4.75, -1.0], color1:"Purple", color2:"Cherry"}));                  
+      comparisonCollection.add(new Comparison.HonestyModel({traitNames:["honesty"], speakerNames:speakerCollection, title:"AUTHENTIC", subtitle:"DECEPTIVE", range:[0, 6.0], color1:"Purple", color2:"Cherry"}));                   
       
       // Load from static file.
       if (this.qs.docName) {
@@ -134,7 +135,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
           var transcript = $("#transcript > .wrapper");
           var comparisons = $("#comparisons > .wrapper");
           
-          var enterComp = function() {
+          var enterComp = function(event) {
 	          
             var dist = transcript.offsetHeight;
             transcript.scrollTop = dist;
@@ -142,13 +143,15 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
             transcript.toggleClass("fade");
             //comparisons.parent().toggleClass("active");
             comparisons.toggleClass("active");
+            var elt = $('#comparisons').find('.compareContainer.'+event.data.tag).parent();
+            $("#comparisons > .wrapper").stop().animate({ scrollTop: elt.position().top}, 1.0);
+            console.log(elt.position().top);
           };
 
-          transcript.on("click", "h1", enterComp);
-
-          transcript.on("click", ".sentimentClick" , enterComp);
-          transcript.on("click", ".traitClick" , enterComp);
-          transcript.on("click", ".countClick" , enterComp);
+          transcript.on("click", "h1", { tag: "count" }, enterComp);
+          transcript.on("click", ".sentimentClick", { tag: "POSITIVITY" } , enterComp);
+          transcript.on("click", ".traitClick", { tag: "AUTHENTIC" } , enterComp);
+          transcript.on("click", ".countClick", { tag: "list" } , enterComp);
           
           transcript.on("click", ".catMarkup", function(ev) {
           	var name;

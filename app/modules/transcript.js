@@ -124,7 +124,7 @@ function(app, Overlay, Ref) {
     	var top20Count = 0;
     	// Only do other markup if a number phrase isn't open, and only if obama or romney are speaking
     	if(!this.numberOpen && (curSpeaker==1 || curSpeaker==2)){    	
-    		//Check for quotes.
+    		// Check for quotes.
     		if ($.inArray('hear', word['cats']) != -1) {  // PEND Should really be 'say' cat.
 	        /*	//EG PEND Get this working within this new event architecture.
 	        

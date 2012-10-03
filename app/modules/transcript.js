@@ -19,6 +19,11 @@ function(app, Overlay, Ref) {
   var lastScrollHeight = 0;
   var scrollAnimating = false;
 
+  var recentPositiveEnergy = [0,0,0];
+  var recentNegativeEnergy = [0,0,0];
+  var energyBurstThreshold = 2; // Sum of recent energies must be above this to trigger an energy burst
+  var energyBurstWindow = 3;    // Number of recent sentences to look at for calculating an energy burst
+
   var oldScrollTop = 0;
   var oldWindowHeight = 0;
 
@@ -86,6 +91,12 @@ function(app, Overlay, Ref) {
     		app.trigger("playback:addChapter", {msg:word});
 
         this.startParagraph(word);
+        
+        // Clear sentiment running total
+        for(var i=0; i<recentPositiveEnergy.length; i++) {
+          recentPositiveEnergy[i] = 0;
+          recentNegativeEnergy[i] = 0;
+        }
     	}
     	
     	if (word["sentenceStartFlag"]) this.endSentence();
@@ -255,7 +266,41 @@ function(app, Overlay, Ref) {
 		        }  	     	 
 	     	 }
       });
-  
+
+      // Calculate positive/negative energy over the last few sentences, determine if this is a burst
+      // --------------------------------------------------------------------------------------------
+      // Shift values back, calculate recent total
+      if(args && (curSpeaker==1 || curSpeaker==2)) {
+        var positiveTotal = 0; var negativeTotal = 0;
+        for(var i=0; i<energyBurstWindow-1; i++) {
+          recentPositiveEnergy[i] = recentPositiveEnergy[i+1];
+          recentNegativeEnergy[i] = recentNegativeEnergy[i+1];
+
+          positiveTotal += recentPositiveEnergy[i];
+          negativeTotal += recentNegativeEnergy[i];
+        }
+        recentPositiveEnergy[energyBurstWindow-1] = args['msg']['sentiment'][0];
+        recentNegativeEnergy[energyBurstWindow-1] = args['msg']['sentiment'][1];
+
+        positiveTotal += recentPositiveEnergy[energyBurstWindow-1];
+        negativeTotal += recentNegativeEnergy[energyBurstWindow-1];
+        
+        if(positiveTotal > energyBurstThreshold) {
+          app.trigger("markup:sentimentBurst", {type:"posemo", speaker:args['msg']['speaker'], strength:positiveTotal, anchor: $('#curSentence').offset()});
+          console.log("POSITIVE BURST");
+          // Flush recent energy so the next sentence is less likely to trigger
+          for(var i=0; i<recentPositiveEnergy.length; i++)
+            recentPositiveEnergy[i] = 0;
+        }
+        // TODO: Make this not just an else, but alternate pos/neg bursts when both happen at the same time
+        else if(-negativeTotal > energyBurstThreshold) {  
+          app.trigger("markup:sentimentBurst", {type:"negemo", speaker:args['msg']['speaker'], strength:negativeTotal, anchor: $('#curSentence').offset()});
+          console.log("NEGATIVE BURST");
+          // Flush recent energy so the next sentence is less likely to trigger
+          for(var i=0; i<recentNegativeEnergy.length; i++)
+            recentNegativeEnergy[i] = 0;
+        }
+      }
     	
     	//------------------------------------------------------------------------------
     
@@ -345,19 +390,7 @@ function(app, Overlay, Ref) {
       var sentenceTop = $('#curSentence').length > 0 ? $('#curSentence').position().top : 0;
 	    return (this.$el.scrollTop() + paraTop + sentenceTop);
     },
-   
-   	/* 
-    // Return y position in transcript of associated word span.
-    getRecentWordPosY: function(word) {
-    	var wordEl;
-    	$('#curSentence').children().each(function() {
-		  	if($.trim($(this).text()).toLowerCase() == $.trim(word).toLowerCase()){
-		  		wordEl = $(this);
-		  	}
-		  });
-		  return (this.$el.scrollTop() + $('#curParagraph').position().top + wordEl.position().top);
-    },
-    */
+
     // Return position (array) in transcript of associated word span.
     getRecentWordPos: function(word) {
     	var wordEl;

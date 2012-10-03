@@ -40,13 +40,18 @@ function(app, Overlay, Ref) {
   	},
   	
 	  initialize: function () {
+		  app.on("markup:frequentWordMarkup", this.markupFrequentWord, this);		
+		  app.on("markup:wordCountMarkup", this.addWordCountOverlay, this);			
+		  app.on("markup:sentenceLead", this.addTraitOverlay, this);		  	
+		  app.on("markup:quote", this.addQuoteOverlay, this);
+		  app.on("markup:sentimentBurst", this.addSentimentOverlay, this);
+		  app.on("markup:number", this.addNumberOverlay, this);		
+		  //app.on("body:scroll", this.handleScroll, this);	//EG Testing requestAnimFrame for this.
+		  //for testing
+		  app.on("keypress:test", this.test, this);
 		  app.on("markup", this.addOverlay, this);			
 		  app.on("markup:sentenceLead", this.addTraitOverlay, this);		  	// EG FIXME convert to "markup", type="sentenceLeadMarkup" style.
-		  app.on("markup:sentenceSentiment", this.addSentimentOverlay, this); // EG FIXME convert to "markup", type="sentenceLeadMarkup" style.
-		  
-		  //app.on("body:scroll", this.handleScroll, this);	//EG Now using requestAnimFrame for this.
-		  app.on("keypress:test", this.test, this); // For testing.
-		  
+      // TODO: Merge these markup message changes better
 	  },
 	  
 	  cleanup: function() {
@@ -81,8 +86,9 @@ function(app, Overlay, Ref) {
 	  // Functions for adding specific overlays.
 	  // -----------------------------------------------------------------------------------
 	  addSentimentOverlay: function(args) {
-		  
-		  
+		  var sentimentOverlay = new Overlay.Views.SentimentView(args);
+		  $('#overlay').append(sentimentOverlay.el);
+      sentimentOverlay.render();
 	  },
 	  
 	  addTraitOverlay: function(args) {

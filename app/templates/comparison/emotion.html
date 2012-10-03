@@ -10,7 +10,7 @@
 -->
 		<p class="franklinMedCompIt comparisonTitle <%=comparison.get("color1").toLowerCase()%>"> <%= comparison.get("title") %></p>
 		<hr class="bg<%=comparison.get("color1")%>" style="height:3px"/>
-		<p class="franklinBook <%=comparison.get("color1").toLowerCase()%> comparisonSubtitle"><%= comparison.get("subtitle") %></p>
+		<p class="franklinBookComp <%=comparison.get("color1").toLowerCase()%> comparisonSubtitle"><%= comparison.get("subtitle") %></p>
 		<div class="backgroundGradient"></div>
 		
 		<% 	var val0 = comparison.get("traits")[0].vals[0]; 
@@ -28,9 +28,11 @@
 				%>
 
 		<div class="comparisonBarGraph bg<%=comparison.get("color1")%> push-1 span-2" style="height:<%= mapVal(val0)[0] %>px; top:<%= mapVal(val0)[1] %>px;" >
-			<p class="franklinMedCompIt barGraphText grayBlue" > Obama </p>  <p class="franklinMedComp barGraphValue" > <%=  Math.round(10000.0*val0)/100.0 %> </p> </div>
+			<p class="franklinMedCompIt barGraphText white" > Obama </p>  <p class="franklinMedComp barGraphValue" > <%=  Math.round(10000.0*val0)/100.0 %> </p> </div>
 		<div class="comparisonBarGraph bg<%=comparison.get("color1")%> push-3 span-2" style="height:<%= mapVal(val1)[0] %>px; top:<%= mapVal(val1)[1] %>px;" >
-			<p class="franklinMedCompIt barGraphText grayBlue" > Romney </p>  <p class="franklinMedComp barGraphValue" > <%=  Math.round(10000.0*val1)/100.0 %>  </p> </div>
+			<p class="franklinMedCompIt barGraphText white" > Romney </p>  <p class="franklinMedComp barGraphValue" > <%=  Math.round(10000.0*val1)/100.0 %>  </p> </div>
+		
+		
 		
 		<% comparison.get("traits").forEach(function(trait){ %>
 

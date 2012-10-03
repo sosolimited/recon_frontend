@@ -164,6 +164,73 @@ function(app, Ref) {
     
   });
 
+  // Extended view for honesty	
+  Comparison.HonestyModel = Comparison.Model.extend({    	
+  	setValues: function(options) {
+	  	
+  		this.set({viewType:"honesty"});
+  	}
+  });
+
+  Comparison.Views.Honesty = Backbone.View.extend({
+    template: "comparison/honesty",
+    className: "comparison container",
+
+		initialize: function() {
+			 this.model.on("change", this.render, this);
+		},
+		
+    serialize: function() {
+      return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth};
+    }
+    
+  });
+
+  // Extended view for formality	
+  Comparison.FormalityModel = Comparison.Model.extend({    	
+  	setValues: function(options) {
+	  	
+  		this.set({viewType:"formality"});
+  	}
+  });
+
+  Comparison.Views.Formality = Backbone.View.extend({
+    template: "comparison/formality",
+    className: "comparison container",
+
+		initialize: function() {
+			 this.model.on("change", this.render, this);
+		},
+		
+    serialize: function() {
+      return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth};
+    }
+    
+  });
+
+  // Extended view for honesty, complexity, formality	
+  Comparison.DispositionModel = Comparison.Model.extend({    	
+  	setValues: function(options) {
+	  	
+  		this.set({viewType:"disposition"});
+  	}
+  });
+
+  Comparison.Views.Disposition = Backbone.View.extend({
+    template: "comparison/disposition",
+    className: "comparison container",
+
+		initialize: function() {
+			 this.model.on("change", this.render, this);
+		},
+		
+    serialize: function() {
+      return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth};
+    }
+    
+  });
+
+
   // Extended view for word count, unique word count	
   Comparison.CountModel = Comparison.Model.extend({    	
 
@@ -294,13 +361,26 @@ function(app, Ref) {
 					model: comparison
 				}));
 		}
-		
 		else if (comparison.get("viewType") === "count") {
 			return this.insertView(new Comparison.Views.Count({
 					model: comparison
 				}));
 		}
-					
+		else if (comparison.get("viewType") === "honesty") {
+			return this.insertView(new Comparison.Views.Honesty({
+					model: comparison
+				}));
+		}	
+		else if (comparison.get("viewType") === "disposition") {
+			return this.insertView(new Comparison.Views.Disposition({
+					model: comparison
+				}));
+		}	
+		else if (comparison.get("viewType") === "formality") {
+			return this.insertView(new Comparison.Views.Formality({
+					model: comparison
+				}));
+		}								
 		else {
 		    return this.insertView(new Comparison.Views.Simple({
 			    model: comparison

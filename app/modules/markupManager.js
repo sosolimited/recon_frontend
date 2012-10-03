@@ -117,7 +117,7 @@ function(app, Overlay, Ref) {
 	  
 	  addWordCountOverlay: function(args){
 	  	//console.log("markupManager.addWordCountOverlay, collapseY = "+this.attributes.transcript.getRecentWordPosY(args['word']));	  	
-		  var wordCountOverlay = new Overlay.Views.WordCountView({ speaker: args['speaker'], count: args['count'], word: args['word'], posY: parseInt(this.attributes.transcript.getCurSentencePosY()), wordPos: this.attributes.transcript.getRecentWordPos(args['word']) });
+		  var wordCountOverlay = new Overlay.Views.WordCountView({ speaker: args['speaker'], count: args['count'], word: args['word'], posY: parseInt(this.attributes.transcript.getCurSentencePosY()), wordPos: this.attributes.transcript.getRecentWordPos(args['word']), forceCollapse: false });
 		  $('#overlay').append(wordCountOverlay.el);
 		  wordCountOverlay.render();	
 		  

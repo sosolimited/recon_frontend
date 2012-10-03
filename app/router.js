@@ -65,13 +65,12 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 
       comparisonCollection.add(new Comparison.CountModel({traitNames:["wc"], speakerNames:speakerCollection, title:"WORD COUNT", subtitle:"The number of total words spoken by each candidate", range:[0,10000.0]})); 
       comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 20 WORDS", subtitle:"The top twenty words of each candidate (excluding 'the', 'I', 'if', etc.)", uniqueWords:uniqueWords}));      
-      comparisonCollection.add(new Comparison.EmotionModel({traitNames:["funct"], speakerNames:speakerCollection, title:"FUNCTION", subtitle:"TEST!!! The percentage of words spoken that are common. ie. 'I, this, think.'", range:[0,65.0]})); 
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["posemo"], speakerNames:speakerCollection, title:"POSITIVITY", subtitle:"The percentage of words spoken that are positive in some way. ie. 'winning, happy, improve.'", range:[0,5.0]})); 
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["negemo"], speakerNames:speakerCollection, title:"NEGATIVITY", subtitle:"The percentage of words spoken that are negative in some way. ie. 'failure, dead, waste.'", range:[0,3.75]}));     
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["anger"], speakerNames:speakerCollection, title:"ANGER", subtitle:"The percentage of words spoken that are angry in some way. ie. 'fight, destroy, annoy.'", range:[0,1.95]}));    
       comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["honesty"], speakerNames:speakerCollection, title:"AUTHENTIC", subtitle:"DECEPTIVE", range:[0, 6.0]}));      
-      comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["formality"], speakerNames:speakerCollection, title:"FORMAL", subtitle:"CASUAL", range:[0, 23.0]})); 
-      comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["depression"], speakerNames:speakerCollection, title:"DEPRESSED", subtitle:"CHEERY", range:[-0.5, 4.5]}));                  
+      comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["formality"], speakerNames:speakerCollection, title:"FORMAL", subtitle:"CASUAL", range:[3, 25.0]})); 
+      comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["depression"], speakerNames:speakerCollection, title:"CHEERY", subtitle:"DEPRESSED", range:[4.75, -1.0]}));                  
       
       // Load from static file.
       if (this.qs.docName) {
@@ -115,7 +114,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
       
 	      landingView.setElement("#landing").render();
 	      navigationView.setElement("#navigation").render();
-	      comparisonView.setElement("#comparisons").render();
+	      comparisonView.setElement("#comparisons > .wrapper").render();
 	     	transcriptView.setElement("#transcript > .wrapper"); // Need transcript to point to the actual scrolling DOM element or else scroll event handling is wack
 	     	bigWordsView.setElement("#bigWords").render();
 	     	
@@ -125,23 +124,32 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 	     
         (function() {
           // Work with the wrappers, not the actual layers.  --> ???
-          var transcript = $(".transcript > div");
-          var speaker = $(".comparisons > div");
-
-          transcript.on("click", "h1", function(ev) {
+          var transcript = $("#transcript > .wrapper");
+          var comparisons = $("#comparisons > .wrapper");
+          
+          var enterComp = function() {
+	          
             var dist = transcript.offsetHeight;
             transcript.scrollTop = dist;
 
             transcript.toggleClass("fade");
-            speaker.parent().toggleClass("active");
-            speaker.toggleClass("active");
-          });
+            //comparisons.parent().toggleClass("active");
+            comparisons.toggleClass("active");
+          };
 
-          speaker.on("click", ".close", function(ev) {
+          transcript.on("click", "h1", enterComp);
+
+          transcript.on("click", ".numbersClick" , enterComp);
+          transcript.on("click", ".quotesClick" , enterComp);
+          transcript.on("click", ".sentimentClick" , enterComp);
+          transcript.on("click", ".traitClick" , enterComp);
+          transcript.on("click", ".countClick" , enterComp);
+
+          comparisons.on("click", function(ev) {
             transcript.toggleClass("fade");
-            speaker.parent().toggleClass("active");
-            speaker.toggleClass("active");
+            comparisons.toggleClass("active");
           });
+          
         })();
       }, 50);
      

@@ -27,7 +27,8 @@ function(app, Ref) {
 				//all durations in milliseconds	
 				this.expandDur = 2*300 + 1000;		
 				this.holdDur = 2000;								
-				this.collapseDur = 1500;				
+				this.collapseDur = 1500;		
+				this.state = 0;	
 				
 				//console.log("posY = " + this.posY);
 				
@@ -104,6 +105,7 @@ function(app, Ref) {
 				this.expandDur = 2*300 + 1000;		
 				this.holdDur = 2000;								
 				this.collapseDur = 1000;				
+				this.state = 0;	
 		},
 		
 		serialize: function() {
@@ -205,7 +207,7 @@ function(app, Ref) {
         this.collapseY = this.options.wordPos[1];
 				this.wordX = this.options.wordPos[0];
 
-				//all durations in milliseconds	
+				// All durations in milliseconds.
 				this.expandDur = 2*300 + 1000;		
 				this.holdDur = 2000;								
 				this.collapseDur = 1500;				
@@ -215,35 +217,33 @@ function(app, Ref) {
 				return { speaker: this.speaker, phrase: this.phrase, posY: this.posY+Ref.overlayEnterY, lineY: this.collapseY+Ref.transcriptPointSize, grid: Ref.gridColumns};
 		},
 		expand: function() {
-			this.state = 1;	//expanded
+			this.state = 1;	// Expanded.
 
-      
-   		//Slide word in from side.
+   		// Slide word in from side.
       var thisView = this;
     	this.$el.find('.numberPhrase').each(function(i){ 
           window.setTimeout(function() { thisView.speaker == 1 ? $(this).css("left",Ref.gridColumns[0]) : $(this).css("left",Ref.gridColumns[1]); }, 1, this);
     	});
       
-    	
-    	//Sit for holdDur, then collapse.
+    	// Sit for holdDur, then collapse.
     	window.setTimeout(this.collapse, this.expandDur + this.holdDur, this);
 		},
 		
 		collapse: function() {
-  		this.state = 0;	//collapsed	
+  		this.state = 0;	// Collapsed.	
        
       var _posY = this.posY;
       var sp = this.speaker;
       this.$el.find('.numberPhrase').each(function(i){ 
           window.setTimeout(function() {
-            $(this).css("font-size","36px");
-            $(this).css("height", "36px");
+            $(this).css("font-size","54px");
+            $(this).css("height", "72px");
             $(this).css("width", Ref.gridWidth);
             $(this).css("top", (_posY - 18) + 'px');  // Center on line
             if(sp == 1)
               $(this).css("left", Ref.gridColumns[4]);
             else if(sp == 2)
-              $(this).css("left", Ref.gridColumns[2]);
+              $(this).css("left", Ref.gridColumns[1]);
             console.log(sp);
             
             //console.log( (this.anchorY - 18) + 'px'));
@@ -273,7 +273,8 @@ function(app, Ref) {
         //all durations in milliseconds	
 				this.expandDur = 2*300 + 1000;		
 				this.holdDur = 2000;								
-				this.collapseDur = 1500;				
+				this.collapseDur = 1500;
+				this.state = 0;					
 		},
 		
 		serialize: function() {
@@ -371,7 +372,8 @@ function(app, Ref) {
 				//all durations in milliseconds	
 				this.expandDur = 2*300 + 1000;		
 				this.holdDur = 2000;								
-				this.collapseDur = 1500;				
+				this.collapseDur = 1500;
+				this.state = 0;					
 		},
 		
 		serialize: function() {
@@ -396,29 +398,84 @@ function(app, Ref) {
 	//Sentiment (aka Neg/Pos burst)
 	//-------------------------------------------------------------------------------------
 	Overlay.Views.SentimentView = Backbone.View.extend({
-		template: "overlays/sentiment",
+		template: "overlays/emoburst",
 		
 		initialize: function() {
 				this.speaker = this.options.speaker;
-				this.polarity = this.options.polarity;		//negative/positive
+				this.type = this.options.type;		//posemo or negemo
+        this.strength = this.options.strength;
 				
-				this.posY = this.options.posY;
+				this.posY = this.options.anchor.top;
+        this.posX = this.speaker == 1 ? Ref.gridColumns[4] : Ref.gridColumns[1];
+        this.anchor = this.options.anchor;
 				//all durations in milliseconds	
 				this.expandDur = 2*300 + 1000;		
 				this.holdDur = 2000;								
 				this.collapseDur = 1500;				
+        this.newSigns = [];
+        this.nSigns = 0;
 		},
 		
 		serialize: function() {
-				return { speaker: this.speaker, polarity: this.polarity };
+				return { speaker: this.speaker, type: this.type, gridColumns: Ref.gridColumns, posY: this.posY, posX: this.posX };
 		},
 		
 		expand: function() {
-			
+      var container = $(this.$el.find('.container')[0]);
+      this.nSigns = (Math.random() * 5 + 5) * (this.type == 'posemo' ? 1 : 2); // 5-15 random + or - signs
+      var signChar = this.type == 'posemo' ? '+' : '-';
+      signChar = this.type == 'posemo' ? "<div class='plusSignA' /><div class='plusSignB'>" : "<div class='negativeSign' />";
+      for(var i=0; i<this.nSigns; i++) {
+        var startPos = "left: " + (this.posX-150) + "px; top: " + (this.posY-125) + "px;";
+        var newSign = $("<div class='emoSign " + this.type + "' style='" + startPos + "'>" + signChar + "</div>");
+        $(container.append(newSign));
+        this.newSigns.push(newSign);
+      }
+      
+      // Just a 1ms delay so the properties animate in
+      window.setTimeout(function() {
+        this.$el.find('.emoTextBig').css({'visibility': 'visible', 'opacity': 1, 'font-size': 120});
+        for(var i=0; i<this.nSigns; i++) {
+          var flipOut = Math.random() > 0.8;
+          var translateX = (Math.random() - 0.5) * (flipOut ? 3000 : 500);
+          var translateY = (Math.random() - 0.5) * (flipOut ? 1000 : 100);
+          var transform = 'scale(1) translate(' + translateX + 'px, ' + translateY + 'px) rotate(' + (Math.random()*360) + 'deg)';
+          // Random transition time
+          this.newSigns[i].css('-webkit-transition', '-webkit-transform ' + (Math.random()*2+1) + 's, opacity 1s');
+          this.newSigns[i].css({'-webkit-transform': transform});
+          this.newSigns[i].css('opacity',1); 
+        }
+      }, 1, this);
+
+      //Sit for holdDur, then collapse.
+    	window.setTimeout(this.collapse, this.expandDur + this.holdDur, this);
 		},
 		
 		collapse: function() {
-			
+      this.$el.find('.emoTextBig').css({'opacity': 0, 'font-size': 120});
+      for(var i=0; i<this.nSigns; i++) {
+        var flipOut = Math.random() > 0.8;
+        var translateX = (Math.random() - 0.5) * (flipOut ? 3000 : 500);
+        var translateY = (Math.random() - 0.5) * (flipOut ? 1000 : 100);
+        var transform = 'rotate(' + (Math.random()*360) + 'deg) translate(' + translateX*10 + 'px, ' + translateY*10 + 'px) scale(3)';
+        // Random transition time
+        this.newSigns[i].css('-webkit-transition', '-webkit-transform ' + (Math.random()*2+1) + 's, opacity 1s');
+        this.newSigns[i].css({'-webkit-transform': transform});
+        this.newSigns[i].css('opacity',0); 
+      }
+
+      // Do some cleanup after all elements are gone
+        window.setTimeout(function() {
+          this.$el.find('.emoTextBig').remove();
+          for(var i=0; i<this.nSigns; i++) {
+            this.newSigns[i].remove();
+          }
+          this.newSigns = [];
+        }, 1000, this);      
+	    
+      // Fade in small text
+      this.$el.find('.emoTextSmall').css({'visibility': 'visible', 'opacity': 1});
+
 		},
 		
 		afterRender: function() {

@@ -124,18 +124,17 @@ function(app, Overlay, Ref) {
     	var top20Count = 0;
     	// Only do other markup if a number phrase isn't open, and only if obama or romney are speaking
     	if(!this.numberOpen && (curSpeaker==1 || curSpeaker==2)){    	
-    		//Check for quotes.
-    		if ($.inArray('hear', word['cats']) != -1) {  // PEND Should really be 'say' cat.
-	        /*	//EG PEND Get this working within this new event architecture.
-	        
+    		// Check for quotes.
+    		/*	// EG TEMP for debate 1
+    		if ($.inArray('say', word['cats']) != -1) { 
 	        // Go back a word and pull it into this phrase.
 	        var cS = $('#curSentence');
 	        var cSHTML = cS.html();
 	
 	        // Find two words back.
-	        var wordIndex = this.getIndexOfPreviousWord(cS, 2);
+	        var wordIndex = this.getIndexOfPreviousWord(cS, 1);
 	        
-	        var newSpan = $("<span class='quoteMarkup'>" + cSHTML.substring(wordIndex, cSHTML.length) + "</span>");
+	        var newSpan = $("<span class='quoteMarkup'>" + cSHTML.substring(wordIndex, cSHTML.length) + s+word['word'] + "</span>");
 	        cS.html(cSHTML.substring(0,wordIndex));
 	        cS.append(newSpan);
 	
@@ -144,10 +143,10 @@ function(app, Overlay, Ref) {
 	        console.log("QUOTE: " + quotePhrase);
 	        
 		    	app.trigger("markup", {type:'quoteMarkup', phrase:quotePhrase, speaker:word['speaker'], anchor:newSpan.offset()});
-		    	*/
 	    	}
+	    	*/
 		  	// Check for any special events returned by speaker.addWord() and add word to DOM with appropriate markup.
-		    else if(wordProps.length > 0){
+		    if(wordProps.length > 0){
 		    	// For now, just grab whatever the first one is and apply it.
 		    	// Note: Class name is just whatever the 'type' of the arg is, so endSentence() down below has to match these class names. 
 		    	$('#curSentence').append("<span class='"+wordProps[0]['type']+" transcriptWord'>"+s+word["word"]+"</span>");	
@@ -158,7 +157,7 @@ function(app, Overlay, Ref) {
 		    // Check if the word is in the top N words. (20 was too busy, so we're trying 10)
 		    else if((top20Count = this.uniqueWords.isTopWord(curSpeaker, word['word'], 10))
 		    	&& (this.uniqueWords.getTotalUniqueWords(curSpeaker) > 100)){
-				  var sp = $("<span class='frequentWordMarkup transcriptWord'>"+s+word["word"]+"</span>");
+				  var sp = $("<span class='frequentWordMarkup countClick transcriptWord'>"+s+word["word"]+"</span>");
 				  sp.attr("data-wordcount", top20Count);
 			   	$('#curSentence').append(sp);	
 		    }
@@ -207,6 +206,10 @@ function(app, Overlay, Ref) {
 
       // Autoscroll the window to keep up with transcript
       // ----------------------------------------------------------------------
+      if(scrollTo != lastScrollHeight && !scrollAnimating && this.scrollShouldReattach()) {
+        scrollLive = true;
+        app.trigger("transcript:scrollAttach", {});         
+      }
       if(scrollLive && !Ref.disableAutoScroll) {
         var scrollTo = this.transcriptBottom() - $(window).height();
         //var scrollTo = $(document).height() - $(window).height();
@@ -214,7 +217,7 @@ function(app, Overlay, Ref) {
           //console.log("scrolling to: " + scrollTo);
           var duration = Math.abs(lastScrollHeight - scrollTo) * 3.0;
           scrollAnimating = true;
-          $("body").animate({ scrollTop: scrollTo}, duration, function() { window.setTimeout(function() { scrollAnimating = false; }, 15); });
+          $("body").animate({ scrollTop: scrollTo}, duration, function() { scrollAnimating = false; });
           app.trigger("transcript:scrollTo", word["timeDiff"]); 
           lastScrollHeight = scrollTo;
         }
@@ -299,16 +302,18 @@ function(app, Overlay, Ref) {
         negativeTotal += recentNegativeEnergy[energyBurstWindow-1];
         
         if(positiveTotal > energyBurstThreshold) {
-          app.trigger("markup:sentimentBurst", {type:"posemo", speaker:args['msg']['speaker'], strength:positiveTotal, anchor: $('#curSentence').offset()});
-          console.log("POSITIVE BURST");
+
+          app.trigger("markup", {type:"sentimentMarkup", polarity:"posemo", speaker:args['msg']['speaker'], strength:positiveTotal, anchor: $('#curSentence').offset()});
+
           // Flush recent energy so the next sentence is less likely to trigger
           for(var i=0; i<recentPositiveEnergy.length; i++)
             recentPositiveEnergy[i] = 0;
         }
         // TODO: Make this not just an else, but alternate pos/neg bursts when both happen at the same time
         else if(-negativeTotal > energyBurstThreshold) {  
-          app.trigger("markup:sentimentBurst", {type:"negemo", speaker:args['msg']['speaker'], strength:negativeTotal, anchor: $('#curSentence').offset()});
-          console.log("NEGATIVE BURST");
+
+          app.trigger("markup", {type:"sentimentMarkup", polarity:"negemo", speaker:args['msg']['speaker'], strength:negativeTotal, anchor: $('#curSentence').offset()});
+
           // Flush recent energy so the next sentence is less likely to trigger
           for(var i=0; i<recentNegativeEnergy.length; i++)
             recentNegativeEnergy[i] = 0;
@@ -522,18 +527,18 @@ function(app, Overlay, Ref) {
 
     handleScroll : function() {
       oldScrollTop = $('body').scrollTop(); // To keep scroll position on resize
+      //console.log("SCROLL animating? " + (scrollAnimating ? "YES" : "NO") + " live? " + (scrollLive ? "YES" : "NO"));
 
       // If this is a user scrolling, decide whether to break or reattach live autoscrolling
       if(!scrollAnimating) {
         // Note: $(document).height() is height of the HTML document,
         //       $(window).height() is the height of the viewport
         var bottom = this.transcriptBottom() - $(window).height();
-        if(!scrollLive && Math.abs(bottom - $(window).scrollTop()) < Ref.autoscrollReattachThreshold || 
-          $(document).height() - $(window).height() - $(window).scrollTop() < Ref.autoscrollReattachThreshold) {
+        if(!scrollLive && this.scrollShouldReattach()) {
           scrollLive = true;
           app.trigger("transcript:scrollAttach", {}); // So other modules like nav can respond accordingly
         }
-        else if(scrollLive) {
+        else if(scrollLive && !this.scrollShouldReattach()) {
           $("body").stop(); // Stop any scroll animation in progress
           scrollLive = false;
           app.trigger("transcript:scrollDetach", {});
@@ -603,6 +608,14 @@ function(app, Overlay, Ref) {
         }
       }
     },
+
+    scrollShouldReattach : function() {
+      var bottom = this.transcriptBottom() - $(window).height();
+      return Math.abs(bottom - $(window).scrollTop()) < Ref.autoscrollReattachThreshold;
+        // || $(document).height() - $(window).height() - $(window).scrollTop() < Ref.autoscrollReattachThreshold;
+        // Second case is to bounce from the bottom
+    },      
+
 
     resetToNode: function(n) {
 	    

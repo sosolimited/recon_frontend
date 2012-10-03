@@ -46,7 +46,6 @@ function(app, Overlay, Ref) {
 	  initialize: function () {
 		  app.on("markup", this.addOverlay, this);			
 		  
-		  app.on("markup:sentimentBurst", this.addSentimentOverlay, this);
 		  app.on("markup:sentenceLead", this.addTraitOverlay, this);		  	// EG FIXME convert to "markup", type="sentenceLeadMarkup" style.
 		  //app.on("body:scroll", this.handleScroll, this);	//EG Testing requestAnimFrame for this.
 		  //for testing
@@ -76,6 +75,9 @@ function(app, Overlay, Ref) {
 			  }
 			  else if(args['type']=="quoteMarkup"){
 				  this.addQuoteOverlay(args);			  
+			  }
+			  else if(args['type']=="sentimentMarkup"){
+				  this.addSentimentOverlay(args);
 			  }
 		  }
 	  },
@@ -117,7 +119,7 @@ function(app, Overlay, Ref) {
 	  
 	  addWordCountOverlay: function(args){
 	  	//console.log("markupManager.addWordCountOverlay, collapseY = "+this.attributes.transcript.getRecentWordPosY(args['word']));	  	
-		  var wordCountOverlay = new Overlay.Views.WordCountView({ speaker: args['speaker'], count: args['count'], word: args['word'], posY: parseInt(this.attributes.transcript.getCurSentencePosY()), wordPos: this.attributes.transcript.getRecentWordPos(args['word']) });
+		  var wordCountOverlay = new Overlay.Views.WordCountView({ speaker: args['speaker'], count: args['count'], word: args['word'], posY: parseInt(this.attributes.transcript.getCurSentencePosY()), wordPos: this.attributes.transcript.getRecentWordPos(args['word']), forceCollapse: false });
 		  $('#overlay').append(wordCountOverlay.el);
 		  wordCountOverlay.render();	
 		  
@@ -126,7 +128,7 @@ function(app, Overlay, Ref) {
 	  
 	  addNumberOverlay: function(args){
 		  	//console.log("addNumberOverlay: "+args['speaker']+", "+args['phrase']);
-        var numbersOverlay = new Overlay.Views.NumbersView({ speaker: args['speaker'], phrase: args['phrase'], posY: args['anchor'].top, wordPos: args['anchor'] });
+        var numbersOverlay = new Overlay.Views.NumbersView({ speaker: args['speaker'], phrase: args['phrase'], posY: args['anchor'].top, wordPos: args['anchor'], forceCollapse: false });
   		  $('#overlay').append(numbersOverlay.el);
 	      numbersOverlay.render();
         //console.log("Number alert: " + args['phrase']);
@@ -136,13 +138,13 @@ function(app, Overlay, Ref) {
 	  
 	  
 	  // reusable overlays
-	  fireCatOverlay: function(cat) {
+	  fireCatOverlay: function(cat, offset, delay) {
 	  	var lay = this.get("catOverlays")[cat];
 
 	  	if (lay) {		  	
-	  		lay.expand();
-		  	window.setTimeout(function(){lay.collapse();}, 3000);
-		  } else console.log("NO LAY");
+	  		lay.expand(offset);
+		  	window.setTimeout(function(){lay.collapse();}, delay);
+		  }
 	  },
 	  
  	  // -----------------------------------------------------------------------------------

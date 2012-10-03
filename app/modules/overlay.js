@@ -163,12 +163,12 @@ function(app, Ref) {
     		if(i<3){ //don't move white word
 	    		if(sp=="obama"){
 		    		//$(this).delay((4-i)*50).animate({'left':Ref.gridColumns[4], 'top':y+i*36+'px', 'height':'36px'}, collapseD);
-		    		$(this).css("left", Ref.gridColumns[4]);
+		    		$(this).css("left", Ref.gridColumns[5]);
 		    		$(this).css("top", (cY-(3-i)*36+24)+"px");
 		    		$(this).css("height", "36px");
 		    	}else{
 		    		//$(this).delay((4-i)*50).animate({'left':Ref.gridColumns[2], 'top':y+i*36+'px', 'height':'36px'}, collapseD);
-		    		$(this).css("left", Ref.gridColumns[2]);
+		    		$(this).css("left", Ref.gridColumns[1]);
 		    		$(this).css("top", (cY-(3-i)*36+24)+"px");
 		    		$(this).css("height", "36px");
 		    	}
@@ -182,10 +182,10 @@ function(app, Ref) {
 	      	if (force) $(this).css('-webkit-transition', '0s');
 	    		//$(this).css("top", cY+Ref.transcriptPointSize);
 	    		if(sp=="obama"){
-		    		$(this).css("width", (Ref.gridColumns[4]+Ref.gridWidth-x));
+		    		$(this).css("width", (Ref.gridColumns[5]+Ref.gridWidth-x));
 		    		//console.log("width = "+(Ref.gridColumns[5]-x));
 		    	}else{
-		    		$(this).css("width", (x-Ref.gridColumns[2]));
+		    		$(this).css("width", (x-Ref.gridColumns[1]));
 		    		//console.log("width = "+(x-Ref.gridColumns[2]));
 		    	}  
 		    	
@@ -501,7 +501,7 @@ function(app, Ref) {
 		
 	});
 	
-		//Resuable Categories 
+	// Resuable Categories 
 	//-------------------------------------------------------------------------------------  
   Overlay.Views.CatView = Backbone.View.extend({
   	 template: "overlays/category",

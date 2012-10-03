@@ -45,7 +45,7 @@ function(app, Overlay, Ref) {
 		  app.on("markup:wordCountMarkup", this.addWordCountOverlay, this);			
 		  app.on("markup:sentenceLead", this.addTraitOverlay, this);		  	
 		  app.on("markup:quote", this.addQuoteOverlay, this);
-		  app.on("markup:sentenceSentiment", this.addSentimentOverlay, this);
+		  app.on("markup:sentimentBurst", this.addSentimentOverlay, this);
 		  app.on("markup:number", this.addNumberOverlay, this);		
 		  //app.on("body:scroll", this.handleScroll, this);	//EG Testing requestAnimFrame for this.
 		  //for testing
@@ -58,8 +58,9 @@ function(app, Overlay, Ref) {
 	  
 	  
 	  addSentimentOverlay: function(args) {
-		  
-		  
+		  var sentimentOverlay = new Overlay.Views.SentimentView(args);
+		  $('#overlay').append(sentimentOverlay.el);
+      sentimentOverlay.render();
 	  },
 	  
 	  addTraitOverlay: function(args) {

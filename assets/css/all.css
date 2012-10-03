@@ -699,6 +699,64 @@ landingTitleImage {
 }
 
 
+.emoTextBig {
+  position: absolute;
+  color: rgb(140,146,146);	
+  font-size: 0px;
+  line-height: 0.75em;
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: font-size 1s, opacity 1s;
+  z-index: 2;
+}
+
+.emoTextSmall {
+  position: absolute;
+  font-size: 36px;
+  line-height: 0.75em;
+  visibility: hidden;
+  opacity: 0;
+  z-index: 1;
+  -webkit-transition: opacity 1s;
+}
+
+.posemo {
+  color: rgb(112,241,184);
+}
+.negemo {
+  color: rgb(127, 48, 177);
+}
+
+.emoSign {
+  position: absolute;
+  z-index: 1;
+  -webkit-transform: scale(0.0001);
+  -webkit-transition: font-size 1s, -webkit-transform 2s, opacity 1s;
+  -webkit-transform-origin: 50% 50%;
+  width: 400px;
+  height: 400px;
+}
+.negativeSign {
+  position: absolute;
+  width: 400px;
+  height: 100px;
+  top: 150px;
+  background-color: rgb(127,48,177);
+}
+.plusSignA, .plusSignB {
+  position: absolute;
+  background-color: rgb(112,241,184);
+}
+.plusSignA {
+  left: 150px;
+  width: 100px;
+  height: 400px;
+}
+.plusSignB {
+  top: 150px;
+  width: 400px;
+  height: 100px;
+}
 
 #transcript .wordCountFrame {
   position: absolute;

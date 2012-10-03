@@ -366,32 +366,34 @@ function(app, Ref) {
 		template: "overlays/longSentence",
 		
 		initialize: function() {
-				this.speaker = this.options.speaker;
-				this.charCount = this.options.charCount;
-				this.wordCount = this.options.wordCount;
-				
-				this.posY = this.options.posY;
-				//all durations in milliseconds	
-				this.expandDur = 2*300 + 1000;		
-				this.holdDur = 2000;								
-				this.collapseDur = 1500;
-				this.state = 0;					
+			this.forceCollapse = this.options.forceCollapse;
+			this.speaker = this.options.speaker;
+			this.charCount = this.options.charCount;
+			this.wordCount = this.options.wordCount;
+			
+			this.posY = this.options.posY;
+			//all durations in milliseconds	
+			this.expandDur = 2*300 + 1000;		
+			this.holdDur = 2000;								
+			this.collapseDur = 1500;
+			this.state = 0;					
 		},
 		
 		serialize: function() {
-				return { speaker: this.speaker, charCount: this.charCount, wordCount: this.wordCount };
+			return { speaker: this.speaker, charCount: this.charCount, wordCount: this.wordCount };
 		},
 		
 		expand: function() {
 			
 		},
 		
-		collapse: function() {
+		collapse: function(force) {
 			
 		},
 		
 		afterRender: function() {
-			this.expand();
+			if (!this.forceCollapse) this.expand();
+			else this.collapse(true);
 		}
 		
 	});

@@ -147,7 +147,7 @@ function(app, Overlay, Ref) {
 		    	*/
 	    	}
 		  	// Check for any special events returned by speaker.addWord() and add word to DOM with appropriate markup.
-		    if(wordProps.length > 0){
+		    else if(wordProps.length > 0){
 		    	// For now, just grab whatever the first one is and apply it.
 		    	// Note: Class name is just whatever the 'type' of the arg is, so endSentence() down below has to match these class names. 
 		    	$('#curSentence').append("<span class='"+wordProps[0]['type']+" transcriptWord'>"+s+word["word"]+"</span>");	

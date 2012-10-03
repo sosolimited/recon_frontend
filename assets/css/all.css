@@ -623,6 +623,45 @@ landingTitleImage {
 	-webkit-transform: translateZ(0px);
 }
 
+/* Category words overlays */
+
+.categoryOverlay {
+	position:absolute; 
+	overflow: visible;
+  /*width: 906px;*/
+  font-size: 180px;
+  line-height: 160px;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 20px 0px 10px;
+  color: rgb(255,255,255);
+	-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
+	-webkit-transform: translateZ(0px);	
+  z-index: 3;
+  text-transform: uppercase;
+}
+
+.certain{
+	background-color: rgb(255,175,108);
+}
+
+.tentative{
+	background-color: rgb(193,186,134);
+}
+
+.positive{
+	background-color: rgb(124,240,179);
+}
+
+.negative{
+	background-color: rgb(122,52,183);
+}
+
+
+.overlay-bottom {
+	position:absolute;
+	top: 175px;
+}
+
 /* Word count overlays */
 
 .wordCountTextHolder {
@@ -703,6 +742,10 @@ landingTitleImage {
 	-webkit-transform: translateZ(0px);	
   z-index: 3;
 }
+
+
+
+
 .quoteLeftQuote, .quoteRightQuote {
   position: absolute;
   font-size: 400px;

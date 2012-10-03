@@ -36,10 +36,10 @@ function(app, Overlay, Ref) {
   	defaults: function() {
   		return {
   			"overlays":[],
-  			"catOverlays": {"posemo": new Overlay.Views.CatView({ category: 'posemo' }),
-  											"negemo": new Overlay.Views.CatView({ category: 'negemo' }),
-  											"certain": new Overlay.Views.CatView({ category: 'certain' }),
-  											"tentat": new Overlay.Views.CatView({ category: 'tentat' })}
+  			"catOverlays": {"posemo": new Overlay.Views.CatView({ category: 'posemo', title: 'Positive'}),
+  											"negemo": new Overlay.Views.CatView({ category: 'negemo', title:'Negative' }),
+  											"certain": new Overlay.Views.CatView({ category: 'certain', title:'Certain' }),
+  											"tentat": new Overlay.Views.CatView({ category: 'tentat', title:'Tentative'})}
   		}	
   	},
   	

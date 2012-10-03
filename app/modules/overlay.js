@@ -489,11 +489,12 @@ function(app, Ref) {
   	 template: "overlays/category",
   			 
 		 initialize: function() {
-				this.category = this.options.category;
+			this.category = this.options.category;
+			this.title = this.options.title;
 		 },	
 		 
 		 serialize: function() {
-      return { category: this.category };
+      return { category: this.category, title: this.title };
     },
     
     expand: function() {

@@ -124,10 +124,8 @@ function(app, Overlay, Ref) {
     	var top20Count = 0;
     	// Only do other markup if a number phrase isn't open, and only if obama or romney are speaking
     	if(!this.numberOpen && (curSpeaker==1 || curSpeaker==2)){    	
-    		//Check for quotes.
+    		// Check for quotes.
     		if ($.inArray('hear', word['cats']) != -1) {  // PEND Should really be 'say' cat.
-	        /*	//EG PEND Get this working within this new event architecture.
-	        
 	        // Go back a word and pull it into this phrase.
 	        var cS = $('#curSentence');
 	        var cSHTML = cS.html();
@@ -144,7 +142,6 @@ function(app, Overlay, Ref) {
 	        console.log("QUOTE: " + quotePhrase);
 	        
 		    	app.trigger("markup", {type:'quoteMarkup', phrase:quotePhrase, speaker:word['speaker'], anchor:newSpan.offset()});
-		    	*/
 	    	}
 		  	// Check for any special events returned by speaker.addWord() and add word to DOM with appropriate markup.
 		    else if(wordProps.length > 0){
@@ -299,16 +296,18 @@ function(app, Overlay, Ref) {
         negativeTotal += recentNegativeEnergy[energyBurstWindow-1];
         
         if(positiveTotal > energyBurstThreshold) {
-          app.trigger("markup:sentimentBurst", {type:"posemo", speaker:args['msg']['speaker'], strength:positiveTotal, anchor: $('#curSentence').offset()});
-          //console.log("POSITIVE BURST");
+
+          app.trigger("markup", {type:"sentimentMarkup", polarity:"posemo", speaker:args['msg']['speaker'], strength:positiveTotal, anchor: $('#curSentence').offset()});
+
           // Flush recent energy so the next sentence is less likely to trigger
           for(var i=0; i<recentPositiveEnergy.length; i++)
             recentPositiveEnergy[i] = 0;
         }
         // TODO: Make this not just an else, but alternate pos/neg bursts when both happen at the same time
         else if(-negativeTotal > energyBurstThreshold) {  
-          app.trigger("markup:sentimentBurst", {type:"negemo", speaker:args['msg']['speaker'], strength:negativeTotal, anchor: $('#curSentence').offset()});
-          //console.log("NEGATIVE BURST");
+
+          app.trigger("markup", {type:"sentimentMarkup", polarity:"negemo", speaker:args['msg']['speaker'], strength:negativeTotal, anchor: $('#curSentence').offset()});
+
           // Flush recent energy so the next sentence is less likely to trigger
           for(var i=0; i<recentNegativeEnergy.length; i++)
             recentNegativeEnergy[i] = 0;

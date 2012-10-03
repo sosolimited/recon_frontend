@@ -134,7 +134,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
           var transcript = $("#transcript > .wrapper");
           var comparisons = $("#comparisons > .wrapper");
           
-          var enterComp = function() {
+          var enterComp = function(event) {
 	          
             var dist = transcript.offsetHeight;
             transcript.scrollTop = dist;
@@ -142,13 +142,15 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
             transcript.toggleClass("fade");
             //comparisons.parent().toggleClass("active");
             comparisons.toggleClass("active");
+            var elt = $('#comparisons').find('.compareContainer.'+event.data.tag).parent();
+            $("#comparisons > .wrapper").stop().animate({ scrollTop: elt.position().top}, 1.0);
+            console.log(elt.position().top);
           };
 
-          transcript.on("click", "h1", enterComp);
-
-          transcript.on("click", ".sentimentClick" , enterComp);
-          transcript.on("click", ".traitClick" , enterComp);
-          transcript.on("click", ".countClick" , enterComp);
+          transcript.on("click", "h1", { tag: "count" }, enterComp);
+          transcript.on("click", ".sentimentClick", { tag: "POSITIVITY" } , enterComp);
+          transcript.on("click", ".traitClick", { tag: "AUTHENTIC" } , enterComp);
+          transcript.on("click", ".countClick", { tag: "list" } , enterComp);
           
           transcript.on("click", ".catMarkup", function(ev) {
           	var name;

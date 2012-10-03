@@ -5,6 +5,7 @@ body {
 
   overflow-y: scroll;	
   overflow-x: hidden;	/* not working! */
+  cursor: default;
 }
 
 .layer {
@@ -121,6 +122,7 @@ h1 { /* Speaker names */
   /* border-bottom-width: 2px */
   line-height: 0px;
   font-size: 36px;
+  cursor: pointer;
 }
 
 
@@ -136,10 +138,6 @@ p { /* Transcript text */
 }
 
 .transcriptSentence {
-	
-}
-
-.transcriptWord {
 	
 }
 
@@ -631,6 +629,10 @@ landingTitleImage {
 
 /* Category words overlays */
 
+.catWrapper {
+	position: absolute;
+}
+
 .categoryOverlay {
 	position:absolute; 
 	overflow: visible;
@@ -640,28 +642,41 @@ landingTitleImage {
 	margin: 0px 0px 0px 0px;
 	padding: 0px 20px 0px 10px;
   color: rgb(255,255,255);
-	-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
-	-webkit-transform: translateZ(0px);	
+	/*-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
+	-webkit-transform: translateZ(0px);	*/
   z-index: 3;
   text-transform: uppercase;
 }
 
-.certain{
-	background-color: rgb(255,175,108);
+.certainMarkup.reverse{
+	background-color: rgb(255,175,108) !important;
+	color: rgb(255, 255, 255) !important;
 }
 
-.tentative{
-	background-color: rgb(193,186,134);
+.tentatMarkup.reverse{
+	background-color: rgb(193,186,134) !important;
+	color: rgb(255, 255, 255) !important;
 }
 
-.positive{
-	background-color: rgb(124,240,179);
+
+.posemoMarkup.reverse{
+	background-color: rgb(124,240,179) !important;
+	color: rgb(255, 255, 255) !important;
 }
 
-.negative{
-	background-color: rgb(122,52,183);
+.negemoMarkup.reverse{
+	background-color: rgb(122,52,183) !important;
+	color: rgb(255, 255, 255) !important;
 }
 
+.catMarkup{
+	cursor: pointer;
+}
+
+
+.traitClick, .sentimentClick, .countClick {
+	cursor: pointer;
+}
 
 .overlay-bottom {
 	position:absolute;
@@ -758,16 +773,6 @@ landingTitleImage {
   color: rgb(124,51,64);
   -webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
   z-index: 0;
-}
-
-.posemoMarkup.reverse{
-	background-color: rgb(100, 0, 0) !important;
-	color: rgb(255, 255, 255) !important;
-}
-
-.negemoMarkup.reverse{
-	background-color: rgb(0, 0, 100) !important;
-	color: rgb(255, 255, 255) !important;
 }
 
 

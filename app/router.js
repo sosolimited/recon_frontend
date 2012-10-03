@@ -146,8 +146,6 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 
           transcript.on("click", "h1", enterComp);
 
-          transcript.on("click", ".numbersClick" , enterComp);
-          transcript.on("click", ".quotesClick" , enterComp);
           transcript.on("click", ".sentimentClick" , enterComp);
           transcript.on("click", ".traitClick" , enterComp);
           transcript.on("click", ".countClick" , enterComp);
@@ -166,8 +164,11 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
           
           	console.log(name);
           	$('.'+name+'Markup').addClass('reverse');
-          	setTimeout(function(){$('.'+name+'Markup').removeClass('reverse');}, 3000);
-          	markupManager.fireCatOverlay(name);
+          	setTimeout(function(){$('.'+name+'Markup').removeClass('reverse');}, 2000);
+          	
+          	var off = $(this).scrollTop() + $(this).parent().parent().parent().position().top + $(this).position().top;
+          	
+          	markupManager.fireCatOverlay(name, off, 2000);
           });
          
           comparisons.on("click", function(ev) {

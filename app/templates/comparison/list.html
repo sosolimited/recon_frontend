@@ -1,9 +1,9 @@
 <div class="compareContainer list">
 
 		
-	<p class="franklinMedCompIt lime comparisonExpText"> <%= comparison.get("title") %> </p>
-	<hr class="bgLime" style="height:3px"/>
-	<p class="franklinBook lime comparisonExpSubtitle"><%= comparison.get("subtitle") %></p>
+	<p class="franklinMedCompIt comparisonTitle <%=comparison.get("color1").toLowerCase()%> " comparisonExpText"> <%= comparison.get("title") %> </p>
+	<hr class="bg<%=comparison.get("color1")%>"" style="height:3px"/>
+	<p class="franklinBook <%=comparison.get("color1").toLowerCase()%> comparisonExpSubtitle"><%= comparison.get("subtitle") %></p>
 		
 	<!-- Obama top 20 -->					
 	<div class="push-0" style="position:absolute;">
@@ -11,7 +11,7 @@
 	<hr class="bgGrayBlue span-2" style="height:3px"/>  	
 
 	<% for (var i = 0 ; i < 20 ; i++) {%>
-		<span class="comparisonListWord gray80 franklinDemiComp"><%=comparison.get("obamaList")[i]%> </span><span class="comparisonListValue lime franklinBookComp"><sup><%=comparison.get("obamaValues")[i] %> </sup><br></span>
+		<span class="comparisonListWord gray80 franklinDemiComp"><%=comparison.get("obamaList")[i]%> </span><span class="comparisonListValue <%=comparison.get("color1").toLowerCase()%> franklinBookComp"><sup><%=comparison.get("obamaValues")[i] %> </sup><br></span>
 	<% } %>	
 
 	</div>
@@ -22,7 +22,7 @@
 	<hr class="bgGrayBlue span-2" style="height:3px"/> 
 	
 	<% for (var i = 0 ; i < 20 ; i++) {%>
-		<span class="comparisonListWord gray80 franklinDemiComp"><%=comparison.get("romneyList")[i]%> </span><span class="comparisonListValue lime franklinBookComp"> <sup><%=comparison.get("romneyValues")[i] %> </sup><br></span>
+		<span class="comparisonListWord gray80 franklinDemiComp"><%=comparison.get("romneyList")[i]%> </span><span class="comparisonListValue <%=comparison.get("color1").toLowerCase()%> franklinBookComp"> <sup><%=comparison.get("romneyValues")[i] %> </sup><br></span>
 	<% } %>				
 	</div>
 					

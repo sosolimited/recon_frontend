@@ -165,11 +165,19 @@ function(app, Overlay, Ref) {
 		    }
 		  	else if ($.inArray('posemo', word['cats']) != -1) {
 		  		 //app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
-		  		 $('#curSentence').append("<span class='posemoMarkup transcriptWord'>"+s+word["word"]+"</span>"); 
+		  		 $('#curSentence').append("<span class='catMarkup posemoMarkup transcriptWord'>"+s+word["word"]+"</span>"); 
 		  	}
 		  	else if ($.inArray('negemo', word['cats']) != -1) {
 		  		 //app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
-		  		 $('#curSentence').append("<span class='negemoMarkup transcriptWord'>"+s+word["word"]+"</span>"); 
+		  		 $('#curSentence').append("<span class='catMarkup negemoMarkup transcriptWord'>"+s+word["word"]+"</span>"); 
+		  	}		  	
+		  	else if ($.inArray('certain', word['cats']) != -1) {
+		  		 //app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
+		  		 $('#curSentence').append("<span class='catMarkup certainMarkup transcriptWord'>"+s+word["word"]+"</span>"); 
+		  	}
+		  	else if ($.inArray('tentat', word['cats']) != -1) {
+		  		 //app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
+		  		 $('#curSentence').append("<span class='catMarkup tentatMarkup transcriptWord'>"+s+word["word"]+"</span>"); 
 		  	}
 		    else{
 		    	$('#curSentence').append(s+word["word"]); 
@@ -232,6 +240,12 @@ function(app, Overlay, Ref) {
       	 }
       	 else if($(this).hasClass("negemoMarkup")){
 	      	 $(this).css("color", "rgb(122,52,183)");
+      	 }
+      	 else if($(this).hasClass("certainMarkup")){
+	      	 $(this).css("color", "rgb(0,100,100)");
+      	 }
+      	 else if($(this).hasClass("tentatMarkup")){
+	      	 $(this).css("color", "rgb(100,0,100)");
       	 }
 	     	 // Word count markup.
 	     	 else if($(this).hasClass("wordCountMarkup")){	

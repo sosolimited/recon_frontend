@@ -88,6 +88,12 @@ body {
 	
 	color: rgb(146,152,152);
 
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 	/*color: rgb(135,140,140);*/
 	/*color: rgb(116,120,120);*/
 	/* -webkit-transform: translateZ(-500px); */
@@ -495,10 +501,10 @@ landingTitleImage {
 	position: static;
 	padding: 0 0 0 0;
 	left: 0px;
-	line-height: 36px;
+	font-size: 25px;
+	line-height: 25px;
 	margin: 12px 0px 0px 0px;
-	font-size: 22px;
-	color:#000 !important;
+	color:rgb(200,200,200) !important;
 	 
 }
 
@@ -506,11 +512,10 @@ landingTitleImage {
 	position: static;
 	padding: 0 0 0 0;
 	left: 0px;
-	font-size: 17px;
-	line-height: 27px;
+	font-size: 20px;
+	line-height: 0px;
 	margin: 12px 0px 0px 0px;
-	font-size: ;
-	color:#000 !important;
+	color:rgb(200,200,200) !important;
 	 
 }
 
@@ -556,15 +561,23 @@ landingTitleImage {
 #landingCreditsBox {
 	position: absolute;
 	left: 0px;
-	top: 672px;
+	top: 642px;
 	width: 1024px;
 	height: 106px;
 }
 
+#SocialMediaLinks {
+	position: absolute;
+	top:30px;
+	left: 700px;
+		
+		
+	}
+
 .landingCredits {
 	position: absolute;
-	font-size: 18px;
-	line-height: 24px;
+	font-size: 14px;
+	line-height: 18px;
 }
 
 
@@ -614,6 +627,45 @@ landingTitleImage {
 	left:-450px;	/* Start out of view */
 
 	-webkit-transform: translateZ(0px);
+}
+
+/* Category words overlays */
+
+.categoryOverlay {
+	position:absolute; 
+	overflow: visible;
+  /*width: 906px;*/
+  font-size: 180px;
+  line-height: 160px;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 20px 0px 10px;
+  color: rgb(255,255,255);
+	-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
+	-webkit-transform: translateZ(0px);	
+  z-index: 3;
+  text-transform: uppercase;
+}
+
+.certain{
+	background-color: rgb(255,175,108);
+}
+
+.tentative{
+	background-color: rgb(193,186,134);
+}
+
+.positive{
+	background-color: rgb(124,240,179);
+}
+
+.negative{
+	background-color: rgb(122,52,183);
+}
+
+
+.overlay-bottom {
+	position:absolute;
+	top: 175px;
 }
 
 /* Word count overlays */
@@ -696,6 +748,10 @@ landingTitleImage {
 	-webkit-transform: translateZ(0px);	
   z-index: 3;
 }
+
+
+
+
 .quoteLeftQuote, .quoteRightQuote {
   position: absolute;
   font-size: 400px;

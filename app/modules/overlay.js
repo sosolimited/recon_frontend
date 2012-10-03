@@ -416,6 +416,8 @@ function(app, Ref) {
 				this.expandDur = 2*300 + 1000;		
 				this.holdDur = 2000;								
 				this.collapseDur = 1500;				
+				this.state = 0;
+				
         this.newSigns = [];
         this.nSigns = 0;
 		},
@@ -425,6 +427,8 @@ function(app, Ref) {
 		},
 		
 		expand: function() {
+			this.state = 1; 
+			
       var container = $(this.$el.find('.container')[0]);
       this.nSigns = (Math.random() * 5 + 5) * (this.type == 'posemo' ? 1 : 2); // 5-15 random + or - signs
       var signChar = this.type == 'posemo' ? '+' : '-';
@@ -456,7 +460,9 @@ function(app, Ref) {
 		},
 		
 		collapse: function() {
-		
+
+			this.state = 0;
+			
       this.$el.find('.emoTextBig').css({'opacity': 0, 'font-size': 120});
       for(var i=0; i<this.nSigns; i++) {
         var flipOut = Math.random() > 0.8;
@@ -495,11 +501,12 @@ function(app, Ref) {
   	 template: "overlays/category",
   			 
 		 initialize: function() {
-				this.category = this.options.category;
+			this.category = this.options.category;
+			this.title = this.options.title;
 		 },	
 		 
 		 serialize: function() {
-      return { category: this.category };
+      return { category: this.category, title: this.title };
     },
     
     expand: function() {

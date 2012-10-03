@@ -1,4 +1,4 @@
-<div class="compareContainer emotion" >
+<div class="compareContainer emotion">
 
 <!--
 		<div class="span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05"></div>
@@ -10,8 +10,8 @@
 -->
 		<p class="franklinMedCompIt comparisonTitle <%=comparison.get("color1").toLowerCase()%>"> <%= comparison.get("title") %></p>
 		<hr class="bg<%=comparison.get("color1")%>" style="height:3px"/>
-		<p class="franklinBook <%=comparison.get("color1").toLowerCase()%> comparisonExpSubtitle"><%= comparison.get("subtitle") %></p>
-		<div style="height:444px; position:relative; background-image:url('images/bg_strokes.png'); background-repeat:no-repeat; opacity:0.2; z-index:-2;"></div>
+		<p class="franklinBook <%=comparison.get("color1").toLowerCase()%> comparisonSubtitle"><%= comparison.get("subtitle") %></p>
+		<div style="height:444px; position:relative; background-color:rgb(255,255,255); background-repeat:no-repeat; opacity:0.2; z-index:-2;"></div>
 		
 		<% 	var val0 = comparison.get("traits")[0].vals[0]; 
 				var val1 = comparison.get("traits")[0].vals[1]; 
@@ -23,16 +23,16 @@
 					var h = totalBarH*(100*val-range[0])/(range[1]-range[0]);
 					var t = totalH-h;
 					return [h,t];
-				}
+				}			
+				
 				%>
 
 		<div class="comparisonBarGraph bg<%=comparison.get("color1")%> push-1 span-2" style="height:<%= mapVal(val0)[0] %>px; top:<%= mapVal(val0)[1] %>px;" >
-			<p class="franklinMedCompIt barGraphText grayBlue" > Obama </p>  <p class="franklinMedComp barGraphValue" > <%=  Math.round(10000*val0)/100 %> </p> </div>
+			<p class="franklinMedCompIt barGraphText grayBlue" > Obama </p>  <p class="franklinMedComp barGraphValue" > <%=  Math.round(10000.0*val0)/100.0 %> </p> </div>
 		<div class="comparisonBarGraph bg<%=comparison.get("color1")%> push-3 span-2" style="height:<%= mapVal(val1)[0] %>px; top:<%= mapVal(val1)[1] %>px;" >
-			<p class="franklinMedCompIt barGraphText grayBlue" > Romney </p>  <p class="franklinMedComp barGraphValue" > <%=  Math.round(10000*val1)/100 %>  </p> </div>
+			<p class="franklinMedCompIt barGraphText grayBlue" > Romney </p>  <p class="franklinMedComp barGraphValue" > <%=  Math.round(10000.0*val1)/100.0 %>  </p> </div>
 		
 		<% comparison.get("traits").forEach(function(trait){ %>
-		
 
 			<% if (trait.name == "posemo") { %> 
 				

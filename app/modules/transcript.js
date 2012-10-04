@@ -282,7 +282,7 @@ function(app, Overlay, Ref) {
 		          countDiv.animate({top: '0px'}, 300);
 
               var spaceWidth = 5;  // To avoid underlining the leading space. This is an ugly hack.
-              var underlineDiv = $("<div class='freqWordUnderline' style='position: absolute; left: " + (pos.left+spaceWidth) + "px; top: " + (pos.top + lineHeight*0.8) + "px; background-color: white; width: " + (wordWidth-spaceWidth) + "px; height: 1px;' />");
+              var underlineDiv = $("<div class='freqWordUnderline' style='left: " + (pos.left+spaceWidth) + "px; top: " + (pos.top + lineHeight*0.8) + "px;  width: " + (wordWidth-spaceWidth) + "px;' />");
               $(this).parent().append(underlineDiv);
 		        }  	     	 
 	     	 }

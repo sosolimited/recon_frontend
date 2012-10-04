@@ -196,9 +196,19 @@ sup {
 }
 
 #partners {
+	position: relative;
+  left: 0px;
+  top: 0px;
   float: left;
   font-size: 16px;
   font-family:"franklin-gothic-urw"; font-weight:300; font-style:normal;
+}
+
+#partners2 {
+  position: relative;
+  left: 150px;
+  top: 0px;
+  float: left;
 }
 
 #signupBlock {

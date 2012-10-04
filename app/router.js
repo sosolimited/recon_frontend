@@ -136,7 +136,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
           var comparisons = $("#comparisons > .wrapper");
           
           var enterComp = function(event) {
-          	app.state = "comparison"; 
+          	app.mode = "comparison"; 
             var dist = transcript.offsetHeight;
             transcript.scrollTop = dist;
             transcript.addClass("fade");
@@ -147,7 +147,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
           };
           
           var exitComp = function() {
-          	app.state = "transcript";
+          	app.mode = "transcript";
             transcript.removeClass("fade");
             comparisons.removeClass("active");
           	

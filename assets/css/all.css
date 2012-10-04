@@ -861,7 +861,8 @@ landingTitleImage {
 #transcript .freqWordCount {
   position: relative;
   top: 1em;
-  color: rgb(207,255,36);
+  /* color: rgb(207,255,36); */
+  color: white;
 }
 
 .tapable {

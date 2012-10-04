@@ -88,7 +88,8 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 	
 	        data: {
 	          docName: this.qs.docName,
-	          delay: parseFloat(this.qs.delay, 100)
+	          delay: parseFloat(this.qs.delay, 100),
+	          url: location.host
 	        }
 	      }));
 	    }

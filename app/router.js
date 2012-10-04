@@ -136,17 +136,22 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
           var comparisons = $("#comparisons > .wrapper");
           
           var enterComp = function(event) {
-	          
+          	app.state = "comparison"; 
             var dist = transcript.offsetHeight;
             transcript.scrollTop = dist;
-
-            transcript.toggleClass("fade");
-            //comparisons.parent().toggleClass("active");
-            comparisons.toggleClass("active");
+            transcript.addClass("fade");
+            comparisons.addClass("active");
             var elt = $('#comparisons').find('.compareContainer.'+event.data.tag).parent();
             $("#comparisons > .wrapper").stop().animate({ scrollTop: elt.position().top}, 1.0);
             console.log(elt.position().top);
           };
+          
+          var exitComp = function() {
+          	app.state = "transcript";
+            transcript.removeClass("fade");
+            comparisons.removeClass("active");
+          	
+          }
 
           transcript.on("click", "h1", { tag: "count" }, enterComp);
           transcript.on("click", ".sentimentClick", { tag: "POSITIVITY" } , enterComp);
@@ -155,28 +160,20 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
           
           transcript.on("click", ".catMarkup", function(ev) {
           	var name;
-          	if ($(this).hasClass("posemoMarkup")) {
-	          	name = "posemo";
-          	} else if ($(this).hasClass("negemoMarkup")) {
-	          	name = "negemo";
-          	} else if ($(this).hasClass("certainMarkup")) {
-	          	name = "certain";
-          	} else if ($(this).hasClass("tentatMarkup")) {
-	          	name = "tentat";
-          	}
+          	if ($(this).hasClass("posemoMarkup")) name = "posemo";
+          	else if ($(this).hasClass("negemoMarkup")) name = "negemo";
+          	else if ($(this).hasClass("certainMarkup")) name = "certain";
+          	else if ($(this).hasClass("tentatMarkup")) name = "tentat";
           
-          	console.log(name);
           	$('.'+name+'Markup').addClass('reverse');
           	setTimeout(function(){$('.'+name+'Markup').removeClass('reverse');}, 2000);
           	
           	var off = $(this).scrollTop() + $(this).parent().parent().parent().position().top + $(this).position().top;
-          	
           	markupManager.fireCatOverlay(name, off, 2000);
           });
          
           comparisons.on("click", function(ev) {
-            transcript.toggleClass("fade");
-            comparisons.toggleClass("active");
+            exitComp();
           });
           
         })();

@@ -20,11 +20,11 @@ function($, _, Backbone, eio) {
 
     // Assign global reusable views.
     views: {},
+    
+    mode: "transcript", // transcript or comparison
 
     // Create a socket connection to the server.
-    
     socket: new eio.Socket({ host: location.hostname, port: 8081 })
-    //socket: new eio.Socket({ host: "198.61.191.97", port: 8081 })
     
   };
 

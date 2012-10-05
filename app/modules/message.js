@@ -47,16 +47,20 @@ function(app) {
 			}
     },
     
-    playbackMessages: function(n) {
+    playbackMessages: function(n, diff) {
     
     	this.stopPlayback();
     	
-  		var startMsg = this.get(n);
+  		var startMsg = this.at(n);
 
   		this.each( function(msg) {
-  			var diff = msg.get("timeDiff") - startMsg.get("timeDiff");
+  			diff = diff || msg.get("timeDiff") - startMsg.get("timeDiff");
   			if (diff >= 0) {
-	  			setTimeoutEvents.push(setTimeout(function() { msg.emit(); }, diff));
+	  			setTimeoutEvents.push(setTimeout(function() {
+            //if (msg.get("type") !== "sentenceEnd") {
+              app.trigger("message:" + msg.get("type"), { msg: msg.attributes, live: app.live });
+            //}
+          }, diff));
 	  			//console.log("settimeout "+msg.get("word")+" "+diff);
 	  		}
   		});

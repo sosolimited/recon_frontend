@@ -5,7 +5,7 @@ define([
 
 // Map dependencies from above array.
 function(app) {
-  var startDates = [new Date(2012, 9, 5, 21, 0, 0, 0), new Date(2012, 9, 16, 21, 0,0,0), new Date(2012, 9, 23, 21, 0,0,0)]; 
+  var startDates = [new Date(2012, 9, 3, 21, 0, 0, 0), new Date(2012, 9, 16, 21, 0,0,0), new Date(2012, 9, 22, 21, 0,0,0)]; 
   var debateNumber = 0;
 
   var chapters = [];
@@ -160,18 +160,18 @@ function(app) {
     
     enter: function() {
 	    $('#navigation').css("visibility", "visible");
-	    $('#navigation').css("webkitTransform", "translateX(0px) rotate(90deg)");
+	    $('#navigation').css("webkitTransform", "translateX(5px) translateY(-5px) rotate(90deg)");
     },
     
     exit: function() {
 	    //$('#navigation').css("visibility", "hidden");	    
-	    $('#navigation').css("webkitTransform", "translateX(-50px) rotate(90deg)");
+	    $('#navigation').css("webkitTransform", "translateX(-55px) translateY(-5px) rotate(90deg)");
     },
     
     // Reset puts everything where it's supposed to be before entering.
     reset: function() {
 	    $('#navigation').css("visibility", "hidden");	    
-	    $('#navigation').css("webkitTransform", "translateX(-50px) rotate(90deg)");
+	    $('#navigation').css("webkitTransform", "translateX(-55px) translateY(-5px) rotate(90deg)");
     },
     
     // Pass pointer to landing view so that title click can call enter on landing.

@@ -108,9 +108,7 @@ function(app, Overlay, Ref) {
     		openSentence = true;
     	}
     	
-    	console.log('punct '+word["punctuationFlag"]);
-    	
-    	
+    	//console.log('punct '+word["punctuationFlag"]);
     	
     	if (word["punctuationFlag"] != 1 && !prevLeadingPunct) s += " "; // Add leading space.
     	
@@ -249,7 +247,6 @@ function(app, Overlay, Ref) {
       $('#curSentence').find('span').each(function() {
       	 if($(this).hasClass("posemoMarkup")){
 	      	 $(this).css("color", "rgb(124,240,179)");
-	      	 //$(this).addClass("posemo");
       	 }
       	 else if($(this).hasClass("negemoMarkup")){
 	      	 $(this).css("color", "rgb(122,52,183)");
@@ -267,7 +264,9 @@ function(app, Overlay, Ref) {
 	     	 }
 	     	 // Number markup.
 	     	 else if($(this).hasClass("numberMarkup")){
-	     	 		$(this).css("background-color", "rgb(64,180,229)");	    	    		
+	     	 		//$(this).css("background-color", "rgb(64,180,229)");	    	    		
+	     	 		$(this).css("background-color", "rgb(80,80,80)");
+	     	 		$(this).css("color", "rgb(255,255,255)");	    	    			    	    		
 	     	 }
 	     	 // Quotation markup.
 	     	 else if($(this).hasClass("quoteMarkup")){

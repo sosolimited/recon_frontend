@@ -211,6 +211,7 @@ function(app, Ref) {
 		
 			this.speaker = this.options.speaker;
 			this.phrase = this.options.phrase;
+			//console.log("numbersView phrase = "+this.phrase);
 				
 			this.posY = this.options.posY;
       this.collapseY = this.options.wordPos[1];
@@ -247,14 +248,21 @@ function(app, Ref) {
       this.$el.find('.numberPhrase').each(function(i){ 
 	      if (force) $(this).css('-webkit-transition', '0s');
 	      
-	      $(this).css("font-size","54px");
-	      $(this).css("height", "72px");
-	      $(this).css("width", Ref.gridWidth);
-	      $(this).css("top", (_posY - 18) + 'px');  // Center on line
-	      if(sp == 1)
-	        $(this).css("left", Ref.gridColumns[4]);
-	      else if(sp == 2)
-	        $(this).css("left", Ref.gridColumns[1]);
+	      //$(this).css("font-size","54px");
+	      //$(this).css("height", "72px");
+	      $(this).css("font-size","18px");
+	      $(this).css("height", "24px");
+	      //$(this).css("width", Ref.gridWidth);
+	      $(this).css("top", (_posY) + 'px');  // Center on line
+	      //$(this).css("color", "rgb(80,80,80)");
+	      if(sp == 1){
+	        //$(this).css("left", Ref.gridColumns[4]);
+	        $(this).css("left", Ref.gridColumns[0]);
+	      }
+	      else if(sp == 2){
+	        //$(this).css("left", Ref.gridColumns[1]);
+	        $(this).css("left", Ref.gridColumns[0]);
+	      }
 	        //console.log(sp);
 	        //console.log( (this.anchorY - 18) + 'px'));
 

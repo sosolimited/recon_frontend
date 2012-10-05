@@ -238,7 +238,8 @@ function(app, Overlay, Ref) {
       //Go through all spans so you can create markup heirarchy (ie specify which markups take precedence)  
       $('#curSentence').find('span').each(function() {
       	 if($(this).hasClass("posemoMarkup")){
-	      	 $(this).css("color", "rgb(124,240,179)");
+	      	 //$(this).css("color", "rgb(124,240,179)");
+	      	 $(this).css("color", "rgb(207,255,36)");
       	 }
       	 else if($(this).hasClass("negemoMarkup")){
 	      	 $(this).css("color", "rgb(122,52,183)");
@@ -256,7 +257,9 @@ function(app, Overlay, Ref) {
 	     	 }
 	     	 // Number markup.
 	     	 else if($(this).hasClass("numberMarkup")){
-	     	 		$(this).css("background-color", "rgb(64,180,229)");	    	    		
+	     	 		//$(this).css("background-color", "rgb(64,180,229)");	    	    		
+	     	 		$(this).css("background-color", "rgb(80,80,80)");
+	     	 		$(this).css("color", "rgb(255,255,255)");	    	    			    	    		
 	     	 }
 	     	 // Quotation markup.
 	     	 else if($(this).hasClass("quoteMarkup")){

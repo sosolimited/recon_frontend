@@ -26,6 +26,8 @@ function(app, Overlay, Ref) {
 
   var oldScrollTop = 0;
   var oldWindowHeight = 0;
+  
+  var prevLeadingPunct = false;
 
   // Store top + bottom positions of paragraphs so they don't need to be recalculated all the time
   var paragraphPropertyCache = [];
@@ -106,7 +108,15 @@ function(app, Overlay, Ref) {
     		openSentence = true;
     	}
     	
-    	if (!word["punctuationFlag"]) s += " "; // Add leading space.
+    	console.log('punct '+word["punctuationFlag"]);
+    	
+    	
+    	
+    	if (word["punctuationFlag"] != 1 && !prevLeadingPunct) s += " "; // Add leading space.
+    	
+    	if (word["punctuationFlag"] == -1) prevLeadingPunct = true; //keep track of punct if it was leading
+    	else prevLeadingPunct = false;
+    	
     	
     	    	
     	// Check for any kind of special word events then: insert marked up word and/or trigger overlay event.
@@ -239,6 +249,7 @@ function(app, Overlay, Ref) {
       $('#curSentence').find('span').each(function() {
       	 if($(this).hasClass("posemoMarkup")){
 	      	 $(this).css("color", "rgb(124,240,179)");
+	      	 //$(this).addClass("posemo");
       	 }
       	 else if($(this).hasClass("negemoMarkup")){
 	      	 $(this).css("color", "rgb(122,52,183)");
@@ -356,8 +367,8 @@ function(app, Overlay, Ref) {
     	//if(curSpeaker == 0) spColor = "gray60";	
     		
   		var newP = $("<div id='curParagraph' class='push-" + col + " span-3 " +
-                   speakers[curSpeaker] + " transcriptParagraph'><h1 class='franklinMedIt " + spColor + "'>" +
-                   speakers[curSpeaker] + "</h1><p class='metaBook gray60'></p></div><div class=clear></div>");                   
+                   speakers[curSpeaker] + " transcriptParagraph'><div class='transcriptSpeaker franklinMedIt " + spColor + "'>" +
+                   speakers[curSpeaker] + "</div><p class='metaBook gray60'></p></div><div class=clear></div>");                   
       this.$el.append(newP);
       
       // Cache position in data attributes

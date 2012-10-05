@@ -20,7 +20,7 @@
 			<div id="landingButton<%= i %>" class="landingButtonHolder">
 				<span class="landingButton franklinDemiCompIt gray60 span-2"><%= "WATCH DEBATE "+(i+1) %></span>
 				<span class="landingArrow gray60 franklinDemi">></span>
-				<span class="landingDate franklinDemiCompIt gray60 span-2"><%= "October "+dates[i].getUTCDate()+", "+dates[i].getFullYear()+" "+dates[i].getHours()%12+" PM EST" %></span>
+				<span class="landingDate franklinDemiCompIt gray60 span-2"><%= "October "+dates[i].getDate()+", "+dates[i].getFullYear()+" "+dates[i].getHours()%12+" PM EST" %></span>
 			</div>
 			<% if(i<2) { %>
 			 	<hr class="landingRule gray60"></hr> 

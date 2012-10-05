@@ -19,9 +19,6 @@ body {
   top: 0; left: 0; bottom: 0; right: 0;
   overflow-y: scroll;
   overflow-x: visible;
-  
-  -webkit-perspective: 700px;	
-  -webkit-perspective-origin: 50% 1000px;	
 }
 
 
@@ -31,6 +28,9 @@ body {
   overflow:visible;
   /* overflow-x: hidden; */
   /* background-color: yellow; */
+  
+  -webkit-perspective: 700px;	
+  -webkit-perspective-origin: 50% 1000px;	
 }
 
 #overlay {
@@ -45,10 +45,11 @@ body {
 #bigWords {
 	position: absolute;
 	top: 0px;	
-	/* 
+
+/*
 	-webkit-perspective: 700px; 
 	-webkit-perspective-origin: 50% 1000px;	
-	*/
+*/
 }
 
 #bigWords .hiddenWord {
@@ -73,7 +74,7 @@ body {
 	height: 300px;
 	width: 1024px;
 	*/
-	/* -webkit-transform: translateZ(-500px); */
+	/* -webkit-transform: translateZ(-100px); */
 	
 }
 
@@ -87,7 +88,8 @@ body {
 	font-weight:700; 
 	font-style:italic; 
 	
-	color: rgb(146,152,152);
+	/* color: rgb(146,152,152); */
+	color: rgb(150,156,156);
 
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -124,6 +126,25 @@ h1 { /* Speaker names */
   font-size: 36px;
   cursor: pointer;
 }
+
+h1:hover { /* Speaker names */
+  line-height: 0px;
+  font-size: 36px;
+  background-color: rgb(20,20,20);
+  cursor: pointer;
+}
+
+.transcriptSpeaker {
+	text-decoration: none;	
+  line-height: 24px;
+  font-size: 48px;
+  cursor: pointer;
+}
+
+.transcriptSpeaker:hover {
+	color:rgb(255, 66, 55);
+}
+
 
 
 p { /* Transcript text */
@@ -191,7 +212,7 @@ hr {
 #navigation {
 	position: fixed;
 	width: 530px;
-	height: 40px;	
+	height: 48px;
 	z-index: 10;
 
 	transform:rotate(90deg);
@@ -210,24 +231,24 @@ hr {
 /* White box inside #navigation div */
 #navTimeline {
   width: 530px;
-  height: 8px;
+  height: 16px;
 }
 #navProgressBar {
-  height: 8px;
+  height: 16px;
   background-color: rgb(64, 180, 230);	
   width: 0px;
   z-index: 0;
 }
 #navProgressMarker {
-  height: 8px;
-  width:2px;
+  height: 16px;
+  width:4px;
   background-color: black;
   z-index: 2;
   position: absolute;
   top:0px;
 }
 .navChapterBar {
-  height: 8px;
+  height: 16px;
   z-index: 1;
   position: absolute;
   top: 0px;
@@ -396,8 +417,6 @@ landingTitleImage {
 	position:absolute;
 	top: 48px;
 	display:block;
-	
-	
 	
 }
 
@@ -663,8 +682,18 @@ landingTitleImage {
   text-transform: uppercase;
 }
 
+.certainMarkup:hover{
+	background-color: rgb(255,175,108) !important;
+	color: rgb(255, 255, 255) !important;
+}
+
 .certainMarkup.reverse{
 	background-color: rgb(255,175,108) !important;
+	color: rgb(255, 255, 255) !important;
+}
+
+.tentatMarkup:hover{
+	background-color: rgb(193,186,134) !important;
 	color: rgb(255, 255, 255) !important;
 }
 
@@ -673,9 +702,18 @@ landingTitleImage {
 	color: rgb(255, 255, 255) !important;
 }
 
+.posemoMarkup:hover {
+	background-color: rgb(124,240,179) !important;
+	color: rgb(255, 255, 255) !important;
+}
 
 .posemoMarkup.reverse{
 	background-color: rgb(124,240,179) !important;
+	color: rgb(255, 255, 255) !important;
+}
+
+.negemoMarkup:hover{
+	background-color: rgb(122,52,183) !important;
 	color: rgb(255, 255, 255) !important;
 }
 
@@ -753,13 +791,13 @@ landingTitleImage {
 .numberPhrase {
 	position:absolute; 
 	overflow: visible;
-  width: 906px;
+  width: 9000px;
   font-size: 270px;
   line-height: .75em;
 	margin: 0px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
-  color: rgb(64,180,229);
-	-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
+  color: rgb(255,255,255); 
+	-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s, color 1s;
 	-webkit-transform: translateZ(0px);	
   z-index: 2;
 
@@ -861,7 +899,8 @@ landingTitleImage {
 #transcript .freqWordCount {
   position: relative;
   top: 1em;
-  color: rgb(207,255,36);
+  /* color: rgb(207,255,36); */
+  color: white;
 }
 #transcript .freqWordUnderline {
   position: absolute;

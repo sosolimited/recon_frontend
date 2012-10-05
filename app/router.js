@@ -12,10 +12,13 @@ define([
   "modules/overlay",
   "modules/markupManager",
   "modules/bigWords",
-  "modules/landing"
+  "modules/landing",
+  "modules/ref"
 ],
 
-function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation, Overlay, MarkupManager, BigWords, Landing) {
+
+function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation, Overlay, MarkupManager, BigWords, Landing, Ref) {
+
   // Defining the application router, you can attach sub routers here.
   var Router = Backbone.Router.extend({
     routes: {
@@ -83,11 +86,11 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["anger"], speakerNames:speakerCollection, title:"ANGER", subtitle:"The percentage of words spoken that are angry in some way. ie. 'fight, destroy, annoy.'", range:[0,1.95], color1:"Angry"})); 
          
         
-      comparisonCollection.add(new Comparison.FormalityModel({traitNames:["formality"], speakerNames:speakerCollection, title:"FORMAL", subtitle:"CASUAL", range:[3, 25.0], color1:"Formal", color2:"Casual"})); 
+      comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["formality"], speakerNames:speakerCollection, title:"FORMAL", subtitle:"CASUAL", range:[3, 25.0], color1:Ref.formal, color2:Ref.casual, gradient:"gradientFormality"})); 
       
-      comparisonCollection.add(new Comparison.DispositionModel({traitNames:["depression"], speakerNames:speakerCollection, title:"CHEERY", subtitle:"DEPRESSED", range:[4.75, -1.0], color1:"Cheery", color2:"Depressed"}));  
+      comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["depression"], speakerNames:speakerCollection, title:"DEPRESSED", subtitle:"CHEERFUL", range:[-1.0, 4.75], color1:Ref.depressed, color2:Ref.cheery, gradient:"gradientDisposition"}));  
       
-      comparisonCollection.add(new Comparison.HonestyModel({traitNames:["honesty"], speakerNames:speakerCollection, title:"AUTHENTIC", subtitle:"DECEPTIVE", range:[0, 6.0], color1:"Purple", color2:"Cherry"}));                   
+      comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["honesty"], speakerNames:speakerCollection, title:"AUTHENTIC", subtitle:"DECEPTIVE", range:[0, 6.0], color1:Ref.purple, color2:Ref.redOrange, gradient:"gradientHonesty"}));                   
       
       // Load from static file.
       if (this.qs.docName) {
@@ -163,7 +166,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           	
           }
 
-          transcript.on("click", "h1", { tag: "count" }, enterComp);
+          transcript.on("click", ".transcriptSpeaker", { tag: "count" }, enterComp);
           transcript.on("click", ".sentimentClick", { tag: "POSITIVITY" } , enterComp);
           transcript.on("click", ".traitClick", { tag: "AUTHENTIC" } , enterComp);
           transcript.on("click", ".countClick", { tag: "list" } , enterComp);

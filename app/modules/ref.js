@@ -45,6 +45,12 @@ function(app) {
   //Colors
   Ref.purple = [101, 45, 106];
   Ref.redOrange = [255, 66, 55];
+  Ref.angry = [255,67,55];
+	Ref.casual = [254,131,35];
+	Ref.formal = [0,95,113];
+	Ref.cheery = [232,12,122];
+	Ref.depressed = [122,52,64];  
+  
   
   Ref.colorMap = function(color1, color2, channel, range1, range2, val) {  		
 	var val_n = (val - range1)/(range2 - range1);

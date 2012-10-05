@@ -33,7 +33,7 @@ function(app, Ref) {
 
     handleScroll: function(val) {
        // Move the origin to make parallax happen
-			 $('#bigWords').css("webkit-perspective-origin", "50% "+(val)+"px");		     
+			 //$('#bigWords').css("webkit-perspective-origin", "50% "+(val)+"px");		     
 
        // Perform culling
        var viewportTop = $('body').scrollTop();

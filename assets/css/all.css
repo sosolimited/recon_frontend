@@ -19,9 +19,6 @@ body {
   top: 0; left: 0; bottom: 0; right: 0;
   overflow-y: scroll;
   overflow-x: visible;
-  
-  -webkit-perspective: 700px;	
-  -webkit-perspective-origin: 50% 1000px;	
 }
 
 
@@ -31,6 +28,9 @@ body {
   overflow:visible;
   /* overflow-x: hidden; */
   /* background-color: yellow; */
+  
+  -webkit-perspective: 700px;	
+  -webkit-perspective-origin: 50% 1000px;	
 }
 
 #overlay {
@@ -45,10 +45,11 @@ body {
 #bigWords {
 	position: absolute;
 	top: 0px;	
-	/* 
+
+/*
 	-webkit-perspective: 700px; 
 	-webkit-perspective-origin: 50% 1000px;	
-	*/
+*/
 }
 
 #bigWords .hiddenWord {
@@ -73,7 +74,7 @@ body {
 	height: 300px;
 	width: 1024px;
 	*/
-	/* -webkit-transform: translateZ(-500px); */
+	/* -webkit-transform: translateZ(-100px); */
 	
 }
 
@@ -87,7 +88,8 @@ body {
 	font-weight:700; 
 	font-style:italic; 
 	
-	color: rgb(146,152,152);
+	/* color: rgb(146,152,152); */
+	color: rgb(150,156,156);
 
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -753,13 +755,13 @@ landingTitleImage {
 .numberPhrase {
 	position:absolute; 
 	overflow: visible;
-  width: 906px;
+  width: 9000px;
   font-size: 270px;
   line-height: .75em;
 	margin: 0px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
-  color: rgb(64,180,229);
-	-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
+  color: rgb(255,255,255); 
+	-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s, color 1s;
 	-webkit-transform: translateZ(0px);	
   z-index: 2;
 

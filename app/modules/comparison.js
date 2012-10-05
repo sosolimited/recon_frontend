@@ -289,16 +289,16 @@ function(app, Ref) {
   	
   		// massive memory leak here! move these new's out of here!
   		// this is the only way I could get this to pass info correctly
-  	    var oList = new Array();
-  	    var rList = new Array();
+  	  var oList = new Array();
+  	  var rList = new Array();
 	  	var oVals = new Array();
 	  	var rVals = new Array();  	
   	
-  		for (var i = 0 ; i < 20 ; i++) {
-  		  oList[i] = this.get('uniqueWords').getTop20Words(1)[i]['word'];
-  		  rList[i] = this.get('uniqueWords').getTop20Words(2)[i]['word'];
-  		  oVals[i] = this.get('uniqueWords').getTop20Words(1)[i]['count'];
-  		  rVals[i] = this.get('uniqueWords').getTop20Words(2)[i]['count'];
+  		for (var i = 0 ; i < 5 ; i++) {
+  		  oList[i] = this.get('uniqueWords').getTopPhrases(1)[i]['phrase'];
+  		  rList[i] = this.get('uniqueWords').getTopPhrases(2)[i]['phrase'];
+  		  oVals[i] = this.get('uniqueWords').getTopPhrases(1)[i]['count'];
+  		  rVals[i] = this.get('uniqueWords').getTopPhrases(2)[i]['count'];
   		  
   		}
   	

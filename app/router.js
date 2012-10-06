@@ -3,7 +3,7 @@ define([
   "app",
 
   // Modules.
-  "modules/uniqueWord",
+  "modules/uniquePhrase",
   "modules/speaker",
   "modules/comparison",
   "modules/message",
@@ -16,7 +16,9 @@ define([
   "modules/ref"
 ],
 
-function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, Overlay, MarkupManager, BigWords, Landing, Ref) {
+
+function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation, Overlay, MarkupManager, BigWords, Landing, Ref) {
+
   // Defining the application router, you can attach sub routers here.
   var Router = Backbone.Router.extend({
     routes: {
@@ -38,7 +40,10 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
     	
     	// Init uniquewords collection.
       //var uniqueWordCollection = new UniqueWord.Collection();
-      var uniqueWords = new UniqueWord.Model.AllWords();
+      var uniqueWords = new UniquePhrase.Model.AllPhrases(1, 20);
+      var unique2Grams = new UniquePhrase.Model.AllPhrases(2, 20);
+      var unique3Grams = new UniquePhrase.Model.AllPhrases(3, 20);
+      var unique4Grams = new UniquePhrase.Model.AllPhrases(4, 20);
       
 		  // Init transcript.
 		  var transcriptView = new Transcript.View( {messages: messageCollection, speakers: speakerCollection, uniqueWords: uniqueWords} );
@@ -67,7 +72,13 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
       comparisonCollection.add(new Comparison.CountModel({traitNames:["wc"], speakerNames:speakerCollection, title:"WORD COUNT", subtitle:"The number of total words spoken by each candidate", range:[0,10000.0], color1:"Salmon"})); 
       
       comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 20 WORDS", subtitle:"The top twenty words of each candidate (excluding 'the', 'I', 'if', etc.)", uniqueWords:uniqueWords, color1:"Lime"}));  
-          
+      
+      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 20 2 Word PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique2Grams, color1:"Lime"}));     
+      
+      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 20 3 Word PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique3Grams, color1:"Lime"}));   
+      
+      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 20 4 Word PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique4Grams, color1:"Lime"}));   
+         
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["posemo"], speakerNames:speakerCollection, title:"POSITIVITY", subtitle:"The percentage of words spoken that are positive in some way. ie. 'winning, happy, improve.'", range:[0,5.0], color1:"Sky"}));
        
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["negemo"], speakerNames:speakerCollection, title:"NEGATIVITY", subtitle:"The percentage of words spoken that are negative in some way. ie. 'failure, dead, waste.'", range:[0,3.75], color1:"GrayBlue"})); 
@@ -145,7 +156,6 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
             comparisons.addClass("active");
             var elt = $('#comparisons').find('.compareContainer.'+event.data.tag).parent();
             $("#comparisons > .wrapper").stop().animate({ scrollTop: elt.position().top}, 1.0);
-            console.log(elt.position().top);
           };
           
           var exitComp = function() {
@@ -155,7 +165,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
           	
           }
 
-          transcript.on("click", "h1", { tag: "count" }, enterComp);
+          transcript.on("click", ".transcriptSpeaker", { tag: "count" }, enterComp);
           transcript.on("click", ".sentimentClick", { tag: "POSITIVITY" } , enterComp);
           transcript.on("click", ".traitClick", { tag: "AUTHENTIC" } , enterComp);
           transcript.on("click", ".countClick", { tag: "list" } , enterComp);
@@ -193,6 +203,9 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 	      	app.trigger("message:word", {msg:msg,live:live});
 	      });
 	
+	      app.socket.on("newNGram", function(msg) {  
+	      	app.trigger("message:newNGram", {msg:msg,live:live});   
+	      });
 	      app.socket.on("sentenceEnd", function(msg) {  
 	      	app.trigger("message:sentenceEnd", {msg:msg,live:live});   
 	      });
@@ -293,7 +306,7 @@ function(app, UniqueWord, Speaker, Comparison, Message, Transcript, Navigation, 
 					//q Test top words.
 					else if(event.which==81){
 						var sp = 1;
-						var top20 = uniqueWords.getTop20Words(sp);
+						var top20 = uniqueWords.getTopPhrases(sp);
 						for(var i=0; i<20; i++){
 							console.log(i+" = "+top20[i]['word']+" > "+top20[i]['count']);
 						}

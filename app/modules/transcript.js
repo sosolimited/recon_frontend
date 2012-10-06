@@ -28,6 +28,8 @@ function(app, Overlay, Ref) {
   var oldWindowHeight = 0;
   
   var prevLeadingPunct = false;
+  
+  var extraNumberWords = ['on', 'of', 'a', 'to', 'the', 'Of', 'The', 'A', 'To'];
 
   // Store top + bottom positions of paragraphs so they don't need to be recalculated all the time
   var paragraphPropertyCache = [];
@@ -56,8 +58,6 @@ function(app, Overlay, Ref) {
       });
       
       this.numberOpen = false;
-      this.numberCount = 0;		
-      this.numberWords = 2;		// Number of words to catch in number phrase, including first numerical word.
       this.numberPhrase = "";
       
       this.speakers = this.options.speakers; // Speaker collection ref used to synchronously check on special events in addWords().
@@ -120,14 +120,19 @@ function(app, Overlay, Ref) {
     	// Check for any kind of special word events then: insert marked up word and/or trigger overlay event.
     	// -------------------------------------------------------------------------------------------------------  
       // Check for numbers: 'number' for numerics, 'numbers' for LIWC.
-      if(curSpeaker==1 || curSpeaker==2){
-	    	if ($.inArray('numbrz', word['cats']) != -1) {
-	    		//console.log("transcript - got a number!");
+      
+      var curNumber = false;
+      //if(curSpeaker==1 || curSpeaker==2){  //trying numbers on moderator too
+	    	
+	    	if ( ($.inArray('numbrz', word['cats']) != -1) || (false)) //TODO: add a check for $, currently it breaks something
+	    	{
+	    		//console.log("transcript - got a number!" + word['word']);
 	    		if (!this.numberOpen){
 		    		this.numberOpen = true;
 		    	}
+		    	curNumber = true;
 	    	}
-    	}
+    	//}
     	
     	var top20Count = 0;
     	// Only do other markup if a number phrase isn't open, and only if obama or romney are speaking
@@ -163,8 +168,8 @@ function(app, Overlay, Ref) {
 			    app.trigger("markup", wordProps[0]); 		   		 	 
 		    }
 		    // Check if the word is in the top N words. (20 was too busy, so we're trying 10)
-		    else if((top20Count = this.uniqueWords.isTopWord(curSpeaker, word['word'], 10))
-		    	&& (this.uniqueWords.getTotalUniqueWords(curSpeaker) > 100)){
+		    else if((top20Count = this.uniqueWords.isTopPhrase(curSpeaker, word['word'], 10))
+		    	&& (this.uniqueWords.getTotalUniquePhrases(curSpeaker) > 100)){
 				  var sp = $("<span class='frequentWordMarkup countClick transcriptWord'>"+s+word["word"]+"</span>");
 				  sp.attr("data-wordcount", top20Count);
 			   	$('#curSentence').append(sp);	
@@ -195,15 +200,27 @@ function(app, Overlay, Ref) {
       
     	// Check for any open number phrases.  
       if (this.numberOpen){
-    		// Update count and phrase.
-    		this.numberCount =  this.numberCount+1;
-    		if(!word['punctuationFlag']) this.numberPhrase += " ";	// Insert a space in phrase if it's not punctuation.
-    		this.numberPhrase += word['word'];
- 
-    		// When we have the correct number of words in the phrase,
-    		if(this.numberCount >= this.numberWords){
-    			this.emitNumberEvent();
-    		}
+      
+      	//1. if end punct, emit number and don't add word
+      	if(word['punctuationFlag'] == 1) this.emitNumberEvent();
+      	
+      	//2. else add the word
+      	else 
+      	{
+	      	if (word['punctuationFlag'] == 0) this.numberPhrase += " "; //add lead space if leading
+	      	this.numberPhrase += word['word']; //add word
+	      	
+	      	if (!curNumber) {
+	      		//only emit and close on words other than the special one
+	      		var special = false;
+	      		for (i in extraNumberWords)
+	      		{
+		      		if (word["word"] == extraNumberWords[i]) special = true;
+	      		}
+	    			if (!special) this.emitNumberEvent(); //We're not special! We're just like you!
+	      	}	
+      	}
+    		
     	}
       
       // Update the paragraph size cache
@@ -482,6 +499,7 @@ function(app, Overlay, Ref) {
     	// Emit an overlay event.
 			app.trigger("markup", {type:'numberMarkup', speaker:curSpeaker, phrase:this.numberPhrase, anchor:anchorPos});	
 			// Close the number.
+			
 			this.numberOpen = false;
 			this.numberCount = 0;
 			this.numberPhrase = "";

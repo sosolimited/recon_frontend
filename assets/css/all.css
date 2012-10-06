@@ -841,7 +841,6 @@ landingTitleImage {
   color: rgb(140,146,146);	
   font-size: 0px;
   line-height: 0.75em;
-  visibility: hidden;
   opacity: 0;
   -webkit-transition: font-size 1s, opacity 1s;
   z-index: 3;
@@ -851,7 +850,6 @@ landingTitleImage {
   position: absolute;
   font-size: 72px;
   line-height: 0.75em;
-  visibility: hidden;
   opacity: 0;
   z-index: 1;
   -webkit-transition: opacity 1s;

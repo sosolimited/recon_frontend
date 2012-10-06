@@ -28,8 +28,9 @@ function(app, Overlay, Ref) {
   var oldWindowHeight = 0;
   
   var prevLeadingPunct = false;
+  var numberLeadingPunct = false;
   
-  var extraNumberWords = ['on', 'of', 'a', 'to', 'the', 'Of', 'The', 'A', 'To'];
+  var extraNumberWords = ['on', 'of', 'a', 'to', 'the', 'Of', 'The', 'A', 'To', 'and'];
 
   // Store top + bottom positions of paragraphs so they don't need to be recalculated all the time
   var paragraphPropertyCache = [];
@@ -124,7 +125,7 @@ function(app, Overlay, Ref) {
       var curNumber = false;
       //if(curSpeaker==1 || curSpeaker==2){  //trying numbers on moderator too
 	    	
-	    	if ( ($.inArray('numbrz', word['cats']) != -1) || (false)) //TODO: add a check for $, currently it breaks something
+	    	if ( ($.inArray('numbrz', word['cats']) != -1) || (word["word"] == '$')) //TODO: add a check for $, currently it breaks something
 	    	{
 	    		//console.log("transcript - got a number!" + word['word']);
 	    		if (!this.numberOpen){
@@ -202,12 +203,17 @@ function(app, Overlay, Ref) {
       if (this.numberOpen){
       
       	//1. if end punct, emit number and don't add word
-      	if(word['punctuationFlag'] == 1) this.emitNumberEvent();
+      	if((word['punctuationFlag'] != 0) && (word["word"] != '$')) {
+      		//console.log("closing with punctFlag");
+      		this.emitNumberEvent();
+      	}
       	
       	//2. else add the word
       	else 
       	{
-	      	if (word['punctuationFlag'] == 0) this.numberPhrase += " "; //add lead space if leading
+      		
+      	
+	      	if ((word['punctuationFlag'] == 0) && !numberLeadingPunct) this.numberPhrase += " "; //add lead space if leading
 	      	this.numberPhrase += word['word']; //add word
 	      	
 	      	if (!curNumber) {
@@ -218,7 +224,14 @@ function(app, Overlay, Ref) {
 		      		if (word["word"] == extraNumberWords[i]) special = true;
 	      		}
 	    			if (!special) this.emitNumberEvent(); //We're not special! We're just like you!
-	      	}	
+	      	}
+	      	
+	      	//special case for $
+	      	if (word["word"] == '$') {
+	      		 numberLeadingPunct = true;
+      		}
+      		else numberLeadingPunct = false;
+	      		
       	}
     		
     	}
@@ -485,12 +498,25 @@ function(app, Overlay, Ref) {
     },
     
     emitNumberEvent: function() {
+    	
     	//console.log("emitNumberEvent("+this.numberPhrase+")");
+      
+      
       var anchorPos;
-      if(this.numberPhrase != null) {
-        //console.log("numberPhrase = "+this.numberPhrase+"....sentence="+$('#curSentence').html());
+      if(this.numberPhrase != null) 
+      {
+        //TODO: this formatting seems to be erasing previous formatting in the sentence. 
+        // Anything before the last number event in the sentence will be reverted to normal text
+        // Uncomment the three console.log() lines below to see what's happening
+        
+        //console.log("numberPhrase = "+this.numberPhrase);
+        //console.log("sentence="+$('#curSentence').html());
+        
       	var cS = $('#curSentence');
 	      cS.html(cS.text().replace($.trim(this.numberPhrase), "<span id='positionMarker' class='transcriptWord numberMarkup'>"+$.trim(this.numberPhrase)+"</span>"));
+	      
+	      //console.log("new sentence="+$('#curSentence').html());
+	      
         anchorPos = $('#positionMarker').offset();
         $('#positionMarker').removeAttr("id");        
       }
@@ -499,6 +525,7 @@ function(app, Overlay, Ref) {
     	// Emit an overlay event.
 			app.trigger("markup", {type:'numberMarkup', speaker:curSpeaker, phrase:this.numberPhrase, anchor:anchorPos});	
 			// Close the number.
+			
 			
 			this.numberOpen = false;
 			this.numberCount = 0;

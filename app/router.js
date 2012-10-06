@@ -41,9 +41,9 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
     	// Init uniquewords collection.
       //var uniqueWordCollection = new UniqueWord.Collection();
       var uniqueWords = new UniquePhrase.Model.AllPhrases(1, 20);
-      var unique2Grams = new UniquePhrase.Model.AllPhrases(2, 5);
-      var unique3Grams = new UniquePhrase.Model.AllPhrases(3, 5);
-      var unique4Grams = new UniquePhrase.Model.AllPhrases(4, 5);
+      var unique2Grams = new UniquePhrase.Model.AllPhrases(2, 20);
+      var unique3Grams = new UniquePhrase.Model.AllPhrases(3, 20);
+      var unique4Grams = new UniquePhrase.Model.AllPhrases(4, 20);
       
 		  // Init transcript.
 		  var transcriptView = new Transcript.View( {messages: messageCollection, speakers: speakerCollection, uniqueWords: uniqueWords} );
@@ -156,7 +156,6 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
             comparisons.addClass("active");
             var elt = $('#comparisons').find('.compareContainer.'+event.data.tag).parent();
             $("#comparisons > .wrapper").stop().animate({ scrollTop: elt.position().top}, 1.0);
-            console.log(elt.position().top);
           };
           
           var exitComp = function() {

@@ -168,8 +168,8 @@ function(app, Overlay, Ref) {
 			    app.trigger("markup", wordProps[0]); 		   		 	 
 		    }
 		    // Check if the word is in the top N words. (20 was too busy, so we're trying 10)
-		    else if((top20Count = this.uniqueWords.isTopWord(curSpeaker, word['word'], 10))
-		    	&& (this.uniqueWords.getTotalUniqueWords(curSpeaker) > 100)){
+		    else if((top20Count = this.uniqueWords.isTopPhrase(curSpeaker, word['word'], 10))
+		    	&& (this.uniqueWords.getTotalUniquePhrases(curSpeaker) > 100)){
 				  var sp = $("<span class='frequentWordMarkup countClick transcriptWord'>"+s+word["word"]+"</span>");
 				  sp.attr("data-wordcount", top20Count);
 			   	$('#curSentence').append(sp);	

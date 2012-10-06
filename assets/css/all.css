@@ -270,9 +270,18 @@ hr {
 	font-size: 24px;
 }
 
+.navTitle:hover {
+	color: rgb(64, 180, 230)
+}
+
 .navSubTitle {
 	font-size: 18px;
 }
+
+.navSubTitle:hover {
+	/*color: rgb(64, 180, 230)*/
+}
+
  
 .rot90 {
 	transform:rotate(90deg);
@@ -400,9 +409,10 @@ hr {
 	left:-300px;
 	font-size: 400px;
 	line-height: 336px;
-	font-family:"ff-meta-serif-web-pro"; 
+	/*font-family:"ff-meta-serif-web-pro"; 
 	font-weight:700; 
-	font-style:italic; 
+	font-style:italic;*/ 
+	font-family:"franklin-gothic-urw-i7", "franklin-gothic-urw"; font-weight:700; font-style:italic;
 	color: rgb(146,152,152);
 	z-index:-1;
 }

@@ -1,7 +1,10 @@
 body {
   /* background: -webkit-linear-gradient(left, #9699A0, #C9D1CF, #C9D1CF, #9699A0); */
   /*background-color: rgb(110,116,116);*/
+  
   background-color: rgb(140,146,146);	 
+  background-image: url('../../images/background-tex.jpg');
+  background-repeat: repeat; *;
 
   overflow-y: scroll;	
   overflow-x: hidden;	/* not working! */
@@ -84,12 +87,15 @@ body {
 	left: 0px;	/* account for perspective */
 	font-size: 400px;
 	line-height: 336px;
-	font-family:"ff-meta-serif-web-pro"; 
-	font-weight:700; 
-	font-style:italic; 
+	/*font-family:"ff-meta-serif-web-pro"; */
+	/*font-weight:700; */
+	/*font-style:italic; */
 	
-	/* color: rgb(146,152,152); */
-	color: rgb(150,156,156);
+	/*font-family:"franklin-gothic-urw-comp-i7", "franklin-gothic-urw-comp"; font-weight:700; font-style:italic;*/
+	font-family:"franklin-gothic-urw-i7", "franklin-gothic-urw"; font-weight:700; font-style:italic;
+	
+	color: rgb(146,152,152);
+	/*color: rgb(150,156,156);*/
 
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -335,6 +341,7 @@ hr {
 /*.gray60{ color:rgb(60,60,60); }*/
 
 .gray80{ color:rgb(80,80,80); }
+.bgGray80{ background-color:rgb(80,80,80);}
 .gray160{ color:rgb(160,160,160); }
 .grayBlue{ color:rgb(67,67,75); }
 .bgGrayBlue{ background-color:rgb(77,77,85); }
@@ -842,11 +849,11 @@ landingTitleImage {
 
 .emoTextSmall {
   position: absolute;
-  font-size: 36px;
+  font-size: 72px;
   line-height: 0.75em;
   visibility: hidden;
   opacity: 0;
-  z-index: 1;
+  z-index: -2;
   -webkit-transition: opacity 1s;
 }
 
@@ -899,8 +906,8 @@ landingTitleImage {
 #transcript .freqWordCount {
   position: relative;
   top: 1em;
-  /* color: rgb(207,255,36); */
-  color: white;
+  color: rgb(207,255,36); 
+  /*color: white;*/
 }
 #transcript .freqWordUnderline {
   position: absolute;

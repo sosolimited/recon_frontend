@@ -29,7 +29,7 @@ function(app, Overlay, Ref) {
   
   var prevLeadingPunct = false;
   
-  var extraNumberWords = ['on', 'of', 'a', 'to'];
+  var extraNumberWords = ['on', 'of', 'a', 'to', 'the', 'Of', 'The', 'A', 'To'];
 
   // Store top + bottom positions of paragraphs so they don't need to be recalculated all the time
   var paragraphPropertyCache = [];
@@ -122,7 +122,7 @@ function(app, Overlay, Ref) {
       // Check for numbers: 'number' for numerics, 'numbers' for LIWC.
       
       var curNumber = false;
-      if(curSpeaker==1 || curSpeaker==2){
+      //if(curSpeaker==1 || curSpeaker==2){  //trying numbers on moderator too
 	    	
 	    	if ( ($.inArray('numbrz', word['cats']) != -1) || (false)) //TODO: add a check for $, currently it breaks something
 	    	{
@@ -132,7 +132,7 @@ function(app, Overlay, Ref) {
 		    	}
 		    	curNumber = true;
 	    	}
-    	}
+    	//}
     	
     	var top20Count = 0;
     	// Only do other markup if a number phrase isn't open, and only if obama or romney are speaking

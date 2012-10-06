@@ -54,7 +54,8 @@ function(app, Ref) {
     
     handleDebateClick: function(e) {
       // Add markup.
-      //$("#transcript").html(app.markup);
+      $("#transcript").html(app.markup);
+      app.restore = true;
 
       // Playback messages.
       app.messages[app.debateNumber].playbackMessages(0, 1);

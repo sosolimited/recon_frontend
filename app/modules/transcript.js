@@ -70,6 +70,7 @@ function(app, Overlay, Ref) {
     },
 
     addWord: function(args) {
+      if (args.msg.type === "word" && app.restore) { return; }
      // console.log("transcript.addWord("+args['msg']['word']+")");
 	    var word = args['msg'];
 	    
@@ -250,14 +251,14 @@ function(app, Overlay, Ref) {
       if(scrollLive && !Ref.disableAutoScroll) {
         var scrollTo = this.transcriptBottom() - $(window).height();
         //var scrollTo = $(document).height() - $(window).height();
-        //if(scrollTo != lastScrollHeight && !scrollAnimating) {  // Only trigger autoscroll if needed
+        if(scrollTo != lastScrollHeight && !scrollAnimating) {  // Only trigger autoscroll if needed
           //console.log("scrolling to: " + scrollTo);
           var duration = Math.abs(lastScrollHeight - scrollTo) * 3.0;
           scrollAnimating = true;
           $("body").animate({ scrollTop: scrollTo}, duration, function() { scrollAnimating = false; });
           app.trigger("transcript:scrollTo", word["timeDiff"]); 
           lastScrollHeight = scrollTo;
-        //}
+        }
       }           
       //$('#curSentence').css("margin-bottom", $('#curSentence').height() - Ref.overlayOffsetY);
       

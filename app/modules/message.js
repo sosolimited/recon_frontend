@@ -57,9 +57,7 @@ function(app) {
   			diff = diff || msg.get("timeDiff") - startMsg.get("timeDiff");
   			if (diff >= 0) {
 	  			setTimeoutEvents.push(setTimeout(function() {
-            //if (msg.get("type") !== "sentenceEnd") {
-              app.trigger("message:" + msg.get("type"), { msg: msg.attributes, live: app.live });
-            //}
+            app.trigger("message:" + msg.get("type"), { msg: msg.attributes, live: app.live });
           }, diff));
 	  			//console.log("settimeout "+msg.get("word")+" "+diff);
 	  		}

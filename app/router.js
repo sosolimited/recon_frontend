@@ -350,13 +350,15 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
         return function(perc, i) {
           percs[i] = perc;
 
-          var hr = document.querySelector(".landingRule.gray60");
-          var total = percs[0] + percs[1];
+          window.setTimeout(function() {
+            var hr = document.querySelector(".landingRule.gray60");
+            var total = percs[0] + percs[1];
 
-          if (hr) {
-            hr.style.background = "-webkit-linear-gradient(left, rgb(207, 255, 36) " +
-              total + "%, rgb(76,76,76) " + (total+1) + "%)";
-          }
+            if (hr) {
+              hr.style.background = "-webkit-linear-gradient(left, rgb(207, 255, 36) " +
+                total + "%, rgb(76,76,76) " + (total+1) + "%)";
+            }
+          }, 100);
         };
       }();
 

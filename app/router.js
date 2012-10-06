@@ -246,8 +246,8 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	     
 	    function update() {
 		  	// Do everything that was previously handled on scroll events.
-		    markupManager.handleScroll(lastScrollY);		     
-		    bigWordsView.handleScroll(lastScrollY);
+		    //markupManager.handleScroll(lastScrollY);		     
+		    //bigWordsView.handleScroll(lastScrollY);
 		    transcriptView.handleScroll(lastScrollY);
         ticking = false;
 	    }

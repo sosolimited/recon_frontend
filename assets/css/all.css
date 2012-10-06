@@ -28,9 +28,9 @@ body {
   overflow:visible;
   /* overflow-x: hidden; */
   /* background-color: yellow; */
-  
-  -webkit-perspective: 700px;	
-  -webkit-perspective-origin: 50% 1000px;	
+ 
+  /* -webkit-perspective: 700px;	
+  -webkit-perspective-origin: 50% 1000px;	*/
 }
 
 #overlay {
@@ -111,7 +111,7 @@ body {
 	width:50px;
 	background-color:red;
 	position:absolute;
-	-webkit-transform: translateZ(-300px);	
+	/* -webkit-transform: translateZ(-300px);	*/
 }
 
 .testZno {
@@ -642,7 +642,7 @@ landingTitleImage {
 	/* background-color:yellow; */
 
 	-webkit-transition: -webkit-transform 1s ease-in;	
-	-webkit-transform: translateZ(0px);
+	/* -webkit-transform: translateZ(0px); */
 	
 }
 
@@ -663,7 +663,7 @@ landingTitleImage {
 	line-height:100px;
 	left:-450px;	/* Start out of view */
 
-	-webkit-transform: translateZ(0px);
+	/* -webkit-transform: translateZ(0px); */
 }
 
 /* Category words overlays */
@@ -753,7 +753,7 @@ landingTitleImage {
 	/* background-color:yellow; */
 
 	-webkit-transition: -webkit-transform 1s ease-in, left 1s, top 1s, height 1s, width 1s;	
-	-webkit-transform: translateZ(0px);
+	/* -webkit-transform: translateZ(0px); */
 
 }
 
@@ -803,7 +803,7 @@ landingTitleImage {
 	padding: 0px 0px 0px 0px;
   color: rgb(255,255,255); 
 	-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s, color 1s;
-	-webkit-transform: translateZ(0px);	
+	/* -webkit-transform: translateZ(0px);	*/
   z-index: 2;
 
 }
@@ -818,7 +818,7 @@ landingTitleImage {
 	padding: 0px 0px 0px 0px;
   color: rgb(124,51,64);
 	-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
-	-webkit-transform: translateZ(0px);	
+	/* -webkit-transform: translateZ(0px);	*/
   z-index: 2;
 }
 

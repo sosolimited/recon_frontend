@@ -853,7 +853,7 @@ landingTitleImage {
   line-height: 0.75em;
   visibility: hidden;
   opacity: 0;
-  z-index: -2;
+  z-index: 1;
   -webkit-transition: opacity 1s;
 }
 

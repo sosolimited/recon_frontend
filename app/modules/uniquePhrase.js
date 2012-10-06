@@ -44,7 +44,7 @@ function(app) {
   		
 			
   		this.topPhrases = [];
-  		for(var i=0; i<this.numTop; i++)
+  		for(var i=0; i<this.numTop+1; i++)
   			this.topPhrases.push({phrase:"", count:0});		
   	},
   	
@@ -123,7 +123,7 @@ function(app) {
 	  isTopPhrase: function(phrase, numPhrases) {
 		  var i=0;
 		  var index=0;
-		  while((i<numPhrases) && (index<this.models.length)){
+		  while((i<numPhrases) && (index<this.length)){
 		  	// If it's NOT a function word.
 				if (this.filterPhrase(this.at(index))){
 					if(this.at(index).get("phrase")==phrase){

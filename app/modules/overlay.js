@@ -248,20 +248,31 @@ function(app, Ref) {
       this.$el.find('.numberPhrase').each(function(i){ 
 	      if (force) $(this).css('-webkit-transition', '0s');
 	      
-	      //$(this).css("font-size","54px");
-	      //$(this).css("height", "72px");
-	      $(this).css("font-size","18px");
-	      $(this).css("height", "24px");
+	      $(this).css("font-size","54px");
+	      $(this).css("height", "72px");
+	      
+	      
+	      
+	      //$(this).css("font-size","18px");
+	      //$(this).css("height", "24px");
 	      //$(this).css("width", Ref.gridWidth);
 	      $(this).css("top", (_posY) + 'px');  // Center on line
-	      //$(this).css("color", "rgb(80,80,80)");
+	      $(this).css("color", "rgb(80,80,80)");
 	      if(sp == 1){
-	        //$(this).css("left", Ref.gridColumns[4]);
-	        $(this).css("left", Ref.gridColumns[0]);
+	        $(this).css("left", Ref.gridColumns[4]);
+	        //$(this).css("left", Ref.gridColumns[0]);
 	      }
 	      else if(sp == 2){
-	        //$(this).css("left", Ref.gridColumns[1]);
-	        $(this).css("left", Ref.gridColumns[0]);
+	        $(this).css("left", Ref.gridColumns[1]);
+	        //$(this).css("left", Ref.gridColumns[0]);
+	        $(this).css("width", "296px");
+	        $(this).css("text-align", "right");
+	      }
+	      else 
+	      {
+		      $(this).css("left", Ref.gridColumns[0]);
+		      $(this).css("width", "296px");
+		      $(this).css("text-align", "right");
 	      }
 	        //console.log(sp);
 	        //console.log( (this.anchorY - 18) + 'px'));
@@ -439,6 +450,7 @@ function(app, Ref) {
 		expand: function() {
 			this.state = 1; 
 			
+			//PEND: WHAT SHOULD THE CONTAINER BE?
       var container = $(this.$el.find('.container')[0]);
       this.nSigns = (Math.random() * 5 + 5) * (this.type == 'posemo' ? 1 : 2); // 5-15 random + or - signs
       var signChar = this.type == 'posemo' ? '+' : '-';

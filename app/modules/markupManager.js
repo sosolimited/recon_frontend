@@ -145,13 +145,19 @@ function(app, Overlay, Ref) {
 	  
 	  
 	  // reusable overlays
-	  fireCatOverlay: function(cat, offset, delay) {
+	  openCatOverlay: function(cat, delay) {
 	  	var lay = this.get("catOverlays")[cat];
 
 	  	if (lay) {		  	
-	  		lay.expand(this.scaleY(offset));
+	  		lay.expand();
 		  	window.setTimeout(function(){lay.collapse();}, delay);
 		  }
+	  },
+	  
+	  closeCatOverlays: function() {
+	  	for (i in this.get("catOverlays")) {
+		  	this.get("catOverlays")[i].collapse();
+	  	}
 	  },
 	  
 	  scaleY: function(val) {

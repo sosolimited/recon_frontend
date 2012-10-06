@@ -162,7 +162,11 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           	app.mode = "transcript";
             transcript.removeClass("fade");
             comparisons.removeClass("active");
-          	
+          }
+          
+          var closeCatLays = function() {
+	          $('.catMarkup').removeClass('reverse');
+	          markupManager.closeCatOverlays();
           }
 
           transcript.on("click", ".transcriptSpeaker", { tag: "count" }, enterComp);
@@ -171,6 +175,8 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           transcript.on("click", ".countClick", { tag: "list" } , enterComp);
           
           transcript.on("click", ".catMarkup", function(ev) {
+          	ev.stopPropagation();
+          	closeCatLays();
           	var name;
           	if ($(this).hasClass("posemoMarkup")) name = "posemo";
           	else if ($(this).hasClass("negemoMarkup")) name = "negemo";
@@ -178,15 +184,13 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           	else if ($(this).hasClass("tentatMarkup")) name = "tentat";
           
           	$('.'+name+'Markup').addClass('reverse');
-          	setTimeout(function(){$('.'+name+'Markup').removeClass('reverse');}, 2000);
-          	
-          	var off = $(this).scrollTop() + $(this).parent().parent().parent().position().top + $(this).position().top;
-          	markupManager.fireCatOverlay(name, off, 2000);
+          	setTimeout(function(){$('.'+name+'Markup').removeClass('reverse');}, 30000);
+          	markupManager.openCatOverlay(name, 30000);
           });
+          
+          transcript.on("click", closeCatLays);
          
-          comparisons.on("click", function(ev) {
-            exitComp();
-          });
+          comparisons.on("click", exitComp);
           
         })();
       }, 50);

@@ -464,7 +464,7 @@ function(app, Ref) {
       
       // Just a 1ms delay so the properties animate in
       window.setTimeout(function() {
-        this.$el.find('.emoTextBig').css({'visibility': 'visible', 'opacity': 1, 'font-size': 120});
+        this.$el.find('.emoTextBig').css({'opacity': 1, 'font-size': 120});
         for(var i=0; i<this.nSigns; i++) {
           var flipOut = Math.random() > 0.8;
           var translateX = (Math.random() - 0.5) * (flipOut ? 3000 : 500);
@@ -510,7 +510,7 @@ function(app, Ref) {
 	    
       // Fade in small text
 	    if (force) this.$el.find('.emoTextSmall').css('-webkit-transition', '0s');
-      this.$el.find('.emoTextSmall').css({'visibility': 'visible', 'opacity': 1, 'top' : this.posY});
+      this.$el.find('.emoTextSmall').css({'opacity': 1, 'top' : this.posY});
 
 		},
 		

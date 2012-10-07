@@ -397,13 +397,13 @@ function(app, Overlay, Ref) {
     	var spColor = "white";
     	//if(curSpeaker == 0) spColor = "gray60";	
     		
-  		//var newP = $("<div id='curParagraph' class='push-" + col + " span-3 " +
-      //             speakers[curSpeaker] + " transcriptParagraph'><div class='transcriptSpeaker franklinMedIt " + spColor + "'>" +
-      //             speakers[curSpeaker] + "</div><p class='metaBook gray60'></p></div><div class=clear></div>");                   
+  		var newP = $("<div id='curParagraph' class='push-" + col + " span-3 " +
+                   speakers[curSpeaker] + " transcriptParagraph'><div class='transcriptSpeaker franklinMedIt " + spColor + "'>" +
+                   speakers[curSpeaker] + "</div><p class='metaBook gray60'></p></div><div class=clear></div>");                   
       // Adding parallax.
-      var newP = $("<div id='curParagraph' class='push-" + col + " span-3 " +
-                   speakers[curSpeaker] + " transcriptParagraph' data-top-bottom='margin-top:-40px;' data-top-top='margin-top:40px;'><div class='transcriptSpeaker franklinMedIt " 
-                   + spColor + "'>" + speakers[curSpeaker] + "</div><p class='metaBook gray60'></p></div><div class=clear></div>");                                                  
+      //var newP = $("<div id='curParagraph' class='push-" + col + " span-3 " +
+      //             speakers[curSpeaker] + " transcriptParagraph' data-top-bottom='margin-top:-40px;' data-top-top='margin-top:40px;'><div class='transcriptSpeaker franklinMedIt " 
+      //             + spColor + "'>" + speakers[curSpeaker] + "</div><p class='metaBook gray60'></p></div><div class=clear></div>");                                                  
       this.$el.append(newP);
       // Add to skrollr manager.
       app.skrollr.refresh(newP.get(0));

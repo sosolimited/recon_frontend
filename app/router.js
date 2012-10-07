@@ -291,9 +291,9 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 						if($('#transcript > .wrapper').css("visibility") == "visible") $('#transcript > .wrapper').css("visibility", "hidden");
 		      	else $('#transcript > .wrapper').css("visibility", "visible");
 					}
-					//w for wordcount testing
+					//w for skrollr object switching
 					else if(event.which == 87){	
-						app.trigger("keypress:test", {type:"overlay", kind:"wordCount"});
+						//if(app.skrollr._skrollElement == null) app.skrollr.setSkrollElement("")
 					}
 					//p for inserting parallax test objects
 					else if(event.which==80){	

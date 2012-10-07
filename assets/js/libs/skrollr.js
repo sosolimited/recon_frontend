@@ -199,6 +199,9 @@
 		if(_forceHeight) {
 			_scale = options.scale || 1;
 		}
+		
+		// SOSO Extending to allow an arbitrary scroll object to be set (instead of doc).
+		_instance._skrollElement = null;
 
 		//Remove "no-skrollr" and add "skrollr" to the HTML element.
 		_updateClass(documentElement, [SKROLLR_CLASS], [NO_SKROLLR_CLASS]);
@@ -477,15 +480,31 @@
 		return _instance;
 	};
 
+	// SOSO Added support for arbitrary scroll object.
 	Skrollr.prototype.getScrollTop = function() {
 		//skrollr.scrollerInstance is an instance of zynga/scroller
 		//which is available for mobile support and set by SkrollrScrollerBridge.js.
 		if(window.skrollr.scrollerInstance) {
 			return window.skrollr.scrollerInstance.__scrollTop;
 		} else {
-			return window.pageYOffset || documentElement.scrollTop || body.scrollTop || 0;
+			if(_instance._skrollElement == null){	// SOSO 
+				return window.pageYOffset || documentElement.scrollTop || body.scrollTop || 0;
+			}else{ // SOSO 
+				console.log("scrollTop = "+_instance._skrollElement.scrollTop);
+				return _instance._skrollElement.scrollTop;	//SOSO testing
+			}	
 		}
 	};
+	
+	// SOSO Extending to allow skrollr to work off of the scrollTop of an arbitrary element.
+	Skrollr.prototype.setSkrollElement = function(el) {
+			window.skrollr._skrollElement = el;
+	}
+	Skrollr.prototype.resetSkrollElement = function() {
+			window.skrollr._skrollElement = null;
+	}
+
+
 
 	Skrollr.prototype.on = function(name, fn) {
 		_listeners[name] = fn;

@@ -79,6 +79,9 @@ function(app, Overlay, Ref) {
 			  else if(args['type']=="sentimentMarkup"){
 				  this.addSentimentOverlay(args);
 			  }
+			  else if(args['type']=="traitLead"){
+				  this.addTraitOverlay(args);
+			  }
 		  }
 	  },
 	  
@@ -103,11 +106,14 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  addTraitOverlay: function(args) {
+	  	//console.log("addTraitOverlay()");
+	 
 		  var traitsOverlay = new Overlay.Views.TraitView({ trait: "FORMAL", leader: "obama", posY: this.scaleY(parseInt(this.attributes.transcript.getCurSentencePosY())) });
 			$('#overlay').append(traitsOverlay.el);
 			traitsOverlay.render();
 			
 			this.get("overlays").push(traitsOverlay);			
+	
 	  },
 	  
 	  addQuoteOverlay: function(args) {

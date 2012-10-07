@@ -8,7 +8,7 @@
 		<div class="push-4 span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05;"></div>
 		<div class="push-5 span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05;"></div>
 -->
-		<p class="franklinMedCompIt comparisonTitle <%=comparison.get("color1").toLowerCase()%>  "> <%= comparison.get("title") %></p>
+		<p class="franklinMedCompIt comparisonTitle <%=comparison.get("color1").toLowerCase()%>"> <%= comparison.get("title") %></p>
 		<hr class="bg<%=comparison.get("color1")%>" style="height:3px"/>
 		<p class="franklinBookComp <%=comparison.get("color1").toLowerCase()%> comparisonSubtitle"><%= comparison.get("subtitle") %></p>
 
@@ -40,7 +40,7 @@
 		%>
 		
 		<div class = "push-0" style="top: <%= mapVal(val0)[1]/2.0%>px; position:absolute;" >
-		<p class="franklinDemiCompIt countCandidate white" > Obama </p>
+		<p class="franklinDemiCompIt countCandidate white" data-500="color:rgb(255,255,255);" data-1000="color:rgb(0,0,0);"> Obama </p>
 		<p class="franklinDemiComp countBigNumber " > <%=  addCommas(val0) %> </p> </div>
 		
 		<div class = "push-4" style="top: <%= mapVal(val1)[1]/2.0%>px; position:absolute;">

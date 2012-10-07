@@ -174,7 +174,7 @@ function(app) {
 		    
  		    if (newLead != this.leads[i]) {
 		    //	console.log("newLead "+newLead+" "+this.at(1).get("traits")[i]['name']);
-		    	app.trigger("markup:traitLead", {type:"traitLead", speaker:newLead, trait:this.at(1).get("traits")[i]['name'], new:true});
+		    	app.trigger("markup", {type:"traitLead", speaker:newLead, trait:this.at(1).get("traits")[i]['name'], new:true});
 		    	//console.log("new lead "+newLead+" "+this.at(1).get("traits")[i]['name']);
 		    }
 		    //else console.log("oldLead "+this.leads[i]+" "+this.at(1).get("traits")[i]['name']);
@@ -189,7 +189,7 @@ function(app) {
 	    if (this.leads.length > 0) {
 		    var t = Math.floor(Math.random()*this.leads.length);
 		    var leader = (this.at(1).get("traits")[t]['val'] > this.at(2).get("traits")[t]['val']) ? 1 : 2;
-		    app.trigger("markup:traitLead", {type:"traitLead", speaker:leader, trait:this.at(1).get("traits")[t]['name'], new:false});
+		    app.trigger("markup", {type:"traitLead", speaker:leader, trait:this.at(1).get("traits")[t]['name'], new:false});
 		    //console.log("old lead "+leader+" "+this.at(1).get("traits")[t]['name']);
 		    
 	    }

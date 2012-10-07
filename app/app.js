@@ -41,7 +41,7 @@ function($, _, Backbone, eio) {
 				//	return 1-p;
 				//}
 			}
-		})
+		}),
 		    
     // Default to the application thinking it's live.
     live: true,

@@ -13,7 +13,8 @@ require.config({
     // Libraries.
     jquery: "../assets/js/libs/jquery",
     lodash: "../assets/js/libs/lodash",
-    backbone: "../assets/js/libs/backbone"
+    backbone: "../assets/js/libs/backbone",
+    skrollr: "../assets/js/libs/skrollr"
   },
 
   shim: {
@@ -31,7 +32,9 @@ require.config({
     "plugins/backbone.layoutmanager": ["backbone"],
 
     // Ben Alman's Clickoutside plugin depends on jQuery.
-    "plugins/jquery.ba-outside-events": ["jquery"]
+    "plugins/jquery.ba-outside-events": ["jquery"],
+    
+
   }
 
 });

@@ -19,8 +19,8 @@ function(app) {
   		}
   	},
   	
-  	initialize: function(msg, phrase, count, cats) {
-  		this.set({id:msg['dbid'], phrase:phrase, cats:cats});
+  	initialize: function(msg, phrase, count) {
+  		this.set({id:msg['dbid'], phrase:phrase, cats:msg['cats']});
   		this.increment(count);
     },
     
@@ -69,8 +69,7 @@ function(app) {
 			    	
 				    	var w = this.get(msg["dbid"]); //PEND Change 0s.
 				    	if (w) w.increment();
-				    	else this.add(msg, msg["word"], 1, msg["cats"]);
-				    	
+				    	else this.add(msg, msg["word"], 1, msg["cats"]);				    	
 				    } else {
 					    for (var i=0; i<msg['ngrams'].length; i++) {
 						    var p = this.get(msg['ngrams'][i][0]);

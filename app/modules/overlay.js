@@ -283,6 +283,11 @@ function(app, Ref) {
     },
 		
     afterRender: function() {
+    	// Tell skrollr about new elements
+    	this.$el.find('.numberPhrase').each(function(i){ 
+    		app.skrollr.refresh(this);
+    	});
+    	    	
 			if(!this.forceCollapse) this.expand();
 			else this.collapse(true);
 		}
@@ -464,7 +469,7 @@ function(app, Ref) {
       
       // Just a 1ms delay so the properties animate in
       window.setTimeout(function() {
-        this.$el.find('.emoTextBig').css({'visibility': 'visible', 'opacity': 1, 'font-size': 120});
+        this.$el.find('.emoTextBig').css({'opacity': 1, 'font-size': 120});
         for(var i=0; i<this.nSigns; i++) {
           var flipOut = Math.random() > 0.8;
           var translateX = (Math.random() - 0.5) * (flipOut ? 3000 : 500);
@@ -510,13 +515,17 @@ function(app, Ref) {
 	    
       // Fade in small text
 	    if (force) this.$el.find('.emoTextSmall').css('-webkit-transition', '0s');
-      this.$el.find('.emoTextSmall').css({'visibility': 'visible', 'opacity': 1, 'top' : this.posY});
+      this.$el.find('.emoTextSmall').css({'opacity': 1, 'top' : this.posY});
 
 		},
 		
 		afterRender: function() {
 			if (!this.forceCollapse) this.expand();
 			else this.collapse(true);
+			// Add to skrollr lib.
+			this.$el.find('.emoTextSmall').each(function(){
+				app.skrollr.refresh(this);				
+			});
 		}
 		
 	});
@@ -529,19 +538,17 @@ function(app, Ref) {
 		 initialize: function() {
 			this.category = this.options.category;
 			this.title = this.options.title;
+	    this.$el.css('left', Ref.gridColumns[0]+'px');
+	    this.$el.css('top', Ref.gridColumns[1]+'px');
+	    this.$el.css('position', 'fixed');
 		 },	
 		 
 		 serialize: function() {
       return { category: this.category, title: this.title };
     },
     
-    expand: function(offset) {
-    	//this.$el.css('-webkit-transition', 'opacity 1s');
+    expand: function() {
       this.$el.css('opacity',1.0); 
-      
-	    this.$el.find('.catWrapper').css('left', Ref.gridColumns[0]+'px');
-	    this.$el.find('.catWrapper').css('top', offset+'px');
-	    console.log(offset);
     },
     
     collapse: function() {

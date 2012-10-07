@@ -538,9 +538,10 @@ function(app, Ref) {
 		 initialize: function() {
 			this.category = this.options.category;
 			this.title = this.options.title;
-	    this.$el.css('left', Ref.gridColumns[0]+'px');
-	    this.$el.css('top', Ref.gridColumns[1]+'px');
+	    //this.$el.css('left', Ref.gridColumns[0]+'px');
+	    this.$el.css('top', (2*Ref.transcriptLeading) +'px');
 	    this.$el.css('position', 'fixed');
+	    this.$el.css('z-index', '12');
 		 },	
 		 
 		 serialize: function() {
@@ -548,16 +549,16 @@ function(app, Ref) {
     },
     
     expand: function() {
-      this.$el.css('opacity',1.0); 
+      //this.$el.css('opacity',1.0); 
+      this.$el.css('display','inline'); // Opacity alone still blocks mouse interactions.
     },
     
     collapse: function() {
-    	//this.$el.css('-webkit-transition', 'opacity 1s');
-      this.$el.css('opacity',0); 
+      this.$el.css('display', 'none');	
     },
     
     hide: function() {
-      this.$el.css('opacity',0); 
+      this.$el.css('display', 'none');	// Opacity alone still blocks mouse interactions.
     },
     
     afterRender: function() {

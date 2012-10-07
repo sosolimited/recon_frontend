@@ -283,6 +283,11 @@ function(app, Ref) {
     },
 		
     afterRender: function() {
+    	// Tell skrollr about new elements
+    	this.$el.find('.numberPhrase').each(function(i){ 
+    		app.skrollr.refresh(this);
+    	});
+    	    	
 			if(!this.forceCollapse) this.expand();
 			else this.collapse(true);
 		}
@@ -517,6 +522,10 @@ function(app, Ref) {
 		afterRender: function() {
 			if (!this.forceCollapse) this.expand();
 			else this.collapse(true);
+			// Add to skrollr lib.
+			this.$el.find('.emoTextSmall').each(function(){
+				app.skrollr.refresh(this);				
+			});
 		}
 		
 	});

@@ -14,7 +14,7 @@ require.config({
     jquery: "../assets/js/libs/jquery",
     lodash: "../assets/js/libs/lodash",
     backbone: "../assets/js/libs/backbone",
-    skrollr: "../assets/js/libs/skrollr.min"
+    skrollr: "../assets/js/libs/skrollr"
   },
 
   shim: {

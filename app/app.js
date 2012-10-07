@@ -27,13 +27,14 @@ function($, _, Backbone, eio) {
     // Create a socket connection to the server.
     socket: new eio.Socket({ host: location.hostname, port: 8081 }),
     
+    
     // Init skrollr lib
     skrollr: skrollr.init({    	
 	    beforerender: function(data) {
-				console.log('beforerender');
+				//console.log('beforerender');
 			},
 			render: function() {
-				console.log('render');
+				//console.log('render');
 			},
 			easing: {
 				//WTF: Math.random,
@@ -41,7 +42,8 @@ function($, _, Backbone, eio) {
 				//	return 1-p;
 				//}
 			}
-		})    
+		})
+		    
   };
 
   // Localize or create a new JavaScript Template object.

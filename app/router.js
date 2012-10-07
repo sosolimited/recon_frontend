@@ -225,6 +225,9 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
       // ----------------------------------------------------------------------
       
       //Throttle body scroll events and emit them as messages.
+      
+      
+      /* //EG Testing skrollr performance
       var lastScrollY = 0;
       var ticking = false;
       $(window).scroll(_.throttle(function(ev) {
@@ -246,12 +249,11 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	     
 	    function update() {
 		  	// Do everything that was previously handled on scroll events.
-		    //markupManager.handleScroll(lastScrollY);		     
-		    //bigWordsView.handleScroll(lastScrollY);
-		    transcriptView.handleScroll(lastScrollY);
+		    transcriptView.handleScroll(lastScrollY);	
         ticking = false;
 	    }
-	     	
+	    */
+	    
 	     /*
 	    (function animloop(){
       	requestAnimFrame(animloop);
@@ -261,7 +263,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	    */	    
     
       // Listen for keydown events.
-      var keyboardEnabled = false;	
+      var keyboardEnabled = true;	
       
       if(keyboardEnabled){
 	      $('body').keydown(function(event){

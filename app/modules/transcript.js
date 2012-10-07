@@ -168,12 +168,14 @@ function(app, Overlay, Ref) {
 			    app.trigger("markup", wordProps[0]); 		   		 	 
 		    }
 		    // Check if the word is in the top N words. (20 was too busy, so we're trying 10)
+		    /*	//TEMP until freq words gets fixed.
 		    else if((top20Count = this.uniqueWords.isTopPhrase(curSpeaker, word['word'], 10))
 		    	&& (this.uniqueWords.getTotalUniquePhrases(curSpeaker) > 100)){
 				  var sp = $("<span class='frequentWordMarkup countClick transcriptWord'>"+s+word["word"]+"</span>");
 				  sp.attr("data-wordcount", top20Count);
 			   	$('#curSentence').append(sp);	
 		    }
+		    */
 		  	else if ($.inArray('posemo', word['cats']) != -1) {
 		  		 //app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
 		  		 $('#curSentence').append(s+"<span class='catMarkup posemoMarkup transcriptWord'>"+word["word"]+"</span>"); 
@@ -382,10 +384,16 @@ function(app, Overlay, Ref) {
     	var spColor = "white";
     	//if(curSpeaker == 0) spColor = "gray60";	
     		
-  		var newP = $("<div id='curParagraph' class='push-" + col + " span-3 " +
-                   speakers[curSpeaker] + " transcriptParagraph'><div class='transcriptSpeaker franklinMedIt " + spColor + "'>" +
-                   speakers[curSpeaker] + "</div><p class='metaBook gray60'></p></div><div class=clear></div>");                   
+  		//var newP = $("<div id='curParagraph' class='push-" + col + " span-3 " +
+      //             speakers[curSpeaker] + " transcriptParagraph'><div class='transcriptSpeaker franklinMedIt " + spColor + "'>" +
+      //             speakers[curSpeaker] + "</div><p class='metaBook gray60'></p></div><div class=clear></div>");                   
+      // Adding parallax.
+      var newP = $("<div id='curParagraph' class='push-" + col + " span-3 " +
+                   speakers[curSpeaker] + " transcriptParagraph' data-top-bottom='margin-top:-40px;' data-top-top='margin-top:40px;'><div class='transcriptSpeaker franklinMedIt " 
+                   + spColor + "'>" + speakers[curSpeaker] + "</div><p class='metaBook gray60'></p></div><div class=clear></div>");                                                  
       this.$el.append(newP);
+      // Add to skrollr manager.
+      app.skrollr.refresh(newP.get(0));
       
       // Cache position in data attributes
       newP.attr('data-top', newP.offset().top);

@@ -853,7 +853,7 @@ landingTitleImage {
   line-height: 0.75em;
   visibility: hidden;
   opacity: 0;
-  z-index: -2;
+  z-index: 3;
   -webkit-transition: opacity 1s;
 }
 
@@ -919,6 +919,15 @@ landingTitleImage {
   cursor: pointer;
 }
 
+
+
+.skTest {
+	position: absolute;
+	left: 100px;
+	font-size: 100px;
+	color: white;
+	font-style: bold;
+}
 /*
 #transcript {
 	width: 1200px;

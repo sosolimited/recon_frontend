@@ -191,9 +191,40 @@ function(app, Overlay, Ref) {
 			  }
 		  }
 		  else if(args['type']=="testParallax"){
-				//inserg some test objects
-				//console.log("testParallax");
+				//Insert some test objects
+				console.log("testParallax");
 				
+				$('#overlay').append("<div style='position:absolute; top:0px; width: 20px; height:12000px; background-color:yellow;'></div>");
+				// Testing skrollr.
+				for(var y=0; y<30; y++){
+					//var newEl = $("<div id='test"+y+"' class='skrollr skrollable skTest' data-"+(y*300)+"='top:100%;color:rgb(255,255,255);' data-"+(y*300+1000)+"='top:0%;color:rgb(0,0,0);'>"+y+"</div>");
+					var newEl = $("<div id='test"+y+"' class='skrollr skrollable skTest' style='top:"+(y*300)+"px;' data-top-bottom='margin-top:0px; color:rgb(255,255,255);' data-bottom-top='margin-top:"+(Math.random()*600)+"px; color:rgb(0,0,0);'>"+y+"</div>");
+					app.skrollr.refresh(newEl.get(0));
+
+				  $('body').append(newEl);
+				  //$('body').append("<div id='test"+y+"' class='skTest' style='top:"+(y*400)+"px;' data-top-bottom='left:0px;color:rgb(255,255,255);' data-bottom-top='left:1000px;color:rgb(0,0,0);'>"+y+"</div>");
+				 }
+				
+				/*
+				var sk = skrollr.init({    	
+		    beforerender: function(data) {
+					//console.log('beforerender');
+				},
+				render: function() {
+					//console.log('render');
+				},
+				easing: {
+					//WTF: Math.random,
+					//inverted: function(p) {
+					//	return 1-p;
+					//}
+				}
+			});
+			*/ 
+			   
+					
+				
+				/*
 				for(var y=0; y<10; y++){
 				  for(var i=0; i<6; i++){	
 				  
@@ -202,19 +233,11 @@ function(app, Overlay, Ref) {
 				  	$('#overlay').append("<span id='testZ" + (i+1) + "' class='testZ' style='left:" + Ref.gridZ100['grid'][i] + "px; top:"  + (y*600 + 600) + "px; -webkit-transform: translateZ(100px); background-color:yellow;'>" + i + "</span>");
 				  	
 				  	$('#overlay').append("<span id='testZ" + (i+1) + "' class='testZ' style='left:" + Ref.gridZ200['grid'][i] + "px; top:"  + (y*600 + 600) + "px; -webkit-transform: translateZ(200px); background-color:red;'>" + i + "</span>");
-				  
-				  /*
-				  //EG testing with translateX instead of left for x position
-				  $('#overlay').append("<span id='testZ" + (i+1) + "' class='testZ' style='left:0px; -webkit-transform:translateX(" + Ref.gridZn200['grid'][i] + "px); top:" + (y*600 + 600) + "px; -webkit-transform: translateZ(-200px); background-color:blue;'>" + i + "</span>");
-				  	
-				  	$('#overlay').append("<span id='testZ" + (i+1) + "' class='testZ' style='left:0px; -webkit-transform:translateX(" + Ref.gridZ100['grid'][i] + "px); top:"  + (y*600 + 600) + "px; -webkit-transform: translateZ(100px); background-color:yellow;'>" + i + "</span>");
-				  	
-				  	$('#overlay').append("<span id='testZ" + (i+1) + "' class='testZ' style='left:0px; -webkit-transform:translateX(" + Ref.gridZ200['grid'][i] + "px); top:"  + (y*600 + 600) + "px; -webkit-transform: translateZ(200px); background-color:red;'>" + i + "</span>");
-				  	*/	  
-				  }	
-			  }
-		  }
-	  }
+				  */
+				}	
+			}
+		  
+	  
 	  
   });
 

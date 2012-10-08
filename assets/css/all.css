@@ -315,22 +315,31 @@ hr {
 
 .gray80{ color:rgb(80,80,80); }
 .gray160{ color:rgb(160,160,160); }
+
 .grayBlue{ color:rgb(67,67,75); }
 .bgGrayBlue{ background-color:rgb(77,77,85); }
+
 .pink{ color:rgb(231,0,149); }
 .bgPink{ background-color:rgb(231,0,149); }
+
 .sky{ color:rgb(64,180,229); }
 .bgSky{ background-color:rgb(64,180,229); }
+
 .lime{ color:rgb(207,255,36); }
 .bgLime{ background-color:rgb(207,255,36); }
+
 .magenta{ color:rgb(227, 31, 130); } 
-.bgMagenta{ background-color:rgb(227, 31, 130); } 
+.bgMagenta{ background-color:rgb(227, 31, 130); }
+ 
 .cherry{ color:rgb(255, 66, 55); } 
 .bgCherry{ background-color:rgb(255, 66, 55); } 
+
 .purple{ color:rgb(101, 45, 106); } 
 .bgPurple{ background-color:rgb(101, 45, 106); } 
+
 .salmon{ color:rgb(255,157,108); }
 .bgSalmon{ background-color:rgb(255,157,108); }
+
 .seaGreen{ color:rgb(124,240,179); }
 
 .angry{color:rgb(255,67,55);}
@@ -344,8 +353,11 @@ hr {
 
 .depressed{color:rgb(122,52,64);}
 
+.positive{color:rgb(124,240,179);}
+.bgPositive{background-color:rgb(124,240,179);}
 
-
+.negative{color:rgb(122,52,183);}
+.bgNegative{background-color:rgb(122,52,183);}
 
 /* Overlays */
 

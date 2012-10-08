@@ -47,11 +47,15 @@ function(app, Ref) {
     	this.$el.find('.traitExpText').each(function(i){ 
 	    		$(this).delay(i*300).animate({top:"0px"}, 1000); 
     	}); 	
-    	//Slide big arrow in.
-    	this.$el.find('.traitSymbol').each(function(){
-	    		$(this).animate({left:Ref.gridColumns[2]+'px'}, 1000);
+    	//Slide big arrow in.    
+    	this.$el.find('.traitSymbolLeft').each(function(){
+	    		$(this).animate({left:Ref.gridColumns[4]+'px'}, 1000);
     	});
-    	
+  
+    	this.$el.find('.traitSymbolRight').each(function(){
+	    		$(this).animate({left:Ref.gridColumns[1]+'px'}, 1000);
+    	});
+    
     	//Sit for holdDur, then collapse.
     	window.setTimeout(function(){this.collapse(false);}, this.expandDur + this.holdDur, this);
     }, 
@@ -68,15 +72,21 @@ function(app, Ref) {
     	}); 
     	//Shrink and move divs.
     	this.$el.find('.traitExpTextHolder').each(function(i){
+    		
     		$(this).animate({'left':Ref.gridColumns[0], 'top':y+i*24+'px', 'height':'24px'}, collapseD);
+     		
+     		//else $(this).animate({'left':Ref.gridColumns[0], 'top':y+i*24+'px', 'height':'24px'}, collapseD);
     		//$(this).animate({'-webkit-transform':'translateZ(1000px)'}, collapseD);   	//Move div forward in Z.	
     		this.style.webkitTransform = "translateZ(500px)";	//We're using CSS transitions to animate this.
+    	
     	});
     	//Shrink and position big arrow.
-    	this.$el.find('.traitSymbol').each(function(){
-	    		$(this).animate({left:Ref.gridColumns[1]+'px'}, collapseD);
-	    		//$(this).animate({'-webkit-transform':'translateZ(-1000px)'}, collapseD);	//Move arrow back in Z.
-	    		//this.style.webkitTransform = "translateZ(0px)";	//We're using CSS transitions to animate this.
+    	this.$el.find('.traitSymbolLeft').each(function(){
+	    		$(this).animate({'font-size':'360px', 'line-height':12*14+'px'}, collapseD/2.);
+    	});
+    	
+    	this.$el.find('.traitSymbolRight').each(function(){
+	    		$(this).animate({'font-size':'360px', 'line-height':12*14+'px'}, collapseD/2.);
     	});
     },
     
@@ -203,6 +213,7 @@ function(app, Ref) {
 	//Numbers 
 	//-------------------------------------------------------------------------------------
 	Overlay.Views.NumbersView = Backbone.View.extend({
+		//defines the html that will be inserted into the div
 		template: "overlays/numbers",
 		
 		initialize: function() {
@@ -223,9 +234,11 @@ function(app, Ref) {
 			this.collapseDur = 1500;				
 		},
 		
+		//defines what the view passes to the template to render it
 		serialize: function() {
 				return { speaker: this.speaker, phrase: this.phrase, posY: this.posY+Ref.overlayEnterY, lineY: this.collapseY+Ref.transcriptPointSize, grid: Ref.gridColumns};
 		},
+		
 		expand: function() {
 			this.state = 1;	// Expanded.
 

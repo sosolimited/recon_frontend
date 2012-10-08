@@ -1,13 +1,14 @@
 <div class="container">
 <% if(leader=="obama") { %>
-	<div class="traitExpTextHolder over push-1 traitClick" style="top:<%= startPosY - 2*96 %>px;"><p class="franklinDemiIt traitExpText"><%= leader.toUpperCase() %> IS NOW </p></div>
-	<div class="traitExpTextHolder over push-1 traitClick" style="top:<%= startPosY - 96 %>px;"><p class="franklinDemiIt traitExpText">MORE <%= trait %> <p></div>
-	<div class="traitExpTextHolder over push-1 traitClick" style="top:<%= startPosY %>px;"><p class="franklinDemiIt traitExpText">THAN <%= trailer.toUpperCase() %> </p></div>
-	<div class="franklinHeavy traitSymbol pink traitClick" style="top:<%= startPosY %>px;">></div>
+	<div class="traitExpTextHolder traitClick" style="top:<%= startPosY - 2*96 %>px;"><p class="franklinDemiCompIt traitExpText bgOrangeRed white"><%= leader.toUpperCase() %> IS NOW </p></div>
+	<div class="traitExpTextHolder traitClick" style="top:<%= startPosY - 96 %>px;"><p class="franklinDemiCompIt traitExpText bgOrangeRed white">MORE <%= trait %> <p></div>
+	<div class="traitExpTextHolder traitClick" style="top:<%= startPosY %>px;"><p class="franklinDemiCompIt traitExpText bgOrangeRed white">THAN <%= trailer.toUpperCase() %> </p></div>
+	<div class="franklinDemiComp traitSymbolRight orangeRed traitClick" style="top:<%= startPosY %>px;"><</div>
 <% }else{ %>
-	<div class="traitExpTextHolder over push-3 traitClick"><p class="franklinDemiIt traitExpText"><%= leader.toUpperCase() %> IS NOW</p></div>
-	<div class="traitExpTextHolder over push-3 traitClick"><p class="franklinDemiIt traitExpText">MORE <%= trait %><p></div>
-	<div class="traitExpTextHolder over push-3 traitClick"><p class="franklinDemiIt traitExpText">THAN <%= trailer.toUpperCase() %></p></div>
+	<div class="traitExpTextHolder traitClick" style="top:<%= startPosY - 2*96 %>px;"><p class="franklinDemiCompIt traitExpText bgOrangeRed white"><%= leader.toUpperCase() %> IS NOW</p></div>
+	<div class="traitExpTextHolder traitClick" style="top:<%= startPosY - 96 %>px;"><p class="franklinDemiCompIt traitExpText bgOrangeRed white">MORE <%= trait %><p></div>
+	<div class="traitExpTextHolder traitClick" style="top:<%= startPosY %>px;"><p class="franklinDemiCompIt traitExpText bgOrangeRed white">THAN <%= trailer.toUpperCase() %></p></div>
+	<div class="franklinDemiComp traitSymbolLeft orangeRed traitClick" style="top:<%= startPosY %>px;">></div>
 <% } %>
 <!-- <p class="underlay"> </p> -->	
 </div>

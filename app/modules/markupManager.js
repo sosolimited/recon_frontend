@@ -142,14 +142,19 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  addNumberOverlay: function(args){
-	  	args.anchor.top = this.scaleY(args.anchor.top);
-	  	//console.log("addNumberOverlay: "+args['speaker']+", "+args['phrase']);
-      var numbersOverlay = new Overlay.Views.NumbersView({ speaker: args['speaker'], phrase: args['phrase'], posY: args['anchor'].top, wordPos: args.anchor, forceCollapse: false });
-		  $('#overlay').append(numbersOverlay.el);
-      numbersOverlay.render();
-      //console.log("Number alert: " + args['phrase']);
+	  	try {
+        args.anchor.top = this.scaleY(args.anchor.top);
+	    	//console.log("addNumberOverlay: "+args['speaker']+", "+args['phrase']);
+        var numbersOverlay = new Overlay.Views.NumbersView({ speaker: args['speaker'], phrase: args['phrase'], posY: args['anchor'].top, wordPos: args.anchor, forceCollapse: false });
+		    $('#overlay').append(numbersOverlay.el);
+        numbersOverlay.render();
+        //console.log("Number alert: " + args['phrase']);
       
-      this.get("overlays").push(numbersOverlay);			
+        this.get("overlays").push(numbersOverlay);			
+      }
+      catch (e) {
+        console.log(e);
+      }
 	  },
 	  
 	  

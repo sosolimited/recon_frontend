@@ -24,6 +24,11 @@ function(app, Overlay, Ref) {
   var energyBurstThreshold = 2; // Sum of recent energies must be above this to trigger an energy burst
   var energyBurstWindow = 3;    // Number of recent sentences to look at for calculating an energy burst
 
+  var recentPositiveWords = [];
+  var recentNegativeWords = [];
+  var emoWordsWindow = 38;   // 50
+  var emoWordsThreshold = 3; // 4
+
   var oldScrollTop = 0;
   var oldWindowHeight = 0;
   
@@ -78,7 +83,10 @@ function(app, Overlay, Ref) {
 	    //console.log("addWord...");
 	    //for(var i=0; i<wordProps.length; i++) console.log(wordProps[i]);
 	        
-	    // Add to transcript.
+	    var positiveWord = false;
+      var negativeWord = false;
+
+      // Add to transcript.
 	    // ---------------------------------------------------------------------
     	var s = "";
 
@@ -93,9 +101,17 @@ function(app, Overlay, Ref) {
         this.startParagraph(word);
         
         // Clear sentiment running total
-        for(var i=0; i<recentPositiveEnergy.length; i++) {
-          recentPositiveEnergy[i] = 0;
-          recentNegativeEnergy[i] = 0;
+        if(Ref.useSentisstrengthBurst) {
+          for(var i=0; i<recentPositiveEnergy.length; i++) {
+            recentPositiveEnergy[i] = 0;
+            recentNegativeEnergy[i] = 0;
+          }
+        }
+        else {
+          for(var i=0; i<recentPositiveWords.length; i++) {
+            recentPositiveWords[i] = 0;
+            recentNegativeWords[i] = 0;
+          }
         }
     	}
     	
@@ -177,10 +193,12 @@ function(app, Overlay, Ref) {
 		  	else if ($.inArray('posemo', word['cats']) != -1) {
 		  		 //app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
 		  		 $('#curSentence').append(s+"<span class='catMarkup posemoMarkup transcriptWord'>"+word["word"]+"</span>"); 
+           positiveWord = true;
 		  	}
-		  	else if ($.inArray('negemo', word['cats']) != -1) {
+		  	else if ($.inArray('negemo', word['cats']) != -1 || (!Ref.useSentisstrengthBurst && $.inArray('negate', word['cats']) != -1)) {
 		  		 //app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
 		  		 $('#curSentence').append(s+"<span class='catMarkup negemoMarkup transcriptWord'>"+word["word"]+"</span>"); 
+           negativeWord = true;
 		  	}		  	
 		  	else if ($.inArray('certain', word['cats']) != -1) {
 		  		 //app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
@@ -261,6 +279,46 @@ function(app, Overlay, Ref) {
       }           
       //$('#curSentence').css("margin-bottom", $('#curSentence').height() - Ref.overlayOffsetY);
       
+      // Calculate recent positive/negative word count, trigger burst if appropriate
+      // ---------------------------------------------------------------------------
+      // Shift values back, calculate recent total
+      if(!Ref.useSentisstrengthBurst && args && (curSpeaker==1 || curSpeaker==2)) {
+        var positiveTotal = 0; var negativeTotal = 0;
+        for(var i=0; i<emoWordsWindow-1; i++) {
+          recentPositiveWords[i] = (recentPositiveWords[i+1] || 0);
+          recentNegativeWords[i] = (recentNegativeWords[i+1] || 0);
+
+          positiveTotal += recentPositiveWords[i];
+          negativeTotal += recentNegativeWords[i];
+        }
+        recentPositiveWords[emoWordsWindow-1] = positiveWord ? 1 : 0;
+        recentNegativeWords[emoWordsWindow-1] = negativeWord ? 1 : 0;
+
+        positiveTotal += recentPositiveWords[emoWordsWindow-1];
+        negativeTotal += recentNegativeWords[emoWordsWindow-1];
+
+        var posiWins = positiveTotal > negativeTotal;
+        
+        if(positiveTotal > emoWordsThreshold && posiWins) {
+
+          app.trigger("markup", {type:"sentimentMarkup", polarity:"posemo", speaker:args['msg']['speaker'], strength:positiveTotal, anchor: $('#curSentence').offset()});
+
+          // Flush recent energy so the next sentence is less likely to trigger
+          for(var i=0; i<recentPositiveWords.length; i++)
+            recentPositiveWords[i] = 0;
+        }
+        // TODO: Make this not just an else, but alternate pos/neg bursts when both happen at the same time
+        else if(negativeTotal > emoWordsThreshold && !posiWins) {  
+
+          app.trigger("markup", {type:"sentimentMarkup", polarity:"negemo", speaker:args['msg']['speaker'], strength:negativeTotal, anchor: $('#curSentence').offset()});
+
+          // Flush recent energy so the next sentence is less likely to trigger
+          for(var i=0; i<recentNegativeWords.length; i++)
+            recentNegativeWords[i] = 0;
+        }
+      }
+
+
       return false;
     },
     
@@ -334,7 +392,7 @@ function(app, Overlay, Ref) {
       // Calculate positive/negative energy over the last few sentences, determine if this is a burst
       // --------------------------------------------------------------------------------------------
       // Shift values back, calculate recent total
-      if(args && (curSpeaker==1 || curSpeaker==2)) {
+      if(args && Ref.useSentisstrengthBurst && (curSpeaker==1 || curSpeaker==2)) {
         var positiveTotal = 0; var negativeTotal = 0;
         for(var i=0; i<energyBurstWindow-1; i++) {
           recentPositiveEnergy[i] = recentPositiveEnergy[i+1];
@@ -343,13 +401,15 @@ function(app, Overlay, Ref) {
           positiveTotal += recentPositiveEnergy[i];
           negativeTotal += recentNegativeEnergy[i];
         }
-        recentPositiveEnergy[energyBurstWindow-1] = args['msg']['sentiment'][0];
-        recentNegativeEnergy[energyBurstWindow-1] = args['msg']['sentiment'][1];
+        recentPositiveEnergy[energyBurstWindow-1] = args['msg']['sentiment'][0];;
+        recentNegativeEnergy[energyBurstWindow-1] = args['msg']['sentiment'][1];;
 
         positiveTotal += recentPositiveEnergy[energyBurstWindow-1];
         negativeTotal += recentNegativeEnergy[energyBurstWindow-1];
         
-        if(positiveTotal > energyBurstThreshold) {
+        var posiWins = positiveTotal > negativeTotal;
+        
+        if(positiveTotal > energyBurstThreshold && posiWins) {
 
           app.trigger("markup", {type:"sentimentMarkup", polarity:"posemo", speaker:args['msg']['speaker'], strength:positiveTotal, anchor: $('#curSentence').offset()});
 
@@ -358,7 +418,7 @@ function(app, Overlay, Ref) {
             recentPositiveEnergy[i] = 0;
         }
         // TODO: Make this not just an else, but alternate pos/neg bursts when both happen at the same time
-        else if(-negativeTotal > energyBurstThreshold) {  
+        else if(negativeTotal > energyBurstThreshold && !posiWins) {
 
           app.trigger("markup", {type:"sentimentMarkup", polarity:"negemo", speaker:args['msg']['speaker'], strength:negativeTotal, anchor: $('#curSentence').offset()});
 

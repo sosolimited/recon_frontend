@@ -8,9 +8,11 @@
 		<div class="push-4 span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05;"></div>
 		<div class="push-5 span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05;"></div>
 -->
+		<div class="push-5 span-2" style="position:absolute"><p class="franklinBookComp spectrumSubtitle " style="color:rgb(<%=comparison.get("color1")[0]%>, <%=comparison.get("color1")[1]%>, <%=comparison.get("color1")[2]%>);"><%= comparison.get("subtitle") %></p></div>
 		<p class="franklinMedCompIt spectrumTitle " style="color:rgb(<%=comparison.get("color1")[0]%>, <%=comparison.get("color1")[1]%>, <%=comparison.get("color1")[2]%>);"> <%= comparison.get("title") %></p>
 		<!-- <hr class="bgPurple" style="height:3px"/> -->
-		<div class = "spectrumPush-3 <%=comparison.get("gradient")%>" style="height:450px; width:3px; position:relative; z-index:1;"></div>
+
+		<div class = "spectrumBackgroundPush <%=comparison.get("gradient")%>" style="height:450px; width:32px; position:relative;"></div>
 
 		<%  var val0 = comparison.get("traits")[0].vals[0]; 
 			var val1 = comparison.get("traits")[0].vals[1]; 
@@ -97,7 +99,7 @@
 				<% } %>
 			
 		<% }); %>
-		<p class="franklinMedCompIt spectrumTitle" style="top:-20px; color:rgb(<%=comparison.get("color2")[0]%>, <%=comparison.get("color2")[1]%>, <%=comparison.get("color2")[2]%>);"> <%= comparison.get("subtitle") %></p>
+		<p class="franklinMedCompIt spectrumTitle" style="top:-20px; color:rgb(<%=comparison.get("color2")[0]%>, <%=comparison.get("color2")[1]%>, <%=comparison.get("color2")[2]%>);"> <%= comparison.get("title2") %> </p>
 
 </div>
 

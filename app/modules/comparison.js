@@ -80,7 +80,7 @@ function(app, Ref) {
 		},
 		
     serialize: function() {
-      return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth};
+      return { comparison: this.model};
     }
     
   });
@@ -204,7 +204,7 @@ function(app, Ref) {
 		},
 		
     serialize: function() {
-      return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth};
+      return { comparison: this.model};
     }
     
   });
@@ -227,7 +227,7 @@ function(app, Ref) {
 		},
 		
     serialize: function() {
-      return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth};
+      return { comparison: this.model};
     }
     
   });
@@ -250,7 +250,7 @@ function(app, Ref) {
 		},
 		
     serialize: function() {
-      return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth};
+      return { comparison: this.model};
     }
     
   });
@@ -368,8 +368,7 @@ function(app, Ref) {
 	    this.$el.find('.compareContainer').each(function(){
 		  	app.skrollr.refresh(this);
 	    });	    
-    }
-    
+    }    
   });
 
 

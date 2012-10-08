@@ -38,7 +38,7 @@ function(app, Overlay, Ref) {
   			"overlays":[],
   			"catOverlays": {"posemo": new Overlay.Views.CatView({ category: 'posemo', title: 'Positive'}),
   											"negemo": new Overlay.Views.CatView({ category: 'negemo', title:'Negative' }),
-  											"certain": new Overlay.Views.CatView({ category: 'certain', title:'Certain' }),
+  											"certain": new Overlay.Views.CatView({ category: 'certain', title:'Confident' }),
   											"tentat": new Overlay.Views.CatView({ category: 'tentat', title:'Tentative'}),
   											"number": new Overlay.Views.CatView({ category: 'number', title:'Quantitative'}) }
   		}	
@@ -81,7 +81,7 @@ function(app, Overlay, Ref) {
 				  this.addSentimentOverlay(args);
 			  }
 			  else if(args['type']=="traitLead"){
-				  this.addTraitOverlay(args);
+				 // this.addTraitOverlay(args);
 			  }
 		  }
 	  },
@@ -107,16 +107,28 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  addTraitOverlay: function(args) {
-	  	//console.log("addTraitOverlay()");
+	 
 	  	
-	  	/* //EG Temp until messages worked out.
-		  var traitsOverlay = new Overlay.Views.TraitView({ trait: "FORMAL", leader: "obama", posY: this.scaleY(parseInt(this.attributes.transcript.getCurSentencePosY())) });
-			$('#overlay').append(traitsOverlay.el);
+	  	var speakerString;
+	  	(args["speaker"] == 1) ? speakerString = "obama" : speakerString = "romney" ;
+	  	
+	  	
+	  	var traitString = "";
+	  	if (args["trait"] == 'posemo') traitString = "POSITIVE";
+	  	else if (args["trait"] == 'negemo') traitString = "NEGATIVE";
+	  	else if (args["trait"] == 'anger') traitString = "ANGRY";
+	  	else if (args["trait"] == 'complexity') traitString = "COMPLEX";
+	  	else if (args["trait"] == 'formality') traitString = "FORMAL";
+	  	else if (args["trait"] == 'depression') traitString = "DEPRESSED";
+	  	else if (args["trait"] == 'honesty') traitString = "HONEST";
+	  	
+	  	console.log("addTraitOverlay() " + speakerString + " " + traitString);
+	  	
+	  	var traitsOverlay = new Overlay.Views.TraitView({ trait: traitString, leader: speakerString, posY: this.scaleY(parseInt(this.attributes.transcript.getCurSentencePosY())) });
+	  	$('#overlay').append(traitsOverlay.el);
 			traitsOverlay.render();
-			
-			this.get("overlays").push(traitsOverlay);			
-			*/
-	
+	  	
+	 
 	  },
 	  
 	  addQuoteOverlay: function(args) {
@@ -145,6 +157,8 @@ function(app, Overlay, Ref) {
 	  	args.anchor.top = this.scaleY(args.anchor.top);
 	  	//console.log("addNumberOverlay: "+args['speaker']+", "+args['phrase']);
       var numbersOverlay = new Overlay.Views.NumbersView({ speaker: args['speaker'], phrase: args['phrase'], posY: args['anchor'].top, wordPos: args.anchor, forceCollapse: false });
+      
+		  //append the numbers template into the overlay div and render it
 		  $('#overlay').append(numbersOverlay.el);
       numbersOverlay.render();
       //console.log("Number alert: " + args['phrase']);
@@ -198,10 +212,15 @@ function(app, Overlay, Ref) {
     // For testing things with keypresses.
 	  test: function(args) {
 		  if(args['type']=="overlay"){
-			  if(args['kind']=="trait"){
+			  if(args['kind']=="traitObama"){
 				 		console.log("test - trait overlay");			  
-				 		this.addTraitOverlay();
-			  }else if(args['kind']=="wordCount"){
+				 		this.addTraitOverlay({speaker: 1, trait:"posemo", posY: this.scaleY(parseInt(this.attributes.transcript.getCurSentencePosY())) });
+			  }
+			  else if(args['kind']=="traitRomney"){
+				 		console.log("test - trait overlay");			  
+				 		this.addTraitOverlay({speaker: 2, trait:"depression", posY: this.scaleY(parseInt(this.attributes.transcript.getCurSentencePosY()))});
+			  }
+			  else if(args['kind']=="wordCount"){
 				 		console.log("test - wordCount overlay");			  
 				 		//this.addWordCountOverlay();
 			  }

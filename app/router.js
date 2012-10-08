@@ -28,6 +28,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 
     index: function() {
 	    
+      var $body = $(document.body);
 	    // Init msg collection.
 			var messageCollection = new Message.Collection();
 			
@@ -155,6 +156,12 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
             transcript.scrollTop = dist;
             transcript.addClass("fade");
             comparisons.addClass("active");
+
+            // Disable scrolling on the document body and save the current
+            // offset (to be restored when closing the comparison view)
+            $body.addClass("no-scroll");
+            transcript.data("lastTop", $body.scrollTop());
+
             var elt = $('#comparisons').find('.compareContainer.'+event.data.tag).parent();
             $("#comparisons > .wrapper").stop().animate({ scrollTop: elt.position().top}, 1.0);
           };
@@ -163,6 +170,11 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           	app.mode = "transcript";
             transcript.removeClass("fade");
             comparisons.removeClass("active");
+
+            // Re-enable scrolling on the document body and restore the
+            // previous offset
+            $body.removeClass("no-scroll");
+            $body.scrollTop(transcript.data("lastTop"));
           }
           
           var closeCatLays = function() {
@@ -287,7 +299,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
       var keyboardEnabled = true;	
       
       if(keyboardEnabled){
-	      $('body').keydown(function(event){
+	      $body.keydown(function(event){
 	      	console.log(event.which);
 	      	//g for toggling test grid
 	      	if(event.which == 71){

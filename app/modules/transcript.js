@@ -574,17 +574,8 @@ function(app, Overlay, Ref) {
       var anchorPos;
       if(this.numberPhrase != null) 
       {
-        //TODO: this formatting seems to be erasing previous formatting in the sentence. 
-        // Anything before the last number event in the sentence will be reverted to normal text
-        // Uncomment the three console.log() lines below to see what's happening
-        
-        //console.log("numberPhrase = "+this.numberPhrase);
-        //console.log("sentence="+$('#curSentence').html());
-        
       	var cS = $('#curSentence');
 	      cS.html(cS.html().replace($.trim(this.numberPhrase), "<span id='positionMarker' class='transcriptWord numberMarkup catMarkup'>"+$.trim(this.numberPhrase)+"</span>"));
-	      
-	      //console.log("new sentence="+$('#curSentence').html());
 	      
         anchorPos = $('#positionMarker').offset();
         $('#positionMarker').removeAttr("id");        

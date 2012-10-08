@@ -582,7 +582,7 @@ function(app, Overlay, Ref) {
         //console.log("sentence="+$('#curSentence').html());
         
       	var cS = $('#curSentence');
-	      cS.html(cS.text().replace($.trim(this.numberPhrase), "<span id='positionMarker' class='transcriptWord numberMarkup catMarkup'>"+$.trim(this.numberPhrase)+"</span>"));
+	      cS.html(cS.html().replace($.trim(this.numberPhrase), "<span id='positionMarker' class='transcriptWord numberMarkup catMarkup'>"+$.trim(this.numberPhrase)+"</span>"));
 	      
 	      //console.log("new sentence="+$('#curSentence').html());
 	      

@@ -22,7 +22,7 @@ function(app) {
   Ref.disableAutoScroll = true;
 
   // Flag for choosing emoburst trigger
-  Ref.useSentisstrengthBurst = false;
+  Ref.useSentistrengthBurst = false;
 
   // Position of the most recent sentence
   Ref.overlayOffsetY = 100;

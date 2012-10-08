@@ -8,9 +8,11 @@
 		<div class="push-4 span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05;"></div>
 		<div class="push-5 span-1" style="position:absolute; height:100%; background-color:white; opacity:0.05;"></div>
 -->
+		<div class="push-5 span-2" style="position:absolute"><p class="franklinBookComp spectrumSubtitle " style="color:rgb(<%=comparison.get("color1")[0]%>, <%=comparison.get("color1")[1]%>, <%=comparison.get("color1")[2]%>);"><%= comparison.get("subtitle") %></p></div>
 		<p class="franklinMedCompIt spectrumTitle " style="color:rgb(<%=comparison.get("color1")[0]%>, <%=comparison.get("color1")[1]%>, <%=comparison.get("color1")[2]%>);"> <%= comparison.get("title") %></p>
 		<!-- <hr class="bgPurple" style="height:3px"/> -->
-		<div class = "spectrumPush-3 <%=comparison.get("gradient")%>" style="height:450px; width:3px; position:relative; z-index:1;"></div>
+
+		<div class = "spectrumBackgroundPush <%=comparison.get("gradient")%>" style="height:570px; width:20px; position:relative; "></div>
 
 		<%  var val0 = comparison.get("traits")[0].vals[0]; 
 			var val1 = comparison.get("traits")[0].vals[1]; 
@@ -39,14 +41,14 @@
 			
 		%>
 
-		<div class="spectrumPointer push-0 span-3" style="top:<%= mapVal(val0, true)[1] - 50%>px;" >
+		<div class="spectrumPointer push-1 span-2" style="top:<%= mapVal(val0, true)[1] - 50%>px;" >
 		<p class="franklinMedCompIt spectrumObama" > Obama </span>  
-		<hr class="spectrumLine span-3" style="background-color:rgb(<%=col0[0]%>, <%=col0[1]%>, <%=col0[2]%>);"/>
+		<hr class="spectrumLine span-2" style="background-color:rgb(<%=col0[0]%>, <%=col0[1]%>, <%=col0[2]%>);"/>
 		<p class="franklinMedComp spectrumValue" > <%=  (Math.round(10000*val0)/100).toFixed(2) %> </p> </div>
 	
-		<div class="spectrumPointer spectrumPush-3 span-3" style="top:<%= mapVal(val1, true)[1] - 50%>px;" >
+		<div class="spectrumPointer spectrumPush-3 span-2" style="top:<%= mapVal(val1, true)[1] - 50%>px;" >
 		<p class="franklinMedCompIt spectrumRomney" > Romney </p> 
-		<hr class="spectrumLine span-3" style = "background-color:rgb(<%=col1[0]%>, <%=col1[1]%>, <%=col1[2]%>);"/>
+		<hr class="spectrumLine span-2" style = "background-color:rgb(<%=col1[0]%>, <%=col1[1]%>, <%=col1[2]%>);"/>
 	  <p class="franklinMedComp spectrumValueRight" > <%=  (Math.round(10000*val1)/100).toFixed(2) %>  </p> </div>
 		
 		<% comparison.get("traits").forEach(function(trait){ 
@@ -97,7 +99,7 @@
 				<% } %>
 			
 		<% }); %>
-		<p class="franklinMedCompIt spectrumTitle" style="top:-20px; color:rgb(<%=comparison.get("color2")[0]%>, <%=comparison.get("color2")[1]%>, <%=comparison.get("color2")[2]%>);"> <%= comparison.get("subtitle") %></p>
+		<p class="franklinMedCompIt spectrumTitle" style="top:-20px; color:rgb(<%=comparison.get("color2")[0]%>, <%=comparison.get("color2")[1]%>, <%=comparison.get("color2")[2]%>);"> <%= comparison.get("title2") %> </p>
 
 </div>
 

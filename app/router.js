@@ -347,6 +347,16 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 						}
 					}
 					
+					else if (event.which==77) //m
+					{
+						app.trigger("keypress:test", {type:"overlay", kind:"traitObama"});
+					}
+					
+					else if (event.which==78) //n
+					{
+						app.trigger("keypress:test", {type:"overlay", kind:"traitRomney"});
+					}
+					
 	      });      
       }
       

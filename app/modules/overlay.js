@@ -232,7 +232,7 @@ function(app, Ref) {
    		// Slide word in from side.
       var thisView = this;
     	this.$el.find('.numberPhrase').each(function(i){ 
-          window.setTimeout(function() { thisView.speaker == 1 ? $(this).css("left",Ref.gridColumns[0]) : $(this).css("left",Ref.gridColumns[1]); }, 1, this);
+          window.setTimeout(function() { thisView.speaker == 1 ? $(this).css("left",Ref.gridColumns[0]) : $(this).css("left",Ref.gridColumns[6] - $(this).width()); }, 1, this);
     	});
       
     	// Sit for holdDur, then collapse.
@@ -263,7 +263,7 @@ function(app, Ref) {
 	        //$(this).css("left", Ref.gridColumns[0]);
 	      }
 	      else if(sp == 2){
-	        $(this).css("left", Ref.gridColumns[1]);
+	        $(this).css("left", Ref.gridColumns[3] - Ref.gutterWidth - 296);
 	        //$(this).css("left", Ref.gridColumns[0]);
 	        $(this).css("width", "296px");
 	        $(this).css("text-align", "right");

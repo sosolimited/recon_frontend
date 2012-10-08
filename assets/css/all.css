@@ -834,13 +834,13 @@ landingTitleImage {
 .numberPhrase {
 	position:absolute; 
 	overflow: visible;
-  width: 9000px;
+  width: 1480px;
   font-size: 270px;
   line-height: .75em;
 	margin: 0px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
   color: rgb(255,255,255); 
-	-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s, color 1s;
+	-webkit-transition: left 1s, right 1s, top 1s, height 1s, width 1s, font-size 1s, line-height 1s, color 1s;
 	/* -webkit-transform: translateZ(0px);	*/
   z-index: 2;
 

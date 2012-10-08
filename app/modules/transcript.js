@@ -32,9 +32,6 @@ function(app, Overlay, Ref) {
   
   var extraNumberWords = ['on', 'of', 'a', 'to', 'the', 'Of', 'The', 'A', 'To', 'and'];
 
-  // Store top + bottom positions of paragraphs so they don't need to be recalculated all the time
-  var paragraphPropertyCache = [];
-
   // Default model.
   Transcript.Model = Backbone.Model.extend({
   		

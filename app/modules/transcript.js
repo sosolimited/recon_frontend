@@ -562,23 +562,30 @@ function(app, Overlay, Ref) {
     },
     
     reattachLiveScroll : function(duration) {
-      if(duration == null) duration = 600;
       var transcriptHeight = this.transcriptBottom();
       var scrollTo = transcriptHeight - $(window).height();
-      scrollAnimating = true;
-      if(duration > 0) {
-        $("body").stop().animate({ scrollTop: scrollTo}, duration, function() {
-          scrollAnimating = false;
-          scrollLive = true;
-          app.trigger("transcript:scrollAttach", {});
-        });
-      }
-      else {
-        $("body").scrollTop(scrollTo);
+      var doneScrolling = function() {
         scrollAnimating = false;
         scrollLive = true;
         app.trigger("transcript:scrollAttach", {});
+      };
+
+      if(duration == null) {
+          duration = 600;
       }
+
+      scrollAnimating = true;
+
+      // Support asynchronous and synchronous scrolling
+      if(duration > 0) {
+        $("body")
+          .stop()
+          .animate({ scrollTop: scrollTo}, duration, doneScrolling);
+      } else {
+        $("body").scrollTop(scrollTo);
+        doneScrolling();
+      }
+
       lastScrollHeight = scrollTo;
     },
 

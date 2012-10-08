@@ -15,18 +15,15 @@ background: -ms-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 
 background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
 
-
 background-repeat:no-repeat; 
 opacity:0.2; 
 z-index:-2;
 
 }
 
-
 .compareContainer {
 	
 	position:relative; 
-	
 	border-bottom: 3px gray !important;
 	padding-bottom: 50px !important;
 
@@ -150,8 +147,6 @@ height:1200px;
 	color: white;
 }
 
-
-
 .countCandidate {
 	position: relative;
 	font-size: 48px;
@@ -178,6 +173,13 @@ height:1200px;
 	margin: 0px 0px 0px 0px;
 	line-height:128px;
 
+}
+
+.spectrumSubtitle {
+	position: absolute;
+	font-size: 20px;
+	letter-spacing: .03em;
+	line-height:18px;
 }
 
 .gradientHonesty {
@@ -214,6 +216,11 @@ height:1200px;
 	background: -ms-linear-gradient(top, rgba(122,52,64,1) 0%,rgba(232,12,122,1) 100%); /* IE10+ */
 	background: linear-gradient(to bottom, rgba(122,52,64,1) 0%,rgba(232,12,122,1) 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7a3440', endColorstr='#e80c7a',GradientType=0 ); /* IE6-9 */
+}
+
+.spectrumBackgroundPush {
+  z-index: 2;
+	margin:0 -440px 1.5em 440px;
 }
 
 .spectrumPointer {

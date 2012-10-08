@@ -107,16 +107,28 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  addTraitOverlay: function(args) {
-	  	//console.log("addTraitOverlay()");
+	 
 	  	
-	  	/* //EG Temp until messages worked out.
-		  var traitsOverlay = new Overlay.Views.TraitView({ trait: "FORMAL", leader: "obama", posY: this.scaleY(parseInt(this.attributes.transcript.getCurSentencePosY())) });
-			$('#overlay').append(traitsOverlay.el);
+	  	var speakerString;
+	  	(args["speaker"] == 1) ? speakerString = "obama" : speakerString = "romney" ;
+	  	
+	  	
+	  	var traitString = "";
+	  	if (args["trait"] == 'posemo') traitString = "POSITIVE";
+	  	else if (args["trait"] == 'negemo') traitString = "NEGATIVE";
+	  	else if (args["trait"] == 'anger') traitString = "ANGRY";
+	  	else if (args["trait"] == 'complexity') traitString = "COMPLEX";
+	  	else if (args["trait"] == 'formality') traitString = "FORMAL";
+	  	else if (args["trait"] == 'depression') traitString = "DEPRESSED";
+	  	else if (args["trait"] == 'honesty') traitString = "HONEST";
+	  	
+	  	console.log("addTraitOverlay() " + speakerString + " " + traitString);
+	  	
+	  	var traitsOverlay = new Overlay.Views.TraitView({ trait: traitString, leader: speakerString, posY: this.scaleY(parseInt(this.attributes.transcript.getCurSentencePosY())) });
+	  	$('#overlay').append(traitsOverlay.el);
 			traitsOverlay.render();
-			
-			this.get("overlays").push(traitsOverlay);			
-			*/
-	
+	  	
+	 
 	  },
 	  
 	  addQuoteOverlay: function(args) {
@@ -149,7 +161,6 @@ function(app, Overlay, Ref) {
 		    $('#overlay').append(numbersOverlay.el);
         numbersOverlay.render();
         //console.log("Number alert: " + args['phrase']);
-      
         this.get("overlays").push(numbersOverlay);			
       }
       catch (e) {
@@ -203,10 +214,15 @@ function(app, Overlay, Ref) {
     // For testing things with keypresses.
 	  test: function(args) {
 		  if(args['type']=="overlay"){
-			  if(args['kind']=="trait"){
+			  if(args['kind']=="traitObama"){
 				 		console.log("test - trait overlay");			  
-				 		this.addTraitOverlay();
-			  }else if(args['kind']=="wordCount"){
+				 		this.addTraitOverlay({speaker: 1, trait:"posemo", posY: this.scaleY(parseInt(this.attributes.transcript.getCurSentencePosY())) });
+			  }
+			  else if(args['kind']=="traitRomney"){
+				 		console.log("test - trait overlay");			  
+				 		this.addTraitOverlay({speaker: 2, trait:"depression", posY: this.scaleY(parseInt(this.attributes.transcript.getCurSentencePosY()))});
+			  }
+			  else if(args['kind']=="wordCount"){
 				 		console.log("test - wordCount overlay");			  
 				 		//this.addWordCountOverlay();
 			  }

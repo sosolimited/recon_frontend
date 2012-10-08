@@ -40,6 +40,10 @@ body {
 	
 }
 
+.no-scroll {
+  overflow: hidden;
+}
+
 #landing {
 	/* background-color:yellow; */
 	position: fixed;
@@ -714,43 +718,75 @@ landingTitleImage {
 }
 
 .certainMarkup:hover{
-	background-color: rgb(255,175,108) !important;
-	color: rgb(255, 255, 255) !important;
+	background-color: rgb(255,255,255) !important;
+	/* color: rgb(255,175,108) !important; */
+	color: rgb(60,60,60) !important;
 }
-
 .certainMarkup.reverse{
 	background-color: rgb(255,175,108) !important;
 	color: rgb(255, 255, 255) !important;
 }
-
-.tentatMarkup:hover{
-	background-color: rgb(193,186,134) !important;
-	color: rgb(255, 255, 255) !important;
+.certainMarkup.grayed{
+	background-color: transparent !important;
+	color: rgb(60,60,60) !important;
 }
 
+
+.tentatMarkup:hover{
+	background-color: rgb(255,255,255) !important;
+	/* color: rgb(193,186,134) !important; */
+	color: rgb(60,60,60) !important;
+}
 .tentatMarkup.reverse{
 	background-color: rgb(193,186,134) !important;
 	color: rgb(255, 255, 255) !important;
 }
-
-.posemoMarkup:hover {
-	background-color: rgb(124,240,179) !important;
-	color: rgb(255, 255, 255) !important;
+.tentatMarkup.grayed{
+	background-color: transparent !important;
+	color: rgb(60,60,60) !important;
 }
 
+
+.posemoMarkup:hover {
+	background-color: rgb(255,255,255) !important;
+	/* color: rgb(124,240,179) !important; */
+	color: rgb(60,60,60) !important;
+}
 .posemoMarkup.reverse{
 	background-color: rgb(124,240,179) !important;
 	color: rgb(255, 255, 255) !important;
 }
-
-.negemoMarkup:hover{
-	background-color: rgb(122,52,183) !important;
-	color: rgb(255, 255, 255) !important;
+.posemoMarkup.grayed{
+	background-color: transparent !important;
+	color: rgb(60,60,60) !important;
 }
 
+
+.negemoMarkup:hover{
+	background-color: rgb(255,255,255) !important;
+	/* color: rgb(122,52,183) !important; */
+	color: rgb(60,60,60) !important;
+}
 .negemoMarkup.reverse{
 	background-color: rgb(122,52,183) !important;
 	color: rgb(255, 255, 255) !important;
+}
+.negemoMarkup.grayed{
+	background-color: transparent !important;
+	color: rgb(60,60,60) !important;
+}
+
+.numberMarkup:hover{
+	background-color: rgb(255,255,255) !important;
+	color: rgb(60,60,60) !important;
+}
+.numberMarkup.reverse{
+	background-color: rgb(80,80,80) !important;
+	color: rgb(255,255,255) !important;
+}
+.numberMarkup.grayed{
+	background-color: transparent !important;
+	color: rgb(60,60,60) !important;
 }
 
 .catMarkup{
@@ -760,6 +796,10 @@ landingTitleImage {
 
 .traitClick, .sentimentClick, .countClick {
 	cursor: pointer;
+}
+
+.emoTextSmall:hover {
+	color: rgb(255,255,255) !important;
 }
 
 .overlay-bottom {
@@ -822,13 +862,13 @@ landingTitleImage {
 .numberPhrase {
 	position:absolute; 
 	overflow: visible;
-  width: 9000px;
+  width: 1480px;
   font-size: 270px;
   line-height: .75em;
 	margin: 0px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
   color: rgb(255,255,255); 
-	-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s, color 1s;
+	-webkit-transition: left 1s, right 1s, top 1s, height 1s, width 1s, font-size 1s, line-height 1s, color 1s;
 	/* -webkit-transform: translateZ(0px);	*/
   z-index: 2;
 

@@ -38,8 +38,9 @@ function(app, Overlay, Ref) {
   			"overlays":[],
   			"catOverlays": {"posemo": new Overlay.Views.CatView({ category: 'posemo', title: 'Positive'}),
   											"negemo": new Overlay.Views.CatView({ category: 'negemo', title:'Negative' }),
-  											"certain": new Overlay.Views.CatView({ category: 'certain', title:'Certain' }),
-  											"tentat": new Overlay.Views.CatView({ category: 'tentat', title:'Tentative'})}
+  											"certain": new Overlay.Views.CatView({ category: 'certain', title:'Confident' }),
+  											"tentat": new Overlay.Views.CatView({ category: 'tentat', title:'Tentative'}),
+  											"number": new Overlay.Views.CatView({ category: 'number', title:'Quantitative'}) }
   		}	
   	},
   	
@@ -80,7 +81,7 @@ function(app, Overlay, Ref) {
 				  this.addSentimentOverlay(args);
 			  }
 			  else if(args['type']=="traitLead"){
-				  this.addTraitOverlay(args);
+				 // this.addTraitOverlay(args);
 			  }
 		  }
 	  },
@@ -106,7 +107,6 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  addTraitOverlay: function(args) {
-	  	//console.log("addTraitOverlay() " + args["speaker"] + " " + args["trait"]);
 	 
 	  	
 	  	var speakerString;
@@ -128,7 +128,7 @@ function(app, Overlay, Ref) {
 	  	$('#overlay').append(traitsOverlay.el);
 			traitsOverlay.render();
 	  	
-	  
+	 
 	  },
 	  
 	  addQuoteOverlay: function(args) {
@@ -173,7 +173,8 @@ function(app, Overlay, Ref) {
 
 	  	if (lay) {		  	
 	  		lay.expand();
-		  	window.setTimeout(function(){lay.collapse();}, delay);
+	  		// EG Timeouts not being cancelled, so for now forget the timeout.
+		  	//window.setTimeout(function(){lay.collapse();}, delay);
 		  }
 	  },
 	  

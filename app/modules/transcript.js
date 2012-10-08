@@ -566,16 +566,11 @@ function(app, Overlay, Ref) {
       var transcriptHeight = this.transcriptBottom();
       var scrollTo = transcriptHeight - $(window).height();
       scrollAnimating = true;
-      var theRealSlimShady = this;
       if(duration > 0) {
         $("body").stop().animate({ scrollTop: scrollTo}, duration, function() {
-           // If the document has grown, try again
-          if(false && theRealSlimShady.transcriptBottom() > transcriptHeight) theRealSlimShady.reattachLiveScroll(100);
-          else {
-            scrollAnimating = false;
-            scrollLive = true;
-            app.trigger("transcript:scrollAttach", {});
-          }
+          scrollAnimating = false;
+          scrollLive = true;
+          app.trigger("transcript:scrollAttach", {});
         });
       }
       else {

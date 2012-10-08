@@ -278,16 +278,20 @@ function(app, Overlay, Ref) {
       //Go through all spans so you can create markup heirarchy (ie specify which markups take precedence)  
       $('#curSentence').find('span').each(function() {
       	 if($(this).hasClass("posemoMarkup")){
-	      	 $(this).css("color", "rgb(124,240,179)");
+	      	 $(this).css("background-color", "rgb(124,240,179)");
+	      	 //$(this).css("color", "rgb(255,255,255)");
       	 }
       	 else if($(this).hasClass("negemoMarkup")){
-	      	 $(this).css("color", "rgb(122,52,183)");
+	      	 $(this).css("background-color", "rgb(122,52,183)");
+	      	 $(this).css("color", "rgb(255,255,255)");
       	 }
       	 else if($(this).hasClass("certainMarkup")){
-	      	 $(this).css("color", "rgb(255,175,108)");
+	      	 $(this).css("background-color", "rgb(255,175,108)");
+	      	 //$(this).css("color", "rgb(255,255,255)");
       	 }
       	 else if($(this).hasClass("tentatMarkup")){
-	      	 $(this).css("color", "rgb(193,186,134)");
+	      	 $(this).css("background-color", "rgb(193,186,134)");
+	      	 //$(this).css("color", "rgb(255,255,255)");
       	 }
 	     	 // Word count markup.
 	     	 else if($(this).hasClass("wordCountMarkup")){	
@@ -521,7 +525,7 @@ function(app, Overlay, Ref) {
         //console.log("sentence="+$('#curSentence').html());
         
       	var cS = $('#curSentence');
-	      cS.html(cS.text().replace($.trim(this.numberPhrase), "<span id='positionMarker' class='transcriptWord numberMarkup'>"+$.trim(this.numberPhrase)+"</span>"));
+	      cS.html(cS.text().replace($.trim(this.numberPhrase), "<span id='positionMarker' class='transcriptWord numberMarkup catMarkup'>"+$.trim(this.numberPhrase)+"</span>"));
 	      
 	      //console.log("new sentence="+$('#curSentence').html());
 	      

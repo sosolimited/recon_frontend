@@ -54,11 +54,11 @@ function(app, Ref) {
     
     handleDebateClick: function(e) {
       // Add markup.
-      $("#transcript").html(app.markup);
-      app.restore = true;
+      //$("#transcript").html(app.markup);
+      //app.restore = true;
 
       // Playback messages.
-      app.messages[app.debateNumber].playbackMessages(0, 1);
+      app.messages[app.debateNumber].playbackMessages(0);
 
       if(e.target.id === "landingButton0"){
       }else if(e.target.id === "landingButton1"){

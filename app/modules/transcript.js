@@ -101,7 +101,7 @@ function(app, Overlay, Ref) {
         this.startParagraph(word);
         
         // Clear sentiment running total
-        if(Ref.useSentisstrengthBurst) {
+        if(Ref.useSentistrengthBurst) {
           for(var i=0; i<recentPositiveEnergy.length; i++) {
             recentPositiveEnergy[i] = 0;
             recentNegativeEnergy[i] = 0;
@@ -195,7 +195,7 @@ function(app, Overlay, Ref) {
 		  		 $('#curSentence').append(s+"<span class='catMarkup posemoMarkup transcriptWord'>"+word["word"]+"</span>"); 
            positiveWord = true;
 		  	}
-		  	else if ($.inArray('negemo', word['cats']) != -1 || (!Ref.useSentisstrengthBurst && $.inArray('negate', word['cats']) != -1)) {
+		  	else if ($.inArray('negemo', word['cats']) != -1 || (!Ref.useSentistrengthBurst && $.inArray('negate', word['cats']) != -1)) {
 		  		 //app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
 		  		 $('#curSentence').append(s+"<span class='catMarkup negemoMarkup transcriptWord'>"+word["word"]+"</span>"); 
            negativeWord = true;
@@ -282,7 +282,7 @@ function(app, Overlay, Ref) {
       // Calculate recent positive/negative word count, trigger burst if appropriate
       // ---------------------------------------------------------------------------
       // Shift values back, calculate recent total
-      if(!Ref.useSentisstrengthBurst && args && (curSpeaker==1 || curSpeaker==2)) {
+      if(!Ref.useSentistrengthBurst && args && (curSpeaker==1 || curSpeaker==2)) {
         var positiveTotal = 0; var negativeTotal = 0;
         for(var i=0; i<emoWordsWindow-1; i++) {
           recentPositiveWords[i] = (recentPositiveWords[i+1] || 0);
@@ -392,7 +392,7 @@ function(app, Overlay, Ref) {
       // Calculate positive/negative energy over the last few sentences, determine if this is a burst
       // --------------------------------------------------------------------------------------------
       // Shift values back, calculate recent total
-      if(args && Ref.useSentisstrengthBurst && (curSpeaker==1 || curSpeaker==2)) {
+      if(args && Ref.useSentistrengthBurst && (curSpeaker==1 || curSpeaker==2)) {
         var positiveTotal = 0; var negativeTotal = 0;
         for(var i=0; i<energyBurstWindow-1; i++) {
           recentPositiveEnergy[i] = recentPositiveEnergy[i+1];

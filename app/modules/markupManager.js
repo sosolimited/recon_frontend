@@ -39,7 +39,8 @@ function(app, Overlay, Ref) {
   			"catOverlays": {"posemo": new Overlay.Views.CatView({ category: 'posemo', title: 'Positive'}),
   											"negemo": new Overlay.Views.CatView({ category: 'negemo', title:'Negative' }),
   											"certain": new Overlay.Views.CatView({ category: 'certain', title:'Confident' }),
-  											"tentat": new Overlay.Views.CatView({ category: 'tentat', title:'Tentative'})}
+  											"tentat": new Overlay.Views.CatView({ category: 'tentat', title:'Tentative'}),
+  											"number": new Overlay.Views.CatView({ category: 'number', title:'Quantitative'}) }
   		}	
   	},
   	
@@ -107,12 +108,14 @@ function(app, Overlay, Ref) {
 	  
 	  addTraitOverlay: function(args) {
 	  	//console.log("addTraitOverlay()");
-	 
+	  	
+	  	/* //EG Temp until messages worked out.
 		  var traitsOverlay = new Overlay.Views.TraitView({ trait: "FORMAL", leader: "obama", posY: this.scaleY(parseInt(this.attributes.transcript.getCurSentencePosY())) });
 			$('#overlay').append(traitsOverlay.el);
 			traitsOverlay.render();
 			
 			this.get("overlays").push(traitsOverlay);			
+			*/
 	
 	  },
 	  
@@ -156,7 +159,8 @@ function(app, Overlay, Ref) {
 
 	  	if (lay) {		  	
 	  		lay.expand();
-		  	window.setTimeout(function(){lay.collapse();}, delay);
+	  		// EG Timeouts not being cancelled, so for now forget the timeout.
+		  	//window.setTimeout(function(){lay.collapse();}, delay);
 		  }
 	  },
 	  

@@ -73,11 +73,11 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
       
       comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 20 WORDS", subtitle:"The top twenty words of each candidate (excluding 'the', 'I', 'if', etc.)", uniqueWords:uniqueWords, color1:"Lime"}));  
       
-      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 20 2 Word PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique2Grams, color1:"Lime"}));     
+      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"2 Word PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique2Grams, color1:"Lime"}));     
       
-      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 20 3 Word PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique3Grams, color1:"Lime"}));   
+      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"3 Word PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique3Grams, color1:"Lime"}));   
       
-      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 20 4 Word PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique4Grams, color1:"Lime"}));   
+      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"4 Word PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique4Grams, color1:"Lime"}));   
          
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["posemo"], speakerNames:speakerCollection, title:"POSITIVITY", subtitle:"The percentage of words spoken that are positive in some way. ie. 'winning, happy, improve.'", range:[0,5.0], color1:"Sky"}));
        
@@ -147,6 +147,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           // Work with the wrappers, not the actual layers.  --> ???
           var transcript = $("#transcript > .wrapper");
           var comparisons = $("#comparisons > .wrapper");
+          var bigWords = $("#bigWords");
           
           var enterComp = function(event) {
           	app.mode = "comparison"; 
@@ -166,6 +167,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           
           var closeCatLays = function() {
 	          $('.catMarkup').removeClass('reverse');
+	          $('.catMarkup').removeClass('grayed');
 	          markupManager.closeCatOverlays();
           }
 
@@ -174,21 +176,36 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           transcript.on("click", ".traitClick", { tag: "AUTHENTIC" } , enterComp);
           transcript.on("click", ".countClick", { tag: "list" } , enterComp);
           
+          var markupNames = ['posemo', 'negemo', 'certain', 'tentat', 'number'];          
           transcript.on("click", ".catMarkup", function(ev) {
           	ev.stopPropagation();
           	closeCatLays();
-          	var name;
-          	if ($(this).hasClass("posemoMarkup")) name = "posemo";
-          	else if ($(this).hasClass("negemoMarkup")) name = "negemo";
-          	else if ($(this).hasClass("certainMarkup")) name = "certain";
-          	else if ($(this).hasClass("tentatMarkup")) name = "tentat";
+          	var i;
+          	if ($(this).hasClass("posemoMarkup")) i=0;
+          	else if ($(this).hasClass("negemoMarkup")) i=1;
+          	else if ($(this).hasClass("certainMarkup")) i=2;
+          	else if ($(this).hasClass("tentatMarkup")) i=3;
+          	else if ($(this).hasClass("numberMarkup")) i=4;
           
-          	$('.'+name+'Markup').addClass('reverse');
-          	setTimeout(function(){$('.'+name+'Markup').removeClass('reverse');}, 30000);
-          	markupManager.openCatOverlay(name, 30000);
+	         	for(var a=0; a<5; a++){
+	          	if(a==i) $('.'+markupNames[a]+'Markup').addClass('reverse');				// Highlight the chosen category.
+	          	else $('.'+markupNames[a]+'Markup:not(.categoryOverlay)').addClass('grayed');          		// Gray out all the other categories.
+          	}
+          	
+          	//$('.'+markupNames[i]+'Markup').filter('.categoryOverlay').addClass('reverse');
+          	/*	// EG Timeouts not being cancelled, so for now forget the timeout.
+          	setTimeout(function(){
+	          	for(var a=0; a<4; a++){
+		          	if(a==i) $('.'+markupNames[a]+'Markup').removeClass('reverse');				
+		          	else $('.'+markupNames[a]+'Markup').removeClass('grayed');			
+	          	}          		
+          	}, 30000);
+          	*/
+          	markupManager.openCatOverlay(markupNames[i], 30000);
           });
           
           transcript.on("click", closeCatLays);
+          bigWords.on("click", closeCatLays);
          
           comparisons.on("click", exitComp);
           

@@ -50,7 +50,9 @@ function(app, Overlay, Ref) {
         //if(scrollLive) { thisTranscript.reattachLiveScroll(0) };
         var heightChange = $(window).height() - oldWindowHeight;
         //console.log(heightChange);
-        $('body').scrollTop(oldScrollTop - heightChange);
+        this.animateScroll({
+          destination: oldScrollTop - heightChange
+        });
         oldWindowHeight = $(window).height();
         oldScrollTop = $('body').scrollTop();
       });
@@ -252,8 +254,10 @@ function(app, Overlay, Ref) {
         if(scrollTo != lastScrollHeight && !scrollAnimating) {  // Only trigger autoscroll if needed
           //console.log("scrolling to: " + scrollTo);
           var duration = Math.abs(lastScrollHeight - scrollTo) * 3.0;
-          scrollAnimating = true;
-          $("body").animate({ scrollTop: scrollTo}, duration, function() { scrollAnimating = false; });
+          this.animateScroll({
+            duration: duration,
+            destination: scrollTo
+          });
           app.trigger("transcript:scrollTo", word["timeDiff"]); 
           lastScrollHeight = scrollTo;
         }
@@ -561,32 +565,53 @@ function(app, Overlay, Ref) {
       }
     },
     
+    animateScroll: function(options) {
+      var doneScrolling = function() {
+        scrollAnimating = false;
+        app.trigger("transcript:scrollAttach", {});
+
+        if (typeof options.done === "function") {
+          options.done();
+        }
+      };
+
+      if (!options) {
+        options = {};
+      }
+
+      if(options.duration == null) {
+          options.duration = 600;
+      }
+      scrollAnimating = true;
+      lastScrollHeight = scrollTo;
+
+      // Support asynchronous and synchronous scrolling
+      if(options.duration > 0) {
+        $("body")
+          .stop()
+          .animate(
+            { scrollTop: options.destination},
+            options.duration,
+            doneScrolling);
+      } else {
+        $("body").scrollTop(options.destination);
+        doneScrolling();
+      }
+    },
+
     reattachLiveScroll : function(duration) {
       var transcriptHeight = this.transcriptBottom();
       var scrollTo = transcriptHeight - $(window).height();
-      var doneScrolling = function() {
-        scrollAnimating = false;
-        scrollLive = true;
-        app.trigger("transcript:scrollAttach", {});
-      };
 
-      if(duration == null) {
-          duration = 600;
-      }
+      this.animateScroll({
+        destination: scrollTo,
+        duration: duration,
+        done: function() {
+          scrollLive = true;
+          app.trigger("transcript:scrollAttach", {});
+        }
+      });
 
-      scrollAnimating = true;
-
-      // Support asynchronous and synchronous scrolling
-      if(duration > 0) {
-        $("body")
-          .stop()
-          .animate({ scrollTop: scrollTo}, duration, doneScrolling);
-      } else {
-        $("body").scrollTop(scrollTo);
-        doneScrolling();
-      }
-
-      lastScrollHeight = scrollTo;
     },
 
     transcriptBottom : function() {

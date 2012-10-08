@@ -79,6 +79,9 @@ function(app, Overlay, Ref) {
 			  else if(args['type']=="sentimentMarkup"){
 				  this.addSentimentOverlay(args);
 			  }
+			  else if(args['type']=="traitLead"){
+				  this.addTraitOverlay(args);
+			  }
 		  }
 	  },
 	  
@@ -93,6 +96,8 @@ function(app, Overlay, Ref) {
 	  // Functions for adding specific overlays.
 	  // -----------------------------------------------------------------------------------
 	  addSentimentOverlay: function(args) {
+	  	args.anchor.top = this.scaleY(args.anchor.top); // scale for mode
+	  
 		  var sentimentOverlay = new Overlay.Views.SentimentView(args);
 		  $('#overlay').append(sentimentOverlay.el);
       sentimentOverlay.render();
@@ -101,14 +106,18 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  addTraitOverlay: function(args) {
-		  var traitsOverlay = new Overlay.Views.TraitView({ trait: "FORMAL", leader: "obama", posY: parseInt(this.attributes.transcript.getCurSentencePosY()) });
+	  	//console.log("addTraitOverlay()");
+	 
+		  var traitsOverlay = new Overlay.Views.TraitView({ trait: "FORMAL", leader: "obama", posY: this.scaleY(parseInt(this.attributes.transcript.getCurSentencePosY())) });
 			$('#overlay').append(traitsOverlay.el);
 			traitsOverlay.render();
 			
 			this.get("overlays").push(traitsOverlay);			
+	
 	  },
 	  
 	  addQuoteOverlay: function(args) {
+	  	args.anchor.top = this.scaleY(args.anchor.top); // scale for mode
       var quoteOverlay = new Overlay.Views.QuotesView(args);
 			//console.log("Anchor: " + args['anchor'].top);
       $('#overlay').append(quoteOverlay.el);
@@ -118,8 +127,11 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  addWordCountOverlay: function(args){
-	  	//console.log("markupManager.addWordCountOverlay, collapseY = "+this.attributes.transcript.getRecentWordPosY(args['word']));	  	
-		  var wordCountOverlay = new Overlay.Views.WordCountView({ speaker: args['speaker'], count: args['count'], word: args['word'], posY: parseInt(this.attributes.transcript.getCurSentencePosY()), wordPos: this.attributes.transcript.getRecentWordPos(args['word']), forceCollapse: false });
+	  	//console.log("markupManager.addWordCountOverlay, collapseY = "+this.attributes.transcript.getRecentWordPosY(args['word']));	 
+	  	
+	  	var wordPos = this.attributes.transcript.getRecentWordPos(args['word']);
+	  	 	
+		  var wordCountOverlay = new Overlay.Views.WordCountView({ speaker: args['speaker'], count: args['count'], word: args['word'], posY: this.scaleY(parseInt(this.attributes.transcript.getCurSentencePosY())), wordPos: [this.scaleY(wordPos[0]), this.scaleY(wordPos[1])], forceCollapse: false });
 		  $('#overlay').append(wordCountOverlay.el);
 		  wordCountOverlay.render();	
 		  
@@ -127,31 +139,43 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  addNumberOverlay: function(args){
-		  	//console.log("addNumberOverlay: "+args['speaker']+", "+args['phrase']);
-        var numbersOverlay = new Overlay.Views.NumbersView({ speaker: args['speaker'], phrase: args['phrase'], posY: args['anchor'].top, wordPos: args['anchor'], forceCollapse: false });
-  		  $('#overlay').append(numbersOverlay.el);
-	      numbersOverlay.render();
-        //console.log("Number alert: " + args['phrase']);
-        
-        this.get("overlays").push(numbersOverlay);			
+	  	args.anchor.top = this.scaleY(args.anchor.top);
+	  	//console.log("addNumberOverlay: "+args['speaker']+", "+args['phrase']);
+      var numbersOverlay = new Overlay.Views.NumbersView({ speaker: args['speaker'], phrase: args['phrase'], posY: args['anchor'].top, wordPos: args.anchor, forceCollapse: false });
+		  $('#overlay').append(numbersOverlay.el);
+      numbersOverlay.render();
+      //console.log("Number alert: " + args['phrase']);
+      
+      this.get("overlays").push(numbersOverlay);			
 	  },
 	  
 	  
 	  // reusable overlays
-	  fireCatOverlay: function(cat, offset, delay) {
+	  openCatOverlay: function(cat, delay) {
 	  	var lay = this.get("catOverlays")[cat];
 
 	  	if (lay) {		  	
-	  		lay.expand(offset);
+	  		lay.expand();
 		  	window.setTimeout(function(){lay.collapse();}, delay);
 		  }
+	  },
+	  
+	  closeCatOverlays: function() {
+	  	for (i in this.get("catOverlays")) {
+		  	this.get("catOverlays")[i].collapse();
+	  	}
+	  },
+	  
+	  scaleY: function(val) {
+		  if (app.mode === "transcript") return val;
+		  else if (app.mode === "comparison") return val*2.5;
 	  },
 	  
  	  // -----------------------------------------------------------------------------------
 	  	  
 	  handleScroll: function(val) {
  			 //console.log("markupManager.handleScroll("+val+")");
-			 $('.wrapper').css("webkit-perspective-origin", "50% "+(val+500)+"px");
+			 $('#transcript > .wrapper').css("webkit-perspective-origin", "50% "+(val+500)+"px");
 	  },
 	  
 	  enter: function() {
@@ -179,9 +203,40 @@ function(app, Overlay, Ref) {
 			  }
 		  }
 		  else if(args['type']=="testParallax"){
-				//inserg some test objects
-				//console.log("testParallax");
+				//Insert some test objects
+				console.log("testParallax");
 				
+				$('#overlay').append("<div style='position:absolute; top:0px; width: 20px; height:12000px; background-color:yellow;'></div>");
+				// Testing skrollr.
+				for(var y=0; y<30; y++){
+					//var newEl = $("<div id='test"+y+"' class='skrollr skrollable skTest' data-"+(y*300)+"='top:100%;color:rgb(255,255,255);' data-"+(y*300+1000)+"='top:0%;color:rgb(0,0,0);'>"+y+"</div>");
+					var newEl = $("<div id='test"+y+"' class='skrollr skrollable skTest' style='top:"+(y*300)+"px;' data-top-bottom='margin-top:0px; color:rgb(255,255,255);' data-bottom-top='margin-top:"+(Math.random()*600)+"px; color:rgb(0,0,0);'>"+y+"</div>");
+					app.skrollr.refresh(newEl.get(0));
+
+				  $('body').append(newEl);
+				  //$('body').append("<div id='test"+y+"' class='skTest' style='top:"+(y*400)+"px;' data-top-bottom='left:0px;color:rgb(255,255,255);' data-bottom-top='left:1000px;color:rgb(0,0,0);'>"+y+"</div>");
+				 }
+				
+				/*
+				var sk = skrollr.init({    	
+		    beforerender: function(data) {
+					//console.log('beforerender');
+				},
+				render: function() {
+					//console.log('render');
+				},
+				easing: {
+					//WTF: Math.random,
+					//inverted: function(p) {
+					//	return 1-p;
+					//}
+				}
+			});
+			*/ 
+			   
+					
+				
+				/*
 				for(var y=0; y<10; y++){
 				  for(var i=0; i<6; i++){	
 				  
@@ -190,19 +245,11 @@ function(app, Overlay, Ref) {
 				  	$('#overlay').append("<span id='testZ" + (i+1) + "' class='testZ' style='left:" + Ref.gridZ100['grid'][i] + "px; top:"  + (y*600 + 600) + "px; -webkit-transform: translateZ(100px); background-color:yellow;'>" + i + "</span>");
 				  	
 				  	$('#overlay').append("<span id='testZ" + (i+1) + "' class='testZ' style='left:" + Ref.gridZ200['grid'][i] + "px; top:"  + (y*600 + 600) + "px; -webkit-transform: translateZ(200px); background-color:red;'>" + i + "</span>");
-				  
-				  /*
-				  //EG testing with translateX instead of left for x position
-				  $('#overlay').append("<span id='testZ" + (i+1) + "' class='testZ' style='left:0px; -webkit-transform:translateX(" + Ref.gridZn200['grid'][i] + "px); top:" + (y*600 + 600) + "px; -webkit-transform: translateZ(-200px); background-color:blue;'>" + i + "</span>");
-				  	
-				  	$('#overlay').append("<span id='testZ" + (i+1) + "' class='testZ' style='left:0px; -webkit-transform:translateX(" + Ref.gridZ100['grid'][i] + "px); top:"  + (y*600 + 600) + "px; -webkit-transform: translateZ(100px); background-color:yellow;'>" + i + "</span>");
-				  	
-				  	$('#overlay').append("<span id='testZ" + (i+1) + "' class='testZ' style='left:0px; -webkit-transform:translateX(" + Ref.gridZ200['grid'][i] + "px); top:"  + (y*600 + 600) + "px; -webkit-transform: translateZ(200px); background-color:red;'>" + i + "</span>");
-				  	*/	  
-				  }	
-			  }
-		  }
-	  }
+				  */
+				}	
+			}
+		  
+	  
 	  
   });
 

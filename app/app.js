@@ -4,6 +4,7 @@ define([
   "lodash",
   "backbone",
   "libs/engine.io",
+  "skrollr",
 
   // Plugins.
   "plugins/backbone.layoutmanager",
@@ -20,12 +21,29 @@ function($, _, Backbone, eio) {
 
     // Assign global reusable views.
     views: {},
+    
+    mode: "transcript", // transcript or comparison
 
     // Create a socket connection to the server.
+    socket: new eio.Socket({ host: location.hostname, port: 8081 }),
     
-    socket: new eio.Socket({ host: location.hostname, port: 8081 })
-    //socket: new eio.Socket({ host: "198.61.191.97", port: 8081 })
     
+    // Init skrollr lib
+    skrollr: skrollr.init({    	
+	    beforerender: function(data) {
+				//console.log('beforerender');
+			},
+			render: function() {
+				//console.log('render');
+			},
+			easing: {
+				//WTF: Math.random,
+				//inverted: function(p) {
+				//	return 1-p;
+				//}
+			}
+		})
+		    
   };
 
   // Localize or create a new JavaScript Template object.

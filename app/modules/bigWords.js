@@ -22,7 +22,7 @@ function(app, Ref) {
 		  this.curY = 0;		// Used to absolutely layout big words.
 		 	app.on("message:word", this.addWord, this);
 
-      focalLength = parseInt($("#bigWords").css("webkit-perspective"));
+      //focalLength = parseInt($("#bigWords").css("webkit-perspective"));
 
       //app.on("body:scroll", this.handleScroll, this);			//EG This is handled by requestAnimFrame now in router.
 		 },	
@@ -30,11 +30,12 @@ function(app, Ref) {
 		 serialize: function() {
       return { };
     },
-
+    
+    /*	// Using skrollr lib to cull and do parallax now.
     handleScroll: function(val) {
        // Move the origin to make parallax happen
-			 $('#bigWords').css("webkit-perspective-origin", "50% "+(val)+"px");		     
-
+			 //$('#bigWords').css("webkit-perspective-origin", "50% "+(val)+"px");		     
+			 
        // Perform culling
        var viewportTop = $('body').scrollTop();
        var viewportBottom = viewportTop + $(window).height();
@@ -56,6 +57,7 @@ function(app, Ref) {
          else  el.removeClass('hiddenWord');
        });
 	  },
+    */
     
     addWord: function(args){
     	var word = args['msg']['word'];
@@ -69,16 +71,21 @@ function(app, Ref) {
 		    	 if(parseInt($('#transcript > .wrapper').prop('scrollHeight')) > parseInt(this.$el.prop('scrollHeight'))){
 			    	//console.log("BigWords.addWord - got a big one");
 				   	//var holder = this.$el.children(".bigWordsHolder")[0];
+				   	// Horizontal skrolling!
+	          //var bigWord = $("<span class='bigWord' style='top:"+this.curY+"px;'data--500-top-bottom='display:block; margin-left:-400px;' data-500-bottom-top='display:block; margin-left:200px;'>"+word+"</span>");
 	          var bigWord = $("<span class='bigWord' style='top:"+this.curY+"px;'>"+word+"</span>");
 	          $('#bigWordsHolder').append(bigWord);
+	          // Add to skrollr manager. 
+	          //app.skrollr.refresh(bigWord.get(0));
 	          
+	          /*
 	          var s = this.foreshortening(bigWord);
 	          var top = parseInt(bigWord.css('top'));
 	          var bottom = top + parseInt(bigWord.height());
 	          bigWord.attr("data-top", top);
 	          bigWord.attr("data-bottom", bottom);
 	          bigWord.attr("data-scale", s);
-	          
+	          */
 				   	this.curY += Ref.bigWordLeading;
 				   	//$(holder).append(word+"</br>");
 				   }
@@ -86,6 +93,7 @@ function(app, Ref) {
 	    }
     },
 
+    /* // Using skrollr lib to cull and do parallax now.
     foreshortening : function(element, _focalLength) {
       if(_focalLength == null) {
         // Calculate cached focal length if it hasn't been calculated yet
@@ -99,6 +107,7 @@ function(app, Ref) {
       var out = _focalLength / (_focalLength - z);
       return out;
     },
+    */
     
     enter: function() {
 	    $('#bigWordsHolder').css("visibility", "visible");

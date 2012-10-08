@@ -211,6 +211,7 @@ function(app, Ref) {
 		
 			this.speaker = this.options.speaker;
 			this.phrase = this.options.phrase;
+			//console.log("numbersView phrase = "+this.phrase);
 				
 			this.posY = this.options.posY;
       this.collapseY = this.options.wordPos[1];
@@ -249,12 +250,30 @@ function(app, Ref) {
 	      
 	      $(this).css("font-size","54px");
 	      $(this).css("height", "72px");
-	      $(this).css("width", Ref.gridWidth);
-	      $(this).css("top", (_posY - 18) + 'px');  // Center on line
-	      if(sp == 1)
+	      
+	      
+	      
+	      //$(this).css("font-size","18px");
+	      //$(this).css("height", "24px");
+	      //$(this).css("width", Ref.gridWidth);
+	      $(this).css("top", (_posY) + 'px');  // Center on line
+	      $(this).css("color", "rgb(80,80,80)");
+	      if(sp == 1){
 	        $(this).css("left", Ref.gridColumns[4]);
-	      else if(sp == 2)
+	        //$(this).css("left", Ref.gridColumns[0]);
+	      }
+	      else if(sp == 2){
 	        $(this).css("left", Ref.gridColumns[1]);
+	        //$(this).css("left", Ref.gridColumns[0]);
+	        $(this).css("width", "296px");
+	        $(this).css("text-align", "right");
+	      }
+	      else 
+	      {
+		      $(this).css("left", Ref.gridColumns[0]);
+		      $(this).css("width", "296px");
+		      $(this).css("text-align", "right");
+	      }
 	        //console.log(sp);
 	        //console.log( (this.anchorY - 18) + 'px'));
 
@@ -264,6 +283,11 @@ function(app, Ref) {
     },
 		
     afterRender: function() {
+    	// Tell skrollr about new elements
+    	this.$el.find('.numberPhrase').each(function(i){ 
+    		app.skrollr.refresh(this);
+    	});
+    	    	
 			if(!this.forceCollapse) this.expand();
 			else this.collapse(true);
 		}
@@ -431,6 +455,7 @@ function(app, Ref) {
 		expand: function() {
 			this.state = 1; 
 			
+			//PEND: WHAT SHOULD THE CONTAINER BE?
       var container = $(this.$el.find('.container')[0]);
       this.nSigns = (Math.random() * 5 + 5) * (this.type == 'posemo' ? 1 : 2); // 5-15 random + or - signs
       var signChar = this.type == 'posemo' ? '+' : '-';
@@ -444,7 +469,7 @@ function(app, Ref) {
       
       // Just a 1ms delay so the properties animate in
       window.setTimeout(function() {
-        this.$el.find('.emoTextBig').css({'visibility': 'visible', 'opacity': 1, 'font-size': 120});
+        this.$el.find('.emoTextBig').css({'opacity': 1, 'font-size': 120});
         for(var i=0; i<this.nSigns; i++) {
           var flipOut = Math.random() > 0.8;
           var translateX = (Math.random() - 0.5) * (flipOut ? 3000 : 500);
@@ -490,13 +515,17 @@ function(app, Ref) {
 	    
       // Fade in small text
 	    if (force) this.$el.find('.emoTextSmall').css('-webkit-transition', '0s');
-      this.$el.find('.emoTextSmall').css({'visibility': 'visible', 'opacity': 1, 'top' : this.posY});
+      this.$el.find('.emoTextSmall').css({'opacity': 1, 'top' : this.posY});
 
 		},
 		
 		afterRender: function() {
 			if (!this.forceCollapse) this.expand();
 			else this.collapse(true);
+			// Add to skrollr lib.
+			this.$el.find('.emoTextSmall').each(function(){
+				app.skrollr.refresh(this);				
+			});
 		}
 		
 	});
@@ -509,28 +538,27 @@ function(app, Ref) {
 		 initialize: function() {
 			this.category = this.options.category;
 			this.title = this.options.title;
+	    //this.$el.css('left', Ref.gridColumns[0]+'px');
+	    this.$el.css('top', (2*Ref.transcriptLeading) +'px');
+	    this.$el.css('position', 'fixed');
+	    this.$el.css('z-index', '12');
 		 },	
 		 
 		 serialize: function() {
       return { category: this.category, title: this.title };
     },
     
-    expand: function(offset) {
-    	//this.$el.css('-webkit-transition', 'opacity 1s');
-      this.$el.css('opacity',1.0); 
-      
-	    this.$el.find('.catWrapper').css('left', Ref.gridColumns[0]+'px');
-	    this.$el.find('.catWrapper').css('top', offset+'px');
-	    console.log(offset);
+    expand: function() {
+      //this.$el.css('opacity',1.0); 
+      this.$el.css('display','inline'); // Opacity alone still blocks mouse interactions.
     },
     
     collapse: function() {
-    	//this.$el.css('-webkit-transition', 'opacity 1s');
-      this.$el.css('opacity',0); 
+      this.$el.css('display', 'none');	
     },
     
     hide: function() {
-      this.$el.css('opacity',0); 
+      this.$el.css('display', 'none');	// Opacity alone still blocks mouse interactions.
     },
     
     afterRender: function() {

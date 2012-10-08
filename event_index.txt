@@ -5,6 +5,7 @@ markup:wordCount          {type, speaker, count, word}        speaker.js:71
 markup:sentenceLength     {type, speaker, length, sentence}   speaker.js:109
 markup:quote			        {type, speaker}                     transcript.js:48
 markup:sentenceSentiment  {speaker, sentiment}                transcript.js:130
+markup:traitLead					{type, speaker, trait, new}					speaker.js:175,190
 playback:addChapter       {msg}                               transcript.js:60
 transcript:scrollDetach   {}                                  transcript.js:171
 transcript:scrollAttach   {}                                  transcript.js:176

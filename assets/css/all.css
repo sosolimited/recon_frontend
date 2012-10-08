@@ -1,7 +1,10 @@
 body {
   /* background: -webkit-linear-gradient(left, #9699A0, #C9D1CF, #C9D1CF, #9699A0); */
   /*background-color: rgb(110,116,116);*/
+  
   background-color: rgb(140,146,146);	 
+  background-image: url('../../images/background-tex.jpg');
+  background-repeat: repeat; *;
 
   overflow-y: scroll;	
   overflow-x: hidden;	/* not working! */
@@ -19,9 +22,6 @@ body {
   top: 0; left: 0; bottom: 0; right: 0;
   overflow-y: scroll;
   overflow-x: visible;
-  
-  -webkit-perspective: 700px;	
-  -webkit-perspective-origin: 50% 1000px;	
 }
 
 
@@ -31,6 +31,9 @@ body {
   overflow:visible;
   /* overflow-x: hidden; */
   /* background-color: yellow; */
+ 
+  /* -webkit-perspective: 700px;	
+  -webkit-perspective-origin: 50% 1000px;	*/
 }
 
 #overlay {
@@ -45,10 +48,11 @@ body {
 #bigWords {
 	position: absolute;
 	top: 0px;	
-	/* 
+
+/*
 	-webkit-perspective: 700px; 
 	-webkit-perspective-origin: 50% 1000px;	
-	*/
+*/
 }
 
 #bigWords .hiddenWord {
@@ -73,7 +77,7 @@ body {
 	height: 300px;
 	width: 1024px;
 	*/
-	/* -webkit-transform: translateZ(-500px); */
+	/* -webkit-transform: translateZ(-100px); */
 	
 }
 
@@ -83,11 +87,15 @@ body {
 	left: 0px;	/* account for perspective */
 	font-size: 400px;
 	line-height: 336px;
-	font-family:"ff-meta-serif-web-pro"; 
-	font-weight:700; 
-	font-style:italic; 
+	/*font-family:"ff-meta-serif-web-pro"; */
+	/*font-weight:700; */
+	/*font-style:italic; */
 	
+	/*font-family:"franklin-gothic-urw-comp-i7", "franklin-gothic-urw-comp"; font-weight:700; font-style:italic;*/
+	font-family:"franklin-gothic-urw-i7", "franklin-gothic-urw"; font-weight:700; font-style:italic;
+
 	color: rgb(146,152,152);
+	/*color: rgb(150,156,156);*/
 
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -105,7 +113,7 @@ body {
 	width:50px;
 	background-color:red;
 	position:absolute;
-	-webkit-transform: translateZ(-300px);	
+	/* -webkit-transform: translateZ(-300px);	*/
 }
 
 .testZno {
@@ -124,6 +132,25 @@ h1 { /* Speaker names */
   font-size: 36px;
   cursor: pointer;
 }
+
+h1:hover { /* Speaker names */
+  line-height: 0px;
+  font-size: 36px;
+  background-color: rgb(20,20,20);
+  cursor: pointer;
+}
+
+.transcriptSpeaker {
+	text-decoration: none;	
+  line-height: 24px;
+  font-size: 48px;
+  cursor: pointer;
+}
+
+.transcriptSpeaker:hover {
+	color:rgb(255, 66, 55);
+}
+
 
 
 p { /* Transcript text */
@@ -191,7 +218,7 @@ hr {
 #navigation {
 	position: fixed;
 	width: 530px;
-	height: 40px;	
+	height: 48px;
 	z-index: 10;
 
 	transform:rotate(90deg);
@@ -210,24 +237,24 @@ hr {
 /* White box inside #navigation div */
 #navTimeline {
   width: 530px;
-  height: 8px;
+  height: 16px;
 }
 #navProgressBar {
-  height: 8px;
+  height: 16px;
   background-color: rgb(64, 180, 230);	
   width: 0px;
   z-index: 0;
 }
 #navProgressMarker {
-  height: 8px;
-  width:2px;
+  height: 16px;
+  width:4px;
   background-color: black;
   z-index: 2;
   position: absolute;
   top:0px;
 }
 .navChapterBar {
-  height: 8px;
+  height: 16px;
   z-index: 1;
   position: absolute;
   top: 0px;
@@ -314,6 +341,7 @@ hr {
 /*.gray60{ color:rgb(60,60,60); }*/
 
 .gray80{ color:rgb(80,80,80); }
+.bgGray80{ background-color:rgb(80,80,80);}
 .gray160{ color:rgb(160,160,160); }
 
 .grayBlue{ color:rgb(67,67,75); }
@@ -408,8 +436,6 @@ landingTitleImage {
 	position:absolute;
 	top: 48px;
 	display:block;
-	
-	
 	
 }
 
@@ -630,7 +656,7 @@ landingTitleImage {
 	/* background-color:yellow; */
 
 	-webkit-transition: -webkit-transform 1s ease-in;	
-	-webkit-transform: translateZ(0px);
+	/* -webkit-transform: translateZ(0px); */
 	
 }
 
@@ -651,7 +677,7 @@ landingTitleImage {
 	line-height:100px;
 	left:-450px;	/* Start out of view */
 
-	-webkit-transform: translateZ(0px);
+	/* -webkit-transform: translateZ(0px); */
 }
 
 /* Category words overlays */
@@ -671,12 +697,22 @@ landingTitleImage {
   color: rgb(255,255,255);
 	/*-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
 	-webkit-transform: translateZ(0px);	*/
-  z-index: 3;
+  z-index: 10;
   text-transform: uppercase;
+}
+
+.certainMarkup:hover{
+	background-color: rgb(255,175,108) !important;
+	color: rgb(255, 255, 255) !important;
 }
 
 .certainMarkup.reverse{
 	background-color: rgb(255,175,108) !important;
+	color: rgb(255, 255, 255) !important;
+}
+
+.tentatMarkup:hover{
+	background-color: rgb(193,186,134) !important;
 	color: rgb(255, 255, 255) !important;
 }
 
@@ -685,9 +721,18 @@ landingTitleImage {
 	color: rgb(255, 255, 255) !important;
 }
 
+.posemoMarkup:hover {
+	background-color: rgb(124,240,179) !important;
+	color: rgb(255, 255, 255) !important;
+}
 
 .posemoMarkup.reverse{
 	background-color: rgb(124,240,179) !important;
+	color: rgb(255, 255, 255) !important;
+}
+
+.negemoMarkup:hover{
+	background-color: rgb(122,52,183) !important;
 	color: rgb(255, 255, 255) !important;
 }
 
@@ -722,7 +767,7 @@ landingTitleImage {
 	/* background-color:yellow; */
 
 	-webkit-transition: -webkit-transform 1s ease-in, left 1s, top 1s, height 1s, width 1s;	
-	-webkit-transform: translateZ(0px);
+	/* -webkit-transform: translateZ(0px); */
 
 }
 
@@ -765,15 +810,15 @@ landingTitleImage {
 .numberPhrase {
 	position:absolute; 
 	overflow: visible;
-  width: 906px;
+  width: 9000px;
   font-size: 270px;
   line-height: .75em;
 	margin: 0px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
-  color: rgb(64,180,229);
-	-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
-	-webkit-transform: translateZ(0px);	
-  z-index: 3;
+  color: rgb(255,255,255); 
+	-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s, color 1s;
+	/* -webkit-transform: translateZ(0px);	*/
+  z-index: 2;
 
 }
 
@@ -787,8 +832,8 @@ landingTitleImage {
 	padding: 0px 0px 0px 0px;
   color: rgb(124,51,64);
 	-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
-	-webkit-transform: translateZ(0px);	
-  z-index: 3;
+	/* -webkit-transform: translateZ(0px);	*/
+  z-index: 2;
 }
 
 
@@ -808,19 +853,17 @@ landingTitleImage {
   color: rgb(140,146,146);	
   font-size: 0px;
   line-height: 0.75em;
-  visibility: hidden;
   opacity: 0;
   -webkit-transition: font-size 1s, opacity 1s;
-  z-index: 2;
+  z-index: 3;
 }
 
 .emoTextSmall {
   position: absolute;
-  font-size: 36px;
+  font-size: 72px;
   line-height: 0.75em;
-  visibility: hidden;
   opacity: 0;
-  z-index: 1;
+  z-index: 3;
   -webkit-transition: opacity 1s;
 }
 
@@ -833,7 +876,7 @@ landingTitleImage {
 
 .emoSign {
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   -webkit-transform: scale(0.0001);
   -webkit-transition: font-size 1s, -webkit-transform 2s, opacity 1s;
   -webkit-transform-origin: 50% 50%;
@@ -865,7 +908,7 @@ landingTitleImage {
 #transcript .freqWordFrame {
   position: absolute;
   overflow: hidden;
-  z-index: 2;
+  z-index: 1;
   height: 16px;
   font-size: 14px;
 }
@@ -873,13 +916,28 @@ landingTitleImage {
 #transcript .freqWordCount {
   position: relative;
   top: 1em;
-  color: rgb(207,255,36);
+  color: rgb(207,255,36); 
+  /*color: white;*/
 }
-
+#transcript .freqWordUnderline {
+  position: absolute;
+  height: 1px;
+  background-color: white;
+  z-index: -1;
+}
 .tapable {
   cursor: pointer;
 }
 
+
+
+.skTest {
+	position: absolute;
+	left: 100px;
+	font-size: 100px;
+	color: white;
+	font-style: bold;
+}
 /*
 #transcript {
 	width: 1200px;

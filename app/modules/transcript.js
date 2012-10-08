@@ -26,6 +26,11 @@ function(app, Overlay, Ref) {
 
   var oldScrollTop = 0;
   var oldWindowHeight = 0;
+  
+  var prevLeadingPunct = false;
+  var numberLeadingPunct = false;
+  
+  var extraNumberWords = ['on', 'of', 'a', 'to', 'the', 'Of', 'The', 'A', 'To', 'and'];
 
   // Store top + bottom positions of paragraphs so they don't need to be recalculated all the time
   var paragraphPropertyCache = [];
@@ -54,8 +59,6 @@ function(app, Overlay, Ref) {
       });
       
       this.numberOpen = false;
-      this.numberCount = 0;		
-      this.numberWords = 2;		// Number of words to catch in number phrase, including first numerical word.
       this.numberPhrase = "";
       
       this.speakers = this.options.speakers; // Speaker collection ref used to synchronously check on special events in addWords().
@@ -106,20 +109,31 @@ function(app, Overlay, Ref) {
     		openSentence = true;
     	}
     	
-    	if (!word["punctuationFlag"]) s += " "; // Add leading space.
+    	//console.log('punct '+word["punctuationFlag"]);
+    	
+    	if (word["punctuationFlag"] != 1 && !prevLeadingPunct) s += " "; // Add leading space.
+    	
+    	if (word["punctuationFlag"] == -1) prevLeadingPunct = true; //keep track of punct if it was leading
+    	else prevLeadingPunct = false;
+    	
     	
     	    	
     	// Check for any kind of special word events then: insert marked up word and/or trigger overlay event.
     	// -------------------------------------------------------------------------------------------------------  
       // Check for numbers: 'number' for numerics, 'numbers' for LIWC.
-      if(curSpeaker==1 || curSpeaker==2){
-	    	if ($.inArray('numbrz', word['cats']) != -1) {
-	    		//console.log("transcript - got a number!");
+      
+      var curNumber = false;
+      //if(curSpeaker==1 || curSpeaker==2){  //trying numbers on moderator too
+	    	
+	    	if ( ($.inArray('numbrz', word['cats']) != -1) || (word["word"] == '$')) //TODO: add a check for $, currently it breaks something
+	    	{
+	    		//console.log("transcript - got a number!" + word['word']);
 	    		if (!this.numberOpen){
 		    		this.numberOpen = true;
 		    	}
+		    	curNumber = true;
 	    	}
-    	}
+    	//}
     	
     	var top20Count = 0;
     	// Only do other markup if a number phrase isn't open, and only if obama or romney are speaking
@@ -155,12 +169,14 @@ function(app, Overlay, Ref) {
 			    app.trigger("markup", wordProps[0]); 		   		 	 
 		    }
 		    // Check if the word is in the top N words. (20 was too busy, so we're trying 10)
-		    else if((top20Count = this.uniqueWords.isTopWord(curSpeaker, word['word'], 10))
-		    	&& (this.uniqueWords.getTotalUniqueWords(curSpeaker) > 100)){
+		    /*	//TEMP until freq words gets fixed.
+		    else if((top20Count = this.uniqueWords.isTopPhrase(curSpeaker, word['word'], 10))
+		    	&& (this.uniqueWords.getTotalUniquePhrases(curSpeaker) > 100)){
 				  var sp = $("<span class='frequentWordMarkup countClick transcriptWord'>"+s+word["word"]+"</span>");
 				  sp.attr("data-wordcount", top20Count);
 			   	$('#curSentence').append(sp);	
 		    }
+		    */
 		  	else if ($.inArray('posemo', word['cats']) != -1) {
 		  		 //app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
 		  		 $('#curSentence').append(s+"<span class='catMarkup posemoMarkup transcriptWord'>"+word["word"]+"</span>"); 
@@ -187,15 +203,39 @@ function(app, Overlay, Ref) {
       
     	// Check for any open number phrases.  
       if (this.numberOpen){
-    		// Update count and phrase.
-    		this.numberCount =  this.numberCount+1;
-    		if(!word['punctuationFlag']) this.numberPhrase += " ";	// Insert a space in phrase if it's not punctuation.
-    		this.numberPhrase += word['word'];
- 
-    		// When we have the correct number of words in the phrase,
-    		if(this.numberCount >= this.numberWords){
-    			this.emitNumberEvent();
-    		}
+      
+      	//1. if end punct, emit number and don't add word
+      	if((word['punctuationFlag'] != 0) && (word["word"] != '$')) {
+      		//console.log("closing with punctFlag");
+      		this.emitNumberEvent();
+      	}
+      	
+      	//2. else add the word
+      	else 
+      	{
+      		
+      	
+	      	if ((word['punctuationFlag'] == 0) && !numberLeadingPunct) this.numberPhrase += " "; //add lead space if leading
+	      	this.numberPhrase += word['word']; //add word
+	      	
+	      	if (!curNumber) {
+	      		//only emit and close on words other than the special one
+	      		var special = false;
+	      		for (i in extraNumberWords)
+	      		{
+		      		if (word["word"] == extraNumberWords[i]) special = true;
+	      		}
+	    			if (!special) this.emitNumberEvent(); //We're not special! We're just like you!
+	      	}
+	      	
+	      	//special case for $
+	      	if (word["word"] == '$') {
+	      		 numberLeadingPunct = true;
+      		}
+      		else numberLeadingPunct = false;
+	      		
+      	}
+    		
     	}
       
       // Update the paragraph size cache
@@ -256,7 +296,9 @@ function(app, Overlay, Ref) {
 	     	 }
 	     	 // Number markup.
 	     	 else if($(this).hasClass("numberMarkup")){
-	     	 		$(this).css("background-color", "rgb(64,180,229)");	    	    		
+	     	 		//$(this).css("background-color", "rgb(64,180,229)");	    	    		
+	     	 		$(this).css("background-color", "rgb(80,80,80)");
+	     	 		$(this).css("color", "rgb(255,255,255)");	    	    			    	    		
 	     	 }
 	     	 // Quotation markup.
 	     	 else if($(this).hasClass("quoteMarkup")){
@@ -265,7 +307,7 @@ function(app, Overlay, Ref) {
 	     	 // Frequent word markup.
 	     	 else if($(this).hasClass("frequentWordMarkup")){
 			     	//$(this).css("color", "rgb(100,100,100)");	
-		    		$(this).css("border-bottom", "1px solid white");	//To do different color underline.
+		    		//$(this).css("border-bottom", "1px solid white");	//To do different color underline.
 		    		
 		    		//$(this).css("text-decoration-color", "rgb(255,255,255)");	
 		        var count = $(this).attr("data-wordcount");
@@ -274,11 +316,16 @@ function(app, Overlay, Ref) {
 		          var pos = $(this).position();
 		          var wordWidth = $(this).width();
 		          var lineHeight = $(this).height();
-		          var container = $("<div class='freqWordFrame' style='left: " + (pos.left + wordWidth) + "px; top: " + (pos.top - lineHeight/2) + "px;'></div>");
+              var leftInset = 2; // Keep the superscripts a little tighter to the word
+		          var container = $("<div class='freqWordFrame' style='left: " + (pos.left + wordWidth - leftInset) + "px; top: " + (pos.top - lineHeight*.25) + "px;'></div>");
 		          var countDiv = $("<div class='freqWordCount'>" + count + "</div>");
 		          container.append(countDiv);
 		          $(this).parent().append(container);
 		          countDiv.animate({top: '0px'}, 300);
+
+              var spaceWidth = 5;  // To avoid underlining the leading space. This is an ugly hack.
+              var underlineDiv = $("<div class='freqWordUnderline' style='left: " + (pos.left+spaceWidth) + "px; top: " + (pos.top + lineHeight*0.8) + "px;  width: " + (wordWidth-spaceWidth) + "px;' />");
+              $(this).parent().append(underlineDiv);
 		        }  	     	 
 	     	 }
       });
@@ -351,9 +398,15 @@ function(app, Overlay, Ref) {
     	//if(curSpeaker == 0) spColor = "gray60";	
     		
   		var newP = $("<div id='curParagraph' class='push-" + col + " span-3 " +
-                   speakers[curSpeaker] + " transcriptParagraph'><h1 class='franklinMedIt " + spColor + "'>" +
-                   speakers[curSpeaker] + "</h1><p class='metaBook gray60'></p></div><div class=clear></div>");                   
+                   speakers[curSpeaker] + " transcriptParagraph'><div class='transcriptSpeaker franklinMedIt " + spColor + "'>" +
+                   speakers[curSpeaker] + "</div><p class='metaBook gray60'></p></div><div class=clear></div>");                   
+      // Adding parallax.
+      //var newP = $("<div id='curParagraph' class='push-" + col + " span-3 " +
+      //             speakers[curSpeaker] + " transcriptParagraph' data-top-bottom='margin-top:-40px;' data-top-top='margin-top:40px;'><div class='transcriptSpeaker franklinMedIt " 
+      //             + spColor + "'>" + speakers[curSpeaker] + "</div><p class='metaBook gray60'></p></div><div class=clear></div>");                                                  
       this.$el.append(newP);
+      // Add to skrollr manager.
+      app.skrollr.refresh(newP.get(0));
       
       // Cache position in data attributes
       newP.attr('data-top', newP.offset().top);
@@ -453,12 +506,25 @@ function(app, Overlay, Ref) {
     },
     
     emitNumberEvent: function() {
+    	
     	//console.log("emitNumberEvent("+this.numberPhrase+")");
+      
+      
       var anchorPos;
-      if(this.numberPhrase != null) {
-        //console.log("numberPhrase = "+this.numberPhrase+"....sentence="+$('#curSentence').html());
+      if(this.numberPhrase != null) 
+      {
+        //TODO: this formatting seems to be erasing previous formatting in the sentence. 
+        // Anything before the last number event in the sentence will be reverted to normal text
+        // Uncomment the three console.log() lines below to see what's happening
+        
+        //console.log("numberPhrase = "+this.numberPhrase);
+        //console.log("sentence="+$('#curSentence').html());
+        
       	var cS = $('#curSentence');
 	      cS.html(cS.text().replace($.trim(this.numberPhrase), "<span id='positionMarker' class='transcriptWord numberMarkup'>"+$.trim(this.numberPhrase)+"</span>"));
+	      
+	      //console.log("new sentence="+$('#curSentence').html());
+	      
         anchorPos = $('#positionMarker').offset();
         $('#positionMarker').removeAttr("id");        
       }
@@ -467,6 +533,8 @@ function(app, Overlay, Ref) {
     	// Emit an overlay event.
 			app.trigger("markup", {type:'numberMarkup', speaker:curSpeaker, phrase:this.numberPhrase, anchor:anchorPos});	
 			// Close the number.
+			
+			
 			this.numberOpen = false;
 			this.numberCount = 0;
 			this.numberPhrase = "";

@@ -40,6 +40,10 @@ body {
 	
 }
 
+.no-scroll {
+  overflow: hidden;
+}
+
 #landing {
 	/* background-color:yellow; */
 	position: fixed;

@@ -369,6 +369,8 @@ hr {
 .salmon{ color:rgb(255,157,108); }
 .bgSalmon{ background-color:rgb(255,157,108); }
 .seaGreen{ color:rgb(124,240,179); }
+.orangeRed{ color:rgb(255, 85, 46); }
+.bgOrangeRed{ background-color:rgb(255, 85, 46); }
 
 .angry{color:rgb(255,67,55);}
 .bgAngry{background-color:rgb(255,67,55);}
@@ -656,24 +658,36 @@ landingTitleImage {
 	-webkit-transition: -webkit-transform 1s ease-in;	
 	/* -webkit-transform: translateZ(0px); */
 	
+	z-index: 2;
+	
 }
 
 .traitExpText {
 	position:relative;
 	top:96px;	/* Start out of view */
 	font-size: 96px;
-	color: white;
 	margin: 0px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
 	line-height:96px;
-	background-color: rgb(231,0,149);
+	
 }
 
-.traitSymbol {
+.traitSymbolLeft {
 	position: absolute;
-	font-size:800px;	
-	line-height:100px;
-	left:-450px;	/* Start out of view */
+	font-size:720px;	
+	line-height:96px;
+	/*top:48px;*/
+	left:-600px;	/* Start out of view */
+
+	/* -webkit-transform: translateZ(0px); */
+}
+
+.traitSymbolRight {
+	position: absolute;
+	font-size:720px;	
+	line-height:96px;
+	/*top: 48px;*/
+	left: 1800px;	/* Start out of view */
 
 	/* -webkit-transform: translateZ(0px); */
 }

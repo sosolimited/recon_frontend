@@ -69,10 +69,11 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
       var comparisonCollection = new Comparison.Collection();
       var comparisonView = new Comparison.Views.All({collection: comparisonCollection});
 
+
       comparisonCollection.add(new Comparison.CountModel({traitNames:["wc"], speakerNames:speakerCollection, title:"WORD COUNT", subtitle:"The number of total words spoken by each candidate", range:[0,10000.0], color1:"Salmon"})); 
-      
+          
       comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 20 WORDS", subtitle:"The top twenty words of each candidate (excluding 'the', 'I', 'if', etc.)", uniqueWords:uniqueWords, color1:"Lime"}));  
-      
+        
       comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 20 2 Word PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique2Grams, color1:"Lime"}));     
       
       comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 20 3 Word PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique3Grams, color1:"Lime"}));   
@@ -85,12 +86,12 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["anger"], speakerNames:speakerCollection, title:"ANGER", subtitle:"The percentage of words spoken that are angry in some way. ie. 'fight, destroy, annoy.'", range:[0,1.95], color1:"Angry"})); 
          
-        
       comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["formality"], speakerNames:speakerCollection, title:"FORMAL", subtitle:"CASUAL", range:[3, 25.0], color1:Ref.formal, color2:Ref.casual, gradient:"gradientFormality"})); 
       
       comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["depression"], speakerNames:speakerCollection, title:"DEPRESSED", subtitle:"CHEERFUL", range:[-1.0, 4.75], color1:Ref.depressed, color2:Ref.cheery, gradient:"gradientDisposition"}));  
       
       comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["honesty"], speakerNames:speakerCollection, title:"AUTHENTIC", subtitle:"DECEPTIVE", range:[0, 6.0], color1:Ref.purple, color2:Ref.redOrange, gradient:"gradientHonesty"}));                   
+
       
       // Load from static file.
       if (this.qs.docName) {
@@ -157,12 +158,18 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
             comparisons.addClass("active");
             var elt = $('#comparisons').find('.compareContainer.'+event.data.tag).parent();
             $("#comparisons > .wrapper").stop().animate({ scrollTop: elt.position().top}, 1.0);
+            
+            // Switch skrollr scroll element to comparisons container.
+						app.skrollr.setSkrollElement($('#comparisons > .wrapper').get(0));
           };
           
           var exitComp = function() {
           	app.mode = "transcript";
             transcript.removeClass("fade");
             comparisons.removeClass("active");
+
+            // Switch skrollr scroll element back to body.
+						app.skrollr.resetSkrollElement();
           }
           
           var closeCatLays = function() {
@@ -308,13 +315,19 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 						if($('#transcript > .wrapper').css("visibility") == "visible") $('#transcript > .wrapper').css("visibility", "hidden");
 		      	else $('#transcript > .wrapper').css("visibility", "visible");
 					}
-					//w for skrollr object switching
+					//w 
 					else if(event.which == 87){	
+						//for skrollr object switching
 						//if(app.skrollr._skrollElement == null) app.skrollr.setSkrollElement("")
+						app.skrollr.resetSkrollElement();
 					}
-					//p for inserting parallax test objects
+					//p 
 					else if(event.which==80){	
-						app.trigger("keypress:test", {type:"testParallax"});
+						// Inserting test parallax objects.
+						// app.trigger("keypress:test", {type:"testParallax"});
+						var el = $('#comparisons > .wrapper').get(0);
+						//console.log("setSkrollElement("+el+")");
+						app.skrollr.setSkrollElement(el);
 					}
 					//z To nudge parallax test objects left
 					else if(event.which==90){	

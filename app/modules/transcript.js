@@ -302,7 +302,7 @@ function(app, Overlay, Ref) {
 	     	 else if($(this).hasClass("numberMarkup")){
 	     	 		//$(this).css("background-color", "rgb(64,180,229)");	    	    		
 	     	 		$(this).css("background-color", "rgb(80,80,80)");
-	     	 		$(this).css("color", "rgb(255,255,255)");	    	    			    	    		
+	     	 		$(this).css("color", "rgb(180,180,180)");	    	    			    	    		
 	     	 }
 	     	 // Quotation markup.
 	     	 else if($(this).hasClass("quoteMarkup")){

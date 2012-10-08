@@ -200,9 +200,6 @@
 			_scale = options.scale || 1;
 		}
 		
-		// SOSO Extending to allow an arbitrary scroll object to be set (instead of doc).
-		_instance._skrollElement = null;
-
 		//Remove "no-skrollr" and add "skrollr" to the HTML element.
 		_updateClass(documentElement, [SKROLLR_CLASS], [NO_SKROLLR_CLASS]);
 
@@ -487,21 +484,25 @@
 		if(window.skrollr.scrollerInstance) {
 			return window.skrollr.scrollerInstance.__scrollTop;
 		} else {
-			if(_instance._skrollElement == null){	// SOSO 
+			if(_skrollElement == null){	// SOSO 
+				//console.log("scrollTop body = "+body.scrollTop);		
 				return window.pageYOffset || documentElement.scrollTop || body.scrollTop || 0;
 			}else{ // SOSO 
-				console.log("scrollTop = "+_instance._skrollElement.scrollTop);
-				return _instance._skrollElement.scrollTop;	//SOSO testing
+				//console.log("scrollTop = "+_skrollElement.scrollTop);
+				return _skrollElement.scrollTop;	//SOSO testing
 			}	
 		}
 	};
 	
 	// SOSO Extending to allow skrollr to work off of the scrollTop of an arbitrary element.
 	Skrollr.prototype.setSkrollElement = function(el) {
-			window.skrollr._skrollElement = el;
+		//console.log("Skrollr.setSkrollElement("+el+")");
+		//_skrollElement = $('#comparisons').get(0);	
+		_skrollElement = el;
 	}
 	Skrollr.prototype.resetSkrollElement = function() {
-			window.skrollr._skrollElement = null;
+		//console.log("Skrollr.resetSkrollElement()");
+		_skrollElement = null;
 	}
 
 
@@ -1077,6 +1078,9 @@
 	//The ID is the index in the _skrollables array.
 	var _skrollableIdCounter = 0;
 
+	// SOSO Adding ability to scroll off of another element.
+	var _skrollElement = null;
+	
 	/*
 	 * Global api.
 	 */

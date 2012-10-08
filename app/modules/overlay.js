@@ -21,7 +21,8 @@ function(app, Ref) {
 		initialize: function() {
 			this.forceCollapse = this.options.forceCollapse;
 			this.trait = this.options.trait;
-			this.leader = this.options.leader; 
+			this.leader = this.options.leader;
+			this.moreVal = this.options.moreVal; 
 
 			this.posY = this.options.posY;
 			//all durations in milliseconds	
@@ -37,7 +38,7 @@ function(app, Ref) {
 		},	
 		 
 		serialize: function() {
-      return { trait: this.trait, leader: this.leader, trailer: this.trailer, startPosY: this.posY-96};
+      return { trait: this.trait, leader: this.leader, trailer: this.trailer, startPosY: this.posY-96, moreVal: this.moreVal };
     },
 
     expand: function() {

@@ -81,7 +81,7 @@ function(app, Overlay, Ref) {
 				  this.addSentimentOverlay(args);
 			  }
 			  else if(args['type']=="traitLead"){
-				 // this.addTraitOverlay(args);
+				 this.addTraitOverlay(args);
 			  }
 		  }
 	  },
@@ -107,11 +107,13 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  addTraitOverlay: function(args) {
-	 
+		  
+	  	var moreVal;
+	  	if (args["speaker"] == args["curSpeaker"]) moreVal = "MORE ";
+	  	else moreVal = "LESS ";	  	
 	  	
 	  	var speakerString;
-	  	(args["speaker"] == 1) ? speakerString = "obama" : speakerString = "romney" ;
-	  	
+	  	(args["curSpeaker"] == 1) ? speakerString = "obama" : speakerString = "romney" ;
 	  	
 	  	var traitString = "";
 	  	if (args["trait"] == 'posemo') traitString = "POSITIVE";
@@ -122,9 +124,9 @@ function(app, Overlay, Ref) {
 	  	else if (args["trait"] == 'depression') traitString = "DEPRESSED";
 	  	else if (args["trait"] == 'honesty') traitString = "HONEST";
 	  	
-	  	console.log("addTraitOverlay() " + speakerString + " " + traitString);
+	  	console.log("addTraitOverlay() " + speaker + " " + speakerString + " " + traitString + " " + args["curSpeaker"] + " " + moreVal);
 	  	
-	  	var traitsOverlay = new Overlay.Views.TraitView({ trait: traitString, leader: speakerString, posY: this.scaleY(parseInt(this.attributes.transcript.getCurSentencePosY())) });
+	  	var traitsOverlay = new Overlay.Views.TraitView({ trait: traitString, leader: speakerString, posY: this.scaleY(parseInt(this.attributes.transcript.getCurSentencePosY())), moreVal: moreVal });
 	  	$('#overlay').append(traitsOverlay.el);
 			traitsOverlay.render();
 	  	

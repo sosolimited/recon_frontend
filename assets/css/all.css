@@ -702,43 +702,75 @@ landingTitleImage {
 }
 
 .certainMarkup:hover{
-	background-color: rgb(255,175,108) !important;
-	color: rgb(255, 255, 255) !important;
+	background-color: rgb(255,255,255) !important;
+	/* color: rgb(255,175,108) !important; */
+	color: rgb(60,60,60) !important;
 }
-
 .certainMarkup.reverse{
 	background-color: rgb(255,175,108) !important;
 	color: rgb(255, 255, 255) !important;
 }
-
-.tentatMarkup:hover{
-	background-color: rgb(193,186,134) !important;
-	color: rgb(255, 255, 255) !important;
+.certainMarkup.grayed{
+	background-color: transparent !important;
+	color: rgb(60,60,60) !important;
 }
 
+
+.tentatMarkup:hover{
+	background-color: rgb(255,255,255) !important;
+	/* color: rgb(193,186,134) !important; */
+	color: rgb(60,60,60) !important;
+}
 .tentatMarkup.reverse{
 	background-color: rgb(193,186,134) !important;
 	color: rgb(255, 255, 255) !important;
 }
-
-.posemoMarkup:hover {
-	background-color: rgb(124,240,179) !important;
-	color: rgb(255, 255, 255) !important;
+.tentatMarkup.grayed{
+	background-color: transparent !important;
+	color: rgb(60,60,60) !important;
 }
 
+
+.posemoMarkup:hover {
+	background-color: rgb(255,255,255) !important;
+	/* color: rgb(124,240,179) !important; */
+	color: rgb(60,60,60) !important;
+}
 .posemoMarkup.reverse{
 	background-color: rgb(124,240,179) !important;
 	color: rgb(255, 255, 255) !important;
 }
-
-.negemoMarkup:hover{
-	background-color: rgb(122,52,183) !important;
-	color: rgb(255, 255, 255) !important;
+.posemoMarkup.grayed{
+	background-color: transparent !important;
+	color: rgb(60,60,60) !important;
 }
 
+
+.negemoMarkup:hover{
+	background-color: rgb(255,255,255) !important;
+	/* color: rgb(122,52,183) !important; */
+	color: rgb(60,60,60) !important;
+}
 .negemoMarkup.reverse{
 	background-color: rgb(122,52,183) !important;
 	color: rgb(255, 255, 255) !important;
+}
+.negemoMarkup.grayed{
+	background-color: transparent !important;
+	color: rgb(60,60,60) !important;
+}
+
+.numberMarkup:hover{
+	background-color: rgb(255,255,255) !important;
+	color: rgb(60,60,60) !important;
+}
+.numberMarkup.reverse{
+	background-color: rgb(80,80,80) !important;
+	color: rgb(255,255,255) !important;
+}
+.numberMarkup.grayed{
+	background-color: transparent !important;
+	color: rgb(60,60,60) !important;
 }
 
 .catMarkup{
@@ -748,6 +780,10 @@ landingTitleImage {
 
 .traitClick, .sentimentClick, .countClick {
 	cursor: pointer;
+}
+
+.emoTextSmall:hover {
+	color: rgb(255,255,255) !important;
 }
 
 .overlay-bottom {

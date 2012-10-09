@@ -70,7 +70,8 @@ function(app, Overlay, Ref) {
     },
 
     addWord: function(args) {
-    	//console.log("transcript.addWord("+args['msg']['word']+")");
+      if (args.msg.type === "word" && app.restore) { return; }
+     // console.log("transcript.addWord("+args['msg']['word']+")");
 	    var word = args['msg'];
 	    
 	    // Add word to speakers, which returns an array of any special events triggered by the word.

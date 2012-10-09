@@ -162,7 +162,7 @@ function(app) {
     enter: function(first) {
 	    $('#navigation').css("visibility", "visible");
 	    $('#navLeft').css("webkitTransform", "translateX(5px) translateY(-5px) rotate(90deg)");
-	    $('#navRight').css("webkitTransform", "translateX(-5px) translateY(-5px) rotate(90deg)");
+	    $('#navRight').css("webkitTransform", "translateX(0px) translateY(-5px) rotate(-90deg)");
 	    if (first) {
 	    	$('#navInstructions').css("webkitTransform", "translateX(0%)");
 		    setTimeout(function(){ $('#navInstructions').css("webkitTransform", "translateX(100%)"); }, 4000);
@@ -172,7 +172,7 @@ function(app) {
     exit: function() {
 	    //$('#navigation').css("visibility", "hidden");	    
 	    $('#navLeft').css("webkitTransform", "translateX(-55px) translateY(-5px) rotate(90deg)");
-	    $('#navRight').css("webkitTransform", "translateX(55px) translateY(-5px) rotate(90deg)");
+	    $('#navRight').css("webkitTransform", "translateX(60px) translateY(-5px) rotate(-90deg)");
 		  $('#navInstructions').css("webkitTransform", "translateX(100%)");
     },
     
@@ -180,7 +180,7 @@ function(app) {
     reset: function() { 
 	    $('#navigation').css("visibility", "hidden");
 	    $('#navLeft').css("webkitTransform", "translateX(-55px) translateY(-5px) rotate(90deg)");
-	    $('#navRight').css("webkitTransform", "translateX(55px) translateY(-5px) rotate(90deg)");
+	    $('#navRight').css("webkitTransform", "translateX(60px) translateY(-5px) rotate(-90deg)");
 	    $('#navInstructions').css("webkitTransform", "translateX(-120%)");
     },
     

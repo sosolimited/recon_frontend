@@ -163,7 +163,7 @@ function(app, Overlay, Ref) {
       //console.log(word['word'] + ": " + word['cats']);
       
     	if(!this.numberOpen && (curSpeaker==1 || curSpeaker==2)){    	
-    		/*
+    		
         // Check for quotes.
     		if ($.inArray('hear', word['cats']) != -1) { 
 	        // Go back a word and pull it into this phrase.
@@ -183,7 +183,7 @@ function(app, Overlay, Ref) {
 	        
 		    	app.trigger("markup", {type:'quoteMarkup', phrase:quotePhrase, speaker:word['speaker'], anchor:newSpan.offset()});
 	    	}
-        */
+        
 		  	
         // Check for any special events returned by speaker.addWord() and add word to DOM with appropriate markup.
 		    if(wordProps.length > 0){

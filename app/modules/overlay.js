@@ -372,7 +372,7 @@ function(app, Ref) {
       var sp = this.speaker;
       this.$el.find('.quotePhrase').each(function(i){ 
 	      if (force) $(this).css('-webkit-transition', '0s');
-	      $(this).css("font-size","26px");
+	      $(this).css("font-size","54px");
 	      $(this).css("width", Ref.gridWidth);
 	      $(this).css("top", (_posY - 18) + 'px');  // Center on line
 	      if(sp == 1)

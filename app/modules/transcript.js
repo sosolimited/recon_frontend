@@ -63,9 +63,9 @@ function(app, Overlay, Ref) {
         oldWindowHeight = thisTranscript.$window.height();
         oldScrollTop = thisTranscript.$body.scrollTop();
       });
-  app.on("userScroll", function() {
-    console.log("USERSCROLL");
-  });
+		  app.on("userScroll", function() {
+		    console.log("USERSCROLL");
+		  });
 
       
       this.numberOpen = false;
@@ -766,7 +766,7 @@ function(app, Overlay, Ref) {
     },
     
     exit: function() {
-	    $('#transcript').css("visibility", "hidden");	    
+	    $('#transcript').css("visibility", "hidden");	     	   
     },
     
     // Reset puts everything where it's supposed to be before entering.

@@ -17,7 +17,6 @@ function(app, Overlay, Ref) {
   var openParagraph = null;
   var scrollLive = true;		
   var lastScrollHeight = 0;
-  var scrollAnimating = false;
 
   var recentPositiveEnergy = [0,0,0];
   var recentNegativeEnergy = [0,0,0];
@@ -42,18 +41,27 @@ function(app, Overlay, Ref) {
     initialize : function() {
       app.on("message:word", this.addWord, this);
       app.on("message:sentenceEnd", this.endSentence, this);
-      //app.on("body:scroll", this.handleScroll, this);  	//EG This is handled by requestAnimFrame now in router.
       app.on("navigation:goLive", this.reattachLiveScroll, this);
 
+      this.$window = $(window);
+      this.$body = $(window.body);
+
       var thisTranscript = this;
-      $(window).resize(function() {
+      this.$window.resize(function() {
         //if(scrollLive) { thisTranscript.reattachLiveScroll(0) };
-        var heightChange = $(window).height() - oldWindowHeight;
+        var heightChange = thisTranscript.$window.height() - oldWindowHeight;
         //console.log(heightChange);
-        $('body').scrollTop(oldScrollTop - heightChange);
-        oldWindowHeight = $(window).height();
-        oldScrollTop = $('body').scrollTop();
+        app.setScrollPos({
+          position: oldScrollTop - heightChange,
+          duration: 600
+        });
+        oldWindowHeight = thisTranscript.$window.height();
+        oldScrollTop = thisTranscript.$body.scrollTop();
       });
+  app.on("userScroll", function() {
+    console.log("USERSCROLL");
+  });
+
       
       this.numberOpen = false;
       this.numberPhrase = "";
@@ -242,22 +250,24 @@ function(app, Overlay, Ref) {
 
       // Autoscroll the window to keep up with transcript
       // ----------------------------------------------------------------------
-      if(scrollTo != lastScrollHeight && !scrollAnimating && this.scrollShouldReattach()) {
+      if(scrollTo != lastScrollHeight && this.scrollShouldReattach()) {
         scrollLive = true;
         app.trigger("transcript:scrollAttach", {});         
       }
       if(scrollLive && !Ref.disableAutoScroll) {
-        var scrollTo = this.transcriptBottom() - $(window).height();
-        //var scrollTo = $(document).height() - $(window).height();
-        if(scrollTo != lastScrollHeight && !scrollAnimating) {  // Only trigger autoscroll if needed
+        var scrollTo = this.transcriptBottom() - this.$window.height();
+        //var scrollTo = $(document).height() - this.$window.height();
+        if(scrollTo != lastScrollHeight) {  // Only trigger autoscroll if needed
           //console.log("scrolling to: " + scrollTo);
           var duration = Math.abs(lastScrollHeight - scrollTo) * 3.0;
-          scrollAnimating = true;
-          $("body").animate({ scrollTop: scrollTo}, duration, function() { scrollAnimating = false; });
+          app.setScrollPos({
+            duration: duration,
+            position: scrollTo
+          });
           app.trigger("transcript:scrollTo", word["timeDiff"]); 
           lastScrollHeight = scrollTo;
         }
-      }           
+      }
       //$('#curSentence').css("margin-bottom", $('#curSentence').height() - Ref.overlayOffsetY);
       
       return false;
@@ -427,7 +437,7 @@ function(app, Overlay, Ref) {
       // When #curParagraph height goes to 'auto', the page collapses and scroll jumps up
       // So save the height with a temporary div!
       if($('#saveTheHeight').length == 0)
-        $('body').append("<div id='saveTheHeight' style='position: absolute; width:100%; height:2px; z-index:-100; left: 0;'></div>");
+        this.$body.append("<div id='saveTheHeight' style='position: absolute; width:100%; height:2px; z-index:-100; left: 0;'></div>");
 
       var screenBottom = this.transcriptBottom();
       $('#saveTheHeight').offset({'left':0, 'top':screenBottom});
@@ -560,31 +570,20 @@ function(app, Overlay, Ref) {
           $('#curParagraph').height(newHeight);
       }
     },
-    
+
     reattachLiveScroll : function(duration) {
-      if(duration == null) duration = 600;
       var transcriptHeight = this.transcriptBottom();
-      var scrollTo = transcriptHeight - $(window).height();
-      scrollAnimating = true;
-      var theRealSlimShady = this;
-      if(duration > 0) {
-        $("body").stop().animate({ scrollTop: scrollTo}, duration, function() {
-           // If the document has grown, try again
-          if(false && theRealSlimShady.transcriptBottom() > transcriptHeight) theRealSlimShady.reattachLiveScroll(100);
-          else {
-            scrollAnimating = false;
-            scrollLive = true;
-            app.trigger("transcript:scrollAttach", {});
-          }
-        });
-      }
-      else {
-        $("body").scrollTop(scrollTo);
-        scrollAnimating = false;
-        scrollLive = true;
-        app.trigger("transcript:scrollAttach", {});
-      }
-      lastScrollHeight = scrollTo;
+      var scrollTo = transcriptHeight - this.$window.height();
+
+      app.setScrollPos({
+        position: scrollTo,
+        duration: duration,
+        done: function() {
+          scrollLive = true;
+          app.trigger("transcript:scrollAttach", {});
+        }
+      });
+
     },
 
     transcriptBottom : function() {
@@ -594,53 +593,57 @@ function(app, Overlay, Ref) {
       catch(e) { console.log("NO CURRENT PARAGRAPH"); return 0; }
     },
 
-    handleScroll : function() {
-      oldScrollTop = $('body').scrollTop(); // To keep scroll position on resize
-      //console.log("SCROLL animating? " + (scrollAnimating ? "YES" : "NO") + " live? " + (scrollLive ? "YES" : "NO"));
 
-      // If this is a user scrolling, decide whether to break or reattach live autoscrolling
-      if(!scrollAnimating) {
-        // Note: $(document).height() is height of the HTML document,
-        //       $(window).height() is the height of the viewport
-        var bottom = this.transcriptBottom() - $(window).height();
-        if(!scrollLive && this.scrollShouldReattach()) {
-          scrollLive = true;
-          app.trigger("transcript:scrollAttach", {}); // So other modules like nav can respond accordingly
-        }
-        else if(scrollLive && !this.scrollShouldReattach()) {
-          $("body").stop(); // Stop any scroll animation in progress
-          scrollLive = false;
-          app.trigger("transcript:scrollDetach", {});
-        }
+    // Decide whether to break or reattach live autoscrolling
+    handleUserScroll : function() {
+      // Note: $(document).height() is height of the HTML document,
+      //       this.$window.height() is the height of the viewport
+      var bottom = this.transcriptBottom() - this.$window.height();
+      if(!scrollLive && this.scrollShouldReattach()) {
+        scrollLive = true;
+        // So other modules like nav can respond accordingly
+        app.trigger("transcript:scrollAttach", {});
       }
+      else if(scrollLive && !this.scrollShouldReattach()) {
+        this.$body.stop(); // Stop any scroll animation in progress
+        scrollLive = false;
+        app.trigger("transcript:scrollDetach", {});
+      }
+    },
+
+    handleScroll : function() {
+      // Save value to keep scroll position on resize
+      oldScrollTop = this.$body.scrollTop();
 
       // Figure out which word is at the bottom of the screen and fire an event with that word's timediff
       // Also perform per-paragraph culling (hide paragraphs that aren't visible)
       var buffer = 50; // How far from the bottom the "bottom" is
-      var scrolled = $(window).scrollTop();
-      var bottomLine = $(window).scrollTop() + $(window).height() - buffer;
+      var scrolled = this.$window.scrollTop();
+      var bottomLine = this.$window.scrollTop() + this.$window.height() -
+        buffer;
 
-      //var viewportTop    = $(window).scrollTop();
-      //var viewportBottom = viewportTop + $(window).height();
+      //var viewportTop    = this.$window.scrollTop();
+      //var viewportBottom = viewportTop + this.$window.height();
       
       // First loop through paragraphs
       var scrolledParagraph = null;
       var closestParagraph = null;
-      var closestDistance = 1000000;
+      var closestDistance = Infinity;
       $(".transcriptParagraph").each(function(idx, el) {
         //var paraTop = $(el).offset().top;
         //var paraBottom = paraTop + $(el).height();
-        var paraTop = $(el).attr('data-top');
-        var paraBottom = $(el).attr('data-bottom');
+        var $el = $(el);
+        var paraTop = $el.data('top');
+        var paraBottom = $el.data('bottom');
 
         // Check if current scroll line is in this paragraph
         if(bottomLine <= paraBottom && bottomLine > paraTop) {
-          scrolledParagraph = $(el);
+          scrolledParagraph = $el;
           //return false; // break the each loop
         }
         else if(Math.abs(paraBottom - bottomLine) < closestDistance) {
           closestDistance = Math.abs(paraBottom - bottomLine);
-          closestParagraph = $(el);
+          closestParagraph = $el;
         }
 
         /*
@@ -653,8 +656,9 @@ function(app, Overlay, Ref) {
 
       });
 
-      if(!scrolledParagraph) 
+      if(!scrolledParagraph) {
         scrolledParagraph = closestParagraph;
+      }
 
       if(scrolledParagraph){  //EG Trying to fix initial race condition when you load page.
 	      // Find timestamp of first and last word, linearly interpolate to find current time
@@ -679,9 +683,9 @@ function(app, Overlay, Ref) {
     },
 
     scrollShouldReattach : function() {
-      var bottom = this.transcriptBottom() - $(window).height();
-      return Math.abs(bottom - $(window).scrollTop()) < Ref.autoscrollReattachThreshold;
-        // || $(document).height() - $(window).height() - $(window).scrollTop() < Ref.autoscrollReattachThreshold;
+      var bottom = this.transcriptBottom() - this.$window.height();
+      return Math.abs(bottom - this.$window.scrollTop()) < Ref.autoscrollReattachThreshold;
+        // || $(document).height() - this.$window.height() - this.$window.scrollTop() < Ref.autoscrollReattachThreshold;
         // Second case is to bounce from the bottom
     },      
 

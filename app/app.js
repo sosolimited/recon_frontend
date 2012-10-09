@@ -82,7 +82,79 @@ function($, _, Backbone, eio) {
     }
   });
   
-  
+  var expectedScrollPos;
+  var expectedError = 0;
+  var throttleInterval = 33;
+  $(window).on("scroll", _.throttle(function() {
+    if (Math.abs(document.body.scrollTop - expectedScrollPos) > expectedError) {
+      app.trigger("scrollBody:user");
+    }
+    app.trigger("scrollBody");
+  }, throttleInterval));
+
+  // setScrollPos
+  // Programattical set the scroll position of the body.
+  // Arguments:
+  // - [object] options
+  //   - position [number] - the offset from the top of the document to scroll
+  //   - duration [number] - the number of milliseconds over which to animate
+  //     the scroll position. If unspecified, the scroll operation will be
+  //     synchronous.
+  //   - done [dunction] - a callback function which will be invoked once the
+  //     scroll operation is complete
+  // The entire application should use this method to set the scroll position
+  // as it is capable of tracking the expected scroll position over time (which
+  // allows for identification of user-triggered scroll events).
+  app.setScrollPos = function(options) {
+
+    // Allow for simplified signature where only a position is specified
+    if (typeof options === "number") {
+      options = {
+        position: options
+      };
+    }
+
+    if (!options || typeof options.position !== "number") {
+      throw "setScrollPos requires a position";
+    }
+
+    // Support asynchronous and synchronous scrolling
+    if(options.duration > 0) {
+      $("body")
+        .stop()
+        .animate({
+            scrollTop: options.position
+          },
+          {
+            duration: options.duration,
+            complete: options.done,
+            step: function(val, tween) {
+              var easingFn = $.easing[tween.easing];
+              var totalDist = Math.abs(tween.end - tween.start);
+              var errorInterval = throttleInterval / tween.options.duration;
+              // The maxiumum position should be no greater than 1
+              var maxPos = Math.min(1, tween.pos + errorInterval);
+              // The minimum position should be no less than 0
+              var minPos = Math.max(0, tween.pos - errorInterval);
+              var worstCase = Math.max(tween.pos - minPos, maxPos - tween.pos);
+
+              expectedScrollPos = val;
+              expectedError = worstCase * totalDist;
+            }
+          });
+    } else {
+      expectedScrollPos = options.position;
+      expectedError = 0;
+      $("body")
+        .stop()
+        .scrollTop(options.position);
+
+      if (typeof options.done === "function") {
+        options.done();
+      }
+    }
+  };
+
  	// Non-native setTimeout function that lets you pass 'this' context.
 	var _nativeST_ = window.setTimeout;
 	

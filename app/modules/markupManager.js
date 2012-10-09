@@ -48,7 +48,6 @@ function(app, Overlay, Ref) {
 		  app.on("markup", this.addOverlay, this);			
 		  
 		  app.on("markup:sentenceLead", this.addTraitOverlay, this);		  	// EG FIXME convert to "markup", type="sentenceLeadMarkup" style.
-		  //app.on("body:scroll", this.handleScroll, this);	//EG Testing requestAnimFrame for this.
 		  //for testing
 		  app.on("keypress:test", this.test, this);
 		        
@@ -181,6 +180,8 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  closeCatOverlays: function() {
+	  	$('.catMarkup').removeClass('reverse');
+	    $('.catMarkup').removeClass('grayed');
 	  	for (i in this.get("catOverlays")) {
 		  	this.get("catOverlays")[i].collapse();
 	  	}

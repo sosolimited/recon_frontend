@@ -563,19 +563,41 @@ function(app, Ref) {
     
     expand: function() {
       //this.$el.css('opacity',1.0); 
-      this.$el.css('display','inline'); // Opacity alone still blocks mouse interactions.
+      /*
+      this.$el.find('.categoryOverlay').each(function(){
+      	$(this).css('webkitTransition', '0s');
+	    	$(this).css('left', '-2000px');  
+	    	$(this).css('webkitTransition', '0s');
+      });
+      */	
+      this.$el.css('display','inline'); // Opacity alone still blocks mouse interactions.     
     },
     
     collapse: function() {
       this.$el.css('display', 'none');	
+      /*
+      window.setTimeout(function(){
+      	this.$el.css('display', 'none');
+      }, 1000, this);
+      */
+      //this.$el.find('.categoryOverlay').each(function(i){
+	    //	$(this).css('left', '3000px');  
+      //});	
     },
     
     hide: function() {
       this.$el.css('display', 'none');	// Opacity alone still blocks mouse interactions.
+      //this.$el.find('.categoryOverlay').each(function(i){
+	    //	$(this).css('left', '-2000px');  
+      //});
     },
     
     afterRender: function() {
 	    this.hide();
+	    // Add to skrollr manager.
+	    //this.$el.find(".categoryOverlay").each(function(){
+	    //	app.skrollr.refresh(this);		    
+	    //});
     }
   });
 	

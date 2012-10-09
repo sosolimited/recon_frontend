@@ -47,19 +47,40 @@ function(app) {
 			}
     },
     
-    playbackMessages: function(n) {
+    playbackMessages: function(n, diff) {
     
     	this.stopPlayback();
     	
-  		var startMsg = this.get(n);
+  		var startMsg = this.at(n);
 
-  		this.each( function(msg) {
-  			var diff = msg.get("timeDiff") - startMsg.get("timeDiff");
+      function runMessage(i) {
+        var messages = this;
+        var msg = this.at(i);
+
+  			diff = diff || msg.get("timeDiff") - startMsg.get("timeDiff");
   			if (diff >= 0) {
-	  			setTimeoutEvents.push(setTimeout(function() { msg.emit(); }, diff));
+	  			setTimeoutEvents.push(setTimeout(function() {
+            app.trigger("message:" + msg.get("type"), { msg: msg.attributes, live: app.live });
+
+            //if (messages.length <= i+1) {
+              runMessage.call(messages, i+1);
+            //}
+          }, diff));
 	  			//console.log("settimeout "+msg.get("word")+" "+diff);
 	  		}
-  		});
+      }
+
+      runMessage.call(this, 0);
+
+  		//this.each( function(msg) {
+  		//	diff = diff || msg.get("timeDiff") - startMsg.get("timeDiff");
+  		//	if (diff >= 0) {
+	  	//		setTimeoutEvents.push(setTimeout(function() {
+      //      app.trigger("message:" + msg.get("type"), { msg: msg.attributes, live: app.live });
+      //    }, 1000));
+	  	//		//console.log("settimeout "+msg.get("word")+" "+diff);
+	  	//	}
+  		//});
     },
     
     stopPlayback: function() {

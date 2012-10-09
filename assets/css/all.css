@@ -162,9 +162,12 @@ p { /* Transcript text */
 }
 
 #curSentence {
+	/*
 	color: white;
-	/* background-color: rgb(64, 180, 230);	*/
 	background-color: rgb(50,50,50);
+	*/
+	color: rgb(60,60,60);
+	background-color: white;
 }
 
 .transcriptSentence {
@@ -329,7 +332,7 @@ hr {
 }
 #navProgressBar {
   height: 16px;
-  background-color: black;	/*rgb(76,76,76);*/
+  background-color: rgb(76,76,76);
 
   width: 0px;
   z-index: 0;
@@ -358,6 +361,7 @@ hr {
 .navTitle {
 	padding: 10px 10px 10px 10px;
 	font-size: 24px;
+	cursor:pointer;
 }
 
 .navTitle:hover {
@@ -394,18 +398,58 @@ hr {
 
 #navInstructions {
 	font-size: 50px;
-	background-color: yellow;
+	
+	
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	
+	
+	-webkit-transition: -webkit-transform 1s;	
+	z-index: 3500;
+}
+
+#backgroundInstructions{
+	opacity: .6;
+	background-color: rgb(76,76,76); /*rgb(207,255,36); rgb(255,213,0)*/
 	width: 100%;
 	height: 100%;
 	position: fixed;
 	padding: 50px;
-	margin: 50px;
+	margin:-10px 50px 50px -100px;
+	z-index: 3500;
+
 	
-	-webkit-transition: -webkit-transform 1s;	
-	z-index: 5500;
+}
+.navInstructionsText{
+	
+	font-size:96px !important;
+	line-height: 120px;
+	text-transform: uppercase;
+	left: 50px;
+	position:fixed;
+	margin-top: 100px;
+	color:white;
+	z-index: 4500;
 }
 
 
+#transcriptHeading{
+	
+	left:64px;
+	width:500px;
+	font-family:"franklin-gothic-urw-comp-i7", "franklin-gothic-urw-comp"; font-weight:700; font-style:italic;
+	font-size: 96px;
+	line-height: 120px;
+	padding-bottom:50px;
+	
+	color:black;
+	text-transform: uppercase;
+	z-index: 6500;
+	
+	position: relative;
+
+}
 
 /* Typekit fonts */
 
@@ -478,6 +522,7 @@ hr {
 
 .lime{ color:rgb(207,255,36); }
 .bgLime{ background-color:rgb(207,255,36); }
+
 
 .magenta{ color:rgb(227, 31, 130); } 
 .bgMagenta{ background-color:rgb(227, 31, 130); }

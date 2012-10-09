@@ -173,7 +173,7 @@ function(app) {
 	    //$('#navigation').css("visibility", "hidden");	    
 	    $('#navLeft').css("webkitTransform", "translateX(-55px) translateY(-5px) rotate(90deg)");
 	    $('#navRight').css("webkitTransform", "translateX(60px) translateY(-5px) rotate(-90deg)");
-		  $('#navInstructions').css("webkitTransform", "translateX(100%)");
+	    $('#navInstructions').css("webkitTransform", "translateX(100%)");
     },
     
     // Reset puts everything where it's supposed to be before entering.

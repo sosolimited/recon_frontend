@@ -106,6 +106,7 @@ function(app, Overlay, Ref) {
     			
     		// emit message to add chapter marker
     		app.trigger("playback:addChapter", {msg:word});
+    		app.trigger("transcript:speakerSwitch", {speaker: curSpeaker});
 
         this.startParagraph(word);
         

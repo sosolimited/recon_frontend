@@ -388,6 +388,7 @@ function(app, Overlay, Ref) {
 		    		//$(this).css("border-bottom", "1px solid white");	//To do different color underline.
 		    		
 		    		//$(this).css("text-decoration-color", "rgb(255,255,255)");	
+		    		
 		        var count = $(this).attr("data-wordcount");
 		        if(count != undefined) {
 		          // Add a div at this point and animate it inCannot read property 'top' of null 
@@ -400,12 +401,14 @@ function(app, Overlay, Ref) {
 		          container.append(countDiv);
 		          $(this).parent().append(container);
 		          countDiv.animate({top: '0px'}, 300);
-		          /* //EG Trying it without underline.
-              var spaceWidth = 5;  // To avoid underlining the leading space. This is an ugly hack.
-              var underlineDiv = $("<div class='freqWordUnderline' style='left: " + (pos.left+spaceWidth) + "px; top: " + (pos.top + lineHeight*0.8) + "px;  width: " + (wordWidth-spaceWidth) + "px;' />");
-              $(this).parent().append(underlineDiv);
-              */
-		        }  	     	 
+		          
+		          
+		          ////EG Trying it without underline.
+              //var spaceWidth = 5;  // To avoid underlining the leading space. This is an ugly hack.
+              //var underlineDiv = $("<div class='freqWordUnderline' style='left: " + (pos.left+spaceWidth) + "px; top: " + (pos.top + lineHeight*0.8) + "px;  width: " + (wordWidth-spaceWidth) + "px;' />");
+              //$(this).parent().append(underlineDiv);
+              
+		        } 
 	     	 }
       });
 

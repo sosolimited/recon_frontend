@@ -250,20 +250,60 @@ hr {
 }
 
 #navRight {
-	position: relative;
+	position: fixed !important;
+	right:-166px !important;
 	height: 48px;
+	width:350px;
 	z-index:6000;
 
-	transform:rotate(90deg);
-	-ms-transform:rotate(90deg); /* IE 9 */
-	-moz-transform:rotate(90deg); /* Firefox */
-	-webkit-transform:rotate(90deg); /* Safari and Chrome */
-	-o-transform:rotate(90deg); /* Opera */
+	transform:rotate(-90deg);
+	-ms-transform:rotate(-90deg); /* IE 9 */
+	-moz-transform:rotate(-90deg); /* Firefox */
+	-webkit-transform:rotate(-90deg); /* Safari and Chrome */
+	-o-transform:rotate(-90deg); /* Opera */
 	
 	-webkit-transition: -webkit-transform 1s;	
 	
-  top: 545px;
-  float: right;
+
+	bottom: 20%;
+	font-size:20px;
+	text-transform:uppercase; 
+	float:right;
+	
+}
+
+
+
+#navTranscriptButton{
+	display:inline-block;
+	padding: 5px;
+	}
+
+
+#navComparisonButton{
+	display:inline-block;
+	margin-top:-40px;
+	/*margin-left: 10px;*/
+	padding: 5px;
+
+	
+}
+
+#navComparisonButton .active{
+  -webkit-transition:  1s linear; 
+  transition:  1s linear; 
+  opacity: .5 !important;
+	
+	
+}
+
+
+#navTranscriptButton .active{
+  -webkit-transition:  1s linear; 
+  transition:  1s linear; 
+  opacity: .5 !important;
+	
+	
 }
 
 /* White box inside #navigation div */
@@ -359,15 +399,17 @@ hr {
 .franklinDemiCompIt{ font-family:"franklin-gothic-urw-comp-i7", "franklin-gothic-urw-comp"; font-weight:700; font-style:italic; }
 
 
-/* Franklin Extra Compressed */
+/* Franklin Condensed */
+.franklinMedComp{ font-family:"franklin-gothic-urw-cond-n5", "franklin-gothic-urw-cond"; font-weight:600; font-style:normal; }
+.franklinMedCompIt{ font-family:"franklin-gothic-urw-cond-i5", "franklin-gothic-urw-cond"; font-weight:600; font-style:italic; }
+
+
+
+/* Franklin EXTRA Compressed */
 
 .franklinExBookComp{ font-family:"franklin-gothic-ext-comp-urw-n4", "franklin-gothic-ext-comp-urw"; font-weight:400; font-style:normal; }
 .franklinExDemiComp{ font-family:"franklin-gothic-ext-comp-urw-n7", "franklin-gothic-ext-comp-urw"; font-weight:700; font-style:normal; }
 
-
-/* Franklin Condensed */
-.franklinMedComp{ font-family:"franklin-gothic-urw-cond-n5", "franklin-gothic-urw-cond"; font-weight:600; font-style:normal; }
-.franklinMedCompIt{ font-family:"franklin-gothic-urw-cond-i5", "franklin-gothic-urw-cond"; font-weight:600; font-style:italic; }
 
 
 /* Franklin reg */
@@ -570,6 +612,8 @@ landingTitleImage {
 .landingButtonHolder {
 	position: relative;	
   cursor: pointer;
+  overflow:hidden;
+  z-index: 10;
 }
 
 .landingButton {

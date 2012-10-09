@@ -21,6 +21,9 @@ function(app) {
 	// For development, autoscrolling can be disabled completely
   Ref.disableAutoScroll = false;
 
+  // Flag for choosing emoburst trigger
+  Ref.useSentistrengthBurst = false;
+
   // Position of the most recent sentence
   Ref.overlayOffsetY = 100;
 

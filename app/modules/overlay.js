@@ -21,7 +21,14 @@ function(app, Ref) {
 		initialize: function() {
 			this.forceCollapse = this.options.forceCollapse;
 			this.trait = this.options.trait;
-			this.leader = this.options.leader; 
+			this.speaker = this.options.speaker;
+			this.moreVal = this.options.moreVal;
+			
+			
+			this.aVal = '>'; 
+			if (this.moreVal.indexOf('LESS') != -1) this.aVal = '<';
+			
+			//console.log(this.moreVal + " " + this.aVal);
 
 			this.posY = this.options.posY;
 			//all durations in milliseconds	
@@ -32,12 +39,12 @@ function(app, Ref) {
 				
 			//console.log("posY = " + this.posY);
 				
-			if(this.options.leader==="obama") this.trailer="romney";
+			if(this.options.speaker==="obama") this.trailer="romney";
 			else this.trailer = "obama";
 		},	
 		 
 		serialize: function() {
-      return { trait: this.trait, leader: this.leader, trailer: this.trailer, startPosY: this.posY-96};
+      return { trait: this.trait, speaker: this.speaker, trailer: this.trailer, startPosY: this.posY-96, moreVal: this.moreVal, aVal: this.aVal };
     },
 
     expand: function() {
@@ -53,7 +60,7 @@ function(app, Ref) {
     	});
   
     	this.$el.find('.traitSymbolRight').each(function(){
-	    		$(this).animate({left:Ref.gridColumns[1]+'px'}, 1000);
+	    		$(this).animate({left:Ref.gridColumns[2]+'px'}, 1000);
     	});
     
     	//Sit for holdDur, then collapse.
@@ -77,7 +84,7 @@ function(app, Ref) {
      		
      		//else $(this).animate({'left':Ref.gridColumns[0], 'top':y+i*24+'px', 'height':'24px'}, collapseD);
     		//$(this).animate({'-webkit-transform':'translateZ(1000px)'}, collapseD);   	//Move div forward in Z.	
-    		this.style.webkitTransform = "translateZ(500px)";	//We're using CSS transitions to animate this.
+    		//this.style.webkitTransform = "translateZ(500px)";	//We're using CSS transitions to animate this.
     	
     	});
     	//Shrink and position big arrow.
@@ -470,7 +477,7 @@ function(app, Ref) {
 			
 			//PEND: WHAT SHOULD THE CONTAINER BE?
       var container = $(this.$el.find('.container')[0]);
-      this.nSigns = (Math.random() * 5 + 5) * (this.type == 'posemo' ? 1 : 2); // 5-15 random + or - signs
+      this.nSigns = (Math.random() * 3 + 7) * (this.type == 'posemo' ? 1 : 2); // 5-15 random + or - signs
       var signChar = this.type == 'posemo' ? '+' : '-';
       signChar = this.type == 'posemo' ? "<div class='plusSignA' /><div class='plusSignB'>" : "<div class='negativeSign' />";
       for(var i=0; i<this.nSigns; i++) {

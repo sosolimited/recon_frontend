@@ -79,10 +79,14 @@ function(app, Overlay, Ref) {
 			  else if(args['type']=="sentimentMarkup"){
 				  this.addSentimentOverlay(args);
 			  }
-			  else if(args['type']=="traitLead"){
-				 // this.addTraitOverlay(args);
-			  }
 		  }
+		  
+		  //always showing the traitlead
+		  if(args['type']=="traitLead"){
+		   //console.log("received traitLead");
+			 this.addTraitOverlay(args);
+		  }
+		  
 	  },
 	  
 	  isAnyOverlayExpanded: function() {
@@ -106,11 +110,13 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  addTraitOverlay: function(args) {
-	 
+		  
+	  	var moreVal;
+	  	if (args["leader"] == args["curSpeaker"]) moreVal = "MORE ";
+	  	else moreVal = "LESS ";	  	
 	  	
 	  	var speakerString;
-	  	(args["speaker"] == 1) ? speakerString = "obama" : speakerString = "romney" ;
-	  	
+	  	(args["curSpeaker"] == 1) ? speakerString = "obama" : speakerString = "romney" ;
 	  	
 	  	var traitString = "";
 	  	if (args["trait"] == 'posemo') traitString = "POSITIVE";
@@ -121,9 +127,9 @@ function(app, Overlay, Ref) {
 	  	else if (args["trait"] == 'depression') traitString = "DEPRESSED";
 	  	else if (args["trait"] == 'honesty') traitString = "HONEST";
 	  	
-	  	console.log("addTraitOverlay() " + speakerString + " " + traitString);
+	  	console.log("addTraitOverlay() " + traitString + " leader:" + args["leader"] + " speaker:" + args["curSpeaker"] + " val:" + moreVal);
 	  	
-	  	var traitsOverlay = new Overlay.Views.TraitView({ trait: traitString, leader: speakerString, posY: this.scaleY(parseInt(this.attributes.transcript.getCurSentencePosY())) });
+	  	var traitsOverlay = new Overlay.Views.TraitView({ trait: traitString, speaker: speakerString, posY: this.scaleY(parseInt(this.attributes.transcript.getCurSentencePosY())), moreVal: moreVal });
 	  	$('#overlay').append(traitsOverlay.el);
 			traitsOverlay.render();
 	  	
@@ -153,16 +159,18 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  addNumberOverlay: function(args){
-	  	args.anchor.top = this.scaleY(args.anchor.top);
-	  	//console.log("addNumberOverlay: "+args['speaker']+", "+args['phrase']);
-      var numbersOverlay = new Overlay.Views.NumbersView({ speaker: args['speaker'], phrase: args['phrase'], posY: args['anchor'].top, wordPos: args.anchor, forceCollapse: false });
-      
-		  //append the numbers template into the overlay div and render it
-		  $('#overlay').append(numbersOverlay.el);
-      numbersOverlay.render();
-      //console.log("Number alert: " + args['phrase']);
-      
-      this.get("overlays").push(numbersOverlay);			
+	  	try {
+        args.anchor.top = this.scaleY(args.anchor.top);
+	    	//console.log("addNumberOverlay: "+args['speaker']+", "+args['phrase']);
+        var numbersOverlay = new Overlay.Views.NumbersView({ speaker: args['speaker'], phrase: args['phrase'], posY: args['anchor'].top, wordPos: args.anchor, forceCollapse: false });
+		    $('#overlay').append(numbersOverlay.el);
+        numbersOverlay.render();
+        //console.log("Number alert: " + args['phrase']);
+        this.get("overlays").push(numbersOverlay);			
+      }
+      catch (e) {
+        console.log(e);
+      }
 	  },
 	  
 	  

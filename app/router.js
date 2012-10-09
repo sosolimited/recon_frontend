@@ -185,6 +185,12 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
             $body.scrollTop(transcript.data("lastTop"));
           }
           
+          var closeCatLays = function() {
+	          $('.catMarkup').removeClass('reverse');
+	          $('.catMarkup').removeClass('grayed');
+	          markupManager.closeCatOverlays();
+          }
+          
           navigation.on("click", "#navTranscriptButton", exitComp);
           navigation.on("click", "#navComparisonButton", { tag: "count" }, enterComp);
 
@@ -196,7 +202,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           var markupNames = ['posemo', 'negemo', 'certain', 'tentat', 'number'];          
           transcript.on("click", ".catMarkup", function(ev) {
           	ev.stopPropagation();
-          	markupManager.closeCatLays();
+          	markupManager.closeCatOverlays();
           	var i;
           	if ($(this).hasClass("posemoMarkup")) i=0;
           	else if ($(this).hasClass("negemoMarkup")) i=1;
@@ -283,7 +289,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
       
       if(keyboardEnabled){
 	      $body.keydown(function(event){
-	      	console.log(event.which);
+	      	//console.log(event.which);
 	      	//g for toggling test grid
 	      	if(event.which == 71){
 		      	if($('#testGrid').css("visibility") == "visible") $('#testGrid').css("visibility", "hidden");

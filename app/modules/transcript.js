@@ -623,7 +623,7 @@ function(app, Overlay, Ref) {
       // First loop through paragraphs
       var scrolledParagraph = null;
       var closestParagraph = null;
-      var closestDistance = 1000000;
+      var closestDistance = Infinity;
       $(".transcriptParagraph").each(function(idx, el) {
         //var paraTop = $(el).offset().top;
         //var paraBottom = paraTop + $(el).height();

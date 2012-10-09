@@ -43,10 +43,9 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
     	
     	// Init uniquewords collection.
       //var uniqueWordCollection = new UniqueWord.Collection();
-      var uniqueWords = new UniquePhrase.Model.AllPhrases(1, 20);
-      var unique2Grams = new UniquePhrase.Model.AllPhrases(2, 20);
-      var unique3Grams = new UniquePhrase.Model.AllPhrases(3, 20);
-      var unique4Grams = new UniquePhrase.Model.AllPhrases(4, 20);
+      var uniqueWords = new UniquePhrase.Model.AllPhrases(1, 10);
+      var unique2Grams = new UniquePhrase.Model.AllPhrases(2, 10);
+      var unique3Grams = new UniquePhrase.Model.AllPhrases(3, 10);
       
 		  // Init transcript.
 		  var transcriptView = new Transcript.View( {messages: messageCollection, speakers: speakerCollection, uniqueWords: uniqueWords} );
@@ -74,29 +73,27 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 
       comparisonCollection.add(new Comparison.CountModel({traitNames:["wc"], speakerNames:speakerCollection, title:"WORD COUNT", subtitle:"The number of total words spoken by each candidate", range:[0,10000.0], color1:"Salmon"})); 
           
-      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 20 WORDS", subtitle:"The top twenty words of each candidate (excluding 'the', 'I', 'if', etc.)", uniqueWords:uniqueWords, color1:"Lime"}));  
-
-     
-      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 20 2 Word PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique2Grams, color1:"Lime"}));     
-
-
-      
-      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"3 Word PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique3Grams, color1:"Lime"}));   
-      
-      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"4 Word PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique4Grams, color1:"Lime"}));   
-         
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["posemo"], speakerNames:speakerCollection, title:"POSITIVITY", subtitle:"The percentage of words spoken that are positive in some way. ie. 'winning, happy, improve.'", range:[0,5.0], color1:"Sky"}));
        
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["negemo"], speakerNames:speakerCollection, title:"NEGATIVITY", subtitle:"The percentage of words spoken that are negative in some way. ie. 'failure, dead, waste.'", range:[0,3.75], color1:"Negative"})); 
           
+      
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["anger"], speakerNames:speakerCollection, title:"ANGER", subtitle:"The percentage of words spoken that are angry in some way. ie. 'fight, destroy, annoy.'", range:[0,1.95], color1:"Angry"})); 
                  
+      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 10 WORDS", subtitle:"The top twenty words of each candidate (excluding 'the', 'I', 'if', etc.)", uniqueWords:uniqueWords, color1:"Lime"}));  
+      
       comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["formality"], speakerNames:speakerCollection, title:"FORMAL", title2:"CASUAL", subtitle:"Casual speakers, compared to speech-readers, make fewer self-references, use smaller words, use more discrepancies ('could', 'should'), and speak in the present tense.", range:[3, 25.0], color1:Ref.formal, color2:Ref.casual, gradient:"gradientFormality"})); 
       
+      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 2-WORD PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique2Grams, color1:"Lime"}));     
+      
       comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["depression"], speakerNames:speakerCollection, title:"DEPRESSED", title2:"CHEERFUL", subtitle:"Depressed people mention themselves more('I', 'me', 'my'), use more negative language ('hate', 'worthless'), use more physical words ('ache', 'sleep'), and use fewer positive words ('win', 'happy').", range:[-1.0, 4.75], color1:Ref.depressed, color2:Ref.cheery, gradient:"gradientDisposition"}));  
+
+      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 3-WORD PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique3Grams, color1:"Lime"}));   
       
       comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["honesty"], speakerNames:speakerCollection, title:"AUTHENTIC", title2:"DECEPTIVE", subtitle:"Compared to liars, truth-tellers tend to use more self-references, provide more detailed descriptions, and use fewer negative words. ", range:[0, 6.0], color1:Ref.purple, color2:Ref.redOrange, gradient:"gradientHonesty"}));                   
       
+     
+       
       // Load from static file.
       if (this.qs.docName) {
       
@@ -150,9 +147,11 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           // Work with the wrappers, not the actual layers.  --> ???
           var transcript = $("#transcript > .wrapper");
           var comparisons = $("#comparisons > .wrapper");
+          var navigation = $("#navigation");
           var bigWords = $("#bigWords");
           
           var enterComp = function(event) {
+          	event.stopPropagation();
           	app.mode = "comparison"; 
             var dist = transcript.offsetHeight;
             transcript.scrollTop = dist;
@@ -174,7 +173,8 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 						app.skrollr.setSkrollElement($('#comparisons > .wrapper').get(0));
           };
           
-          var exitComp = function() {
+          var exitComp = function(event) {
+          	event.stopPropagation();
           	app.mode = "transcript";
             transcript.removeClass("fade");
             comparisons.removeClass("active");
@@ -196,6 +196,9 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	          $('.catMarkup').removeClass('grayed');
 	          markupManager.closeCatOverlays();
           }
+          
+          navigation.on("click", "#navTranscriptButton", exitComp);
+          navigation.on("click", "#navComparisonButton", { tag: "count" }, enterComp);
 
           transcript.on("click", ".transcriptSpeaker", { tag: "count" }, enterComp);
           transcript.on("click", ".sentimentClick", { tag: "POSITIVITY" } , enterComp);
@@ -205,7 +208,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           var markupNames = ['posemo', 'negemo', 'certain', 'tentat', 'number'];          
           transcript.on("click", ".catMarkup", function(ev) {
           	ev.stopPropagation();
-          	closeCatLays();
+          	markupManager.closeCatOverlays();
           	var i;
           	if ($(this).hasClass("posemoMarkup")) i=0;
           	else if ($(this).hasClass("negemoMarkup")) i=1;
@@ -230,8 +233,8 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           	markupManager.openCatOverlay(markupNames[i], 30000);
           });
           
-          transcript.on("click", closeCatLays);
-          bigWords.on("click", closeCatLays);
+          transcript.on("click", function() {markupManager.closeCatOverlays();});
+          bigWords.on("click", function() {markupManager.closeCatOverlays();});
          
           comparisons.on("click", exitComp);
           
@@ -245,6 +248,8 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	      });
       }, 100);
 	     
+      app.on("scrollBody", transcriptView.handleScroll, transcriptView);
+      app.on("scrollBody:user", transcriptView.handleUserScroll, transcriptView);
       // BODY/WINDOW EVENTS
       // ----------------------------------------------------------------------
       
@@ -255,7 +260,6 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
       var lastScrollY = 0;
       var ticking = false;
       $(window).scroll(_.throttle(function(ev) {
-		     	//app.trigger("body:scroll", document.body.scrollTop);
 		     	
 		     	// Intead of emitting events, keep track of scroll position for requestAnimFrame below.
 		     	lastScrollY = document.body.scrollTop;
@@ -291,7 +295,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
       
       if(keyboardEnabled){
 	      $body.keydown(function(event){
-	      	console.log(event.which);
+	      	//console.log(event.which);
 	      	//g for toggling test grid
 	      	if(event.which == 71){
 		      	if($('#testGrid').css("visibility") == "visible") $('#testGrid').css("visibility", "hidden");

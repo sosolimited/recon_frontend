@@ -240,12 +240,15 @@ hr {
 }
 
 /* Navigation */
-
 #navigation {
+	width: 100%;
+}
+
+#navLeft {
 	position: fixed;
 	width: 530px;
 	height: 48px;
-	z-index: 10;
+	z-index:6000;
 
 	transform:rotate(90deg);
 	-ms-transform:rotate(90deg); /* IE 9 */
@@ -259,6 +262,62 @@ hr {
   top: 245px;
 }
 
+#navRight {
+	position: fixed !important;
+	right:-166px !important;
+	height: 48px;
+	width:350px;
+	z-index:6000;
+
+	transform:rotate(-90deg);
+	-ms-transform:rotate(-90deg); /* IE 9 */
+	-moz-transform:rotate(-90deg); /* Firefox */
+	-webkit-transform:rotate(-90deg); /* Safari and Chrome */
+	-o-transform:rotate(-90deg); /* Opera */
+	
+	-webkit-transition: -webkit-transform 1s;	
+	
+
+	bottom: 20%;
+	font-size:20px;
+	text-transform:uppercase; 
+	float:right;
+	
+}
+
+
+
+#navTranscriptButton{
+	display:inline-block;
+	padding: 5px;
+	}
+
+
+#navComparisonButton{
+	display:inline-block;
+	margin-top:-40px;
+	/*margin-left: 10px;*/
+	padding: 5px;
+
+	
+}
+
+#navComparisonButton .active{
+  -webkit-transition:  1s linear; 
+  transition:  1s linear; 
+  opacity: .5 !important;
+	
+	
+}
+
+
+#navTranscriptButton .active{
+  -webkit-transition:  1s linear; 
+  transition:  1s linear; 
+  opacity: .5 !important;
+	
+	
+}
 
 /* White box inside #navigation div */
 #navTimeline {
@@ -311,6 +370,17 @@ hr {
 	/*color: rgb(64, 180, 230)*/
 }
 
+.navButton {
+	color:black;
+	background:white;
+}
+
+.navButton:hover {
+	cursor:pointer;
+	background:black;
+	color:white;
+}
+
  
 .rot90 {
 	transform:rotate(90deg);
@@ -320,7 +390,18 @@ hr {
 	-o-transform:rotate(90deg); /* Opera */
 }
 
-
+#navInstructions {
+	font-size: 50px;
+	background-color: yellow;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	padding: 50px;
+	margin: 50px;
+	
+	-webkit-transition: -webkit-transform 1s;	
+	z-index: 5500;
+}
 
 
 
@@ -342,15 +423,17 @@ hr {
 .franklinDemiCompIt{ font-family:"franklin-gothic-urw-comp-i7", "franklin-gothic-urw-comp"; font-weight:700; font-style:italic; }
 
 
-/* Franklin Extra Compressed */
+/* Franklin Condensed */
+.franklinMedComp{ font-family:"franklin-gothic-urw-cond-n5", "franklin-gothic-urw-cond"; font-weight:600; font-style:normal; }
+.franklinMedCompIt{ font-family:"franklin-gothic-urw-cond-i5", "franklin-gothic-urw-cond"; font-weight:600; font-style:italic; }
+
+
+
+/* Franklin EXTRA Compressed */
 
 .franklinExBookComp{ font-family:"franklin-gothic-ext-comp-urw-n4", "franklin-gothic-ext-comp-urw"; font-weight:400; font-style:normal; }
 .franklinExDemiComp{ font-family:"franklin-gothic-ext-comp-urw-n7", "franklin-gothic-ext-comp-urw"; font-weight:700; font-style:normal; }
 
-
-/* Franklin Condensed */
-.franklinMedComp{ font-family:"franklin-gothic-urw-cond-n5", "franklin-gothic-urw-cond"; font-weight:600; font-style:normal; }
-.franklinMedCompIt{ font-family:"franklin-gothic-urw-cond-i5", "franklin-gothic-urw-cond"; font-weight:600; font-style:italic; }
 
 
 /* Franklin reg */
@@ -553,6 +636,8 @@ landingTitleImage {
 .landingButtonHolder {
 	position: relative;	
   cursor: pointer;
+  overflow:hidden;
+  z-index: 10;
 }
 
 .landingButton {
@@ -718,7 +803,7 @@ landingTitleImage {
 	font-size:720px;	
 	line-height:96px;
 	/*top:48px;*/
-	left:-600px;	/* Start out of view */
+	left:1800px;	/* Start out of view */
 
 	/* -webkit-transform: translateZ(0px); */
 }
@@ -728,7 +813,7 @@ landingTitleImage {
 	font-size:720px;	
 	line-height:96px;
 	/*top: 48px;*/
-	left: 1800px;	/* Start out of view */
+	left: -600px;	/* Start out of view */
 
 	/* -webkit-transform: translateZ(0px); */
 }
@@ -915,13 +1000,13 @@ landingTitleImage {
 .quotePhrase {
 	position:absolute; 
 	overflow: visible;
-  width: 906px;
-  font-size: 240px;
+  width: 908px;
+  font-size: 360px;
   line-height: .75em;
 	margin: 0px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
-  color: rgb(124,51,64);
-	-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
+  color: rgb(48,179,228);
+	-webkit-transition: left 1s, right 1s, top 1s, height 1s, width 1s, font-size 1s, line-height 1s;
 	/* -webkit-transform: translateZ(0px);	*/
   z-index: 2;
 }
@@ -932,7 +1017,7 @@ landingTitleImage {
 .quoteLeftQuote, .quoteRightQuote {
   position: absolute;
   font-size: 400px;
-  color: rgb(124,51,64);
+  color: rgb(48,179,228);
   -webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
   z-index: 0;
 }
@@ -953,7 +1038,7 @@ landingTitleImage {
   font-size: 72px;
   line-height: 0.75em;
   opacity: 0;
-  z-index: 3;
+  z-index: 2;
   -webkit-transition: opacity 1s;
 }
 
@@ -1042,7 +1127,7 @@ landingTitleImage {
 
 .moderator {
 	width: 400px;
-	padding-left:400px;
+	padding-l?eft:400px;
 	display: block;
 	color: gray;
 }

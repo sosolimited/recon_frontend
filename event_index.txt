@@ -19,6 +19,7 @@ scrollBody                undefined                           app.js:88
 scrollBody:user           undefined                           app.js:86
 keypress:test             {type, kind}                        router.js:158,160
 debate:change             {type, kind}                        router.js:169
+app:goToMode							{mode}															navigation.js, transcript.js, comparison.js
 
 Find all with:
   $ grep -rn "[^/]app.trigger(" .

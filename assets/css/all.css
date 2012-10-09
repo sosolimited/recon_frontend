@@ -227,12 +227,15 @@ hr {
 }
 
 /* Navigation */
-
 #navigation {
+	width: 100%;
+}
+
+#navLeft {
 	position: fixed;
 	width: 530px;
 	height: 48px;
-	z-index: 10;
+	z-index:6000;
 
 	transform:rotate(90deg);
 	-ms-transform:rotate(90deg); /* IE 9 */
@@ -246,6 +249,22 @@ hr {
   top: 245px;
 }
 
+#navRight {
+	position: relative;
+	height: 48px;
+	z-index:6000;
+
+	transform:rotate(90deg);
+	-ms-transform:rotate(90deg); /* IE 9 */
+	-moz-transform:rotate(90deg); /* Firefox */
+	-webkit-transform:rotate(90deg); /* Safari and Chrome */
+	-o-transform:rotate(90deg); /* Opera */
+	
+	-webkit-transition: -webkit-transform 1s;	
+	
+  top: 545px;
+  float: right;
+}
 
 /* White box inside #navigation div */
 #navTimeline {
@@ -296,6 +315,17 @@ hr {
 
 .navSubTitle:hover {
 	/*color: rgb(64, 180, 230)*/
+}
+
+.navButton {
+	color:black;
+	background:white;
+}
+
+.navButton:hover {
+	cursor:pointer;
+	background:black;
+	color:white;
 }
 
  

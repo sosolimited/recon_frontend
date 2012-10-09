@@ -150,9 +150,11 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           // Work with the wrappers, not the actual layers.  --> ???
           var transcript = $("#transcript > .wrapper");
           var comparisons = $("#comparisons > .wrapper");
+          var navigation = $("#navigation");
           var bigWords = $("#bigWords");
           
           var enterComp = function(event) {
+          	event.stopPropagation();
           	app.mode = "comparison"; 
             var dist = transcript.offsetHeight;
             transcript.scrollTop = dist;
@@ -171,7 +173,8 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 						app.skrollr.setSkrollElement($('#comparisons > .wrapper').get(0));
           };
           
-          var exitComp = function() {
+          var exitComp = function(event) {
+          	event.stopPropagation();
           	app.mode = "transcript";
             transcript.removeClass("fade");
             comparisons.removeClass("active");
@@ -185,11 +188,8 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
             $body.scrollTop(transcript.data("lastTop"));
           }
           
-          var closeCatLays = function() {
-	          $('.catMarkup').removeClass('reverse');
-	          $('.catMarkup').removeClass('grayed');
-	          markupManager.closeCatOverlays();
-          }
+          navigation.on("click", "#navTranscriptButton", exitComp);
+          navigation.on("click", "#navComparisonButton", { tag: "count" }, enterComp);
 
           transcript.on("click", ".transcriptSpeaker", { tag: "count" }, enterComp);
           transcript.on("click", ".sentimentClick", { tag: "POSITIVITY" } , enterComp);
@@ -199,7 +199,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           var markupNames = ['posemo', 'negemo', 'certain', 'tentat', 'number'];          
           transcript.on("click", ".catMarkup", function(ev) {
           	ev.stopPropagation();
-          	closeCatLays();
+          	markupManager.closeCatLays();
           	var i;
           	if ($(this).hasClass("posemoMarkup")) i=0;
           	else if ($(this).hasClass("negemoMarkup")) i=1;
@@ -224,8 +224,8 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           	markupManager.openCatOverlay(markupNames[i], 30000);
           });
           
-          transcript.on("click", closeCatLays);
-          bigWords.on("click", closeCatLays);
+          transcript.on("click", function() {markupManager.closeCatOverlays();});
+          bigWords.on("click", function() {markupManager.closeCatOverlays();});
          
           comparisons.on("click", exitComp);
           

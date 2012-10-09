@@ -329,7 +329,7 @@ hr {
 }
 #navProgressBar {
   height: 16px;
-  background-color:rgb(76,76,76);
+  background-color: black;	/*rgb(76,76,76);*/
 
   width: 0px;
   z-index: 0;
@@ -337,7 +337,7 @@ hr {
 #navProgressMarker {
   height: 16px;
   width:4px;
-  background-color: black;
+  background-color: white;
   z-index: 2;
   position: absolute;
   top:0px;
@@ -795,7 +795,7 @@ landingTitleImage {
 	-webkit-transition: -webkit-transform 1s ease-in;	
 	/* -webkit-transform: translateZ(0px); */
 	
-	z-index: 2;
+	z-index: 8;
 	
 }
 

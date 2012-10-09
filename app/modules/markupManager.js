@@ -124,7 +124,7 @@ function(app, Overlay, Ref) {
 	  	else if (args["trait"] == 'depression') traitString = "DEPRESSED";
 	  	else if (args["trait"] == 'honesty') traitString = "HONEST";
 	  	
-	  	console.log("addTraitOverlay() " + speaker + " " + speakerString + " " + traitString + " " + args["curSpeaker"] + " " + moreVal);
+	  	console.log("addTraitOverlay() " + args["speaker"] + " " + speakerString + " " + traitString + " " + args["curSpeaker"] + " " + moreVal);
 	  	
 	  	var traitsOverlay = new Overlay.Views.TraitView({ trait: traitString, leader: speakerString, posY: this.scaleY(parseInt(this.attributes.transcript.getCurSentencePosY())), moreVal: moreVal });
 	  	$('#overlay').append(traitsOverlay.el);

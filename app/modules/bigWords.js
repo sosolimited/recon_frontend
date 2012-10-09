@@ -24,7 +24,6 @@ function(app, Ref) {
 
       //focalLength = parseInt($("#bigWords").css("webkit-perspective"));
 
-      //app.on("body:scroll", this.handleScroll, this);			//EG This is handled by requestAnimFrame now in router.
 		 },	
 		 
 		 serialize: function() {

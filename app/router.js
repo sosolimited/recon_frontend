@@ -188,6 +188,12 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
             $body.scrollTop(transcript.data("lastTop"));
           }
           
+          var closeCatLays = function() {
+	          $('.catMarkup').removeClass('reverse');
+	          $('.catMarkup').removeClass('grayed');
+	          markupManager.closeCatOverlays();
+          }
+          
           navigation.on("click", "#navTranscriptButton", exitComp);
           navigation.on("click", "#navComparisonButton", { tag: "count" }, enterComp);
 
@@ -199,7 +205,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           var markupNames = ['posemo', 'negemo', 'certain', 'tentat', 'number'];          
           transcript.on("click", ".catMarkup", function(ev) {
           	ev.stopPropagation();
-          	markupManager.closeCatLays();
+          	markupManager.closeCatOverlays();
           	var i;
           	if ($(this).hasClass("posemoMarkup")) i=0;
           	else if ($(this).hasClass("negemoMarkup")) i=1;

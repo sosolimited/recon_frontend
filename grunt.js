@@ -2,7 +2,7 @@
 // configuration file, which you can learn more about here:
 // https://github.com/cowboy/grunt/blob/master/docs/configuring.md
 module.exports = function(grunt) {
-
+  
   // Initialize the configuration.
   grunt.initConfig({
 
@@ -131,6 +131,33 @@ module.exports = function(grunt) {
         "vendor": "vendor",
         "core": "core",
         "images": "images"
+      },
+
+      server: function() {
+        var fs = require("fs");
+        var express = require("express");
+        var app = express();
+
+        app.get("/markup/:debate", function(req, res) {
+          var path = "../recon_frontend/test.html";
+          var contents = fs.readFileSync(path).toString();
+          
+          res.header["Content-Length"] = contents.length;
+
+          res.send(contents);
+        });
+
+        app.get("/messages/:debate", function(req, res) {
+          var path = "../recon_frontend/messages/_scratch_test";
+          var timediff = req.params.timediff;
+          var contents = fs.readFileSync(path).toString();
+
+          res.header["Content-Length"] = contents.length;
+
+          res.send(contents);
+        });
+
+        return app;
       },
 
       debug: {

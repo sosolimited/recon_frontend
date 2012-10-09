@@ -27,7 +27,6 @@ function($, _, Backbone, eio) {
     // Create a socket connection to the server.
     socket: new eio.Socket({ host: location.hostname, port: 8081 }),
     
-    
     // Init skrollr lib
     skrollr: skrollr.init({    	
 	    beforerender: function(data) {
@@ -42,8 +41,13 @@ function($, _, Backbone, eio) {
 				//	return 1-p;
 				//}
 			}
-		})
+		}),
 		    
+    // Default to the application thinking it's live.
+    live: true,
+
+    // Collection of all debate messages.
+    messages: {}
   };
 
   // Localize or create a new JavaScript Template object.

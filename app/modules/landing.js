@@ -53,15 +53,23 @@ function(app, Ref) {
     },
     
     handleDebateClick: function(e) {
-        if(e.target.getAttribute("id")=="landingButton0"){
+      // Add markup.
+      //$("#transcript").html(app.markup);
+      //app.restore = true;
 
-        }else if(e.target.getAttribute("id")=="landingButton1"){
+      // Playback messages.
+      if (app.router.qs.playback) {
+        app.messages[app.debateNumber].playbackMessages(0);
+      }
 
-        }else if(e.target.getAttribute("id")=="landingButton2"){
+      if(e.target.id === "landingButton0"){
+      }else if(e.target.id === "landingButton1"){
 
-        }       
-        this.exit();
-        //this.overlay.enter();	// Overlay enter taken care of by transcript.
+      }else if(e.target.id === "landingButton2"){
+
+      }       
+      this.exit();
+      //this.overlay.enter();	// Overlay enter taken care of by transcript.
     },
     
     enter: function() {

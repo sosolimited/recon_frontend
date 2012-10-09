@@ -388,10 +388,6 @@ function(app, Ref) {
   	  
     },
     
-    cleanup: function() {
-      this.collection(null, null, this);
-    },
-
     initialize: function() {
       this.collection.on("add", function(comparison) {
         this.addComparison(comparison).render();

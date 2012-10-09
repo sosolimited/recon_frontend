@@ -152,7 +152,7 @@ h1:hover { /* Speaker names */
 }
 
 .transcriptSpeaker:hover {
-	color:rgb(255, 66, 55);
+	color:rgb(60,60,60);
 }
 
 
@@ -188,15 +188,24 @@ p { /* Transcript text */
   transform: scale(1);*/
   opacity: 1.0 !important;
 }
-
+ 
 #comparisons .wrapper {
   -webkit-transition:  1s linear; 
   transition:  1s linear; 
   opacity: 0 !important;
   position: fixed;
+  
   /*-webkit-transform: scale(0);
   transform: scale(0);*/
+}
 
+/* For skrollr purposes */
+.comparisonFiller {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 1024px;
+	height: 30000px;	/* This should match the total height of all comparisons, aka the final value of Comparison.Views.All.scrollY. */
 }
 
 .pieChart {
@@ -242,6 +251,7 @@ hr {
 #navTimeline {
   width: 530px;
   height: 16px;
+  z-index:12;
 }
 #navProgressBar {
   height: 16px;
@@ -268,6 +278,7 @@ hr {
   width: 530px;
 	height: 32px;
 	background-color: white;
+	z-index:12;
 }
 
 .navTitle {
@@ -728,6 +739,7 @@ landingTitleImage {
 	-webkit-transform: translateZ(0px);	*/
   z-index: 10;
   text-transform: uppercase;
+  -webkit-transition: left 1s;
 }
 
 .certainMarkup:hover{

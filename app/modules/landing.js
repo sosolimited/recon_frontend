@@ -85,7 +85,6 @@ function(app, Ref) {
     },
     
     exit: function() {
-    	console.log("this.view ="+this.model.get("firstView"));
     	// Bye bye landing.
  	    $('#landingWrapper').css("visibility", "hidden");	    
  	    // Hello everything else.

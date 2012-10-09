@@ -84,7 +84,7 @@ function(app, Overlay, Ref) {
     },
     
     setHeading: function(str) {
-	    $('#transcriptHeading').text(str);    
+	    $('#transcriptHeading').html(str+'<hr>');    
     },
 
     addWord: function(args) {

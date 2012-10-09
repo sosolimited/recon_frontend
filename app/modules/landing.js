@@ -70,7 +70,7 @@ function(app, Ref) {
     },
     
     enterDebate: function(num) {
-	  	this.transcript.setHeading("transcript "+(num+1));
+	  	this.transcript.setHeading("DEBATE "+(num+1));
       // Playback messages.
 	    if (app.router.qs.playback) {
 	    	if (num == this.model.get("lastDebateViewed"))

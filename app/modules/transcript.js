@@ -106,7 +106,6 @@ function(app, Overlay, Ref) {
 
       var col=1;
     		
-    		console.log(word["cats"]);
     	if (word["speaker"] != curSpeaker) {
     		curSpeaker = word["speaker"];
     			

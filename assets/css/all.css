@@ -265,7 +265,7 @@ hr {
 	-webkit-transition: -webkit-transform 1s;	
 	
 
-	bottom: 20%;
+	bottom: 200px;
 	font-size:20px;
 	text-transform:uppercase; 
 	float:right;
@@ -314,8 +314,10 @@ hr {
 }
 #navProgressBar {
   height: 16px;
-  background-color: rgb(64, 180, 230);	
- /* yellow background-color: rgb(207, 255, 36);*/
+  background-color:rgb(76,76,76);
+
+  /*Blue background-color: rgb(64, 180, 230);	
+  yellow background-color: rgb(207, 255, 36);*/
   width: 0px;
   z-index: 0;
 }
@@ -346,7 +348,7 @@ hr {
 }
 
 .navTitle:hover {
-	color: rgb(64, 180, 230)
+	color: rgb(64, 180, 230);
 }
 
 .navSubTitle {
@@ -377,7 +379,18 @@ hr {
 	-o-transform:rotate(90deg); /* Opera */
 }
 
-
+#navInstructions {
+	font-size: 50px;
+	background-color: yellow;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	padding: 50px;
+	margin: 50px;
+	
+	-webkit-transition: -webkit-transform 1s;	
+	z-index: 5500;
+}
 
 
 
@@ -529,41 +542,11 @@ hr {
 	display:block;
 }
 
-landingTitleImage {
-	width:324px;
-	height:27px;
-	background: url("images/ReconLogo.png");
-	position:absolute;
-	top: 48px;
-	display:block;
-	
-}
-
-#landingSubTitle {
-
-	position: absolute;
-	top: 588px;
-	font-size: 42px;
-	line-height: 48px;
-	z-index:1;
-	padding-left: 25px;
-}
-
-#landingSubTitleDiv {
-	position: relative;
-	top: 588px;
-	height: 48px;
-	background-color: rgb(207,255,36);
-	z-index:0;
-	width: 3000px;
-	left:-900px;
-
-}
 
 #landingObama {
 	position: absolute;
 	top: 132px;
-	font-size: 200px;
+	font-size: 204px;
 	line-height: 156px;
 	
 	left:141px;
@@ -594,7 +577,7 @@ landingTitleImage {
 	left:110px;
 	position: absolute;
 	top: 396px;
-	font-size: 200px;
+	font-size: 204px;
 	line-height: 144px;
 	/*left:136px;*/
 	/*left:68px;*/
@@ -612,6 +595,8 @@ landingTitleImage {
 .landingButtonHolder {
 	position: relative;	
   cursor: pointer;
+  overflow:hidden;
+  z-index: 10;
 }
 
 .landingButton {
@@ -648,29 +633,6 @@ landingTitleImage {
 	background-color: rgb(76,76,76)!important;	
 }
 
-.landingMakingof {
-	position: static;
-	padding: 0 0 0 0;
-	left: 0px;
-	font-size: 25px;
-	line-height: 25px;
-	margin: 12px 0px 0px 0px;
-	color:rgb(200,200,200) !important;
-	 
-}
-
-.landingMakingofSubTitle {
-	position: static;
-	padding: 0 0 0 0;
-	left: 0px;
-	font-size: 20px;
-	line-height: 0px;
-	margin: 12px 0px 0px 0px;
-	color:rgb(200,200,200) !important;
-	 
-}
-
-
 .landingWhiteRule1 {
 	position: absolute;
 	border-bottom:1px dashed rgb(200,200,200)!important;
@@ -703,11 +665,70 @@ landingTitleImage {
 .landingWhiteRule3 {
 	position: absolute;
 	border-bottom:1px dashed rgb(200,200,200)!important;
-	top:541px; 
+	top:542px; 
 	left:-70px;
 	width: 496px;
 	margin: 0px 0px 0px 0px;
 }
+
+
+.landingMakingof {
+	position: static;
+	padding: 0 0 0 0;
+	left: 0px;
+	font-size: 25px;
+	line-height: 25px;
+	margin: 12px 0px 0px 0px;
+	color:rgb(200,200,200) !important;
+	 
+}
+
+.landingMakingofSubTitle {
+	position: static;
+	padding: 0 0 0 0;
+	left: 0px;
+	font-size: 20px;
+	line-height: 0px;
+	margin: 12px 0px 0px 0px;
+	color:rgb(200,200,200) !important;
+	 
+}
+
+
+/* FOOTER */
+
+
+landingTitleImage {
+	width:324px;
+	height:27px;
+	background: url("images/ReconLogo.png");
+	position:absolute;
+	top: 48px;
+	display:block;
+	
+}
+
+#landingSubTitle {
+
+	position: absolute;
+	top: 588px;
+	font-size: 42px;
+	line-height: 48px;
+	z-index:1;
+	padding-left: 25px;
+}
+
+#landingSubTitleDiv {
+	position: relative;
+	top: 588px;
+	height: 48px;
+	background-color: rgb(207,255,36);
+	z-index:0;
+	width: 3000px;
+	left:-900px;
+
+}
+
 
 #landingCreditsBox {
 	position: absolute;
@@ -730,6 +751,9 @@ landingTitleImage {
 	font-size: 14px;
 	line-height: 18px;
 }
+
+
+
 
 
 /*
@@ -974,13 +998,13 @@ landingTitleImage {
 .quotePhrase {
 	position:absolute; 
 	overflow: visible;
-  width: 906px;
-  font-size: 240px;
+  width: 908px;
+  font-size: 360px;
   line-height: .75em;
 	margin: 0px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
-  color: rgb(124,51,64);
-	-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
+  color: rgb(48,179,228);
+	-webkit-transition: left 1s, right 1s, top 1s, height 1s, width 1s, font-size 1s, line-height 1s;
 	/* -webkit-transform: translateZ(0px);	*/
   z-index: 2;
 }
@@ -991,7 +1015,7 @@ landingTitleImage {
 .quoteLeftQuote, .quoteRightQuote {
   position: absolute;
   font-size: 400px;
-  color: rgb(124,51,64);
+  color: rgb(48,179,228);
   -webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
   z-index: 0;
 }
@@ -1012,7 +1036,7 @@ landingTitleImage {
   font-size: 72px;
   line-height: 0.75em;
   opacity: 0;
-  z-index: 3;
+  z-index: 2;
   -webkit-transition: opacity 1s;
 }
 
@@ -1101,7 +1125,7 @@ landingTitleImage {
 
 .moderator {
 	width: 400px;
-	padding-left:400px;
+	padding-l?eft:400px;
 	display: block;
 	color: gray;
 }

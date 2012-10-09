@@ -58,7 +58,8 @@ function(app) {
     
     setDebateNumber : function(n) {
       n -= 1;
-      debateNumber = n;
+      // Set the debate number globally.
+      app.debateNumber = debateNumber = n;
       var dateString = startDates[n].toLocaleDateString();
       $("#navDate").text(dateString.substring(dateString.indexOf(",")+2));
 

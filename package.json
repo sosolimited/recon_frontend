@@ -1,0 +1,13 @@
+{
+  "name": "recon_frontend",
+  "version": "0.0.0",
+  "description": "recon_frontend ====================",
+  "devDependencies": {
+    "express": "3.0.0rc4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sosolimited/recon_frontend.git"
+  },
+  "author": "sosolimited"
+}

@@ -70,7 +70,8 @@ function(app, Overlay, Ref) {
     },
 
     addWord: function(args) {
-    	//console.log("transcript.addWord("+args['msg']['word']+")");
+      if (args.msg.type === "word" && app.restore) { return; }
+     // console.log("transcript.addWord("+args['msg']['word']+")");
 	    var word = args['msg'];
 	    
 	    // Add word to speakers, which returns an array of any special events triggered by the word.
@@ -166,14 +167,12 @@ function(app, Overlay, Ref) {
 			    app.trigger("markup", wordProps[0]); 		   		 	 
 		    }
 		    // Check if the word is in the top N words. (20 was too busy, so we're trying 10)
-		    /*	//TEMP until freq words gets fixed.
 		    else if((top20Count = this.uniqueWords.isTopPhrase(curSpeaker, word['word'], 10))
 		    	&& (this.uniqueWords.getTotalUniquePhrases(curSpeaker) > 100)){
 				  var sp = $("<span class='frequentWordMarkup countClick transcriptWord'>"+s+word["word"]+"</span>");
 				  sp.attr("data-wordcount", top20Count);
 			   	$('#curSentence').append(sp);	
 		    }
-		    */
 		  	else if ($.inArray('posemo', word['cats']) != -1) {
 		  		 //app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
 		  		 $('#curSentence').append(s+"<span class='catMarkup posemoMarkup transcriptWord'>"+word["word"]+"</span>"); 
@@ -280,7 +279,7 @@ function(app, Overlay, Ref) {
       	 }
       	 else if($(this).hasClass("negemoMarkup")){
 	      	 $(this).css("background-color", "rgb(122,52,183)");
-	      	 $(this).css("color", "rgb(255,255,255)");
+	      	 $(this).css("color", "rgb(180,180,180)");
       	 }
       	 else if($(this).hasClass("certainMarkup")){
 	      	 $(this).css("background-color", "rgb(255,175,108)");
@@ -299,7 +298,7 @@ function(app, Overlay, Ref) {
 	     	 else if($(this).hasClass("numberMarkup")){
 	     	 		//$(this).css("background-color", "rgb(64,180,229)");	    	    		
 	     	 		$(this).css("background-color", "rgb(80,80,80)");
-	     	 		$(this).css("color", "rgb(255,255,255)");	    	    			    	    		
+	     	 		$(this).css("color", "rgb(180,180,180)");	    	    			    	    		
 	     	 }
 	     	 // Quotation markup.
 	     	 else if($(this).hasClass("quoteMarkup")){
@@ -323,10 +322,11 @@ function(app, Overlay, Ref) {
 		          container.append(countDiv);
 		          $(this).parent().append(container);
 		          countDiv.animate({top: '0px'}, 300);
-
+		          /* //EG Trying it without underline.
               var spaceWidth = 5;  // To avoid underlining the leading space. This is an ugly hack.
               var underlineDiv = $("<div class='freqWordUnderline' style='left: " + (pos.left+spaceWidth) + "px; top: " + (pos.top + lineHeight*0.8) + "px;  width: " + (wordWidth-spaceWidth) + "px;' />");
               $(this).parent().append(underlineDiv);
+              */
 		        }  	     	 
 	     	 }
       });

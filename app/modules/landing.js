@@ -58,7 +58,9 @@ function(app, Ref) {
       //app.restore = true;
 
       // Playback messages.
-      app.messages[app.debateNumber].playbackMessages(0);
+      if (app.router.qs.playback) {
+        app.messages[app.debateNumber].playbackMessages(0);
+      }
 
       if(e.target.id === "landingButton0"){
       }else if(e.target.id === "landingButton1"){

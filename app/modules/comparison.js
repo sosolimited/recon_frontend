@@ -11,6 +11,7 @@ function(app, Ref) {
   var Comparison = app.module();
 
   // Base class for comparison model
+  // ---------------------------------------------------------------------------------------------
   Comparison.Model = Backbone.Model.extend({
   	defaults: function() {
   		return {
@@ -85,7 +86,8 @@ function(app, Ref) {
   });
   
   
-  // here is where you can override methods and implement new ones
+  // Here is where you can override methods and implement new ones.
+  // ---------------------------------------------------------------------------------------------
   Comparison.FancyModel = Comparison.Model.extend({    	
   	setValues: function(options) {
 	  	
@@ -109,6 +111,7 @@ function(app, Ref) {
   });
 
   // Extended view for posemo, negemo, anger.	
+  // ---------------------------------------------------------------------------------------------
   Comparison.EmotionModel = Comparison.Model.extend({    	
   	setValues: function(options) {
 	  	
@@ -122,15 +125,27 @@ function(app, Ref) {
 
 		initialize: function() {
 			 this.model.on("change", this.render, this);
+			 
+			 this.scrollY = this.options.scrollY;				// Top of scrolling.
+			 this.scrollD = this.options.scrollD; 			// Total scroll distance.
+			 this.scrollDet = this.options.scrollDet;		// Scroll detent.	
 		},
 		
     serialize: function() {
-      return { comparison: this.model};
+      return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth, scrollY: this.scrollY, scrollD: this.scrollD, scrollDet: this.scrollDet };
+    },
+    
+    afterRender: function() {
+    	// Add to skrollr mangr.
+	    this.$el.find('.compareContainer').each(function(){
+		  	app.skrollr.refresh(this);
+	    });
     }
     
   });
 
   // Extended view for honesty, complexity, formality	
+  // ---------------------------------------------------------------------------------------------
   Comparison.SpectrumModel = Comparison.Model.extend({    	
   	setValues: function(options) {
 	  	
@@ -144,13 +159,23 @@ function(app, Ref) {
 
 		initialize: function() {
 			 this.model.on("change", this.render, this);
+			 
+			 this.scrollY = this.options.scrollY;			// Top of scrolling.
+			 this.scrollD = this.options.scrollD; 			// Total scroll distance.
+			 this.scrollDet = this.options.scrollDet;	// Scroll detent.	
 		},
 		
     serialize: function() {
-      return { comparison: this.model};
+      return { comparison: this.model, scrollY: this.scrollY, scrollD: this.scrollD, scrollDet: this.scrollDet };
     },
     
     afterRender: function() {
+
+	    // Add to skrollr mangr.
+	    this.$el.find('.compareContainer').each(function(){
+		  	app.skrollr.refresh(this);
+	    });
+	    
     	/*
     	$(this).children(".className").each(function () { 
     	
@@ -162,7 +187,8 @@ function(app, Ref) {
     
   });
 
-  // Extended view for honesty	
+  // Extended view for honesty
+  // ---------------------------------------------------------------------------------------------	
   Comparison.HonestyModel = Comparison.Model.extend({    	
   	setValues: function(options) {
 	  	
@@ -185,6 +211,7 @@ function(app, Ref) {
   });
 
   // Extended view for formality	
+  // ---------------------------------------------------------------------------------------------
   Comparison.FormalityModel = Comparison.Model.extend({    	
   	setValues: function(options) {
 	  	
@@ -207,6 +234,7 @@ function(app, Ref) {
   });
 
   // Extended view for honesty, complexity, formality	
+  // ---------------------------------------------------------------------------------------------
   Comparison.DispositionModel = Comparison.Model.extend({    	
   	setValues: function(options) {
 	  	
@@ -230,6 +258,7 @@ function(app, Ref) {
 
 
   // Extended view for word count, unique word count	
+  // ---------------------------------------------------------------------------------------------
   Comparison.CountModel = Comparison.Model.extend({    	
 
     setValues: function(options) {
@@ -267,16 +296,28 @@ function(app, Ref) {
 
 		initialize: function() {
 			 this.model.on("change", this.render, this);
+			 
+			 this.scrollY = this.options.scrollY;	// Top of scrolling.
+			 this.scrollD = this.options.scrollD; // Total scroll distance.	
+			 this.scrollDet = this.options.scrollDet;	// Scroll detent.	
 		},
 		
     serialize: function() {
-      return { comparison: this.model};
+      return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth, scrollY: this.scrollY, scrollD: this.scrollD, scrollDet: this.scrollDet };
+    },
+    
+    afterRender: function() {
+
+    	// Add to skrollr mangr.
+	    this.$el.find('.compareContainer').each(function(){
+		  	app.skrollr.refresh(this);
+	    });
     }
     
   });
 
   // Extended view for top words, top n-grams	
-
+  // ---------------------------------------------------------------------------------------------
   Comparison.ListModel = Comparison.Model.extend({
         	     	
   	setValues: function(options) {
@@ -299,7 +340,6 @@ function(app, Ref) {
   		  rList[i] = this.get('uniqueWords').getTopPhrases(2)[i]['phrase'];
   		  oVals[i] = this.get('uniqueWords').getTopPhrases(1)[i]['count'];
   		  rVals[i] = this.get('uniqueWords').getTopPhrases(2)[i]['count'];
-  		  
   		}
   	
 	  	this.set({obamaList: oList, romneyList: rList, obamaValues: oVals, romneyValues: rVals});
@@ -312,18 +352,41 @@ function(app, Ref) {
     template: "comparison/list",
     className: "comparison container",
 
-	initialize: function() {
-		this.model.on("change", this.render, this);
-	},
+    initialize: function() {
+			this.model.on("change", this.render, this);
+			
+			this.scrollY = this.options.scrollY;			// Top of scrolling.
+			this.scrollD = this.options.scrollD; 			// Total scroll distance.
+			this.scrollDet = this.options.scrollDet;	// Scroll detent.	
+		},
 		
 	  serialize: function() {
-	    return { comparison: this.model};
-	  }
-    
+	    return { comparison: this.model, grid: Ref.gridColumns, gutter: Ref.gutterWidth, scrollY: this.scrollY, scrollD: this.scrollD, scrollDet: this.scrollDet };
+	  },
+	 
+	  afterRender: function() {
+    	// Add to skrollr mangr.
+	    this.$el.find('.compareContainer').each(function(){
+		  	app.skrollr.refresh(this);
+	    });	    
+	    /*
+	    this.$el.find('.comparisonListWord').each(function(){
+		  	app.skrollr.refresh(this);
+	    });
+	    this.$el.find('.comparisonListCandidate').each(function(){
+		  	app.skrollr.refresh(this);
+	    });	    
+	    this.$el.find('.comparisonSubtitle').each(function(){
+		  	app.skrollr.refresh(this);
+	    });	    
+	    */
+	    
+    }    
   });
 
 
-  // Default collection.
+
+  // ---------------------------------------------------------------------------------------------
   Comparison.Collection = Backbone.Collection.extend({
   });
 
@@ -334,64 +397,84 @@ function(app, Ref) {
     template: "comparison/all",
     
     initialize: function() {
-	    this.uniqueWords = this.options.uWords;
+	    //this.uniqueWords = this.options.uWords;
+
+	    this.collection.on("add", function(comparison) {
+        this.addComparison(comparison).render();
+      }, this);
+
+	    this.curScrollY = 0;	// To keep track of skrollr ranges.
+	    this.scrollDist = 2500;	// Scroll height over which each comparison assembles.
+	    this.scrollDetent = 500;	// Scroll height over which each comparison pauses before exiting.
     },
 
     addComparison: function(comparison) {
-    
-		if (comparison.get("viewType") === "fancy") {
-			return this.insertView(new Comparison.Views.Fancy({
-					model: comparison
-				}));
-		}
-		else if (comparison.get("viewType") === "emotion") {
-			return this.insertView(new Comparison.Views.Emotion({
-					model: comparison
-				}));
-		}
-		else if (comparison.get("viewType") === "spectrum") {
-			return this.insertView(new Comparison.Views.Spectrum({
-					model: comparison
-				}));
-		}			
-		else if (comparison.get("viewType") === "list") {
-			return this.insertView(new Comparison.Views.List({
-					model: comparison
-				}));
-		}
-		else if (comparison.get("viewType") === "count") {
-			return this.insertView(new Comparison.Views.Count({
-					model: comparison
-				}));
-		}
-		else if (comparison.get("viewType") === "honesty") {
-			return this.insertView(new Comparison.Views.Honesty({
-					model: comparison
-				}));
-		}	
-		else if (comparison.get("viewType") === "disposition") {
-			return this.insertView(new Comparison.Views.Disposition({
-					model: comparison
-				}));
-		}	
-		else if (comparison.get("viewType") === "formality") {
-			return this.insertView(new Comparison.Views.Formality({
-					model: comparison
-				}));
-		}								
-		else {
-		    return this.insertView(new Comparison.Views.Simple({
-			    model: comparison
-			  }));
-  		  
-  		}
-  	  
+	  	//console.log("curScrollY = "+this.curScrollY+" scrollDist = "+this.scrollDist);
+	  	var view = null;
+	  	
+			if (comparison.get("viewType") === "fancy") {
+				view = this.insertView(new Comparison.Views.Fancy({
+						model: comparison, scrollY: this.curScrollY, scrollD: this.scrollDist, scrollDet: this.scrollDetent
+					}));
+			}
+			else if (comparison.get("viewType") === "emotion") {
+				view = this.insertView(new Comparison.Views.Emotion({
+						model: comparison, scrollY: this.curScrollY, scrollD: this.scrollDist, scrollDet: this.scrollDetent
+					}));
+			}
+			else if (comparison.get("viewType") === "spectrum") {
+				view = this.insertView(new Comparison.Views.Spectrum({
+						model: comparison, scrollY: this.curScrollY, scrollD: this.scrollDist, scrollDet: this.scrollDetent
+					}));
+			}			
+			else if (comparison.get("viewType") === "list") {
+				view =  this.insertView(new Comparison.Views.List({
+						model: comparison, scrollY: this.curScrollY, scrollD: this.scrollDist, scrollDet: this.scrollDetent
+					}));
+			}
+			else if (comparison.get("viewType") === "count") {
+				view = this.insertView(new Comparison.Views.Count({
+						model: comparison, scrollY: this.curScrollY, scrollD: this.scrollDist, scrollDet: this.scrollDetent
+					}));
+			}
+			else if (comparison.get("viewType") === "honesty") {
+				view = this.insertView(new Comparison.Views.Honesty({
+						model: comparison, scrollY: this.curScrollY, scrollD: this.scrollDist, scrollDet: this.scrollDetent
+					}));
+			}	
+			else if (comparison.get("viewType") === "disposition") {
+				view = this.insertView(new Comparison.Views.Disposition({
+						model: comparison, scrollY: this.curScrollY, scrollD: this.scrollDist, scrollDet: this.scrollDetent
+					}));
+			}	
+			else if (comparison.get("viewType") === "formality") {
+				view = this.insertView(new Comparison.Views.Formality({
+						model: comparison, scrollY: this.curScrollY, scrollD: this.scrollDist, scrollDet: this.scrollDetent
+					}));
+			}								
+			else {
+		    view =  this.insertView(new Comparison.Views.Simple({
+			    model: comparison, scrollY: this.curScrollY, scrollD: this.scrollDist, scrollDet: this.scrollDetent
+			  }));  		  
+	  	}
+	  	
+	  	this.curScrollY += (this.scrollDist + this.scrollDetent);	
+	  	return view;  		  	
     },
     
-    initialize: function() {
-      this.collection.on("add", function(comparison) {
-        this.addComparison(comparison).render();
-      }, this);
+    cleanup: function() {
+      this.collection(null, null, this);
+    },
+
+    
+    // For skrollr purposes.
+    insertFiller: function() {
+	    this.$el.append("<div class='comparisonFiller'></div>");	    
+    },
+    
+    afterRender: function() {
+    	// For skrollr purposes, to be able to scroll long and deep in the comparisons > .wrapper div.
+	    this.insertFiller();
 
     }
   });

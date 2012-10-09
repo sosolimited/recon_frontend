@@ -193,8 +193,10 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  scaleY: function(val) {
-		  if (app.mode === "transcript") return val;
-		  else if (app.mode === "comparison") return val*2.5;
+	  	return val;
+	  	// EG No more transcript scaling while in comparison mode.
+		  //if (app.mode === "transcript") return val;
+		  //else if (app.mode === "comparison") return val*2.5;
 	  },
 	  
  	  // -----------------------------------------------------------------------------------

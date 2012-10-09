@@ -388,7 +388,7 @@ function(app, Overlay, Ref) {
 		    		//$(this).css("border-bottom", "1px solid white");	//To do different color underline.
 		    		
 		    		//$(this).css("text-decoration-color", "rgb(255,255,255)");	
-		    		/* // EG Testing performance hit of these.
+		    		
 		        var count = $(this).attr("data-wordcount");
 		        if(count != undefined) {
 		          // Add a div at this point and animate it inCannot read property 'top' of null 
@@ -409,7 +409,6 @@ function(app, Overlay, Ref) {
               //$(this).parent().append(underlineDiv);
               
 		        } 
-		        */ 	     	 
 	     	 }
       });
 

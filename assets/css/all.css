@@ -287,17 +287,19 @@ hr {
 
 
 
-#navTranscriptButton{
+#navTranscriptButton {
 	display:inline-block;
-	padding: 5px;
-	}
+	padding: 15px 5px 5px 5px;
+	
+}
 
 
-#navComparisonButton{
+#navComparisonButton {
 	display:inline-block;
 	margin-top:-40px;
 	/*margin-left: 10px;*/
-	padding: 5px;
+	padding: 15px 5px 5px 5px;
+	/* padding: 5px; */
 
 	
 }

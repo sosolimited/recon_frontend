@@ -627,17 +627,18 @@ function(app, Overlay, Ref) {
       $(".transcriptParagraph").each(function(idx, el) {
         //var paraTop = $(el).offset().top;
         //var paraBottom = paraTop + $(el).height();
-        var paraTop = $(el).attr('data-top');
-        var paraBottom = $(el).attr('data-bottom');
+        var $el = $(el);
+        var paraTop = $el.data('top');
+        var paraBottom = $el.data('bottom');
 
         // Check if current scroll line is in this paragraph
         if(bottomLine <= paraBottom && bottomLine > paraTop) {
-          scrolledParagraph = $(el);
+          scrolledParagraph = $el;
           //return false; // break the each loop
         }
         else if(Math.abs(paraBottom - bottomLine) < closestDistance) {
           closestDistance = Math.abs(paraBottom - bottomLine);
-          closestParagraph = $(el);
+          closestParagraph = $el;
         }
 
         /*

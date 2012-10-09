@@ -62,14 +62,16 @@ function(app, Ref) {
         app.messages[app.debateNumber].playbackMessages(0);
       }
 
-      if(e.target.id === "landingButton0"){
-      }else if(e.target.id === "landingButton1"){
+      if(e.target.id === "landingButton0" || e.target.parentNode.id == "landingButton0"){
+      	this.transcript.setHeading("transcript 1 ");
+      	this.exit();
+      }else if(e.target.id === "landingButton1" || e.target.parentNode.id == "landingButton1"){
+      	this.transcript.setHeading("transcript 2");
 
-      }else if(e.target.id === "landingButton2"){
+      }else if(e.target.id === "landingButton2" || e.target.parentNode.id == "landingButton2"){
+      	this.transcript.setHeading("transcript 3");
 
-      }       
-      this.exit();
-      //this.overlay.enter();	// Overlay enter taken care of by transcript.
+      } 
     },
     
     enter: function() {

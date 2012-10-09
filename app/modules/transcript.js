@@ -73,6 +73,7 @@ function(app, Overlay, Ref) {
       
       this.speakers = this.options.speakers; // Speaker collection ref used to synchronously check on special events in addWords().
       this.uniqueWords = this.options.uniqueWords;	
+
   	},
 
     events : {
@@ -80,6 +81,10 @@ function(app, Overlay, Ref) {
   	
     cleanup: function() {
 	    app.off(null, null, this);
+    },
+    
+    setHeading: function(str) {
+	    $('#transcriptHeading').text(str);    
     },
 
     addWord: function(args) {
@@ -101,6 +106,7 @@ function(app, Overlay, Ref) {
 
       var col=1;
     		
+    		console.log(word["cats"]);
     	if (word["speaker"] != curSpeaker) {
     		curSpeaker = word["speaker"];
     			

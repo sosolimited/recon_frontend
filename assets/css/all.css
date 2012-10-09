@@ -570,6 +570,8 @@ landingTitleImage {
 .landingButtonHolder {
 	position: relative;	
   cursor: pointer;
+  overflow:hidden;
+  z-index: 10;
 }
 
 .landingButton {

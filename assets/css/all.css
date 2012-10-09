@@ -399,15 +399,17 @@ hr {
 .franklinDemiCompIt{ font-family:"franklin-gothic-urw-comp-i7", "franklin-gothic-urw-comp"; font-weight:700; font-style:italic; }
 
 
-/* Franklin Extra Compressed */
+/* Franklin Condensed */
+.franklinMedComp{ font-family:"franklin-gothic-urw-cond-n5", "franklin-gothic-urw-cond"; font-weight:600; font-style:normal; }
+.franklinMedCompIt{ font-family:"franklin-gothic-urw-cond-i5", "franklin-gothic-urw-cond"; font-weight:600; font-style:italic; }
+
+
+
+/* Franklin EXTRA Compressed */
 
 .franklinExBookComp{ font-family:"franklin-gothic-ext-comp-urw-n4", "franklin-gothic-ext-comp-urw"; font-weight:400; font-style:normal; }
 .franklinExDemiComp{ font-family:"franklin-gothic-ext-comp-urw-n7", "franklin-gothic-ext-comp-urw"; font-weight:700; font-style:normal; }
 
-
-/* Franklin Condensed */
-.franklinMedComp{ font-family:"franklin-gothic-urw-cond-n5", "franklin-gothic-urw-cond"; font-weight:600; font-style:normal; }
-.franklinMedCompIt{ font-family:"franklin-gothic-urw-cond-i5", "franklin-gothic-urw-cond"; font-weight:600; font-style:italic; }
 
 
 /* Franklin reg */

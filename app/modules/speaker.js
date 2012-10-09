@@ -135,7 +135,7 @@ function(app) {
     leads: [],
     sentenceLeadLead: -1,
     curTrait: 0,
-    traitTimeout: 5000,
+    traitTimeout: 60000,
     traitTimeoutFlag: false,
     curSpeaker: 1,
     
@@ -145,7 +145,7 @@ function(app) {
     	app.on("transcript:speakerSwitch", this.setSpeaker, this);
     	var coll = this;
     	//Tune this to 5 minutes
-    	var superlativeMins = 0.335;
+    	var superlativeMins = 3;
     	setInterval(function(){coll.sendRandomTraitLeader();}, superlativeMins*60000);
     },
     
@@ -198,9 +198,13 @@ function(app) {
 		    	if (!this.traitTimeoutFlag) {
 		    		app.trigger("markup", {type:"traitLead", leader:newLead, trait:this.at(1).get("traits")[i]['name'], new:true, curSpeaker: this.curSpeaker});
 		    		this.traitTimeoutFlag = true;
+		    		//console.log("TimeoutTrue");
+		    		
 		    		window.setTimeout(function(){
 		    			this.traitTimeoutFlag = false;
+		    			//console.log("Timeout False");
 		    		}, this.traitTimeout, this) 	
+		    		
 		    	}
 		    	
 		    	//console.log("new lead "+newLead+" "+this.at(1).get("traits")[i]['name']);
@@ -219,8 +223,8 @@ function(app) {
 	    
 	    	if (!this.traitTimeoutFlag)
 	    	{
-		    	console.log("sendRandomTraitLeader");
-			    
+		    	//console.log("sendRandomTraitLeader");
+			  
 			    //var t = Math.floor(Math.random()*this.leads.length);
 			    this.curTrait = (this.curTrait + 1)%this.leads.length;
 			    var t = this.curTrait;

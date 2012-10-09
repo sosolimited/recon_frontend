@@ -80,10 +80,14 @@ function(app, Overlay, Ref) {
 			  else if(args['type']=="sentimentMarkup"){
 				  this.addSentimentOverlay(args);
 			  }
-			  else if(args['type']=="traitLead"){
-				 this.addTraitOverlay(args);
-			  }
 		  }
+		  
+		  //always showing the traitlead
+		  if(args['type']=="traitLead"){
+		   //console.log("received traitLead");
+			 this.addTraitOverlay(args);
+		  }
+		  
 	  },
 	  
 	  isAnyOverlayExpanded: function() {

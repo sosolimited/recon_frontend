@@ -28,7 +28,7 @@ function(app, Ref) {
 			this.aVal = '>'; 
 			if (this.moreVal.indexOf('LESS') != -1) this.aVal = '<';
 			
-			console.log(this.moreVal + " " + this.aVal);
+			//console.log(this.moreVal + " " + this.aVal);
 
 			this.posY = this.options.posY;
 			//all durations in milliseconds	

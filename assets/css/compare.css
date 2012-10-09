@@ -23,9 +23,11 @@ z-index:-2;
 
 .compareContainer {
 	
-	/* position:relative; */
-	position: fixed;
+	position:relative; 
+	/* 
+	position: fixed; 
 	top: 100%;
+	*/
 	border-bottom: 3px gray !important;
 	padding-bottom: 50px !important;
 
@@ -33,7 +35,8 @@ z-index:-2;
 
 .list {
 
-height:1200px;
+	/* height:1200px;	*/ /* For Top 20 words */
+	height:900px;	 /* For Top 10 words */
 
 }
 
@@ -45,6 +48,12 @@ height:1200px;
 .emotion {
 	
 	height:700px;
+}
+
+.spectrum {
+	
+	height: 1000px;
+	
 }
 
 .comparisonTitle {

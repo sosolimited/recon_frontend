@@ -239,6 +239,8 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	      });
       }, 100);
 	     
+      app.on("scrollBody", transcriptView.handleScroll, transcriptView);
+      app.on("scrollBody:user", transcriptView.handleUserScroll, transcriptView);
       // BODY/WINDOW EVENTS
       // ----------------------------------------------------------------------
       
@@ -249,7 +251,6 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
       var lastScrollY = 0;
       var ticking = false;
       $(window).scroll(_.throttle(function(ev) {
-		     	//app.trigger("body:scroll", document.body.scrollTop);
 		     	
 		     	// Intead of emitting events, keep track of scroll position for requestAnimFrame below.
 		     	lastScrollY = document.body.scrollTop;

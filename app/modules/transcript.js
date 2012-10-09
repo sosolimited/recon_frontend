@@ -17,7 +17,6 @@ function(app, Overlay, Ref) {
   var openParagraph = null;
   var scrollLive = true;		
   var lastScrollHeight = 0;
-  var scrollAnimating = false;
 
   var recentPositiveEnergy = [0,0,0];
   var recentNegativeEnergy = [0,0,0];
@@ -42,7 +41,6 @@ function(app, Overlay, Ref) {
     initialize : function() {
       app.on("message:word", this.addWord, this);
       app.on("message:sentenceEnd", this.endSentence, this);
-      //app.on("body:scroll", this.handleScroll, this);  	//EG This is handled by requestAnimFrame now in router.
       app.on("navigation:goLive", this.reattachLiveScroll, this);
 
       var thisTranscript = this;
@@ -50,12 +48,17 @@ function(app, Overlay, Ref) {
         //if(scrollLive) { thisTranscript.reattachLiveScroll(0) };
         var heightChange = $(window).height() - oldWindowHeight;
         //console.log(heightChange);
-        this.animateScroll({
-          destination: oldScrollTop - heightChange
+        app.setScrollPos({
+          position: oldScrollTop - heightChange,
+          duration: 600
         });
         oldWindowHeight = $(window).height();
         oldScrollTop = $('body').scrollTop();
       });
+  app.on("userScroll", function() {
+    console.log("USERSCROLL");
+  });
+
       
       this.numberOpen = false;
       this.numberPhrase = "";
@@ -244,24 +247,24 @@ function(app, Overlay, Ref) {
 
       // Autoscroll the window to keep up with transcript
       // ----------------------------------------------------------------------
-      if(scrollTo != lastScrollHeight && !scrollAnimating && this.scrollShouldReattach()) {
+      if(scrollTo != lastScrollHeight && this.scrollShouldReattach()) {
         scrollLive = true;
         app.trigger("transcript:scrollAttach", {});         
       }
       if(scrollLive && !Ref.disableAutoScroll) {
         var scrollTo = this.transcriptBottom() - $(window).height();
         //var scrollTo = $(document).height() - $(window).height();
-        if(scrollTo != lastScrollHeight && !scrollAnimating) {  // Only trigger autoscroll if needed
+        if(scrollTo != lastScrollHeight) {  // Only trigger autoscroll if needed
           //console.log("scrolling to: " + scrollTo);
           var duration = Math.abs(lastScrollHeight - scrollTo) * 3.0;
-          this.animateScroll({
+          app.setScrollPos({
             duration: duration,
-            destination: scrollTo
+            position: scrollTo
           });
           app.trigger("transcript:scrollTo", word["timeDiff"]); 
           lastScrollHeight = scrollTo;
         }
-      }           
+      }
       //$('#curSentence').css("margin-bottom", $('#curSentence').height() - Ref.overlayOffsetY);
       
       return false;
@@ -564,47 +567,13 @@ function(app, Overlay, Ref) {
           $('#curParagraph').height(newHeight);
       }
     },
-    
-    animateScroll: function(options) {
-      var doneScrolling = function() {
-        scrollAnimating = false;
-        app.trigger("transcript:scrollAttach", {});
-
-        if (typeof options.done === "function") {
-          options.done();
-        }
-      };
-
-      if (!options) {
-        options = {};
-      }
-
-      if(options.duration == null) {
-          options.duration = 600;
-      }
-      scrollAnimating = true;
-      lastScrollHeight = scrollTo;
-
-      // Support asynchronous and synchronous scrolling
-      if(options.duration > 0) {
-        $("body")
-          .stop()
-          .animate(
-            { scrollTop: options.destination},
-            options.duration,
-            doneScrolling);
-      } else {
-        $("body").scrollTop(options.destination);
-        doneScrolling();
-      }
-    },
 
     reattachLiveScroll : function(duration) {
       var transcriptHeight = this.transcriptBottom();
       var scrollTo = transcriptHeight - $(window).height();
 
-      this.animateScroll({
-        destination: scrollTo,
+      app.setScrollPos({
+        position: scrollTo,
         duration: duration,
         done: function() {
           scrollLive = true;
@@ -621,25 +590,26 @@ function(app, Overlay, Ref) {
       catch(e) { console.log("NO CURRENT PARAGRAPH"); return 0; }
     },
 
+
+    // Decide whether to break or reattach live autoscrolling
+    handleUserScroll : function() {
+      // Note: $(document).height() is height of the HTML document,
+      //       $(window).height() is the height of the viewport
+      var bottom = this.transcriptBottom() - $(window).height();
+      if(!scrollLive && this.scrollShouldReattach()) {
+        scrollLive = true;
+        // So other modules like nav can respond accordingly
+        app.trigger("transcript:scrollAttach", {});
+      }
+      else if(scrollLive && !this.scrollShouldReattach()) {
+        $("body").stop(); // Stop any scroll animation in progress
+        scrollLive = false;
+        app.trigger("transcript:scrollDetach", {});
+      }
+    },
+
     handleScroll : function() {
       oldScrollTop = $('body').scrollTop(); // To keep scroll position on resize
-      //console.log("SCROLL animating? " + (scrollAnimating ? "YES" : "NO") + " live? " + (scrollLive ? "YES" : "NO"));
-
-      // If this is a user scrolling, decide whether to break or reattach live autoscrolling
-      if(!scrollAnimating) {
-        // Note: $(document).height() is height of the HTML document,
-        //       $(window).height() is the height of the viewport
-        var bottom = this.transcriptBottom() - $(window).height();
-        if(!scrollLive && this.scrollShouldReattach()) {
-          scrollLive = true;
-          app.trigger("transcript:scrollAttach", {}); // So other modules like nav can respond accordingly
-        }
-        else if(scrollLive && !this.scrollShouldReattach()) {
-          $("body").stop(); // Stop any scroll animation in progress
-          scrollLive = false;
-          app.trigger("transcript:scrollDetach", {});
-        }
-      }
 
       // Figure out which word is at the bottom of the screen and fire an event with that word's timediff
       // Also perform per-paragraph culling (hide paragraphs that aren't visible)

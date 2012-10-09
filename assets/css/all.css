@@ -250,20 +250,60 @@ hr {
 }
 
 #navRight {
-	position: relative;
+	position: fixed !important;
+	right:-166px !important;
 	height: 48px;
+	width:350px;
 	z-index:6000;
 
-	transform:rotate(90deg);
-	-ms-transform:rotate(90deg); /* IE 9 */
-	-moz-transform:rotate(90deg); /* Firefox */
-	-webkit-transform:rotate(90deg); /* Safari and Chrome */
-	-o-transform:rotate(90deg); /* Opera */
+	transform:rotate(-90deg);
+	-ms-transform:rotate(-90deg); /* IE 9 */
+	-moz-transform:rotate(-90deg); /* Firefox */
+	-webkit-transform:rotate(-90deg); /* Safari and Chrome */
+	-o-transform:rotate(-90deg); /* Opera */
 	
 	-webkit-transition: -webkit-transform 1s;	
 	
-  top: 545px;
-  float: right;
+
+	bottom: 20%;
+	font-size:20px;
+	text-transform:uppercase; 
+	float:right;
+	
+}
+
+
+
+#navTranscriptButton{
+	display:inline-block;
+	padding: 5px;
+	}
+
+
+#navComparisonButton{
+	display:inline-block;
+	margin-top:-40px;
+	/*margin-left: 10px;*/
+	padding: 5px;
+
+	
+}
+
+#navComparisonButton .active{
+  -webkit-transition:  1s linear; 
+  transition:  1s linear; 
+  opacity: .5 !important;
+	
+	
+}
+
+
+#navTranscriptButton .active{
+  -webkit-transition:  1s linear; 
+  transition:  1s linear; 
+  opacity: .5 !important;
+	
+	
 }
 
 /* White box inside #navigation div */

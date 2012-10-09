@@ -23,11 +23,14 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
   var Router = Backbone.Router.extend({
     routes: {
       // Get access to arguments.
+      "": "index",
       ":args": "index"
     },
 
     index: function() {
-	    
+      var $body = $(document.body);
+      app.useLayout("main").render();
+
 	    // Init msg collection.
 			var messageCollection = new Message.Collection();
 			
@@ -62,7 +65,6 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 			// Pass landing view to navigation for menu control.
 			navigationView.setLanding(landingView);
 		  
-			var live = true;
 			var startTime = new Date().getTime();
     	    	      
       // Init comparison collection.
@@ -119,7 +121,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	    
 	    // Testing playback (delay is how long to wait after start of connect to server).
 	    if (this.qs.playback) {
-	    	live = false;
+	    	app.live = false;
 	    	setTimeout(function() {
 	    		console.log("play "+messageCollection.length);
 	    		messageCollection.each(function(msg) {
@@ -128,16 +130,14 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	    	}, parseFloat(this.qs.playbackDelay, 100));
 	    }
 
-
-      app.useLayout("main").setViews({
-      }).render();
-
 			// EG Hack to fix loading race condition. calling render().then(... wasn't working above.
 			// I'm sure there's a less stupid way to do this.
-      window.setTimeout(function() {	
-      
-	      landingView.setElement("#landing").render();
-	      navigationView.setElement("#navigation").render();
+      //window.setTimeout(function() {	
+      // Yup, there is!
+      landingView.setElement("#landing").render();
+
+      //app.on("ready", function() {
+        navigationView.setElement("#navigation").render();
 	      comparisonView.setElement("#comparisons > .wrapper").render();
 	     	transcriptView.setElement("#transcript > .wrapper"); // Need transcript to point to the actual scrolling DOM element or else scroll event handling is wack
 	     	bigWordsView.setElement("#bigWords").render();
@@ -158,6 +158,12 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
             transcript.scrollTop = dist;
             transcript.addClass("fade");
             comparisons.addClass("active");
+
+            // Disable scrolling on the document body and save the current
+            // offset (to be restored when closing the comparison view)
+            $body.addClass("no-scroll");
+            transcript.data("lastTop", $body.scrollTop());
+
             var elt = $('#comparisons').find('.compareContainer.'+event.data.tag).parent();
             $("#comparisons > .wrapper").stop().animate({ scrollTop: elt.position().top}, 1.0);
           };
@@ -166,6 +172,11 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           	app.mode = "transcript";
             transcript.removeClass("fade");
             comparisons.removeClass("active");
+
+            // Re-enable scrolling on the document body and restore the
+            // previous offset
+            $body.removeClass("no-scroll");
+            $body.scrollTop(transcript.data("lastTop"));
           }
           
           var closeCatLays = function() {
@@ -213,34 +224,11 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           comparisons.on("click", exitComp);
           
         })();
-      }, 50);
+      //});
      
 			// EG Again, stupid hack to fix loading. This seems to work, though: basically, wait until the DOM elements have been set to fire up events. 
       window.setTimeout(function() {
-	      // WEBSOCKET MESSAGE EVENTS
-	      // ----------------------------------------------------------------------
-	      app.socket.on("stats", function(msg) {    
-	      	app.trigger("message:stats", {msg:msg});
-	      });
-	      
-	      app.socket.on("word", function(msg) {    
-	      	app.trigger("message:word", {msg:msg,live:live});
-	      });
-	
-	      app.socket.on("newNGram", function(msg) {  
-	      	app.trigger("message:newNGram", {msg:msg,live:live});   
-	      });
-	      app.socket.on("sentenceEnd", function(msg) {  
-	      	app.trigger("message:sentenceEnd", {msg:msg,live:live});   
-	      });
-	
-	      app.socket.on("transcriptDone", function(msg) {   
-	      	app.trigger("message:transcriptDone", {msg:msg,live:live});
-		    	live = false;
-	      	console.log("transcriptDone");
-	      });
-	
-	      app.socket.on("close", function() {
+	      app.on("close", function() {
 	        console.error("Closed");
 	      });
       }, 100);
@@ -290,7 +278,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
       var keyboardEnabled = true;	
       
       if(keyboardEnabled){
-	      $('body').keydown(function(event){
+	      $body.keydown(function(event){
 	      	console.log(event.which);
 	      	//g for toggling test grid
 	      	if(event.which == 71){
@@ -338,6 +326,16 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 						}
 					}
 					
+					else if (event.which==77) //m
+					{
+						app.trigger("keypress:test", {type:"overlay", kind:"traitObama"});
+					}
+					
+					else if (event.which==78) //n
+					{
+						app.trigger("keypress:test", {type:"overlay", kind:"traitRomney"});
+					}
+					
 	      });      
       }
       
@@ -349,6 +347,59 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
     },
     
     initialize: function() {
+      var updateBar = function() {
+        var percs = [0, 0];
+
+        return function(perc, i) {
+          percs[i] = perc;
+
+          window.setTimeout(function() {
+            var hr = document.querySelector(".landingRule.gray60");
+            var total = percs[0] + percs[1];
+
+            if (hr) {
+              hr.style.background = "-webkit-linear-gradient(left, rgb(207, 255, 36) " +
+                total + "%, rgb(76,76,76) " + (total+1) + "%)";
+            }
+          }, 100);
+        };
+      }();
+
+      // XHR.
+      var messages = new XMLHttpRequest();
+      var markup = new XMLHttpRequest();
+
+      // Opens.
+      messages.open("GET", "/messages/whateva", true);
+      markup.open("GET", "/markup/whateva", true);
+
+      // Prog rock.
+      messages.onprogress = function(e) {
+        updateBar(Math.ceil((e.loaded/e.total) * 50), 0);
+      };
+      markup.onprogress = function(e) {
+        updateBar(Math.ceil((e.loaded/e.total) * 50), 1);
+      };
+
+      // Lobes.
+      messages.onload = function() {
+        var contents = "[" +
+          messages.responseText.split("\n").slice(0, -1).join(",") +
+        "]";
+
+        app.messages["0"] = new Message.Collection(JSON.parse(contents));
+        updateBar(50, 0);
+      };
+
+      markup.onload = function() {
+        app.markup = markup.responseText;
+        updateBar(50, 1);
+      };
+
+      // Send!
+      messages.send();
+      markup.send();
+
       // Cache the querystring lookup.
       var querystring = location.search.slice(1);
 

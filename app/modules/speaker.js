@@ -27,7 +27,12 @@ function(app) {
   			longestSentence: "",
   			curSentence: "",
   			traits: [{name: "posemo", val: 0},
-  							 {name: "negemo", val: 0}],
+  							 {name: "negemo", val: 0},
+  							 {name: "anger", val: 0},
+  							 {name: "complexity", val: 0},
+  							 {name: "formality", val: 0},
+  							 {name: "depression", val: 0},
+  							 {name: "honesty", val: 0},],
   			wordProps: []	// Reuseable array for handleWord()
   		}
   	},
@@ -129,12 +134,15 @@ function(app) {
     
     leads: [],
     sentenceLeadLead: -1,
+    curTrait: 0,
     
     initialize: function() {
     	this.on("add", this.modelAdded, this);
     	app.on("message:stats", this.setCompareTraits, this);
     	var coll = this;
-    	setInterval(function(){coll.sendRandomTraitLeader();}, 10000);
+    	//Tune this to 5 minutes
+    	var superlativeMins = 5;
+    	setInterval(function(){coll.sendRandomTraitLeader();}, superlativeMins*60000);
     },
     
     cleanup: function() {
@@ -160,10 +168,13 @@ function(app) {
         
     setCompareTraits: function() {
     	var collection = this;
-	  	setTimeout(function() {collection.compareTraits();}, 1000); // wait a second for speakers to update first
+	  	setTimeout(function() {collection.compareTraits();}, 5000); // wait a second for speakers to update first
     },
     
     compareTraits: function() {
+    
+    	
+    	
     	var newLeads = [];
     
     	for (var i=0; i<this.at(1).get("traits").length; i++) {
@@ -173,8 +184,11 @@ function(app) {
 		    newLeads.push(newLead);
 		    
  		    if (newLead != this.leads[i]) {
-		    //	console.log("newLead "+newLead+" "+this.at(1).get("traits")[i]['name']);
-		    	app.trigger("markup", {type:"traitLead", speaker:newLead, trait:this.at(1).get("traits")[i]['name'], new:true});
+		    	//console.log("newLead "+newLead+" "+this.at(1).get("traits")[i]['name']);
+		    	
+		    	//JRO commented this out, because at the rate we're sampling the data isn't good
+		    	//app.trigger("markup", {type:"traitLead", speaker:newLead, trait:this.at(1).get("traits")[i]['name'], new:true});
+		    	
 		    	//console.log("new lead "+newLead+" "+this.at(1).get("traits")[i]['name']);
 		    }
 		    //else console.log("oldLead "+this.leads[i]+" "+this.at(1).get("traits")[i]['name']);
@@ -183,11 +197,16 @@ function(app) {
 	    }
 	    
 	    this.leads = newLeads;
+	    
     },
     
     sendRandomTraitLeader: function() {
 	    if (this.leads.length > 0) {
-		    var t = Math.floor(Math.random()*this.leads.length);
+		    
+		    //var t = Math.floor(Math.random()*this.leads.length);
+		    this.curTrait = (this.curTrait + 1)%this.leads.length;
+		    var t = this.curTrait;
+		    
 		    var leader = (this.at(1).get("traits")[t]['val'] > this.at(2).get("traits")[t]['val']) ? 1 : 2;
 		    app.trigger("markup", {type:"traitLead", speaker:leader, trait:this.at(1).get("traits")[t]['name'], new:false});
 		    //console.log("old lead "+leader+" "+this.at(1).get("traits")[t]['name']);

@@ -32,9 +32,6 @@ function(app, Overlay, Ref) {
   
   var extraNumberWords = ['on', 'of', 'a', 'to', 'the', 'Of', 'The', 'A', 'To', 'and'];
 
-  // Store top + bottom positions of paragraphs so they don't need to be recalculated all the time
-  var paragraphPropertyCache = [];
-
   // Default model.
   Transcript.Model = Backbone.Model.extend({
   		
@@ -73,7 +70,8 @@ function(app, Overlay, Ref) {
     },
 
     addWord: function(args) {
-    	//console.log("transcript.addWord("+args['msg']['word']+")");
+      if (args.msg.type === "word" && app.restore) { return; }
+     // console.log("transcript.addWord("+args['msg']['word']+")");
 	    var word = args['msg'];
 	    
 	    // Add word to speakers, which returns an array of any special events triggered by the word.

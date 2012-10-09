@@ -7,26 +7,31 @@ require([
 ],
 
 function(app, Router) {
+  function handleMessage(msg) {
+    // Trigger the message.
+    app.trigger("message:" + msg.type, { msg: msg, live: app.live }); 
 
+    if (msg.type === "transcriptDone") {
+      app.live = false;
+    }
+  }
 
   // Wait until the socket has been opened, before routing.
   app.socket.on("open", function() {
     // Wait for messages and respond to them.
     app.socket.on("message", function(msg) {
-			//console.log("msg - "+msg);
-      msg = JSON.parse(msg);
-   
-      app.socket.emit(msg.type, msg); 
+      // Hey kid, rock and roll.
+      handleMessage(JSON.parse(msg));
     });
-
-    // Define your master router on the application namespace and trigger all
-    // navigation from this instance.
-    app.router = new Router();
-
-    // Trigger the initial route and enable HTML5 History API support, set the
-    // root folder to '/' by default.  Change in app.js.
-    Backbone.history.start({ pushState: true, root: app.root });
   });
+
+  // Define your master router on the application namespace and trigger all
+  // navigation from this instance.
+  app.router = new Router();
+
+  // Trigger the initial route and enable HTML5 History API support, set the
+  // root folder to '/' by default.  Change in app.js.
+  Backbone.history.start({ pushState: true, root: app.root });
 
   // All navigation that is relative should be passed through the navigate
   // method, to be processed by the router. If the link has a `data-bypass`

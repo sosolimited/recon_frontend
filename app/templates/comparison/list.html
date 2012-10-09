@@ -1,28 +1,28 @@
 <div class="compareContainer list" data-<%= (scrollY-scrollDet-scrollD) %>="top:100%;" data-<%= (scrollY-scrollDet) %>="top:0%;" data-<%= (scrollY+scrollDet) %>="top:0%;" data-<%= (scrollY+scrollDet+scrollD) %>="top:-300%;">
 
 		
-	<p class="franklinMedCompIt comparisonTitle <%=comparison.get("color1").toLowerCase()%> " comparisonExpText"> <%= comparison.get("title") %> </p>
+	<p class="franklinMedCompIt comparisonTitle <%=comparison.get("color1").toLowerCase()%> comparisonExpText" > <%= comparison.get("title") %> </p>
 	<hr class="bg<%=comparison.get("color1")%>"" style="height:3px"/>
-	<p class="franklinBookComp <%=comparison.get("color1").toLowerCase()%> comparisonSubtitle"><%= comparison.get("subtitle") %></p>
+	<p class="franklinBookComp <%=comparison.get("color1").toLowerCase()%> comparisonSubtitle" data-<%= (scrollY-scrollDet-scrollD) %>="left:-1000px;" data-<%= (scrollY-scrollDet) %>="left:0px;" data-<%= (scrollY+scrollDet) %>="left:0px;" data-<%= (scrollY+scrollDet+scrollD) %>="left:-1000px;"><%= comparison.get("subtitle") %></p>
 		
 	<!-- Obama top 20 -->					
 	<div class="push-0" style="position:absolute;">
-	<span class="comparisonListCandidate grayBlue franklinDemiCompIt" > <br>Obama <br></span>
+	<span class="comparisonListCandidate grayBlue franklinDemiCompIt" data-<%= (scrollY-scrollDet-scrollD) %>="left:-600px;" data-<%= (scrollY-scrollDet) %>="left:0px;" data-<%= (scrollY+scrollDet) %>="left:0px;" data-<%= (scrollY+scrollDet+scrollD) %>="left:-600px;" > <br>Obama <br></span>
 	<hr class="bgGrayBlue span-2" style="height:3px"/>  	
 
 	<% for (var i = 0 ; i < 20 ; i++) {%>
-		<span class="comparisonListWord gray80 franklinDemiComp"><%=comparison.get("obamaList")[i]%> </span><span class="comparisonListValue <%=comparison.get("color1").toLowerCase()%> franklinBookComp"><sup><%=comparison.get("obamaValues")[i] %> </sup><br></span>
+		<span class="comparisonListWord gray80 franklinDemiComp" data-<%= (scrollY-scrollDet-scrollD) %>="margin-left:<%=-(400+i*50)%>px;" data-<%= (scrollY-scrollDet) %>="margin-left:0px;" data-<%= (scrollY+scrollDet) %>="margin-left:0px;" data-<%= (scrollY+scrollDet+scrollD) %>="margin-left:<%=-(400+i*50)%>px;"><%=comparison.get("obamaList")[i]%> </span><span class="comparisonListValue <%=comparison.get("color1").toLowerCase()%> franklinBookComp"><sup><%=comparison.get("obamaValues")[i] %> </sup><br></span>
 	<% } %>	
 
 	</div>
 	
 	<!-- Romney top 20 -->					
 	<div class="push-3" style="position:absolute;">
-	<span class="comparisonListCandidate grayBlue franklinDemiCompIt" > <br>Romney<br> </span> 
+	<span class="comparisonListCandidate grayBlue franklinDemiCompIt" data-<%= (scrollY-scrollDet-scrollD) %>="left:600px;" data-<%= (scrollY-scrollDet) %>="left:0px;" data-<%= (scrollY+scrollDet) %>="left:0px;" data-<%= (scrollY+scrollDet+scrollD) %>="left:600px;"> <br>Romney<br> </span> 
 	<hr class="bgGrayBlue span-2" style="height:3px"/> 
 	
 	<% for (var i = 0 ; i < 20 ; i++) {%>
-		<span class="comparisonListWord gray80 franklinDemiComp"><%=comparison.get("romneyList")[i]%> </span><span class="comparisonListValue <%=comparison.get("color1").toLowerCase()%> franklinBookComp"> <sup><%=comparison.get("romneyValues")[i] %> </sup><br></span>
+		<span class="comparisonListWord gray80 franklinDemiComp" data-<%= (scrollY-scrollDet-scrollD) %>="margin-left:<%=(400+i*50)%>px;" data-<%= (scrollY-scrollDet) %>="margin-left:0px;" data-<%= (scrollY+scrollDet) %>="margin-left:0px;" data-<%= (scrollY+scrollDet+scrollD) %>="margin-left:<%=(400+i*50)%>px;"><%=comparison.get("romneyList")[i]%> </span><span class="comparisonListValue <%=comparison.get("color1").toLowerCase()%> franklinBookComp"> <sup><%=comparison.get("romneyValues")[i] %> </sup><br></span>
 	<% } %>				
 	</div>
 					

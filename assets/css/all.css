@@ -152,7 +152,7 @@ h1:hover { /* Speaker names */
 }
 
 .transcriptSpeaker:hover {
-	color:rgb(255, 66, 55);
+	color:rgb(60,60,60);
 }
 
 
@@ -726,7 +726,7 @@ landingTitleImage {
 	-webkit-transform: translateZ(0px);	*/
   z-index: 10;
   text-transform: uppercase;
-  -webkit-transition: margin-left 1s, margin 1s;
+  -webkit-transition: left 1s;
 }
 
 .certainMarkup:hover{

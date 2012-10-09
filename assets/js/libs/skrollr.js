@@ -1044,8 +1044,18 @@
 			]
 		};
 	*/
-	var _skrollables = [];
-
+	
+	//var _skrollables = [];
+	// SOSO Adding support for two groups of skrollables, based on the current _skrollElement.
+	var _docSkrollables = [];
+	var _elSkrollables = [];
+	var _skrollables = _docSkrollables;
+	
+	// SOSO Adding ability to scroll off of another element.
+	var _skrollElement = null;
+	
+	
+	
 	var _listeners;
 	var _forceHeight;
 	var _maxKeyFrame = 0;
@@ -1078,9 +1088,6 @@
 	//The ID is the index in the _skrollables array.
 	var _skrollableIdCounter = 0;
 
-	// SOSO Adding ability to scroll off of another element.
-	var _skrollElement = null;
-	
 	/*
 	 * Global api.
 	 */

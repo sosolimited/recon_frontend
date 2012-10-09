@@ -139,7 +139,7 @@ function(app, Ref) {
     	// Add to skrollr mangr.
 	    this.$el.find('.compareContainer').each(function(){
 		  	app.skrollr.refresh(this);
-	    });	    
+	    });
     }
     
   });
@@ -170,10 +170,11 @@ function(app, Ref) {
     },
     
     afterRender: function() {
+
 	    // Add to skrollr mangr.
 	    this.$el.find('.compareContainer').each(function(){
 		  	app.skrollr.refresh(this);
-	    });	    
+	    });
 	    
     	/*
     	$(this).children(".className").each(function () { 
@@ -306,10 +307,11 @@ function(app, Ref) {
     },
     
     afterRender: function() {
+
     	// Add to skrollr mangr.
 	    this.$el.find('.compareContainer').each(function(){
 		  	app.skrollr.refresh(this);
-	    });	    
+	    });
     }
     
   });
@@ -338,7 +340,6 @@ function(app, Ref) {
   		  rList[i] = this.get('uniqueWords').getTopPhrases(2)[i]['phrase'];
   		  oVals[i] = this.get('uniqueWords').getTopPhrases(1)[i]['count'];
   		  rVals[i] = this.get('uniqueWords').getTopPhrases(2)[i]['count'];
-  		  
   		}
   	
 	  	this.set({obamaList: oList, romneyList: rList, obamaValues: oVals, romneyValues: rVals});
@@ -368,6 +369,18 @@ function(app, Ref) {
 	    this.$el.find('.compareContainer').each(function(){
 		  	app.skrollr.refresh(this);
 	    });	    
+	    /*
+	    this.$el.find('.comparisonListWord').each(function(){
+		  	app.skrollr.refresh(this);
+	    });
+	    this.$el.find('.comparisonListCandidate').each(function(){
+		  	app.skrollr.refresh(this);
+	    });	    
+	    this.$el.find('.comparisonSubtitle').each(function(){
+		  	app.skrollr.refresh(this);
+	    });	    
+	    */
+	    
     }    
   });
 

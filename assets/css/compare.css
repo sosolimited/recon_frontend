@@ -66,6 +66,7 @@ height:1200px;
 }
 
 .comparisonListCandidate {
+	position: relative;
 	font-size: 48px;
 	line-height:60px;
 

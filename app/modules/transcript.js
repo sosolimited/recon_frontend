@@ -165,7 +165,8 @@ function(app, Overlay, Ref) {
     	if(!this.numberOpen && (curSpeaker==1 || curSpeaker==2)){    	
     		
         // Check for quotes.
-    		if ($.inArray('hear', word['cats']) != -1) { 
+        //console.log(word['word']  + ": " + word['cats']);
+    		if ($.inArray('say', word['cats']) != -1) { // TODO: Change this to 'say' cat once we're sure it's working everywhere 
 	        // Go back a word and pull it into this phrase.
 	        var cS = $('#curSentence');
 	        var cSHTML = cS.html();
@@ -179,7 +180,7 @@ function(app, Overlay, Ref) {
 	
 	        var quotePhrase = newSpan.text();
 	
-	        console.log("QUOTE: " + quotePhrase);
+	        //console.log("QUOTE: " + quotePhrase);
 	        
 		    	app.trigger("markup", {type:'quoteMarkup', phrase:quotePhrase, speaker:word['speaker'], anchor:newSpan.offset()});
 	    	}
@@ -374,7 +375,7 @@ function(app, Overlay, Ref) {
 	     	 }
 	     	 // Quotation markup.
 	     	 else if($(this).hasClass("quoteMarkup")){
-	     	 		$(this).css("color", "rgb(124,51,64)");	    	    		
+	     	 		$(this).css("background-color", "rgb(48,179,228)");	    	    		
 	     	 }         
 	     	 // Frequent word markup.
 	     	 else if($(this).hasClass("frequentWordMarkup")){

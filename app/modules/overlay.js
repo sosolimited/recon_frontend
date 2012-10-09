@@ -335,7 +335,7 @@ function(app, Ref) {
 		},
 		
 		serialize: function() {
-				return { speaker: this.speaker, phrase: this.phrase, posY: this.anchor.top + Ref.overlayEnterY, grid: Ref.gridColumns};
+				return { speaker: this.speaker, phrase: this.phrase, posY: this.anchor.top, anchor: this.anchor, grid: Ref.gridColumns};
 		},
 		
 		expand: function() {
@@ -347,16 +347,19 @@ function(app, Ref) {
       var quoteHeight = this.$el.find('.quotePhrase').height();
      
     	this.$el.find('.quotePhrase').each(function(i){ 
-          window.setTimeout(function() { thisView.speaker == 1 ? $(this).css("left",Ref.gridColumns[0]) : $(this).css("left",Ref.gridColumns[1]); }, 1, this);
+          window.setTimeout(function() {
+            thisView.speaker == 1 ? $(this).css("left",Ref.gridColumns[0]) : $(this).css("left",Ref.gridColumns[1]);
+            $(this).css("top", "-=" + (quoteHeight+100) + "px");
+          }, 1, this);
     	});
     	this.$el.find('.quoteLeftQuote').each(function(i){ 
-          window.setTimeout(function() { $(this).css("left", (thisView.speaker == 1 ? Ref.gridColumns[0] : Ref.gridColumns[1]) - 180); }, 1, this);
-          $(this).css("top", "-=180px");
+          window.setTimeout(function() { $(this).css("left", (thisView.speaker == 1 ? Ref.gridColumns[0] : Ref.gridColumns[2])); }, 1, this);
+          //$(this).css("top", "-=180px");
     	});
     	this.$el.find('.quoteRightQuote').each(function(i){ 
           window.setTimeout(function() {
-            $(this).css("left", (thisView.speaker == 1 ? Ref.gridColumns[0] : Ref.gridColumns[1]) + 900);
-            $(this).css("top", "+=" + (quoteHeight - 240) + "px");
+            $(this).css("left", (thisView.speaker == 1 ? Ref.gridColumns[4] : Ref.gridColumns[6]));
+            //$(this).css("top", "+=" + (quoteHeight - 240) + "px");
           }, 1, this);
     	});
       
@@ -382,15 +385,15 @@ function(app, Ref) {
     	});
       this.$el.find('.quoteLeftQuote').each(function(i){ 
 	      if (force) $(this).css('-webkit-transition', '0s');
-        $(this).css("font-size","80px");
+        $(this).css("font-size","180px");
         $(this).css("top", (_posY - 60) + 'px');  // Center on line
-        $(this).css("left", (Ref.gridColumns[(sp == 1 ? 4 : 2)] - 40) + 'px');
+        $(this).css("left", (Ref.gridColumns[(sp == 1 ? 0 : 1)]) + 'px');
     	});  		   
       this.$el.find('.quoteRightQuote').each(function(i){   
 	      if (force) $(this).css('-webkit-transition', '0s');
-        $(this).css("font-size","80px");
-        $(this).css("top", (_posY - 18) + 'px');  // Center on linea
-        $(this).css("left", (Ref.gridColumns[(sp == 1 ? 4 : 2)] + Ref.gridWidth) + 'px');
+        $(this).css("font-size","180px");
+        $(this).css("top", (_posY - 38) + 'px');  // Center on linea
+        $(this).css("left", (Ref.gridColumns[(sp == 1 ? 0 : 1)] + 70) + 'px');
     	});  		   
       
     	

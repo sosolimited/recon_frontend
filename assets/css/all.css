@@ -932,8 +932,8 @@ landingTitleImage {
 .quotePhrase {
 	position:absolute; 
 	overflow: visible;
-  width: 605px;
-  font-size: 240px;
+  width: 908px;
+  font-size: 360px;
   line-height: .75em;
 	margin: 0px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
@@ -949,7 +949,7 @@ landingTitleImage {
 .quoteLeftQuote, .quoteRightQuote {
   position: absolute;
   font-size: 400px;
-  color: rgb(124,51,64);
+  color: rgb(48,179,228);
   -webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
   z-index: 0;
 }
@@ -970,7 +970,7 @@ landingTitleImage {
   font-size: 72px;
   line-height: 0.75em;
   opacity: 0;
-  z-index: 3;
+  z-index: 2;
   -webkit-transition: opacity 1s;
 }
 
@@ -1059,7 +1059,7 @@ landingTitleImage {
 
 .moderator {
 	width: 400px;
-	padding-left:400px;
+	padding-l?eft:400px;
 	display: block;
 	color: gray;
 }

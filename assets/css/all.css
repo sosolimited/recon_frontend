@@ -5,7 +5,6 @@ body {
   background-color: rgb(140,146,146);	 
   background-image: url('../../images/background-tex.jpg');
   background-repeat: repeat; *;
-
   overflow-y: scroll;	
   overflow-x: hidden;	/* not working! */
   cursor: default;
@@ -173,11 +172,21 @@ p { /* Transcript text */
 }
 
 .fade {
+  /*
   -webkit-transform: scale(.4);
   opacity: .5;
+  
   top: -75%;
   height: 250%;
+  */
 }
+
+/* EG Just to initialize it to hidden */
+/* 
+#comparisons {
+	display: none;
+}
+*/
 
 #comparisons .active {
   z-index: 5000;
@@ -186,14 +195,18 @@ p { /* Transcript text */
 #comparisons .active.wrapper {
   /*-webkit-transform: scale(1);
   transform: scale(1);*/
-  opacity: 1.0 !important;
+  /* opacity: 1.0 !important; */
 }
  
 #comparisons .wrapper {
+  /*
   -webkit-transition:  1s linear; 
   transition:  1s linear; 
-  opacity: 0 !important;
+  */
+  /* opacity: 0 !important; */
   position: fixed;
+  
+  display: none;	/* EG Init state */
   
   /*-webkit-transform: scale(0);
   transform: scale(0);*/
@@ -255,7 +268,7 @@ hr {
 }
 #navProgressBar {
   height: 16px;
-  background-color: rgb(64, 180, 230);	
+  background-color: rgb(60,60,60);	/* rgb(64, 180, 230);	*/
  /* yellow background-color: rgb(207, 255, 36);*/
   width: 0px;
   z-index: 0;

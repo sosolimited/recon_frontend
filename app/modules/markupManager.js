@@ -166,7 +166,6 @@ function(app, Overlay, Ref) {
       this.get("overlays").push(numbersOverlay);			
 	  },
 	  
-	  
 	  // reusable overlays
 	  openCatOverlay: function(cat, delay) {
 	  	var lay = this.get("catOverlays")[cat];

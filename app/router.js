@@ -158,6 +158,9 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
             transcript.scrollTop = dist;
             transcript.addClass("fade");
             comparisons.addClass("active");
+            // EG Testing this for performance
+            $('#comparisons > .wrapper').css("display", "block");
+            $('#transcript > .wrapper').css("display", "none");
 
             // Disable scrolling on the document body and save the current
             // offset (to be restored when closing the comparison view)
@@ -175,14 +178,17 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           	app.mode = "transcript";
             transcript.removeClass("fade");
             comparisons.removeClass("active");
-
-
-            // Switch skrollr scroll element back to body.
-						app.skrollr.resetSkrollElement();
+            // EG Testing this for performance
+            $('#comparisons > .wrapper').css("display", "none");
+            $('#transcript > .wrapper').css("display", "block");
+            
             // Re-enable scrolling on the document body and restore the
             // previous offset
             $body.removeClass("no-scroll");
             $body.scrollTop(transcript.data("lastTop"));
+            
+            // Switch skrollr scroll element back to body.
+						app.skrollr.resetSkrollElement();
           }
           
           var closeCatLays = function() {

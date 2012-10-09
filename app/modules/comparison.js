@@ -39,7 +39,6 @@ function(app, Ref) {
   		app.on("message:stats", this.updateStats, this);
   		
   		this.setValues(options);
-  		
   	},
   	
   	cleanup: function() {
@@ -170,12 +169,11 @@ function(app, Ref) {
     },
     
     afterRender: function() {
-
 	    // Add to skrollr mangr.
 	    this.$el.find('.compareContainer').each(function(){
 		  	app.skrollr.refresh(this);
 	    });
-	    
+	  	    
     	/*
     	$(this).children(".className").each(function () { 
     	
@@ -284,7 +282,6 @@ function(app, Ref) {
   			this.set({wc:[ val1, val2] });
    			//console.log("speaker[2] wc = " + val2); 			
   			//console.log("wc[1] ++");
-	
   		}	
   	}
 
@@ -307,12 +304,11 @@ function(app, Ref) {
     },
     
     afterRender: function() {
-
-    	// Add to skrollr mangr.
+	   	// Add to skrollr mangr.
 	    this.$el.find('.compareContainer').each(function(){
 		  	app.skrollr.refresh(this);
 	    });
-    }
+	  }
     
   });
 
@@ -365,7 +361,7 @@ function(app, Ref) {
 	  },
 	 
 	  afterRender: function() {
-    	// Add to skrollr mangr.
+	  	// Add to skrollr mangr.
 	    this.$el.find('.compareContainer').each(function(){
 		  	app.skrollr.refresh(this);
 	    });	    

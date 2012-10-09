@@ -22,7 +22,10 @@ function(app, Ref) {
 			this.forceCollapse = this.options.forceCollapse;
 			this.trait = this.options.trait;
 			this.leader = this.options.leader;
-			this.moreVal = this.options.moreVal; 
+			this.moreVal = this.options.moreVal;
+			
+			this.aVal = '>'; 
+			if (this.options.moreVal == 'LESS') this.aVal = '<';
 
 			this.posY = this.options.posY;
 			//all durations in milliseconds	
@@ -38,7 +41,7 @@ function(app, Ref) {
 		},	
 		 
 		serialize: function() {
-      return { trait: this.trait, leader: this.leader, trailer: this.trailer, startPosY: this.posY-96, moreVal: this.moreVal };
+      return { trait: this.trait, leader: this.leader, trailer: this.trailer, startPosY: this.posY-96, moreVal: this.moreVal, aVal: this.aVal };
     },
 
     expand: function() {
@@ -50,11 +53,11 @@ function(app, Ref) {
     	}); 	
     	//Slide big arrow in.    
     	this.$el.find('.traitSymbolLeft').each(function(){
-	    		$(this).animate({left:Ref.gridColumns[4]+'px'}, 1000);
+	    		$(this).animate({left:Ref.gridColumns[1]+'px'}, 1000);
     	});
   
     	this.$el.find('.traitSymbolRight').each(function(){
-	    		$(this).animate({left:Ref.gridColumns[1]+'px'}, 1000);
+	    		$(this).animate({left:Ref.gridColumns[5]+'px'}, 1000);
     	});
     
     	//Sit for holdDur, then collapse.
@@ -78,7 +81,7 @@ function(app, Ref) {
      		
      		//else $(this).animate({'left':Ref.gridColumns[0], 'top':y+i*24+'px', 'height':'24px'}, collapseD);
     		//$(this).animate({'-webkit-transform':'translateZ(1000px)'}, collapseD);   	//Move div forward in Z.	
-    		this.style.webkitTransform = "translateZ(500px)";	//We're using CSS transitions to animate this.
+    		//this.style.webkitTransform = "translateZ(500px)";	//We're using CSS transitions to animate this.
     	
     	});
     	//Shrink and position big arrow.

@@ -23,6 +23,11 @@ function(app, Overlay, Ref) {
   var energyBurstThreshold = 2; // Sum of recent energies must be above this to trigger an energy burst
   var energyBurstWindow = 3;    // Number of recent sentences to look at for calculating an energy burst
 
+  var recentPositiveWords = [];
+  var recentNegativeWords = [];
+  var emoWordsWindow = 38;   // 50
+  var emoWordsThreshold = 3; // 4
+
   var oldScrollTop = 0;
   var oldWindowHeight = 0;
   
@@ -87,7 +92,10 @@ function(app, Overlay, Ref) {
 	    //console.log("addWord...");
 	    //for(var i=0; i<wordProps.length; i++) console.log(wordProps[i]);
 	        
-	    // Add to transcript.
+	    var positiveWord = false;
+      var negativeWord = false;
+
+      // Add to transcript.
 	    // ---------------------------------------------------------------------
     	var s = "";
 
@@ -98,13 +106,22 @@ function(app, Overlay, Ref) {
     			
     		// emit message to add chapter marker
     		app.trigger("playback:addChapter", {msg:word});
+    		app.trigger("transcript:speakerSwitch", {speaker: curSpeaker});
 
         this.startParagraph(word);
         
         // Clear sentiment running total
-        for(var i=0; i<recentPositiveEnergy.length; i++) {
-          recentPositiveEnergy[i] = 0;
-          recentNegativeEnergy[i] = 0;
+        if(Ref.useSentistrengthBurst) {
+          for(var i=0; i<recentPositiveEnergy.length; i++) {
+            recentPositiveEnergy[i] = 0;
+            recentNegativeEnergy[i] = 0;
+          }
+        }
+        else {
+          for(var i=0; i<recentPositiveWords.length; i++) {
+            recentPositiveWords[i] = 0;
+            recentNegativeWords[i] = 0;
+          }
         }
     	}
     	
@@ -143,10 +160,11 @@ function(app, Overlay, Ref) {
     	
     	var top20Count = 0;
     	// Only do other markup if a number phrase isn't open, and only if obama or romney are speaking
+      //console.log(word['word'] + ": " + word['cats']);
+      /*
     	if(!this.numberOpen && (curSpeaker==1 || curSpeaker==2)){    	
     		// Check for quotes.
-    		/*	// EG TEMP for debate 1
-    		if ($.inArray('say', word['cats']) != -1) { 
+    		if ($.inArray('hear', word['cats']) != -1) { 
 	        // Go back a word and pull it into this phrase.
 	        var cS = $('#curSentence');
 	        var cSHTML = cS.html();
@@ -164,8 +182,9 @@ function(app, Overlay, Ref) {
 	        
 		    	app.trigger("markup", {type:'quoteMarkup', phrase:quotePhrase, speaker:word['speaker'], anchor:newSpan.offset()});
 	    	}
-	    	*/
-		  	// Check for any special events returned by speaker.addWord() and add word to DOM with appropriate markup.
+        */
+		  	
+        // Check for any special events returned by speaker.addWord() and add word to DOM with appropriate markup.
 		    if(wordProps.length > 0){
 		    	// For now, just grab whatever the first one is and apply it.
 		    	// Note: Class name is just whatever the 'type' of the arg is, so endSentence() down below has to match these class names. 
@@ -184,10 +203,12 @@ function(app, Overlay, Ref) {
 		  	else if ($.inArray('posemo', word['cats']) != -1) {
 		  		 //app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
 		  		 $('#curSentence').append(s+"<span class='catMarkup posemoMarkup transcriptWord'>"+word["word"]+"</span>"); 
+           positiveWord = true;
 		  	}
-		  	else if ($.inArray('negemo', word['cats']) != -1) {
+		  	else if ($.inArray('negemo', word['cats']) != -1 || (!Ref.useSentistrengthBurst && $.inArray('negate', word['cats']) != -1)) {
 		  		 //app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
 		  		 $('#curSentence').append(s+"<span class='catMarkup negemoMarkup transcriptWord'>"+word["word"]+"</span>"); 
+           negativeWord = true;
 		  	}		  	
 		  	else if ($.inArray('certain', word['cats']) != -1) {
 		  		 //app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
@@ -270,6 +291,46 @@ function(app, Overlay, Ref) {
       }
       //$('#curSentence').css("margin-bottom", $('#curSentence').height() - Ref.overlayOffsetY);
       
+      // Calculate recent positive/negative word count, trigger burst if appropriate
+      // ---------------------------------------------------------------------------
+      // Shift values back, calculate recent total
+      if(!Ref.useSentistrengthBurst && args && (curSpeaker==1 || curSpeaker==2)) {
+        var positiveTotal = 0; var negativeTotal = 0;
+        for(var i=0; i<emoWordsWindow-1; i++) {
+          recentPositiveWords[i] = (recentPositiveWords[i+1] || 0);
+          recentNegativeWords[i] = (recentNegativeWords[i+1] || 0);
+
+          positiveTotal += recentPositiveWords[i];
+          negativeTotal += recentNegativeWords[i];
+        }
+        recentPositiveWords[emoWordsWindow-1] = positiveWord ? 1 : 0;
+        recentNegativeWords[emoWordsWindow-1] = negativeWord ? 1 : 0;
+
+        positiveTotal += recentPositiveWords[emoWordsWindow-1];
+        negativeTotal += recentNegativeWords[emoWordsWindow-1];
+
+        var posiWins = positiveTotal > negativeTotal;
+        
+        if(positiveTotal > emoWordsThreshold && posiWins) {
+
+          app.trigger("markup", {type:"sentimentMarkup", polarity:"posemo", speaker:args['msg']['speaker'], strength:positiveTotal, anchor: $('#curSentence').offset()});
+
+          // Flush recent energy so the next sentence is less likely to trigger
+          for(var i=0; i<recentPositiveWords.length; i++)
+            recentPositiveWords[i] = 0;
+        }
+        // TODO: Make this not just an else, but alternate pos/neg bursts when both happen at the same time
+        else if(negativeTotal > emoWordsThreshold && !posiWins) {  
+
+          app.trigger("markup", {type:"sentimentMarkup", polarity:"negemo", speaker:args['msg']['speaker'], strength:negativeTotal, anchor: $('#curSentence').offset()});
+
+          // Flush recent energy so the next sentence is less likely to trigger
+          for(var i=0; i<recentNegativeWords.length; i++)
+            recentNegativeWords[i] = 0;
+        }
+      }
+
+
       return false;
     },
     
@@ -344,7 +405,7 @@ function(app, Overlay, Ref) {
       // Calculate positive/negative energy over the last few sentences, determine if this is a burst
       // --------------------------------------------------------------------------------------------
       // Shift values back, calculate recent total
-      if(args && (curSpeaker==1 || curSpeaker==2)) {
+      if(args && Ref.useSentistrengthBurst && (curSpeaker==1 || curSpeaker==2)) {
         var positiveTotal = 0; var negativeTotal = 0;
         for(var i=0; i<energyBurstWindow-1; i++) {
           recentPositiveEnergy[i] = recentPositiveEnergy[i+1];
@@ -353,13 +414,15 @@ function(app, Overlay, Ref) {
           positiveTotal += recentPositiveEnergy[i];
           negativeTotal += recentNegativeEnergy[i];
         }
-        recentPositiveEnergy[energyBurstWindow-1] = args['msg']['sentiment'][0];
-        recentNegativeEnergy[energyBurstWindow-1] = args['msg']['sentiment'][1];
+        recentPositiveEnergy[energyBurstWindow-1] = args['msg']['sentiment'][0];;
+        recentNegativeEnergy[energyBurstWindow-1] = args['msg']['sentiment'][1];;
 
         positiveTotal += recentPositiveEnergy[energyBurstWindow-1];
         negativeTotal += recentNegativeEnergy[energyBurstWindow-1];
         
-        if(positiveTotal > energyBurstThreshold) {
+        var posiWins = positiveTotal > negativeTotal;
+        
+        if(positiveTotal > energyBurstThreshold && posiWins) {
 
           app.trigger("markup", {type:"sentimentMarkup", polarity:"posemo", speaker:args['msg']['speaker'], strength:positiveTotal, anchor: $('#curSentence').offset()});
 
@@ -368,7 +431,7 @@ function(app, Overlay, Ref) {
             recentPositiveEnergy[i] = 0;
         }
         // TODO: Make this not just an else, but alternate pos/neg bursts when both happen at the same time
-        else if(-negativeTotal > energyBurstThreshold) {  
+        else if(negativeTotal > energyBurstThreshold && !posiWins) {
 
           app.trigger("markup", {type:"sentimentMarkup", polarity:"negemo", speaker:args['msg']['speaker'], strength:negativeTotal, anchor: $('#curSentence').offset()});
 
@@ -524,17 +587,8 @@ function(app, Overlay, Ref) {
       var anchorPos;
       if(this.numberPhrase != null) 
       {
-        //TODO: this formatting seems to be erasing previous formatting in the sentence. 
-        // Anything before the last number event in the sentence will be reverted to normal text
-        // Uncomment the three console.log() lines below to see what's happening
-        
-        //console.log("numberPhrase = "+this.numberPhrase);
-        //console.log("sentence="+$('#curSentence').html());
-        
       	var cS = $('#curSentence');
-	      cS.html(cS.text().replace($.trim(this.numberPhrase), "<span id='positionMarker' class='transcriptWord numberMarkup catMarkup'>"+$.trim(this.numberPhrase)+"</span>"));
-	      
-	      //console.log("new sentence="+$('#curSentence').html());
+	      cS.html(cS.html().replace($.trim(this.numberPhrase), "<span id='positionMarker' class='transcriptWord numberMarkup catMarkup'>"+$.trim(this.numberPhrase)+"</span>"));
 	      
         anchorPos = $('#positionMarker').offset();
         $('#positionMarker').removeAttr("id");        

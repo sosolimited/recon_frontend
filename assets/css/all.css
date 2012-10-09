@@ -775,7 +775,7 @@ landingTitleImage {
 	font-size:720px;	
 	line-height:96px;
 	/*top:48px;*/
-	left:-600px;	/* Start out of view */
+	left:1800px;	/* Start out of view */
 
 	/* -webkit-transform: translateZ(0px); */
 }
@@ -785,7 +785,7 @@ landingTitleImage {
 	font-size:720px;	
 	line-height:96px;
 	/*top: 48px;*/
-	left: 1800px;	/* Start out of view */
+	left: -600px;	/* Start out of view */
 
 	/* -webkit-transform: translateZ(0px); */
 }

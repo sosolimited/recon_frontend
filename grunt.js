@@ -139,7 +139,7 @@ module.exports = function(grunt) {
         var app = express();
 
         app.get("/markup/:debate", function(req, res) {
-          var path = "../recon_frontend/test.html";
+          var path = "./test.html";
           var contents = fs.readFileSync(path).toString();
           
           res.header["Content-Length"] = contents.length;
@@ -148,7 +148,7 @@ module.exports = function(grunt) {
         });
 
         app.get("/messages/:debate", function(req, res) {
-          var path = "../recon_frontend/messages/_scratch_test";
+          var path = "./messages/_scratch_test";
           var timediff = req.params.timediff;
           var contents = fs.readFileSync(path).toString();
 

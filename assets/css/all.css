@@ -358,6 +358,7 @@ hr {
 .navTitle {
 	padding: 10px 10px 10px 10px;
 	font-size: 24px;
+	cursor:pointer;
 }
 
 .navTitle:hover {
@@ -433,16 +434,17 @@ hr {
 #transcriptHeading{
 	
 	left:64px;
-	top:52px;
 	width:500px;
 	font-family:"franklin-gothic-urw-comp-i7", "franklin-gothic-urw-comp"; font-weight:700; font-style:italic;
 	font-size: 96px;
 	line-height: 120px;
+	padding-bottom:50px;
 	
 	color:black;
 	text-transform: uppercase;
 	z-index: 6500;
 	
+	position: relative;
 
 }
 

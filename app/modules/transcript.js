@@ -63,9 +63,9 @@ function(app, Overlay, Ref) {
         oldWindowHeight = thisTranscript.$window.height();
         oldScrollTop = thisTranscript.$body.scrollTop();
       });
-  app.on("userScroll", function() {
-    console.log("USERSCROLL");
-  });
+		  app.on("userScroll", function() {
+		    console.log("USERSCROLL");
+		  });
 
       
       this.numberOpen = false;
@@ -84,7 +84,7 @@ function(app, Overlay, Ref) {
     },
     
     setHeading: function(str) {
-	    $('#transcriptHeading').text(str);    
+	    $('#transcriptHeading').html(str+'<hr>');    
     },
 
     addWord: function(args) {
@@ -769,7 +769,7 @@ function(app, Overlay, Ref) {
     },
     
     exit: function() {
-	    $('#transcript').css("visibility", "hidden");	    
+	    $('#transcript').css("visibility", "hidden");	     	   
     },
     
     // Reset puts everything where it's supposed to be before entering.

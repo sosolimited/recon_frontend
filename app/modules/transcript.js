@@ -651,8 +651,9 @@ function(app, Overlay, Ref) {
 
       });
 
-      if(!scrolledParagraph) 
+      if(!scrolledParagraph) {
         scrolledParagraph = closestParagraph;
+      }
 
       if(scrolledParagraph){  //EG Trying to fix initial race condition when you load page.
 	      // Find timestamp of first and last word, linearly interpolate to find current time

@@ -475,6 +475,7 @@ function(app, Ref) {
     afterRender: function() {
     	// For skrollr purposes, to be able to scroll long and deep in the comparisons > .wrapper div.
 	    this.insertFiller();
+
     }
   });
 

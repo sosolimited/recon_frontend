@@ -23,12 +23,14 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
   var Router = Backbone.Router.extend({
     routes: {
       // Get access to arguments.
+      "": "index",
       ":args": "index"
     },
 
     index: function() {
-	    
       var $body = $(document.body);
+      app.useLayout("main").render();
+
 	    // Init msg collection.
 			var messageCollection = new Message.Collection();
 			
@@ -63,7 +65,6 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 			// Pass landing view to navigation for menu control.
 			navigationView.setLanding(landingView);
 		  
-			var live = true;
 			var startTime = new Date().getTime();
     	    	      
       // Init comparison collection.
@@ -74,8 +75,11 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
       comparisonCollection.add(new Comparison.CountModel({traitNames:["wc"], speakerNames:speakerCollection, title:"WORD COUNT", subtitle:"The number of total words spoken by each candidate", range:[0,10000.0], color1:"Salmon"})); 
           
       comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 20 WORDS", subtitle:"The top twenty words of each candidate (excluding 'the', 'I', 'if', etc.)", uniqueWords:uniqueWords, color1:"Lime"}));  
-      
-      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"2 Word PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique2Grams, color1:"Lime"}));     
+
+     
+      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 20 2 Word PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique2Grams, color1:"Lime"}));     
+
+
       
       comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"3 Word PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique3Grams, color1:"Lime"}));   
       
@@ -83,7 +87,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
          
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["posemo"], speakerNames:speakerCollection, title:"POSITIVITY", subtitle:"The percentage of words spoken that are positive in some way. ie. 'winning, happy, improve.'", range:[0,5.0], color1:"Sky"}));
        
-      comparisonCollection.add(new Comparison.EmotionModel({traitNames:["negemo"], speakerNames:speakerCollection, title:"NEGATIVITY", subtitle:"The percentage of words spoken that are negative in some way. ie. 'failure, dead, waste.'", range:[0,3.75], color1:"GrayBlue"})); 
+      comparisonCollection.add(new Comparison.EmotionModel({traitNames:["negemo"], speakerNames:speakerCollection, title:"NEGATIVITY", subtitle:"The percentage of words spoken that are negative in some way. ie. 'failure, dead, waste.'", range:[0,3.75], color1:"Negative"})); 
           
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["anger"], speakerNames:speakerCollection, title:"ANGER", subtitle:"The percentage of words spoken that are angry in some way. ie. 'fight, destroy, annoy.'", range:[0,1.95], color1:"Angry"})); 
                  
@@ -117,7 +121,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	    
 	    // Testing playback (delay is how long to wait after start of connect to server).
 	    if (this.qs.playback) {
-	    	live = false;
+	    	app.live = false;
 	    	setTimeout(function() {
 	    		console.log("play "+messageCollection.length);
 	    		messageCollection.each(function(msg) {
@@ -126,16 +130,14 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	    	}, parseFloat(this.qs.playbackDelay, 100));
 	    }
 
-
-      app.useLayout("main").setViews({
-      }).render();
-
 			// EG Hack to fix loading race condition. calling render().then(... wasn't working above.
 			// I'm sure there's a less stupid way to do this.
-      window.setTimeout(function() {	
-      
-	      landingView.setElement("#landing").render();
-	      navigationView.setElement("#navigation").render();
+      //window.setTimeout(function() {	
+      // Yup, there is!
+      landingView.setElement("#landing").render();
+
+      //app.on("ready", function() {
+        navigationView.setElement("#navigation").render();
 	      comparisonView.setElement("#comparisons > .wrapper").render();
 	     	transcriptView.setElement("#transcript > .wrapper"); // Need transcript to point to the actual scrolling DOM element or else scroll event handling is wack
 	     	bigWordsView.setElement("#bigWords").render();
@@ -228,34 +230,11 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           comparisons.on("click", exitComp);
           
         })();
-      }, 50);
+      //});
      
 			// EG Again, stupid hack to fix loading. This seems to work, though: basically, wait until the DOM elements have been set to fire up events. 
       window.setTimeout(function() {
-	      // WEBSOCKET MESSAGE EVENTS
-	      // ----------------------------------------------------------------------
-	      app.socket.on("stats", function(msg) {    
-	      	app.trigger("message:stats", {msg:msg});
-	      });
-	      
-	      app.socket.on("word", function(msg) {    
-	      	app.trigger("message:word", {msg:msg,live:live});
-	      });
-	
-	      app.socket.on("newNGram", function(msg) {  
-	      	app.trigger("message:newNGram", {msg:msg,live:live});   
-	      });
-	      app.socket.on("sentenceEnd", function(msg) {  
-	      	app.trigger("message:sentenceEnd", {msg:msg,live:live});   
-	      });
-	
-	      app.socket.on("transcriptDone", function(msg) {   
-	      	app.trigger("message:transcriptDone", {msg:msg,live:live});
-		    	live = false;
-	      	console.log("transcriptDone");
-	      });
-	
-	      app.socket.on("close", function() {
+	      app.on("close", function() {
 	        console.error("Closed");
 	      });
       }, 100);
@@ -380,6 +359,59 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
     },
     
     initialize: function() {
+      var updateBar = function() {
+        var percs = [0, 0];
+
+        return function(perc, i) {
+          percs[i] = perc;
+
+          window.setTimeout(function() {
+            var hr = document.querySelector(".landingRule.gray60");
+            var total = percs[0] + percs[1];
+
+            if (hr) {
+              hr.style.background = "-webkit-linear-gradient(left, rgb(207, 255, 36) " +
+                total + "%, rgb(76,76,76) " + (total+1) + "%)";
+            }
+          }, 100);
+        };
+      }();
+
+      // XHR.
+      var messages = new XMLHttpRequest();
+      var markup = new XMLHttpRequest();
+
+      // Opens.
+      messages.open("GET", "/messages/whateva", true);
+      markup.open("GET", "/markup/whateva", true);
+
+      // Prog rock.
+      messages.onprogress = function(e) {
+        updateBar(Math.ceil((e.loaded/e.total) * 50), 0);
+      };
+      markup.onprogress = function(e) {
+        updateBar(Math.ceil((e.loaded/e.total) * 50), 1);
+      };
+
+      // Lobes.
+      messages.onload = function() {
+        var contents = "[" +
+          messages.responseText.split("\n").slice(0, -1).join(",") +
+        "]";
+
+        app.messages["0"] = new Message.Collection(JSON.parse(contents));
+        updateBar(50, 0);
+      };
+
+      markup.onload = function() {
+        app.markup = markup.responseText;
+        updateBar(50, 1);
+      };
+
+      // Send!
+      messages.send();
+      markup.send();
+
       // Cache the querystring lookup.
       var querystring = location.search.slice(1);
 

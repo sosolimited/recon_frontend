@@ -223,6 +223,8 @@ height:1200px;
 .spectrumBackgroundPush {
   z-index: 2;
 	margin:0 -440px 1.5em 440px;
+		/*margin:0 -440px 1.5em 440px;*/
+
 }
 
 .spectrumPointer {

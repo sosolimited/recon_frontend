@@ -23,7 +23,9 @@ z-index:-2;
 
 .compareContainer {
 	
-	position:relative; 
+	/* position:relative; */
+	position: fixed;
+	top: 100%;
 	border-bottom: 3px gray !important;
 	padding-bottom: 50px !important;
 
@@ -64,6 +66,7 @@ height:1200px;
 }
 
 .comparisonListCandidate {
+	position: relative;
 	font-size: 48px;
 	line-height:60px;
 
@@ -220,6 +223,8 @@ height:1200px;
 .spectrumBackgroundPush {
   z-index: 2;
 	margin:0 -440px 1.5em 440px;
+		/*margin:0 -440px 1.5em 440px;*/
+
 }
 
 .spectrumPointer {

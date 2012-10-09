@@ -152,7 +152,7 @@ h1:hover { /* Speaker names */
 }
 
 .transcriptSpeaker:hover {
-	color:rgb(255, 66, 55);
+	color:rgb(60,60,60);
 }
 
 
@@ -188,15 +188,24 @@ p { /* Transcript text */
   transform: scale(1);*/
   opacity: 1.0 !important;
 }
-
+ 
 #comparisons .wrapper {
   -webkit-transition:  1s linear; 
   transition:  1s linear; 
   opacity: 0 !important;
   position: fixed;
+  
   /*-webkit-transform: scale(0);
   transform: scale(0);*/
+}
 
+/* For skrollr purposes */
+.comparisonFiller {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 1024px;
+	height: 30000px;	/* This should match the total height of all comparisons, aka the final value of Comparison.Views.All.scrollY. */
 }
 
 .pieChart {
@@ -261,10 +270,12 @@ hr {
 #navTimeline {
   width: 530px;
   height: 16px;
+  z-index:12;
 }
 #navProgressBar {
   height: 16px;
   background-color: rgb(64, 180, 230);	
+ /* yellow background-color: rgb(207, 255, 36);*/
   width: 0px;
   z-index: 0;
 }
@@ -286,6 +297,7 @@ hr {
   width: 530px;
 	height: 32px;
 	background-color: white;
+	z-index:12;
 }
 
 .navTitle {
@@ -332,9 +344,11 @@ hr {
 /* Typekit fonts */
 
 .metaBook{ font-family:"ff-meta-serif-web-pro"; font-weight:100; font-style:normal; }
+/* Not using
+
 .metaBookIt{ font-family:"ff-meta-serif-web-pro"; font-weight:100; font-style:italic; }
 .metaBold{ font-family:"ff-meta-serif-web-pro"; font-weight:700; font-style:normal; }
-.metaBoldIt{ font-family:"ff-meta-serif-web-pro"; font-weight:700; font-style:italic; }
+.metaBoldIt{ font-family:"ff-meta-serif-web-pro"; font-weight:700; font-style:italic; } */
 
 /* Franklin Compressed */
 
@@ -351,11 +365,6 @@ hr {
 .franklinExDemiComp{ font-family:"franklin-gothic-ext-comp-urw-n7", "franklin-gothic-ext-comp-urw"; font-weight:700; font-style:normal; }
 
 
-
-
-
-
-
 /* Franklin Condensed */
 .franklinMedComp{ font-family:"franklin-gothic-urw-cond-n5", "franklin-gothic-urw-cond"; font-weight:600; font-style:normal; }
 .franklinMedCompIt{ font-family:"franklin-gothic-urw-cond-i5", "franklin-gothic-urw-cond"; font-weight:600; font-style:italic; }
@@ -363,18 +372,21 @@ hr {
 
 /* Franklin reg */
 
-.franklinLight{ font-family:"franklin-gothic-urw-n3", "franklin-gothic-urw"; font-weight:300; font-style:normal; }
+/* Not using
+ .franklinLight{ font-family:"franklin-gothic-urw-n3", "franklin-gothic-urw"; font-weight:300; font-style:normal; } 
 .franklinBook{ font-family:"franklin-gothic-urw-n4", "franklin-gothic-urw"; font-weight:400; font-style:normal; }
-.franklinBookIt{ font-family:"franklin-gothic-urw-i4", "franklin-gothic-urw"; font-weight:400; font-style:italic; }
+.franklinBookIt{ font-family:"franklin-gothic-urw-i4", "franklin-gothic-urw"; font-weight:400; font-style:italic; }*/
 
+.franklinBook{ font-family:"franklin-gothic-urw-n4", "franklin-gothic-urw"; font-weight:400; font-style:normal; }
 .franklinMed{ font-family:"franklin-gothic-urw-n5", "franklin-gothic-urw"; font-weight:500; font-style:normal; }
 .franklinMedIt{ font-family:"franklin-gothic-urw-i5", "franklin-gothic-urw"; font-weight:500; font-style:italic; }
 
-
+/* Not using
 .franklinDemi{ font-family:"franklin-gothic-urw-n7", "franklin-gothic-urw"; font-weight:700; font-style:normal; }
 .franklinDemiIt{ font-family:"franklin-gothic-urw-i7", "franklin-gothic-urw"; font-weight:700; font-style:italic; }
 .franklinHeavy{ font-family:"franklin-gothic-urw-n9", "franklin-gothic-urw"; font-weight:900; font-style:normal; }
 .franklinHeavyIt{ font-family:"franklin-gothic-urw-i9", "franklin-gothic-urw"; font-weight:900; font-style:italic; }
+*/
 
 /* Colors */
 .white{ color:rgb(255,255,255); }
@@ -386,22 +398,31 @@ hr {
 .gray80{ color:rgb(80,80,80); }
 .bgGray80{ background-color:rgb(80,80,80);}
 .gray160{ color:rgb(160,160,160); }
+
 .grayBlue{ color:rgb(67,67,75); }
 .bgGrayBlue{ background-color:rgb(77,77,85); }
+
 .pink{ color:rgb(231,0,149); }
 .bgPink{ background-color:rgb(231,0,149); }
+
 .sky{ color:rgb(64,180,229); }
 .bgSky{ background-color:rgb(64,180,229); }
+
 .lime{ color:rgb(207,255,36); }
 .bgLime{ background-color:rgb(207,255,36); }
+
 .magenta{ color:rgb(227, 31, 130); } 
-.bgMagenta{ background-color:rgb(227, 31, 130); } 
+.bgMagenta{ background-color:rgb(227, 31, 130); }
+ 
 .cherry{ color:rgb(255, 66, 55); } 
 .bgCherry{ background-color:rgb(255, 66, 55); } 
+
 .purple{ color:rgb(101, 45, 106); } 
 .bgPurple{ background-color:rgb(101, 45, 106); } 
+
 .salmon{ color:rgb(255,157,108); }
 .bgSalmon{ background-color:rgb(255,157,108); }
+
 .seaGreen{ color:rgb(124,240,179); }
 .orangeRed{ color:rgb(255, 85, 46); }
 .bgOrangeRed{ background-color:rgb(255, 85, 46); }
@@ -417,8 +438,11 @@ hr {
 
 .depressed{color:rgb(122,52,64);}
 
+.positive{color:rgb(124,240,179);}
+.bgPositive{background-color:rgb(124,240,179);}
 
-
+.negative{color:rgb(122,52,183);}
+.bgNegative{background-color:rgb(122,52,183);}
 
 /* Overlays */
 
@@ -745,6 +769,7 @@ landingTitleImage {
 	-webkit-transform: translateZ(0px);	*/
   z-index: 10;
   text-transform: uppercase;
+  -webkit-transition: left 1s;
 }
 
 .certainMarkup:hover{

@@ -159,10 +159,11 @@ function(app, Overlay, Ref) {
     	
     	var top20Count = 0;
     	// Only do other markup if a number phrase isn't open, and only if obama or romney are speaking
+      //console.log(word['word'] + ": " + word['cats']);
+      /*
     	if(!this.numberOpen && (curSpeaker==1 || curSpeaker==2)){    	
     		// Check for quotes.
-    		/*	// EG TEMP for debate 1
-    		if ($.inArray('say', word['cats']) != -1) { 
+    		if ($.inArray('hear', word['cats']) != -1) { 
 	        // Go back a word and pull it into this phrase.
 	        var cS = $('#curSentence');
 	        var cSHTML = cS.html();
@@ -180,8 +181,9 @@ function(app, Overlay, Ref) {
 	        
 		    	app.trigger("markup", {type:'quoteMarkup', phrase:quotePhrase, speaker:word['speaker'], anchor:newSpan.offset()});
 	    	}
-	    	*/
-		  	// Check for any special events returned by speaker.addWord() and add word to DOM with appropriate markup.
+        */
+		  	
+        // Check for any special events returned by speaker.addWord() and add word to DOM with appropriate markup.
 		    if(wordProps.length > 0){
 		    	// For now, just grab whatever the first one is and apply it.
 		    	// Note: Class name is just whatever the 'type' of the arg is, so endSentence() down below has to match these class names. 

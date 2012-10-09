@@ -21,11 +21,14 @@ function(app, Ref) {
 		initialize: function() {
 			this.forceCollapse = this.options.forceCollapse;
 			this.trait = this.options.trait;
-			this.leader = this.options.leader;
+			this.speaker = this.options.speaker;
 			this.moreVal = this.options.moreVal;
 			
+			
 			this.aVal = '>'; 
-			if (this.options.moreVal == 'LESS') this.aVal = '<';
+			if (this.moreVal.indexOf('LESS') != -1) this.aVal = '<';
+			
+			console.log(this.moreVal + " " + this.aVal);
 
 			this.posY = this.options.posY;
 			//all durations in milliseconds	
@@ -36,12 +39,12 @@ function(app, Ref) {
 				
 			//console.log("posY = " + this.posY);
 				
-			if(this.options.leader==="obama") this.trailer="romney";
+			if(this.options.speaker==="obama") this.trailer="romney";
 			else this.trailer = "obama";
 		},	
 		 
 		serialize: function() {
-      return { trait: this.trait, leader: this.leader, trailer: this.trailer, startPosY: this.posY-96, moreVal: this.moreVal, aVal: this.aVal };
+      return { trait: this.trait, speaker: this.speaker, trailer: this.trailer, startPosY: this.posY-96, moreVal: this.moreVal, aVal: this.aVal };
     },
 
     expand: function() {
@@ -53,11 +56,11 @@ function(app, Ref) {
     	}); 	
     	//Slide big arrow in.    
     	this.$el.find('.traitSymbolLeft').each(function(){
-	    		$(this).animate({left:Ref.gridColumns[1]+'px'}, 1000);
+	    		$(this).animate({left:Ref.gridColumns[4]+'px'}, 1000);
     	});
   
     	this.$el.find('.traitSymbolRight').each(function(){
-	    		$(this).animate({left:Ref.gridColumns[5]+'px'}, 1000);
+	    		$(this).animate({left:Ref.gridColumns[2]+'px'}, 1000);
     	});
     
     	//Sit for holdDur, then collapse.

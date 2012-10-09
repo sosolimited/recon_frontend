@@ -285,7 +285,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
       
       if(keyboardEnabled){
 	      $body.keydown(function(event){
-	      	console.log(event.which);
+	      	//console.log(event.which);
 	      	//g for toggling test grid
 	      	if(event.which == 71){
 		      	if($('#testGrid').css("visibility") == "visible") $('#testGrid').css("visibility", "hidden");

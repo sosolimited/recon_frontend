@@ -135,7 +135,7 @@ function(app) {
     leads: [],
     sentenceLeadLead: -1,
     curTrait: 0,
-    traitTimeout: 60000,
+    traitTimeout: 5000,
     traitTimeoutFlag: false,
     curSpeaker: 1,
     
@@ -145,7 +145,7 @@ function(app) {
     	app.on("transcript:speakerSwitch", this.setSpeaker, this);
     	var coll = this;
     	//Tune this to 5 minutes
-    	var superlativeMins = 3;
+    	var superlativeMins = 0.335;
     	setInterval(function(){coll.sendRandomTraitLeader();}, superlativeMins*60000);
     },
     
@@ -163,6 +163,7 @@ function(app) {
     
     //PEND: set speaker message
     setSpeaker: function(args) {
+    	//console.log("setSpeaker: " + args["speaker"]); 
 	    this.curSpeaker = args["speaker"];
     },
     
@@ -195,7 +196,7 @@ function(app) {
 		    	
 		    	//JRO added a timeout
 		    	if (!this.traitTimeoutFlag) {
-		    		app.trigger("markup", {type:"traitLead", speaker:newLead, trait:this.at(1).get("traits")[i]['name'], new:true, curSpeaker: this.curSpeaker});
+		    		app.trigger("markup", {type:"traitLead", leader:newLead, trait:this.at(1).get("traits")[i]['name'], new:true, curSpeaker: this.curSpeaker});
 		    		this.traitTimeoutFlag = true;
 		    		window.setTimeout(function(){
 		    			this.traitTimeoutFlag = false;
@@ -225,7 +226,7 @@ function(app) {
 			    var t = this.curTrait;
 			    
 			    var leader = (this.at(1).get("traits")[t]['val'] > this.at(2).get("traits")[t]['val']) ? 1 : 2;
-			    app.trigger("markup", {type:"traitLead", speaker:leader, trait:this.at(1).get("traits")[t]['name'], new:false, curSpeaker: this.curSpeaker});
+			    app.trigger("markup", {type:"traitLead", leader:leader, trait:this.at(1).get("traits")[t]['name'], new:false, curSpeaker: this.curSpeaker});
 			    //console.log("old lead "+leader+" "+this.at(1).get("traits")[t]['name']);
 		    }
 		    

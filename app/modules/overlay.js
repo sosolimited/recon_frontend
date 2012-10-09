@@ -470,7 +470,7 @@ function(app, Ref) {
 			
 			//PEND: WHAT SHOULD THE CONTAINER BE?
       var container = $(this.$el.find('.container')[0]);
-      this.nSigns = (Math.random() * 5 + 5) * (this.type == 'posemo' ? 1 : 2); // 5-15 random + or - signs
+      this.nSigns = (Math.random() * 3 + 7) * (this.type == 'posemo' ? 1 : 2); // 5-15 random + or - signs
       var signChar = this.type == 'posemo' ? '+' : '-';
       signChar = this.type == 'posemo' ? "<div class='plusSignA' /><div class='plusSignB'>" : "<div class='negativeSign' />";
       for(var i=0; i<this.nSigns; i++) {

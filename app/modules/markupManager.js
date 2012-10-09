@@ -179,6 +179,8 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  closeCatOverlays: function() {
+	  	$('.catMarkup').removeClass('reverse');
+	    $('.catMarkup').removeClass('grayed');
 	  	for (i in this.get("catOverlays")) {
 		  	this.get("catOverlays")[i].collapse();
 	  	}

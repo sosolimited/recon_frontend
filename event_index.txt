@@ -18,6 +18,7 @@ message:transcriptDone    {msg, live}                         router.js:137
 body:scroll               document.body.scrollTop             router.js:151
 keypress:test             {type, kind}                        router.js:158,160
 debate:change             {type, kind}                        router.js:169
+app:goToMode							{mode}															navigation.js, transcript.js, comparison.js
 
 Find all with:
   $ grep -rn "[^/]app.trigger(" .

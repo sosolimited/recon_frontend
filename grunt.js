@@ -148,13 +148,22 @@ module.exports = function(grunt) {
         });
 
         app.get("/messages/:debate", function(req, res) {
-          var path = "./messages/d0";
+        	var d = req.params.debate;
+        	var path = "./messages/";
+        	if (d == "0") path += "d0";
+        	else if (d == "1") path += "d1";
+        	else if (d == "2") path += "d2";
+        	
           var timediff = req.params.timediff;
-          var contents = fs.readFileSync(path).toString();
-
-          res.header["Content-Length"] = contents.length;
-
-          res.send(contents);
+          var contents;
+          try {
+          	contents = req.params.debate+fs.readFileSync(path).toString();
+	        } catch (err) {
+	        	console.log("ERRR "+path);
+	        	contents = d;
+	        }
+	        res.header["Content-Length"] = contents.length;
+	        res.send(contents);
         });
 
         return app;

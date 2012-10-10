@@ -48,6 +48,10 @@ function($, _, Backbone, eio) {
 
     // Collection of all debate messages.
     messages: {},
+    
+    active: [false, false, false],
+    
+	  lastDebateViewed: -1, // -1 if nothing has been watched yet
 
     // Buffer incoming messages when replay is happening.
     bufferedMessages: []

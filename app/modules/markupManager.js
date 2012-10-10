@@ -57,10 +57,16 @@ function(app, Overlay, Ref) {
 	      $('#overlay').append(this.get("catOverlays")[cat].el);
 	      this.get("catOverlays")[cat].render();
       }
+      app.on("debate:reset", this.clearMarkup, this);
 	  },
 	  
 	  cleanup: function() {
 		  app.off(null, null, this);
+	  },
+	  
+	  clearMarkup: function() {
+		  $('#overlay').empty();
+		  this.set({overlays:[]});
 	  },
 	  
 	  // All overlay events get funnelled through this function.

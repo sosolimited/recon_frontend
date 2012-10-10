@@ -129,7 +129,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 			// I'm sure there's a less stupid way to do this.
       //window.setTimeout(function() {	
       // Yup, there is!
-      landingView.setElement("#landing").render();
+      landingView.setElement("#landing").render().then(this.loadData);
 
       //app.on("ready", function() {
         navigationView.setElement("#navigation").render();
@@ -316,58 +316,6 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
     },
     
     initialize: function() {
-      var updateBar = function() {
-        var percs = [0, 0];
-
-        return function(perc, i) {
-          percs[i] = perc;
-
-          window.setTimeout(function() {
-            var hr = document.querySelector(".landingRule.gray60");
-            var total = percs[0] + percs[1];
-
-            if (hr) {
-              hr.style.background = "-webkit-linear-gradient(left, rgb(207, 255, 36) " +
-                total + "%, rgb(76,76,76) " + (total+1) + "%)";
-            }
-          }, 100);
-        };
-      }();
-
-      // XHR.
-      var messages = new XMLHttpRequest();
-      var markup = new XMLHttpRequest();
-
-      // Opens.
-      messages.open("GET", "/messages/whateva", true);
-      markup.open("GET", "/markup/whateva", true);
-
-      // Prog rock.
-      messages.onprogress = function(e) {
-        updateBar(Math.ceil((e.loaded/e.total) * 50), 0);
-      };
-      markup.onprogress = function(e) {
-        updateBar(Math.ceil((e.loaded/e.total) * 50), 1);
-      };
-
-      // Lobes.
-      messages.onload = function() {
-        var contents = "[" +
-          messages.responseText.split("\n").slice(0, -1).join(",") +
-        "]";
-
-        app.messages["0"] = new Message.Collection(JSON.parse(contents));
-        updateBar(50, 0);
-      };
-
-      markup.onload = function() {
-        app.markup = markup.responseText;
-        updateBar(50, 1);
-      };
-
-      // Send!
-      messages.send();
-      markup.send();
 
       // Cache the querystring lookup.
       var querystring = location.search.slice(1);
@@ -388,6 +336,70 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
         }
       });
       
+    },
+    
+    loadData: function() {
+	    var updateBar = function() {
+        var percs = [0, 0];
+
+        return function(perc, i, num) {
+          percs[i] = perc;
+
+          window.setTimeout(function() {
+            var hr = document.querySelector(".landingRule"+num+".gray60");
+            var total = percs[0] + percs[1];
+
+            if (hr) {
+              hr.style.background = "-webkit-linear-gradient(left, rgb(207, 255, 36) " +
+                total + "%, rgb(76,76,76) " + (total+1) + "%)";
+            }
+          }, 100);
+        };
+      }();
+
+      // XHR.
+      for (var i=0; i<3; i++) {
+
+	      var messages = new XMLHttpRequest();
+	      var markup = new XMLHttpRequest();
+	
+	      // Opens.
+	      messages.open("GET", "/messages/"+i, true);
+	      markup.open("GET", "/markup/whateva", true);
+	
+	      // Prog rock.
+	      messages.onprogress = function(e) {
+	        updateBar(Math.ceil((e.loaded/e.total) * 50), 0, i);
+	      };
+	      markup.onprogress = function(e) {
+	        updateBar(Math.ceil((e.loaded/e.total) * 50), 1, i);
+	      };
+	
+	      // Lobes.
+	      messages.onload = function(e) {
+	      	var d = parseInt(e.target.responseText.substring(0,1));
+	      
+	      	if (e.target.responseText.length != 1) {
+		        var contents = "[" +
+		          e.target.responseText.substring(1).split("\n").slice(0, -1).join(",") +
+		        "]";
+		        app.messages[d] = new Message.Collection(JSON.parse(contents));
+		        updateBar(50, 0, d);
+			      app.trigger("debate:activate", d);
+		      } else {
+			      app.trigger("debate:deactivate", d);
+		      }
+	      };
+	
+	      markup.onload = function() {
+	        app.markup = markup.responseText;
+	        updateBar(50, 1, i);
+	      };
+	
+	      // Send!
+	      messages.send();
+	      markup.send();
+	    }
     }
   });
 

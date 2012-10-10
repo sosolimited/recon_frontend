@@ -21,6 +21,7 @@ function(app, Ref) {
 		  this.bigWordLength = 8;
 		  this.curY = 0;		// Used to absolutely layout big words.
 		 	app.on("message:word", this.addWord, this);
+		 	app.on("debate:reset", this.clearWords, this);
 
       //focalLength = parseInt($("#bigWords").css("webkit-perspective"));
 
@@ -57,6 +58,10 @@ function(app, Ref) {
        });
 	  },
     */
+    clearWords: function() {
+	    this.curY = 0;
+	    $('#bigWordsHolder').empty();
+    },
     
     addWord: function(args){
     	var word = args['msg']['word'];

@@ -158,7 +158,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
             comparisons.addClass("active");
             // EG Testing this for performance
             $('#comparisons > .wrapper').css("display", "block");
-            $('#transcript > .wrapper').css("display", "none");
+            $('#transcript > .wrapper').css("visibility", "hidden");
 
             // Disable scrolling on the document body and save the current
             // offset (to be restored when closing the comparison view)
@@ -179,7 +179,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
             comparisons.removeClass("active");
             // EG Testing this for performance
             $('#comparisons > .wrapper').css("display", "none");
-            $('#transcript > .wrapper').css("display", "block");
+            $('#transcript > .wrapper').css("visibility", "visible");
             
             // Re-enable scrolling on the document body and restore the
             // previous offset

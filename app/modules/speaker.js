@@ -145,7 +145,7 @@ function(app) {
     	app.on("transcript:speakerSwitch", this.setSpeaker, this);
     	var coll = this;
     	//Tune this to 5 minutes
-    	var superlativeMins = 3;
+    	var superlativeMins = 4;
     	setInterval(function(){coll.sendRandomTraitLeader();}, superlativeMins*60000);
     },
     
@@ -178,7 +178,7 @@ function(app) {
         
     setCompareTraits: function() {
     	var collection = this;
-	  	setTimeout(function() {collection.compareTraits();}, 5000); // wait a second for speakers to update first
+	  	setTimeout(function() {collection.compareTraits();}, 6*60000); // wait six minutes
     },
     
     compareTraits: function() {

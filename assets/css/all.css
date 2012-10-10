@@ -3,7 +3,7 @@ body {
   /*background-color: rgb(110,116,116);*/
   
   background-color: rgb(200,200,200); /*rgb(140,146,146);*/
-  /* background-image: url('../../images/background-tex.jpg'); */
+  background-image: url('../../images/background-tex.jpg'); 
   background-repeat: repeat; *;
   overflow-y: scroll;	
   overflow-x: hidden;	/* not working! */
@@ -153,12 +153,12 @@ p { /* Transcript text */
 }
 
 #curSentence {
-	/*
-	color: white;
-	background-color: rgb(50,50,50);
-	*/
 	color: rgb(60,60,60);
 	background-color: white;
+	/* 
+	display: inline-block;
+  height: 1.2em;
+  */
 }
 
 .transcriptSentence {
@@ -280,35 +280,25 @@ hr {
 }
 
 
-#navPlaybackButton, #navTranscriptButton {
-	display:inline-block;
-	padding: 5px 5px 20px 5px;
-	
+#navTranscriptButton {
+	display: none;
 }
 
-
-#navComparisonButton {
-	display:inline-block;
-	margin-top:-40px;
-	/*margin-left: 10px;*/
-	padding: 5px 5px 20px 5px;
-	/* padding: 5px; */
+#navPlaybackButton, #navComparisonButton {
+	display: inline-block;
 }
 
 .navButton {
-	background:white;
+	background:white;	
+	padding: 5px 5px 20px 5px;
+	cursor: pointer;
 }
 
-.navButton.active:hover {
-	cursor:pointer;
+.navButton:hover {
 	background:rgb(76,76,76);
 	color:white;
 }
 
-
-#navComparisonButton.inactive, #navTranscriptButton.inactive{
-  opacity: .5 !important;
-}
 
 
 /* White box inside #navigation div */
@@ -631,6 +621,13 @@ hr {
   z-index: 10;
 }
 
+
+.landingButtonHolder.inactive, .landingRule.inactive{
+  opacity: .5 !important;
+  cursor: default !important;
+}
+
+
 .landingButton {
 	position: static;
 	padding: 0 0 0 0;
@@ -859,6 +856,7 @@ landingTitleImage {
 .categoryOverlay {
 	position:absolute; 
 	overflow: hidden;
+	width: auto;
   height: 80px; 
   z-index: 7000;
 }
@@ -871,7 +869,6 @@ landingTitleImage {
   margin: 0px 0px 0px 0px;
 	padding: 0px 20px 0px 10px;
   color: rgb(255,255,255);	
-  text-transform: uppercase;
 	
 	-webkit-transition: top 0.5s;
 }
@@ -971,6 +968,11 @@ landingTitleImage {
 	color: rgb(60,60,60) !important;
 }
 
+.wordCountMarkup:hover {
+	background-color: 207,255,36 !important;
+	color: rgb(60,60,60) !important;
+}
+
 .catMarkup{
 	cursor: pointer;
   display: inline-block;
@@ -1050,7 +1052,7 @@ landingTitleImage {
   color: rgb(255,255,255); 
 	-webkit-transition: left 1s, right 1s, top 1s, height 1s, width 1s, font-size 1s, line-height 1s, color 1s;
 	/* -webkit-transform: translateZ(0px);	*/
-  z-index: 2;
+  z-index: 3;
 
 }
 
@@ -1082,7 +1084,7 @@ landingTitleImage {
 
 .emoTextBig {
   position: absolute;
-  color: rgb(140,146,146);	
+  color: rgb(200,200,200);	
   font-size: 0px;
   line-height: 0.75em;
   opacity: 0;

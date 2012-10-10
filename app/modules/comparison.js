@@ -37,12 +37,22 @@ function(app, Ref) {
   		this.set({viewType:options.viewType, title:options.title, range:options.range, speakers:options.speakerNames, color1:options.color1, color2:options.color2});
   		
   		app.on("message:stats", this.updateStats, this);
+  		app.on("debate:reset", this.resetStats, this);
   		
   		this.setValues(options);
   	},
   	
   	cleanup: function() {
 	  	app.off(null, null, this);
+  	},
+  	
+  	resetStats: function() {
+  		var newTraits = [];
+  	
+  		for (var i=0; i<this.get("traits").length; i++){ 
+	  		newTraits.push({name:this.get("traits")[i]['name'], vals:0});
+  		}
+	  	this.set({traits:newTraits});
   	},
   	
   	setValues: function(options) {},
@@ -197,7 +207,12 @@ function(app, Ref) {
 	  	
   		this.set({viewType:"count"});
   		
-  		app.on("message:word", this.updateWordStats, this);  		
+  		app.on("message:word", this.updateWordStats, this);
+  		app.on("debate:reset", this.clearWordStats, this);
+  	},
+  	
+  	clearWordStats: function() {
+	  	this.set({wc:[0,0]});
   	},
  
     updateWordStats: function(args) {
@@ -254,9 +269,16 @@ function(app, Ref) {
         	     	
   	setValues: function(options) {
 
-  		this.set({viewType:"list", uniqueWords:options.uniqueWords, obamaList: new Array(), romneyList: new Array(), obamaValues: new Array(), romneyValues: new Array()});
+  		this.set({viewType:"list", uniqueWords:options.uniqueWords, obamaList: [], romneyList: [], obamaValues: [], romneyValues: []});
   		app.on("message:word", this.updateWordStats, this);	
+  		app.on("debate:reset", this.clearWordStats, this);
   			  		
+  	},
+  	clearWordStats: function() {
+	  	this.obamaList = [];
+	  	this.romneyList = [];
+	  	this.obamaValues = [];
+	  	this.romneyValues = [];
   	},
   	
   	updateWordStats: function() {

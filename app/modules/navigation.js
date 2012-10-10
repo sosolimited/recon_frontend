@@ -70,7 +70,7 @@ function(app) {
 
     handleClick : function(e) {
       if(e.target.id.substring(0,2) == 'CH') {
-        playbackChapter(e);
+        //playbackChapter(e); //PEND out for now
       } else if(e.target.id == 'goLive') {
         app.trigger("navigation:goLive", 600);
       } else if(e.target.id == 'reconTitle'){
@@ -175,6 +175,7 @@ function(app) {
 	    $('#navLeft').css("webkitTransform", "translateX(5px) translateY(-5px) rotate(90deg)");
 	    $('#navRight').css("webkitTransform", "translateX(0px) translateY(-5px) rotate(-90deg)");
 	    if (first) {
+	    	console.log("first");
 	    	$('#navInstructions').css("webkitTransform", "translateX(0%)");
 		    instructionTimeout = setTimeout(function(){ $('#navInstructions').css("webkitTransform", "translateX(100%)"); }, 4000);
 		  } 
@@ -204,20 +205,16 @@ function(app) {
     
     enterComparison: function(event, tag) {
 	    event.stopPropagation();
-    	app.mode = "comparison"; 
+    	app.mode = "comparison";  
     	
-    	var transcript = $("#transcript > .wrapper");
-    	var comparisons = $("#comparisons > .wrapper");
-      var navigation = $("#navigation");
-    	
-      var dist = transcript.offsetHeight;
-      transcript.scrollTop = dist;
-      transcript.addClass("fade");
-      comparisons.addClass("active");
+      var dist = $("#transcript > .wrapper").offsetHeight;
+      $("#transcript > .wrapper").scrollTop = dist;
+      $("#transcript > .wrapper").addClass("fade");
+      $("#comparisons > .wrapper").addClass("active");
       
       // switch buttons
-      $('#navTranscriptButton').addClass('active').removeClass('inactive'); 
-      $('#navComparisonButton').addClass('inactive').removeClass('active');
+      $('#navTranscriptButton').css('display', 'inline-block'); 
+      $('#navComparisonButton').css('display', 'none');
 
       // EG Testing this for performance
       $('#comparisons').css("visibility", "visible");	     	   // This is in case comparison.exit() was called.
@@ -227,7 +224,7 @@ function(app) {
       // Disable scrolling on the document body and save the current
       // offset (to be restored when closing the comparison view)
       $(document.body).addClass("no-scroll");	
-      transcript.data("lastTop", $(document.body).scrollTop());	
+      $("#transcript > .wrapper").data("lastTop", $(document.body).scrollTop());	
 
       var elt = $('#comparisons').find('.compareContainer.'+tag).parent();
       $("#comparisons > .wrapper").stop().animate({ scrollTop: elt.position().top}, 1.0);
@@ -238,19 +235,15 @@ function(app) {
     },
     
     exitComparison: function(event) {
-    	
-    	var transcript = $("#transcript > .wrapper");
-    	var comparisons = $("#comparisons > .wrapper");
-      var navigation = $("#navigation");
       
     	event.stopPropagation();
     	app.mode = "transcript";
-      transcript.removeClass("fade");
-      comparisons.removeClass("active");
+      $("#transcript > .wrapper").removeClass("fade");
+      $("#comparisons > .wrapper").removeClass("active");
         
       // switch buttons
-      $('#navTranscriptButton').addClass('inactive').removeClass('active'); 
-      $('#navComparisonButton').addClass('active').removeClass('inactive');
+      $('#navTranscriptButton').css('display', 'none'); 
+      $('#navComparisonButton').css('display', 'inline-block');
       
       // EG Testing this for performance
       $('#comparisons > .wrapper').css("display", "none");
@@ -259,12 +252,11 @@ function(app) {
       // Re-enable scrolling on the document body and restore the
       // previous offset
       $(document.body).removeClass("no-scroll");	
-      $(document.body).scrollTop(transcript.data("lastTop"));	
+      $(document.body).scrollTop($("#transcript > .wrapper").data("lastTop"));	
       
       // Switch skrollr scroll element back to body.
 			//app.skrollr.resetSkrollElement();
     }
-    
 
    
 

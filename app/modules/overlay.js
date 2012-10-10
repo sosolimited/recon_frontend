@@ -83,12 +83,12 @@ function(app, Ref) {
     	var collapseD = (force) ? 0 : this.collapseDur;
     	//Shrink text.
     	this.$el.find('.traitExpText').each(function(i){ 
-    		$(this).animate({'font-size':'20px', 'line-height':'24px'}, collapseD);
+    		$(this).animate({'font-size':'30px', 'line-height':'36px'}, collapseD);
     	}); 
     	//Shrink and move divs.
     	this.$el.find('.traitExpTextHolder').each(function(i){
     		
-    		$(this).animate({'left':Ref.gridColumns[0], 'top':y+i*24+'px', 'height':'24px'}, collapseD);
+    		$(this).animate({'left':Ref.gridColumns[0], 'top':y+i*36+'px', 'height':'36px'}, collapseD);
      		
      		//else $(this).animate({'left':Ref.gridColumns[0], 'top':y+i*24+'px', 'height':'24px'}, collapseD);
     		//$(this).animate({'-webkit-transform':'translateZ(1000px)'}, collapseD);   	//Move div forward in Z.	
@@ -97,11 +97,11 @@ function(app, Ref) {
     	});
     	//Shrink and position big arrow.
     	this.$el.find('.traitSymbolLeft').each(function(){
-	    		$(this).animate({'font-size':'360px', 'line-height':12*14+'px'}, collapseD/2.);
+	    		$(this).animate({'font-size':'480px', 'line-height':12*14+'px'}, collapseD/2.);
     	});
     	
     	this.$el.find('.traitSymbolRight').each(function(){
-	    		$(this).animate({'font-size':'360px', 'line-height':12*14+'px'}, collapseD/2.);
+	    		$(this).animate({'font-size':'480px', 'line-height':12*14+'px'}, collapseD/2.);
     	});
     },
     
@@ -398,8 +398,12 @@ function(app, Ref) {
       var sp = this.speaker;
       this.$el.find('.quotePhrase').each(function(i){ 
 	      if (force) $(this).css('-webkit-transition', '0s');
-	      $(this).css("font-size","54px");
-	      $(this).css("width", Ref.gridWidth);
+	      //$(this).css("font-size","54px");
+	      //$(this).css("line-height","60px");
+	      //$(this).css("width", Ref.gridWidth);
+	      $(this).css("font-size","0px");
+	      $(this).css("line-height","0px");
+	      $(this).css("width", "0px");
 	      $(this).css("top", (_posY - 18) + 'px');  // Center on line
 	      if(sp == 1)
 	        $(this).css("left", Ref.gridColumns[4]);
@@ -408,13 +412,13 @@ function(app, Ref) {
     	});
       this.$el.find('.quoteLeftQuote').each(function(i){ 
 	      if (force) $(this).css('-webkit-transition', '0s');
-        $(this).css("font-size","180px");
+        $(this).css("font-size","204px");
         $(this).css("top", (_posY - 60) + 'px');  // Center on line
         $(this).css("left", (Ref.gridColumns[(sp == 1 ? 0 : 1)]) + 'px');
     	});  		   
       this.$el.find('.quoteRightQuote').each(function(i){   
 	      if (force) $(this).css('-webkit-transition', '0s');
-        $(this).css("font-size","180px");
+        $(this).css("font-size","204px");
         $(this).css("top", (_posY - 38) + 'px');  // Center on linea
         $(this).css("left", (Ref.gridColumns[(sp == 1 ? 0 : 1)] + 70) + 'px');
     	});  		   
@@ -602,40 +606,51 @@ function(app, Ref) {
 		 },	
 		 
 		 serialize: function() {
-      return { category: this.category, title: this.title };
+      return { category: this.category, title: this.title};
     },
     
     expand: function() {
-      this.$el.css('display','block'); // Setting opacity alone still blocks mouse interactions.    
-      window.setTimeout(function(){
+      //this.$el.css('display','block'); // Setting opacity alone still blocks mouse interactions.    
+      //this.$el.find('.categoryOverlay').each(function(){
+	    //  $(this).css('left', '0px');
+	    //});
+	    //window.setTimeout(function(){
    	   this.$el.find('.categoryOverlayText').each(function(){
 	  	 	$(this).css('top', '0px');
 	  	 });
-	  	}, 10, this);
+	  	//}, 10, this);
     },
     
     collapse: function() {
       this.$el.find('.categoryOverlayText').each(function(){
 	      $(this).css('top', '90px');
 	    });
-	    window.setTimeout(function(){
-	  	 	$(this).css('display', 'none');
-	  	}, 500, this);	
+	    //window.setTimeout(function(){
+	  	// 	//this.$el.css('display', 'none');
+	  	// 	this.$el.find('.categoryOverlay').each(function(){
+	    //  	$(this).css('left', '-1000px');	//Hack to get it out of the way so it doesn't block transcript markup selection.
+	    //  });
+	  	//}, 500, this);	
     },
     
     hide: function() {
       this.$el.find('.categoryOverlayText').each(function(){
 	      $(this).css('top', '90px');
 	    });
-	    $(this).css('display', 'none'); 	 	
+	    //window.setTimeout(function(){
+	  	// 	//this.$el.css('display', 'none');
+	  	// 	this.$el.find('.categoryOverlay').each(function(){
+	    //  	$(this).css('left', '-1000px');
+	    //  });
+	  	//}, 500, this);	
     },
     
     afterRender: function() {
 	    this.hide();
 	    // Add to skrollr manager.
-	    //this.$el.find(".categoryOverlay").each(function(){
-	    //	app.skrollr.refresh(this);		    
-	    //});
+	    this.$el.find(".categoryOverlay").each(function(){
+	    	app.skrollr.refresh(this);		    
+	    });
     }
   });
 	

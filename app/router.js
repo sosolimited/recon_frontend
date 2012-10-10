@@ -230,7 +230,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           
 	         	for(var a=0; a<markupNames.length; a++){
 	          	if(a==i) $('.'+markupNames[a]+'Markup').addClass('reverse');				// Highlight the chosen category.
-	          	else $('.'+markupNames[a]+'Markup:not(.categoryOverlay)').addClass('grayed');          		// Gray out all the other categories.
+	          	else $('.'+markupNames[a]+'Markup:not(.categoryOverlayText)').addClass('grayed');          		// Gray out all the other categories.
           	}
           	
           	//$('.'+markupNames[i]+'Markup').filter('.categoryOverlay').addClass('reverse');

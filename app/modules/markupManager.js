@@ -67,6 +67,12 @@ function(app, Overlay, Ref) {
 	  clearMarkup: function() {
 		  $('#overlay').empty();
 		  this.set({overlays:[]});
+		  
+		  // Add resuable cat overlays back into DOM.
+      for (var cat in this.get("catOverlays")) {
+	      $('#overlay').append(this.get("catOverlays")[cat].el);
+	      this.get("catOverlays")[cat].render();
+      }
 	  },
 	  
 	  // All overlay events get funnelled through this function.

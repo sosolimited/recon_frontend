@@ -157,7 +157,7 @@ module.exports = function(grunt) {
           var timediff = req.params.timediff;
           var contents;
           try {
-          	contents = req.params.debate+fs.readFileSync(path).toString();
+          	contents = fs.readFileSync(path).toString();
 	        } catch (err) {
 	        	console.log("ERRR "+path);
 	        	contents = d;

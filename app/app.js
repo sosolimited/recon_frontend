@@ -50,7 +50,7 @@ function($, _, Backbone, eio) {
     // Collection of all debate messages.
     messages: {},
     
-    active: [false, false, false],
+    active: new Array(3),
     
 	  lastDebateViewed: -1, // -1 if nothing has been watched yet
 

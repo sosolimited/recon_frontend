@@ -358,7 +358,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
       }();
 
       // XHR.
-      for (var i=0; i<3; i++) {
+      [0, 1, 2].forEach(function(i) {
 
 	      var messages = new XMLHttpRequest();
 	      var markup = new XMLHttpRequest();
@@ -377,17 +377,16 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	
 	      // Lobes.
 	      messages.onload = function(e) {
-	      	var d = parseInt(e.target.responseText.substring(0,1));
 	      
 	      	if (e.target.responseText.length != 1) {
 		        var contents = "[" +
-		          e.target.responseText.substring(1).split("\n").slice(0, -1).join(",") +
+		          e.target.responseText.split("\n").slice(0, -1).join(",") +
 		        "]";
-		        app.messages[d] = new Message.Collection(JSON.parse(contents));
-		        updateBar(50, 0, d);
-			      app.trigger("debate:activate", d);
+		        app.messages[i] = new Message.Collection(JSON.parse(contents));
+		        updateBar(50, 0, i);
+			      app.trigger("debate:activate", i);
 		      } else {
-			      app.trigger("debate:deactivate", d);
+			      app.trigger("debate:deactivate", i);
 		      }
 	      };
 	
@@ -399,7 +398,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	      // Send!
 	      messages.send();
 	      markup.send();
-	    }
+	    });
     }
   });
 

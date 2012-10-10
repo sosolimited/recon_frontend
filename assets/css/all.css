@@ -589,7 +589,7 @@ hr {
 	font-weight:700; 
 	font-style:italic;*/ 
 	font-family:"franklin-gothic-urw-i7", "franklin-gothic-urw"; font-weight:700; font-style:italic;
-	color: rgb(146,152,152);
+	color: rgb(185, 185, 185);
 	z-index:-1;
 }
 
@@ -690,6 +690,7 @@ hr {
 .landingRule {
 	position: static; 
 	width: 296px;
+	height: 4px;
 	margin: 0px 0px 0px 0px;
 	background-color: rgb(76,76,76)!important;	
 }

@@ -502,7 +502,7 @@ hr {
 /* Overlays */
 
 .over {
-	z-index: 2;	
+	z-index: 6;	
 }
 .under {
 	z-index: -2;

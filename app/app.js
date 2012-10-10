@@ -47,7 +47,10 @@ function($, _, Backbone, eio) {
     live: true,
 
     // Collection of all debate messages.
-    messages: {}
+    messages: {},
+
+    // Buffer incoming messages when replay is happening.
+    bufferedMessages: []
   };
 
   // Localize or create a new JavaScript Template object.

@@ -16,8 +16,6 @@ function(app) {
 	Ref.transcriptPointSize = 18;
 	Ref.transcriptLeading = 24;
 	
-	Ref.bigWordLeading = 336;
-	  
 	// For development, autoscrolling can be disabled completely
   Ref.disableAutoScroll = false;
 

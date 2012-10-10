@@ -40,7 +40,8 @@ function(app, Overlay, Ref) {
   											"negemo": new Overlay.Views.CatView({ category: 'negemo', title:'Negative' }),
   											"certain": new Overlay.Views.CatView({ category: 'certain', title:'Confident' }),
   											"tentat": new Overlay.Views.CatView({ category: 'tentat', title:'Tentative'}),
-  											"number": new Overlay.Views.CatView({ category: 'number', title:'Quantitative'}) }
+  											"number": new Overlay.Views.CatView({ category: 'number', title:'Quantitative'}),
+  											"quote": new Overlay.Views.CatView({ category: 'quote', title:'Quoted'}) }
   		}	
   	},
   	

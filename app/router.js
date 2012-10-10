@@ -204,7 +204,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           transcript.on("click", ".traitClick", { tag: "AUTHENTIC" } , enterComp);
           transcript.on("click", ".countClick", { tag: "list" } , enterComp);
           
-          var markupNames = ['posemo', 'negemo', 'certain', 'tentat', 'number'];          
+          var markupNames = ['posemo', 'negemo', 'certain', 'tentat', 'number', 'quote'];          
           transcript.on("click", ".catMarkup", function(ev) {
           	ev.stopPropagation();
           	markupManager.closeCatOverlays();
@@ -214,8 +214,9 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           	else if ($(this).hasClass("certainMarkup")) i=2;
           	else if ($(this).hasClass("tentatMarkup")) i=3;
           	else if ($(this).hasClass("numberMarkup")) i=4;
+          	else if ($(this).hasClass("quoteMarkup")) i=5;
           
-	         	for(var a=0; a<5; a++){
+	         	for(var a=0; a<markupNames.length; a++){
 	          	if(a==i) $('.'+markupNames[a]+'Markup').addClass('reverse');				// Highlight the chosen category.
 	          	else $('.'+markupNames[a]+'Markup:not(.categoryOverlay)').addClass('grayed');          		// Gray out all the other categories.
           	}

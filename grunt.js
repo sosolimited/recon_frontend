@@ -148,7 +148,7 @@ module.exports = function(grunt) {
         });
 
         app.get("/messages/:debate", function(req, res) {
-          var path = "./messages/_scratch_test";
+          var path = "./messages/d0";
           var timediff = req.params.timediff;
           var contents = fs.readFileSync(path).toString();
 

@@ -20,13 +20,18 @@ function(app) {
   	},
   	
   	initialize: function(msg, phrase, count) {
-  		this.set({id:msg['dbid'], phrase:phrase, cats:msg['cats']});
-  		this.increment(count);
+  		var str = this.getTheFuckingString(msg.dbid);
+  		if (phrase == "I want to") console.log("DBID ="+str+" "+phrase+" "+count+" "+JSON.stringify(msg));
+  		if (msg && str) this.set({dbid:str, phrase:phrase, cats:msg['cats'], count:count});
     },
     
-    increment: function(count){
-    	var inc = count ? count : 1;
-    	this.set({count: this.get("count")+inc});
+    getTheFuckingString: function(oid) {
+	    var str = JSON.stringify(oid);
+  		if (str) return str.substring(10, str.length-2);
+    },
+    
+    increment: function(){
+    	this.set({count: this.get("count")+1});
     }
   });
 
@@ -52,44 +57,54 @@ function(app) {
 	    app.off(null, null, this);
     },
     
+    getTheFuckingString: function(oid) {
+	    var str = JSON.stringify(oid);
+  		if (str) return str.substring(10, str.length-2);
+    },
+    
     addPhrase: function(args) {
   	
 			//console.log("add "+this.phraseLength+" "+this.numTop+" "+args['msg']['ngram'].join(" "));
 			
-    	if (args['live']) {
+    	//if (args['live']) { //PEND take out for not, but need to remember why this was here...
 	    	var msg = args['msg'];
 	    	// Only add word if it's NOT punctuation.
 	    	
 	    	if (msg['type'] == 'word') {
 		    	if(msg['punctuationFlag'] == 0){
 	    	
-		    	//console.log("UniqueWord.Collection.addWord("+word['word']+")");
+		    	//console.log("UniqueWord.Collection.addWord("+msg['word']+")");
 		    	
 			    	if (this.phraseLength == 1) {
-			    	
-				    	var w = this.get(msg["dbid"]); //PEND Change 0s.
+			    		var str = this.getTheFuckingString(msg.dbid);
+			    		//console.log(str);
+				    	var w = this.where({dbid:str})[0]; //PEND Change 0s.
 				    	if (w) w.increment();
-				    	else this.add(msg, msg["word"], 1, msg["cats"]);				    	
+				    	else this.add(new UniquePhrase.Model(msg, msg["word"], 1));				    	
 				    } else {
 					    for (var i=0; i<msg['ngrams'].length; i++) {
-						    var p = this.get(msg['ngrams'][i][0]);
+			    			var str = this.getTheFuckingString(msg['ngrams'][i][0]);
+			    		//console.log(str);
+						    var p = this.where({dbid:str})[0];
 						    if (msg['ngrams'][i][1] == this.phraseLength && p) {
 							    p.increment();
-							    //console.log("incremented "+p.get("phrase")+" speaker "+msg['speaker']+" for collection "+this.phraseLength);
-						    }
+							   // console.log("incremented '"+p.get("phrase")+"' speaker "+msg['speaker']+" for collection "+this.phraseLength);
+							 //   console.log("new count = "+p.get("count"));
+							 
+						    } 
 					    }
 					  }
 					}
 	    	} else if (msg['type'] == 'newNGram') {
-	    	
+	    	//console.log("new ngram");
 	    		// add new ngram
-	    		if (msg['ngram'].length == this.phraseLength) {
-		    		this.add(msg, msg['ngram'].join(" "), parseInt(msg['instances'].length, 10));
-		    		//console.log("added "+msg['ngram'].join(" ")+" speaker "+msg['speaker']+" for collection "+this.phraseLength);
+	    		if (msg['ngram'].length == this.phraseLength) {		    		
+	    			this.add(new UniquePhrase.Model(msg, msg['ngram'].join(" "), parseInt(msg['instances'].length, 10)));
+		    		//console.log("added '"+msg['ngram'].join(" ")+"' speaker "+msg['speaker']+" for collection "+this.phraseLength+" "+msg['instances'].length);
 		    	}
 	    	}
 	    	
-	    }
+	    //}
     },
     
     getCollectionSize: function() {
@@ -111,6 +126,7 @@ function(app) {
 				if (this.filterPhrase(this.at(index))){
 					this.topPhrases[i]['phrase'] = this.at(index).get("phrase");
 					this.topPhrases[i]['count'] = this.at(index).get("count");
+					//console.log("p "+this.topPhrases[i]['phrase']+" c "+this.topPhrases[i]['phrase']);
 					i++;
 				}
 				index++;	  	

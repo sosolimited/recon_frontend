@@ -46,6 +46,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
       var uniqueWords = new UniquePhrase.Model.AllPhrases(1, 10);
       var unique2Grams = new UniquePhrase.Model.AllPhrases(2, 10);
       var unique3Grams = new UniquePhrase.Model.AllPhrases(3, 10);
+      var unique4Grams = new UniquePhrase.Model.AllPhrases(4, 10);
       
 		  // Init transcript.
 		  var transcriptView = new Transcript.View( {messages: messageCollection, speakers: speakerCollection, uniqueWords: uniqueWords} );
@@ -91,7 +92,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
       
       comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["honesty"], speakerNames:speakerCollection, title:"AUTHENTIC", title2:"DECEPTIVE", subtitle:"Compared to liars, truth-tellers tend to use more self-references, provide more detailed descriptions, and use fewer negative words. ", range:[0, 6.0], color1:Ref.purple, color2:Ref.redOrange, gradient:"gradientHonesty"}));                   
       
-     
+      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 4-WORD PHRASES", subtitle:"The top ten phrases of each candidate", uniqueWords:unique4Grams, color1:"Lime"}));     
        
       // Load from static file.
       if (this.qs.docName) {

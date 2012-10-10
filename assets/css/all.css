@@ -967,6 +967,20 @@ landingTitleImage {
 	color: rgb(60,60,60) !important;
 }
 
+.quoteMarkup:hover{
+	background-color: rgb(255,255,255) !important;
+	color: rgb(60,60,60) !important;
+}
+.quoteMarkup.reverse{
+	background-color: rgb(48,179,228) !important;
+	color: rgb(255,255,255) !important;
+}
+.quoteMarkup.grayed{
+	background-color: transparent !important;
+	color: rgb(60,60,60) !important;
+}
+
+
 .catMarkup{
 	cursor: pointer;
 }

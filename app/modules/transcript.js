@@ -393,6 +393,7 @@ function(app, Overlay, Ref) {
 	     	 // Word count markup.
 	     	 else if($(this).hasClass("wordCountMarkup")){	
 	     	   $(this).css("background-color", "rgb(207,255,36)");
+	     	   $(this).css("color", "rgb(207,255,36)");
 	     	   //$(this).css("text-decoration", "underline");	    	
 	     	 }
 	     	 // Number markup.

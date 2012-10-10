@@ -876,6 +876,7 @@ landingTitleImage {
 
 .catWrapper {
 	position: absolute;
+	z-index: 7000;
 }
 
 .categoryOverlay {
@@ -889,7 +890,7 @@ landingTitleImage {
   color: rgb(255,255,255);
 	/*-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
 	-webkit-transform: translateZ(0px);	*/
-  z-index: 10;
+  z-index: 7000;
   text-transform: uppercase;
   -webkit-transition: left 1s;
 }

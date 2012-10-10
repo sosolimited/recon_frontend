@@ -176,7 +176,7 @@ function(app) {
 	    $('#navRight').css("webkitTransform", "translateX(0px) translateY(-5px) rotate(-90deg)");
 	    if (first) {
 	    	$('#navInstructions').css("webkitTransform", "translateX(0%)");
-		    instructionTimeout = setTimeout(function(){ $('#navInstructions').css("webkitTransform", "translateX(110%)"); }, 4000);
+		    instructionTimeout = setTimeout(function(){ $('#navInstructions').css("webkitTransform", "translateX(100%)"); }, 4000);
 		  } 
     },
     

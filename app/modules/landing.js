@@ -84,6 +84,7 @@ function(app, Ref) {
     
     enter: function() {
     	// Hello landing.
+      $('body').stop().scrollTop(0); // Jump to the top since landing is no longer postion: fixed
 	    $('#landingWrapper').css("visibility", "visible");
 	    // Bye bye everything else.
 	    this.navigation.exit();

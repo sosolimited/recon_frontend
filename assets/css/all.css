@@ -8,6 +8,13 @@ body {
   overflow-y: scroll;	
   overflow-x: hidden;	/* not working! */
   cursor: default;
+  margin: 0;
+}
+
+.layout.main {
+  position: relative;
+  overflow: hidden;
+  min-height: 100%;
 }
 
 .layer {
@@ -28,6 +35,7 @@ body {
   -webkit-transition: -webkit-transform .5s linear; 
   transition: all .5s linear;
   overflow:visible;
+  position: static;
   /* overflow-x: hidden; */
   /* background-color: yellow; */
  
@@ -45,7 +53,8 @@ body {
 
 #landing {
 	/* background-color:yellow; */
-	position: absolute;
+	position: relative;
+	height: 748px;
 }
 
 #bigWords {
@@ -85,9 +94,7 @@ body {
 }
 
 .bigWord {
-	position: absolute;
 	display: block;
-	left: 0px;	/* account for perspective */
 	font-size: 400px;
 	line-height: 336px;
 	/*font-family:"ff-meta-serif-web-pro"; */
@@ -1158,7 +1165,9 @@ landingTitleImage {
   cursor: pointer;
 }
 
-
+#overlay {
+  position: relative;
+}
 
 .skTest {
 	position: absolute;

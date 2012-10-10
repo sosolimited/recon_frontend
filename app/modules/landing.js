@@ -61,6 +61,7 @@ function(app, Ref) {
 
 
       if(e.target.id === "landingButton0" || e.target.parentNode.id == "landingButton0"){
+        app.playback = true;
 	      this.enterDebate(0);
       }else if(e.target.id === "landingButton1" || e.target.parentNode.id == "landingButton1"){
       	this.transcript.setHeading("transcript 2");

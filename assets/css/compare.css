@@ -1,23 +1,23 @@
 .backgroundGradient{
-margin-top: -156px;
-margin-left:-200px;
-margin-right:-200px;
-height:600px; 
-position:fixed; 
-
-/* Background Gradient Color */
-
-background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* IE10+ */
-background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
-
-background-repeat:no-repeat; 
-opacity:0.2; 
-z-index:-2;
+	margin-top: -156px;
+	margin-left:-200px;
+	margin-right:-200px;
+	height:600px; 
+	position:fixed; 
+	
+	/* Background Gradient Color */
+	
+	background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* IE10+ */
+	background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+	
+	background-repeat:no-repeat; 
+	opacity:0.2; 
+	z-index:-2;
 
 }
 
@@ -36,7 +36,7 @@ z-index:-2;
 .list {
 
 	/* height:1200px;	*/ /* For Top 20 words */
-	height:900px;	 /* For Top 10 words */
+	height:700px;	 /* For Top 10 words */
 
 }
 
@@ -74,21 +74,21 @@ z-index:-2;
 	line-height:18px;
 }
 
-.comparisonListCandidate {
+.listCandidate {
 	position: relative;
+	margin: 0 0 0 0;
 	font-size: 48px;
-	line-height:60px;
-
+	line-height: 48px;
 }
 
-.comparisonListWord {
+.listWord {
 	text-align: left;
 	padding: 0 0 0 0;
 	font-size: 30px;
 	line-height: 36px;
 }
 
-.comparisonListValue {
+.listValue {
 	text-align: right;	
 	font-size: 24px;	
 	line-height: 38px;
@@ -106,7 +106,7 @@ z-index:-2;
 	line-height: 24px;
 	margin: 0 0 0 0;
 	left: 6px;
-
+  z-index: 3;
 }
 
 .comparisonPastCandidateRight {
@@ -132,7 +132,9 @@ z-index:-2;
 	text-align: right;
 	right: 6px;
 	margin: 0 0 0 0;
-  color: white;	
+  color: white;
+  z-index: 3;
+  	
 }
 
 .comparisonBarGraph {

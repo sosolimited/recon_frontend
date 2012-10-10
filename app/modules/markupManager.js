@@ -36,12 +36,13 @@ function(app, Overlay, Ref) {
   	defaults: function() {
   		return {
   			"overlays":[],
-  			"catOverlays": {"posemo": new Overlay.Views.CatView({ category: 'posemo', title: 'Positive'}),
-  											"negemo": new Overlay.Views.CatView({ category: 'negemo', title:'Negative' }),
-  											"certain": new Overlay.Views.CatView({ category: 'certain', title:'Swaggy' }),
-  											"tentat": new Overlay.Views.CatView({ category: 'tentat', title:'Wimpy'}),
-  											"number": new Overlay.Views.CatView({ category: 'number', title:'Number'}),
-  											"quote": new Overlay.Views.CatView({ category: 'quote', title:'Quoted'}) }
+  			"catOverlays": {"posemo": new Overlay.Views.CatView({ category: 'posemo', title: ['GIDDY','WORDS']}),
+  											"negemo": new Overlay.Views.CatView({ category: 'negemo', title: ['GRUMPY', 'WORDS '] }),
+  											"certain": new Overlay.Views.CatView({ category: 'certain', title:['SWAGGER', 'BABY'] }),
+  											"tentat": new Overlay.Views.CatView({ category: 'tentat', title: ['WISHY', 'WASHY']}),
+  											"number": new Overlay.Views.CatView({ category: 'number', title: ['MEANINGLESS', 'NUMBERS']}),
+  											"quote": new Overlay.Views.CatView({ category: 'quote', title: ['HE_SAID', 'SHE_SAID']}) }
+
   		}	
   	},
   	
@@ -67,6 +68,12 @@ function(app, Overlay, Ref) {
 	  clearMarkup: function() {
 		  $('#overlay').empty();
 		  this.set({overlays:[]});
+		  
+		  // Add resuable cat overlays back into DOM.
+      for (var cat in this.get("catOverlays")) {
+	      $('#overlay').append(this.get("catOverlays")[cat].el);
+	      this.get("catOverlays")[cat].render();
+      }
 	  },
 	  
 	  // All overlay events get funnelled through this function.
@@ -126,12 +133,11 @@ function(app, Overlay, Ref) {
 	  	(args["curSpeaker"] == 1) ? speakerString = "obama" : speakerString = "romney" ;
 	  	
 	  	var traitString = "";
-	  	if (args["trait"] == 'posemo') traitString = "POSITIVE";
-	  	else if (args["trait"] == 'negemo') traitString = "NEGATIVE";
-	  	else if (args["trait"] == 'anger') traitString = "ANGRY";
-	  	else if (args["trait"] == 'complexity') traitString = "COMPLEX";
-	  	else if (args["trait"] == 'formality') traitString = "FORMAL";
-	  	else if (args["trait"] == 'depression') traitString = "DEPRESSED";
+	  	//jro changed traits
+	  	if (args["trait"] == 'anger') traitString = "ENRAGED";
+	  	else if (args["trait"] == 'complexity') traitString = "O.C.D.";
+	  	else if (args["trait"] == 'formality') traitString = "DETACHED";
+	  	else if (args["trait"] == 'depression') traitString = "SUICIDAL";
 	  	else if (args["trait"] == 'honesty') traitString = "HONEST";
 	  	
 	  	console.log("addTraitOverlay() " + traitString + " leader:" + args["leader"] + " speaker:" + args["curSpeaker"] + " val:" + moreVal);

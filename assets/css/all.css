@@ -127,22 +127,6 @@ body {
 
 /* Transcript bizniss */
 
-h1 { /* Speaker names */
-  text-decoration: underline;	
-  /* border-bottom-style: solid; */ 	/* alternative to control "underline" weight */
-  /* border-bottom-width: 2px */
-  line-height: 0px;
-  font-size: 36px;
-  cursor: pointer;
-}
-
-h1:hover { /* Speaker names */
-  line-height: 0px;
-  font-size: 36px;
-  background-color: rgb(20,20,20);
-  cursor: pointer;
-}
-
 .transcriptSpeaker {
 	text-decoration: none;	
   line-height: 24px;
@@ -289,13 +273,7 @@ hr {
 }
 
 
-#navPlaybackButton {
-	display:inline-block;
-	padding: 5px 5px 20px 5px;
-	
-}
-
-#navTranscriptButton {
+#navPlaybackButton, #navTranscriptButton {
 	display:inline-block;
 	padding: 5px 5px 20px 5px;
 	
@@ -308,24 +286,23 @@ hr {
 	/*margin-left: 10px;*/
 	padding: 5px 5px 20px 5px;
 	/* padding: 5px; */
-
-	
 }
 
-#navComparisonButton .active{
-  -webkit-transition:  1s linear; 
-  transition:  1s linear; 
-  opacity: .5 !important;
-	
-	
+.navButton {
+	background:white;
+}
+
+.navButton.active:hover {
+	cursor:pointer;
+	background:rgb(76,76,76);
+	color:white;
 }
 
 
-#navTranscriptButton .active{
-  -webkit-transition:  1s linear; 
-  transition:  1s linear; 
+#navComparisonButton.inactive, #navTranscriptButton.inactive{
   opacity: .5 !important;
 }
+
 
 /* White box inside #navigation div */
 #navTimeline {
@@ -379,16 +356,7 @@ hr {
 	/*color: rgb(64, 180, 230)*/
 }
 
-.navButton {
-	color:black;
-	background:white;
-}
 
-.navButton:hover {
-	cursor:pointer;
-	background:black;
-	color:white;
-}
 
  
 .rot90 {

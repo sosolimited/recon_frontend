@@ -36,12 +36,12 @@ function(app, Overlay, Ref) {
   	defaults: function() {
   		return {
   			"overlays":[],
-  			"catOverlays": {"posemo": new Overlay.Views.CatView({ category: 'posemo', title: 'Positive'}),
-  											"negemo": new Overlay.Views.CatView({ category: 'negemo', title:'Negative' }),
-  											"certain": new Overlay.Views.CatView({ category: 'certain', title:'Confident' }),
-  											"tentat": new Overlay.Views.CatView({ category: 'tentat', title:'Tentative'}),
-  											"number": new Overlay.Views.CatView({ category: 'number', title:'Quantitative'}),
-  											"quote": new Overlay.Views.CatView({ category: 'quote', title:'Quoted'}) }
+  			"catOverlays": {"posemo": new Overlay.Views.CatView({ category: 'posemo', title: 'Giddy'}),
+  											"negemo": new Overlay.Views.CatView({ category: 'negemo', title:'Grumpy' }),
+  											"certain": new Overlay.Views.CatView({ category: 'certain', title:'Swagger' }),
+  											"tentat": new Overlay.Views.CatView({ category: 'tentat', title:'Weak'}),
+  											"number": new Overlay.Views.CatView({ category: 'number', title:'Wall Street'}),
+  											"quote": new Overlay.Views.CatView({ category: 'quote', title:'Name Dropping'}) }
   		}	
   	},
   	
@@ -120,12 +120,11 @@ function(app, Overlay, Ref) {
 	  	(args["curSpeaker"] == 1) ? speakerString = "obama" : speakerString = "romney" ;
 	  	
 	  	var traitString = "";
-	  	if (args["trait"] == 'posemo') traitString = "POSITIVE";
-	  	else if (args["trait"] == 'negemo') traitString = "NEGATIVE";
-	  	else if (args["trait"] == 'anger') traitString = "ANGRY";
-	  	else if (args["trait"] == 'complexity') traitString = "COMPLEX";
-	  	else if (args["trait"] == 'formality') traitString = "FORMAL";
-	  	else if (args["trait"] == 'depression') traitString = "DEPRESSED";
+	  	//jro changed traits
+	  	if (args["trait"] == 'anger') traitString = "ENRAGED";
+	  	else if (args["trait"] == 'complexity') traitString = "O.C.D.";
+	  	else if (args["trait"] == 'formality') traitString = "DETACHED";
+	  	else if (args["trait"] == 'depression') traitString = "SUICIDAL";
 	  	else if (args["trait"] == 'honesty') traitString = "HONEST";
 	  	
 	  	console.log("addTraitOverlay() " + traitString + " leader:" + args["leader"] + " speaker:" + args["curSpeaker"] + " val:" + moreVal);

@@ -83,12 +83,12 @@ function(app, Ref) {
     	var collapseD = (force) ? 0 : this.collapseDur;
     	//Shrink text.
     	this.$el.find('.traitExpText').each(function(i){ 
-    		$(this).animate({'font-size':'20px', 'line-height':'24px'}, collapseD);
+    		$(this).animate({'font-size':'30px', 'line-height':'36px'}, collapseD);
     	}); 
     	//Shrink and move divs.
     	this.$el.find('.traitExpTextHolder').each(function(i){
     		
-    		$(this).animate({'left':Ref.gridColumns[0], 'top':y+i*24+'px', 'height':'24px'}, collapseD);
+    		$(this).animate({'left':Ref.gridColumns[0], 'top':y+i*36+'px', 'height':'36px'}, collapseD);
      		
      		//else $(this).animate({'left':Ref.gridColumns[0], 'top':y+i*24+'px', 'height':'24px'}, collapseD);
     		//$(this).animate({'-webkit-transform':'translateZ(1000px)'}, collapseD);   	//Move div forward in Z.	
@@ -97,11 +97,11 @@ function(app, Ref) {
     	});
     	//Shrink and position big arrow.
     	this.$el.find('.traitSymbolLeft').each(function(){
-	    		$(this).animate({'font-size':'360px', 'line-height':12*14+'px'}, collapseD/2.);
+	    		$(this).animate({'font-size':'480px', 'line-height':12*14+'px'}, collapseD/2.);
     	});
     	
     	this.$el.find('.traitSymbolRight').each(function(){
-	    		$(this).animate({'font-size':'360px', 'line-height':12*14+'px'}, collapseD/2.);
+	    		$(this).animate({'font-size':'480px', 'line-height':12*14+'px'}, collapseD/2.);
     	});
     },
     

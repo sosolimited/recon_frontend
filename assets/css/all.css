@@ -51,7 +51,7 @@ body {
 #bigWords {
 	position: absolute;
 	top: 0px;	
-
+  z-index: -2;
 /*
 	-webkit-perspective: 700px; 
 	-webkit-perspective-origin: 50% 1000px;	
@@ -998,6 +998,8 @@ landingTitleImage {
 
 .catMarkup{
 	cursor: pointer;
+  display: inline-block;
+  height: 1.2em;
 }
 
 

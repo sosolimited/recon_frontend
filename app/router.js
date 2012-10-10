@@ -58,12 +58,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 		  
 		  // Init navigation.
 		  var navigationView = new Navigation.View( {transcript: transcriptView, messages: messageCollection} );
-		  
-		  // Init landing page.
-			var landingView = new Landing.View( {model: new Landing.Model(), navigation: navigationView, transcript: transcriptView, overlay: markupManager, bigWords: bigWordsView} );
-			// Pass landing view to navigation for menu control.
-			navigationView.setLanding(landingView);
-		  
+		 		  
 			var startTime = new Date().getTime();
     	    	      
       // Init comparison collection.
@@ -90,7 +85,11 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
       comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["depression"], speakerNames:speakerCollection, title:"DEPRESSED", title2:"CHEERFUL", subtitle:"Depressed people mention themselves more('I', 'me', 'my'), use more negative language ('hate', 'worthless'), use more physical words ('ache', 'sleep'), and use fewer positive words ('win', 'happy').", range:[-1.0, 4.75], color1:Ref.depressed, color2:Ref.cheery, gradient:"gradientDisposition"}));  
       
       comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["honesty"], speakerNames:speakerCollection, title:"AUTHENTIC", title2:"DECEPTIVE", subtitle:"Compared to liars, truth-tellers tend to use more self-references, provide more detailed descriptions, and use fewer negative words. ", range:[0, 6.0], color1:Ref.purple, color2:Ref.redOrange, gradient:"gradientHonesty"}));                   
-      
+
+			// Init landing page.
+			var landingView = new Landing.View( {model: new Landing.Model(), navigation: navigationView, transcript: transcriptView, overlay: markupManager, bigWords: bigWordsView, comparisons: comparisonView} );
+			// Pass landing view to navigation for menu control.
+			navigationView.setLanding(landingView);      
      
        
       // Load from static file.
@@ -157,13 +156,14 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
             transcript.addClass("fade");
             comparisons.addClass("active");
             // EG Testing this for performance
+            $('#comparisons').css("visibility", "visible");	     	   // This is in case comparison.exit() was called.
             $('#comparisons > .wrapper').css("display", "block");
-            $('#transcript > .wrapper').css("visibility", "hidden");
+            $('#transcript').css("visibility", "hidden");        
 
             // Disable scrolling on the document body and save the current
             // offset (to be restored when closing the comparison view)
-            //$body.addClass("no-scroll");	//EG Testing 
-            //transcript.data("lastTop", $body.scrollTop());	//EG Testing
+            $body.addClass("no-scroll");	
+            transcript.data("lastTop", $body.scrollTop());	
 
             var elt = $('#comparisons').find('.compareContainer.'+event.data.tag).parent();
             $("#comparisons > .wrapper").stop().animate({ scrollTop: elt.position().top}, 1.0);
@@ -179,12 +179,12 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
             comparisons.removeClass("active");
             // EG Testing this for performance
             $('#comparisons > .wrapper').css("display", "none");
-            $('#transcript > .wrapper').css("visibility", "visible");
+            $('#transcript').css("visibility", "visible");
             
             // Re-enable scrolling on the document body and restore the
             // previous offset
-            //$body.removeClass("no-scroll");	//EG Testing
-            //$body.scrollTop(transcript.data("lastTop"));	//EG Testing
+            $body.removeClass("no-scroll");	
+            $body.scrollTop(transcript.data("lastTop"));	
             
             // Switch skrollr scroll element back to body.
 						//app.skrollr.resetSkrollElement();

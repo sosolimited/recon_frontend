@@ -40,7 +40,8 @@ function(app, Ref) {
 	    this.navigation = this.options.navigation;
 	    this.transcript = this.options.transcript;
 	    this.overlay = this.options.overlay;
-	    this.bigWords = this.options.bigWords;	    
+	    this.bigWords = this.options.bigWords;
+	    this.comparisons = this.options.comparisons;	    
     },
     
     events: {
@@ -87,6 +88,7 @@ function(app, Ref) {
 	    this.navigation.exit();
       this.transcript.exit();
       this.bigWords.exit();	
+      this.comparisons.exit();
       app.messages[this.model.get("lastDebateViewed")].stopPlayback();
     },
     

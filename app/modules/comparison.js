@@ -476,6 +476,10 @@ function(app, Ref) {
 	    this.$el.append("<div class='comparisonFiller'></div>");	    
     },
     
+    exit: function() {
+	    $('#comparisons').css("visibility", "hidden");	     	   
+    },
+    
     afterRender: function() {
     	// For skrollr purposes, to be able to scroll long and deep in the comparisons > .wrapper div.
 	    //this.insertFiller();	

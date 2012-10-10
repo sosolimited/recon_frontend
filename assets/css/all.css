@@ -45,7 +45,7 @@ body {
 
 #landing {
 	/* background-color:yellow; */
-	position: fixed;
+	position: absolute;
 }
 
 #bigWords {

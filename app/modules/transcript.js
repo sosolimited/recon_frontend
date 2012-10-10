@@ -84,7 +84,8 @@ function(app, Overlay, Ref) {
     },
     
     setHeading: function(str) {
-	    $('#transcriptHeading').html(str+'<hr>');    
+	    $('#transcriptHeading').html(str+'<hr>');
+	    $('#transcriptHeading').addClass('push-0');    
     },
 
     addWord: function(args) {

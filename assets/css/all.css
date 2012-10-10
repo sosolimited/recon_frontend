@@ -2,8 +2,8 @@ body {
   /* background: -webkit-linear-gradient(left, #9699A0, #C9D1CF, #C9D1CF, #9699A0); */
   /*background-color: rgb(110,116,116);*/
   
-  background-color: rgb(200,200,200); /*rgb(140,146,146);*/
-  /* background-image: url('../../images/background-tex.jpg'); */
+  /*background-color: rgb(200,200,200); /*rgb(140,146,146);*/
+ background-image: url('../../images/background-tex.jpg');
   background-repeat: repeat; *;
   overflow-y: scroll;	
   overflow-x: hidden;	/* not working! */
@@ -446,7 +446,7 @@ hr {
 	line-height: 120px;
 	padding-bottom:50px;
 	
-	color:black;
+	color:rgb(55,54,50);
 	text-transform: uppercase;
 	z-index: 6500;
 	
@@ -962,6 +962,7 @@ landingTitleImage {
 }
 .negemoMarkup.reverse{
 	background-color: rgb(122,52,183) !important;
+	/*background-color: rgb(44,124,141) !important;*/
 	color: rgb(255, 255, 255) !important;
 }
 .negemoMarkup.grayed{
@@ -1123,10 +1124,13 @@ landingTitleImage {
 }
 
 .posemo {
-  color: rgb(112,241,184);
+ color: rgb(112,241,184);
+   /*color: rgb(255,239,54);*/
 }
 .negemo {
   color: rgb(127, 48, 177);
+  /*color: rgb(44, 124, 141);*/
+  
 }
 
 .emoSign {

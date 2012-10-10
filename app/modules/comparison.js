@@ -331,7 +331,7 @@ function(app, Ref) {
         	     	
   	setValues: function(options) {
 
-  		this.set({viewType:"list", uniqueWords:options.uniqueWords, unique2Grams:options.unique2Grams, unique3Grams:options.unique3Grams, obamaList: new Array(), romneyList: new Array(), obamaValues: new Array(), romneyValues: new Array()});
+  		this.set({viewType:"megalist", uniqueWords:options.uniqueWords, unique2Grams:options.unique2Grams, unique3Grams:options.unique3Grams, obamaWordList: new Array(), romneyWordList: new Array(), obamaWordValues: new Array(), romneyWordValues: new Array(), obama2GramList: new Array(), romney2GramList: new Array(), obama2GramValues: new Array(), romney2GramValues: new Array(), obama3GramList: new Array(), romney3GramList: new Array(), obama3GramValues: new Array(), romney3GramValues: new Array()});
   		app.on("message:word", this.updateWordStats, this);	
   			  		
   	},

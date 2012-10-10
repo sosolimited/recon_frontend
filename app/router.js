@@ -105,17 +105,6 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	        }
 	      }));
 	    }
-	    
-	    // Testing playback (delay is how long to wait after start of connect to server).
-	    if (this.qs.playback) {
-	    	app.live = false;
-	    	setTimeout(function() {
-	    		console.log("play "+messageCollection.length);
-	    		messageCollection.each(function(msg) {
-	    			msg.emit();
-	    		});
-	    	}, parseFloat(this.qs.playbackDelay, 100));
-	    }
 
 			// EG Hack to fix loading race condition. calling render().then(... wasn't working above.
 			// I'm sure there's a less stupid way to do this.

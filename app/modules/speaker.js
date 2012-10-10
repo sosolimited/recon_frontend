@@ -26,9 +26,8 @@ function(app) {
   			longestSentenceLength: 0,
   			longestSentence: "",
   			curSentence: "",
-  			traits: [{name: "posemo", val: 0},
-  							 {name: "negemo", val: 0},
-  							 {name: "anger", val: 0},
+  			//jro removed posemo and negemo
+  			traits: [{name: "anger", val: 0},
   							 {name: "complexity", val: 0},
   							 {name: "formality", val: 0},
   							 {name: "depression", val: 0},
@@ -135,7 +134,7 @@ function(app) {
     leads: [],
     sentenceLeadLead: -1,
     curTrait: 0,
-    traitTimeout: 60000,
+    traitTimeout: 1.5*60000,
     traitTimeoutFlag: false,
     curSpeaker: 1,
     
@@ -145,7 +144,7 @@ function(app) {
     	app.on("transcript:speakerSwitch", this.setSpeaker, this);
     	var coll = this;
     	//Tune this to 5 minutes
-    	var superlativeMins = 4;
+    	var superlativeMins = 3.5;
     	setInterval(function(){coll.sendRandomTraitLeader();}, superlativeMins*60000);
     },
     

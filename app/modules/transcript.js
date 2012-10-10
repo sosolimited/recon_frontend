@@ -77,6 +77,25 @@ function(app, Overlay, Ref) {
   	},
 
     events : {
+    	"click" : "handleClick"
+    },
+    
+    handleClick: function(e) {
+	   /* if(e.target.class == 'transcriptSpeaker')
+        playbackChapter(e);
+
+      else if(e.target.id == 'goLive') {
+        app.trigger("navigation:goLive", 600);
+      }
+      else if(e.target.id == 'reconTitle'){
+				if (app.mode == "comparison") this.exitComparison(e);
+	      this.landing.enter();
+      }
+
+          transcript.on("click", ".transcriptSpeaker", function() {navigationView.enterComparison(event, "count");});
+          transcript.on("click", ".sentimentClick", function() {navigationView.enterComparison(event, "POSITIVITY");});
+          transcript.on("click", ".traitClick", function() {navigationView.enterComparison(event, "AUTHENTIC");});
+          transcript.on("click", ".countClick", function() {navigationView.enterComparison(event, "list");});*/
     },
   	
     cleanup: function() {

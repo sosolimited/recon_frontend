@@ -94,7 +94,6 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
        
       // Load from static file.
       if (this.qs.docName) {
-      
 	      app.socket.send(JSON.stringify({
 	        event: "loadDoc",
 	
@@ -105,14 +104,6 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	        }
 	      }));
 	    }
-	        
-      // Send msg to get past msgs in bulk.
-      //else {
-	      /*app.socket.send(JSON.stringify({
-	        event: "loadHistory"
-	      }));*/ //pend out for now
-	    //}
-	    
 	    
 	    // Testing playback (delay is how long to wait after start of connect to server).
 	    if (this.qs.playback) {
@@ -237,77 +228,8 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
       })();
 	    */	    
     
-      // Listen for keydown events.
-      var keyboardEnabled = true;	
-      
-      if(keyboardEnabled){
-	      $body.keydown(function(event){
-	      	//console.log(event.which);
-	      	//g for toggling test grid
-	      	if(event.which == 71){
-		      	if($('#testGrid').css("visibility") == "visible") $('#testGrid').css("visibility", "hidden");
-		      	else $('#testGrid').css("visibility", "visible");
-	      	}
-	      	//o for toggling overlay visibility
-	      	else if(event.which == 79){
-		      	//if($('#overlay').css("visibility") == "visible") $('#overlay').css("visibility", "hidden")
-		      	//else $('#overlay').css("visibility", "visible")
-		      	if($('#overlay').css("display") == "inline") $('#overlay').css("display", "none");
-		      	else $('#overlay').css("display", "inline");
-	      	}
-	      	//t for toggling transcript
-	      	else if(event.which == 84){	
-						//app.trigger("keypress:test", {type:"overlay", kind:"trait"});
-	
-						if($('#transcript > .wrapper').css("visibility") == "visible") $('#transcript > .wrapper').css("visibility", "hidden");
-		      	else $('#transcript > .wrapper').css("visibility", "visible");
-					}
-					//w 
-					else if(event.which == 87){	
-						//for skrollr object switching
-						//if(app.skrollr._skrollElement == null) app.skrollr.setSkrollElement("")
-						app.skrollr.resetSkrollElement();
-					}
-					//p 
-					else if(event.which==80){	
-						// Inserting test parallax objects.
-						// app.trigger("keypress:test", {type:"testParallax"});
-						var el = $('#comparisons > .wrapper').get(0);
-						//console.log("setSkrollElement("+el+")");
-						app.skrollr.setSkrollElement(el);
-					}
-					//z To nudge parallax test objects left
-					else if(event.which==90){	
-						$('#testZ6').css("left", (parseInt($('#testZ6').css("left")) - 1));
-						//console.log("left = "+parseInt($('#testZ6').css("left")));
-					}
-					//x  To nudge parallax test objects right
-					else if(event.which==88){	
-						$('#testZ6').css("left", (parseInt($('#testZ6').css("left")) + 1));
-						//console.log("left = "+parseInt($('#testZ6').css("left")));
-					}
-					//q Test top words.
-					else if(event.which==81){
-						var sp = 1;
-						var top20 = uniqueWords.getTopPhrases(sp);
-						for(var i=0; i<20; i++){
-							console.log(i+" = "+top20[i]['word']+" > "+top20[i]['count']);
-						}
-					}
-					
-					else if (event.which==77) //m
-					{
-						app.trigger("keypress:test", {type:"overlay", kind:"traitObama"});
-					}
-					
-					else if (event.which==78) //n
-					{
-						app.trigger("keypress:test", {type:"overlay", kind:"traitRomney"});
-					}
-					
-	      });      
-      }
-      
+			this.initKeyEvents();
+			      
       // Automatically load up the first debate for now
       if(this.qs.debate)
         app.trigger("debate:change", this.qs.debate);
@@ -382,7 +304,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 		        var contents = "[" +
 		          e.target.responseText.split("\n").slice(0, -1).join(",") +
 		        "]";
-		        app.messages[i] = new Message.Collection(JSON.parse(contents));
+		        app.messages[String(i)] = new Message.Collection(JSON.parse(contents));
 		        updateBar(50, 0, i);
 			      app.trigger("debate:activate", i);
 		      } else {
@@ -399,6 +321,86 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	      messages.send();
 	      markup.send();
 	    });
+    },
+    
+    initKeyEvents: function() {
+	          // Listen for keydown events.
+      var keyboardEnabled = true;	
+      
+      if(keyboardEnabled){
+	      $(document.body).keydown(function(event){
+	      	//console.log(event.which);
+	      	//g for toggling test grid
+	      	if(event.which == 71){
+		      	if($('#testGrid').css("visibility") == "visible") $('#testGrid').css("visibility", "hidden");
+		      	else $('#testGrid').css("visibility", "visible");
+	      	}
+	      	//o for toggling overlay visibility
+	      	else if(event.which == 79){
+		      	//if($('#overlay').css("visibility") == "visible") $('#overlay').css("visibility", "hidden")
+		      	//else $('#overlay').css("visibility", "visible")
+		      	if($('#overlay').css("display") == "inline") $('#overlay').css("display", "none");
+		      	else $('#overlay').css("display", "inline");
+	      	}
+	      	//t for toggling transcript
+	      	else if(event.which == 84){	
+						//app.trigger("keypress:test", {type:"overlay", kind:"trait"});
+	
+						if($('#transcript > .wrapper').css("visibility") == "visible") $('#transcript > .wrapper').css("visibility", "hidden");
+		      	else $('#transcript > .wrapper').css("visibility", "visible");
+					}
+					//w 
+					else if(event.which == 87){	
+						//for skrollr object switching
+						//if(app.skrollr._skrollElement == null) app.skrollr.setSkrollElement("")
+						app.skrollr.resetSkrollElement();
+					}
+					//p 
+					else if(event.which==80){	
+						// Inserting test parallax objects.
+						// app.trigger("keypress:test", {type:"testParallax"});
+						var el = $('#comparisons > .wrapper').get(0);
+						//console.log("setSkrollElement("+el+")");
+						app.skrollr.setSkrollElement(el);
+					}
+					//z To nudge parallax test objects left
+					else if(event.which==90){	
+						$('#testZ6').css("left", (parseInt($('#testZ6').css("left")) - 1));
+						//console.log("left = "+parseInt($('#testZ6').css("left")));
+					}
+					//x  To nudge parallax test objects right
+					else if(event.which==88){	
+						$('#testZ6').css("left", (parseInt($('#testZ6').css("left")) + 1));
+						//console.log("left = "+parseInt($('#testZ6').css("left")));
+					}
+					//q Test top words.
+					else if(event.which==81){
+						var sp = 1;
+						var top20 = uniqueWords.getTopPhrases(sp);
+						for(var i=0; i<20; i++){
+							console.log(i+" = "+top20[i]['word']+" > "+top20[i]['count']);
+						}
+					}
+					
+					else if (event.which==77) //m
+					{
+						//app.trigger("keypress:test", {type:"overlay", kind:"traitObama"});
+						app.live = true;
+						app.liveDebate = 0;
+						app.trigger("app:setLive", 0);
+					}
+					
+					else if (event.which==78) //n
+					{
+						//app.trigger("keypress:test", {type:"overlay", kind:"traitRomney"});
+						app.live = false;
+						app.liveDebate = -1;
+						app.trigger("app:setLive", -1);
+					}
+					
+	      });      
+      }
+
     }
   });
 

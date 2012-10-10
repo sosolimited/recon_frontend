@@ -36,8 +36,6 @@ function(app) {
       // Bind custom events
       app.on("playback:addChapter", this.addChapter, this);
       app.on("debate:change", this.setDebateNumber, this);
-      app.on("debate:activate", this.activateDebate, this);
-      app.on("debate:deactivate", this.deactivateDebate, this);
       app.on("message:word", this.updateProgress, this);
       app.on("message:transcriptDone", this.addChapter, this);
       app.on("transcript:scrollTo", this.updateTime, this);
@@ -219,8 +217,8 @@ function(app) {
       comparisons.addClass("active");
       
       // switch buttons
-      $('#navTranscriptButton').addClass('active').removeClass('inactive'); 
-      $('#navComparisonButton').addClass('inactive').removeClass('active');
+      $('#navTranscriptButton').css('display', 'inline-block'); 
+      $('#navComparisonButton').css('display', 'none');
 
       // EG Testing this for performance
       $('#comparisons').css("visibility", "visible");	     	   // This is in case comparison.exit() was called.
@@ -252,8 +250,8 @@ function(app) {
       comparisons.removeClass("active");
         
       // switch buttons
-      $('#navTranscriptButton').addClass('inactive').removeClass('active'); 
-      $('#navComparisonButton').addClass('active').removeClass('inactive');
+      $('#navTranscriptButton').css('display', 'none'); 
+      $('#navComparisonButton').css('display', 'inline-block');
       
       // EG Testing this for performance
       $('#comparisons > .wrapper').css("display", "none");
@@ -266,26 +264,7 @@ function(app) {
       
       // Switch skrollr scroll element back to body.
 			//app.skrollr.resetSkrollElement();
-    },
-    
-    deactivateDebate: function(num) {
-    	if (num >= 0 && num < 3) {
-		    console.log("deactivating "+num);
-		    $('#landingButton'+num).addClass('inactive');
-		    $('#landingRule'+num).addClass('inactive');
-		   	app.active[num] = false; 
-		  }
-    },
-    
-    activateDebate: function(num) {
-    	if (num >= 0 && num < 3) {
-		    console.log("activating "+num+$('landingButton1').id);
-		    $('#landingButton'+num).removeClass('inactive');
-		    $('#landingRule'+num).removeClass('inactive');
-		    app.active[num] = true;
-		  }
     }
-    
 
    
 

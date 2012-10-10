@@ -8,6 +8,13 @@ body {
   overflow-y: scroll;	
   overflow-x: hidden;	/* not working! */
   cursor: default;
+  margin: 0;
+}
+
+.layout.main {
+  position: relative;
+  overflow: hidden;
+  min-height: 100%;
 }
 
 .layer {
@@ -28,6 +35,7 @@ body {
   -webkit-transition: -webkit-transform .5s linear; 
   transition: all .5s linear;
   overflow:visible;
+  position: static;
   /* overflow-x: hidden; */
   /* background-color: yellow; */
  
@@ -45,13 +53,14 @@ body {
 
 #landing {
 	/* background-color:yellow; */
-	position: absolute;
+	position: relative;
+	height: 748px;
 }
 
 #bigWords {
 	position: absolute;
 	top: 0px;	
-
+  z-index: -2;
 /*
 	-webkit-perspective: 700px; 
 	-webkit-perspective-origin: 50% 1000px;	
@@ -85,9 +94,7 @@ body {
 }
 
 .bigWord {
-	position: absolute;
 	display: block;
-	left: 0px;	/* account for perspective */
 	font-size: 400px;
 	line-height: 336px;
 	/*font-family:"ff-meta-serif-web-pro"; */
@@ -126,22 +133,6 @@ body {
 
 
 /* Transcript bizniss */
-
-h1 { /* Speaker names */
-  text-decoration: underline;	
-  /* border-bottom-style: solid; */ 	/* alternative to control "underline" weight */
-  /* border-bottom-width: 2px */
-  line-height: 0px;
-  font-size: 36px;
-  cursor: pointer;
-}
-
-h1:hover { /* Speaker names */
-  line-height: 0px;
-  font-size: 36px;
-  background-color: rgb(20,20,20);
-  cursor: pointer;
-}
 
 .transcriptSpeaker {
 	text-decoration: none;	
@@ -289,13 +280,7 @@ hr {
 }
 
 
-#navPlaybackButton {
-	display:inline-block;
-	padding: 5px 5px 20px 5px;
-	
-}
-
-#navTranscriptButton {
+#navPlaybackButton, #navTranscriptButton {
 	display:inline-block;
 	padding: 5px 5px 20px 5px;
 	
@@ -308,24 +293,23 @@ hr {
 	/*margin-left: 10px;*/
 	padding: 5px 5px 20px 5px;
 	/* padding: 5px; */
-
-	
 }
 
-#navComparisonButton .active{
-  -webkit-transition:  1s linear; 
-  transition:  1s linear; 
-  opacity: .5 !important;
-	
-	
+.navButton {
+	background:white;
+}
+
+.navButton.active:hover {
+	cursor:pointer;
+	background:rgb(76,76,76);
+	color:white;
 }
 
 
-#navTranscriptButton .active{
-  -webkit-transition:  1s linear; 
-  transition:  1s linear; 
+#navComparisonButton.inactive, #navTranscriptButton.inactive{
   opacity: .5 !important;
 }
+
 
 /* White box inside #navigation div */
 #navTimeline {
@@ -379,16 +363,7 @@ hr {
 	/*color: rgb(64, 180, 230)*/
 }
 
-.navButton {
-	color:black;
-	background:white;
-}
 
-.navButton:hover {
-	cursor:pointer;
-	background:black;
-	color:white;
-}
 
  
 .rot90 {
@@ -418,11 +393,7 @@ hr {
 	width: 100%;
 	height: 100%;
 	position: fixed;
-	padding: 50px;
-	margin:-10px 50px 50px -100px;
 	z-index: 3500;
-
-	
 }
 .navInstructionsText{
 	
@@ -589,7 +560,7 @@ hr {
 	font-weight:700; 
 	font-style:italic;*/ 
 	font-family:"franklin-gothic-urw-i7", "franklin-gothic-urw"; font-weight:700; font-style:italic;
-	color: rgb(146,152,152);
+	color: rgb(185, 185, 185);
 	z-index:-1;
 }
 
@@ -690,6 +661,7 @@ hr {
 .landingRule {
 	position: static; 
 	width: 296px;
+	height: 4px;
 	margin: 0px 0px 0px 0px;
 	background-color: rgb(76,76,76)!important;	
 }
@@ -901,7 +873,7 @@ landingTitleImage {
   color: rgb(255,255,255);	
   text-transform: uppercase;
 	
-	-webkit-transition: top 1s;
+	-webkit-transition: top 0.5s;
 }
 
 /*
@@ -911,7 +883,7 @@ landingTitleImage {
 */
 
 .certainMarkup:hover{
-	background-color: rgb(255,255,255) !important;
+	background-color: rgb(255,175,108) !important;
 	/* color: rgb(255,175,108) !important; */
 	color: rgb(60,60,60) !important;
 }
@@ -926,7 +898,7 @@ landingTitleImage {
 
 
 .tentatMarkup:hover{
-	background-color: rgb(255,255,255) !important;
+	background-color: rgb(193,186,134) !important;
 	/* color: rgb(193,186,134) !important; */
 	color: rgb(60,60,60) !important;
 }
@@ -941,7 +913,7 @@ landingTitleImage {
 
 
 .posemoMarkup:hover {
-	background-color: rgb(255,255,255) !important;
+	background-color: rgb(124,240,179) !important;
 	/* color: rgb(124,240,179) !important; */
 	color: rgb(60,60,60) !important;
 }
@@ -956,9 +928,9 @@ landingTitleImage {
 
 
 .negemoMarkup:hover{
-	background-color: rgb(255,255,255) !important;
+	background-color: rgb(122,52,183) !important;
 	/* color: rgb(122,52,183) !important; */
-	color: rgb(60,60,60) !important;
+	color: rgb(180,180,180) !important;
 }
 .negemoMarkup.reverse{
 	background-color: rgb(122,52,183) !important;
@@ -970,8 +942,8 @@ landingTitleImage {
 }
 
 .numberMarkup:hover{
-	background-color: rgb(255,255,255) !important;
-	color: rgb(60,60,60) !important;
+	background-color: rgb(80,80,80) !important;
+	color: rgb(180,180,180) !important;
 }
 .numberMarkup.reverse{
 	background-color: rgb(80,80,80) !important;
@@ -983,7 +955,7 @@ landingTitleImage {
 }
 
 .quoteMarkup:hover{
-	background-color: rgb(255,255,255) !important;
+	background-color: rgb(48,179,228) !important;
 	color: rgb(60,60,60) !important;
 }
 .quoteMarkup.reverse{
@@ -995,9 +967,14 @@ landingTitleImage {
 	color: rgb(60,60,60) !important;
 }
 
+.frequentWordMarkup:hover {
+	color: rgb(60,60,60) !important;
+}
 
 .catMarkup{
 	cursor: pointer;
+  display: inline-block;
+  height: 1.2em;
 }
 
 
@@ -1171,20 +1148,22 @@ landingTitleImage {
 #transcript .freqWordCount {
   position: relative;
   top: 1em;
-  color: rgb(207,255,36); 
-  /*color: white;*/
+  /* color: rgb(207,255,36); */
+  color: white;
 }
 #transcript .freqWordUnderline {
   position: absolute;
-  height: 1px;
-  background-color: white;
-  z-index: -1;
+  height: 2px;
+  background-color: rgb(80,80,80);
+  z-index: 2;
 }
 .tapable {
   cursor: pointer;
 }
 
-
+#overlay {
+  position: relative;
+}
 
 .skTest {
 	position: absolute;

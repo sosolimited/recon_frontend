@@ -146,76 +146,12 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           // Work with the wrappers, not the actual layers.  --> ???
           var transcript = $("#transcript > .wrapper");
           var comparisons = $("#comparisons > .wrapper");
-          var navigation = $("#navigation");
           var bigWords = $("#bigWords");
-          
-          var enterComp = function(event) {
-          	event.stopPropagation();
-          	app.mode = "comparison"; 
-            var dist = transcript.offsetHeight;
-            transcript.scrollTop = dist;
-            transcript.addClass("fade");
-            comparisons.addClass("active");
-            // EG Testing this for performance
-            $('#comparisons').css("visibility", "visible");	     	   // This is in case comparison.exit() was called.
-            $('#comparisons > .wrapper').css("display", "block");
-            $('#transcript').css("visibility", "hidden");        
 
-            // Disable scrolling on the document body and save the current
-            // offset (to be restored when closing the comparison view)
-            $body.addClass("no-scroll");	
-            transcript.data("lastTop", $body.scrollTop());	
-
-            var elt = $('#comparisons').find('.compareContainer.'+event.data.tag).parent();
-            $("#comparisons > .wrapper").stop().animate({ scrollTop: elt.position().top}, 1.0);
-            
-            // Switch skrollr scroll element to comparisons container.
-						//app.skrollr.setSkrollElement($('#comparisons > .wrapper').get(0));
-          };
-          
-          var exitComp = function(event) {
-          	event.stopPropagation();
-          	app.mode = "transcript";
-            transcript.removeClass("fade");
-            comparisons.removeClass("active");
-            // EG Testing this for performance
-            $('#comparisons > .wrapper').css("display", "none");
-            $('#transcript').css("visibility", "visible");
-            
-            // Re-enable scrolling on the document body and restore the
-            // previous offset
-            $body.removeClass("no-scroll");	
-            $body.scrollTop(transcript.data("lastTop"));	
-            
-            // Switch skrollr scroll element back to body.
-						//app.skrollr.resetSkrollElement();
-          }
-          
-          var closeCatLays = function() {
-	          $('.catMarkup').removeClass('reverse');
-	          $('.catMarkup').removeClass('grayed');
-	          markupManager.closeCatOverlays();
-          }
-          
-          navigation.on("click", "#navTranscriptButton", exitComp);
-          navigation.on("click", "#navComparisonButton", { tag: "count" }, enterComp);
-
-          navigation.on("click", "#navPlaybackButton", function() {
-            var elem = $("#navPlaybackButton");
-            var states = ["1x", "2x", "10x"];
-
-            // Find the offset in the array.
-            var offset = (states.indexOf($.trim(elem.text())) + 1) % states.length;
-
-            elem.text(states[offset]);
-
-            app.modifier = window.parseInt(states[offset], 10);
-          });
-
-          transcript.on("click", ".transcriptSpeaker", { tag: "count" }, enterComp);
-          transcript.on("click", ".sentimentClick", { tag: "POSITIVITY" } , enterComp);
-          transcript.on("click", ".traitClick", { tag: "AUTHENTIC" } , enterComp);
-          transcript.on("click", ".countClick", { tag: "list" } , enterComp);
+          transcript.on("click", ".transcriptSpeaker", function() {navigationView.enterComparison(event, "count");});
+          transcript.on("click", ".sentimentClick", function() {navigationView.enterComparison(event, "POSITIVITY");});
+          transcript.on("click", ".traitClick", function() {navigationView.enterComparison(event, "AUTHENTIC");});
+          transcript.on("click", ".countClick", function() {navigationView.enterComparison(event, "list");});
           
           var markupNames = ['posemo', 'negemo', 'certain', 'tentat', 'number', 'quote'];          
           transcript.on("click", ".catMarkup", function(ev) {
@@ -248,8 +184,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           
           transcript.on("click", function() {markupManager.closeCatOverlays();});
           bigWords.on("click", function() {markupManager.closeCatOverlays();});
-         
-          comparisons.on("click", exitComp);
+          comparisons.on("click", function() {navigationView.exitComparison(event);});
           
         })();
       //});

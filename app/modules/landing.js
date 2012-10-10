@@ -88,7 +88,7 @@ function(app, Ref) {
     enter: function() {
     	// Hello landing.
       $('body').stop().scrollTop(0); // Jump to the top since landing is no longer postion: fixed
-	    $('#landingWrapper').css("visibility", "visible");
+	    $('#landing').show();
 	    // Bye bye everything else.
 	    this.navigation.exit();
       this.transcript.exit();
@@ -99,7 +99,7 @@ function(app, Ref) {
     
     exit: function(num) {
     	// Bye bye landing.
- 	    $('#landingWrapper').css("visibility", "hidden");	    
+ 	    $('#landing').hide();
  	    // Hello everything else.
  	    this.navigation.enter(this.model.get("lastDebateViewed") == -1);
       this.transcript.enter();

@@ -189,76 +189,6 @@ function(app, Ref) {
     
   });
 
-  // Extended view for honesty
-  // ---------------------------------------------------------------------------------------------	
-  Comparison.HonestyModel = Comparison.Model.extend({    	
-  	setValues: function(options) {
-	  	
-  		this.set({viewType:"honesty"});
-  	}
-  });
-
-  Comparison.Views.Honesty = Backbone.View.extend({
-    template: "comparison/honesty",
-    className: "comparison container",
-
-		initialize: function() {
-			 this.model.on("change", this.render, this);
-		},
-		
-    serialize: function() {
-      return { comparison: this.model};
-    }
-    
-  });
-
-  // Extended view for formality	
-  // ---------------------------------------------------------------------------------------------
-  Comparison.FormalityModel = Comparison.Model.extend({    	
-  	setValues: function(options) {
-	  	
-  		this.set({viewType:"formality"});
-  	}
-  });
-
-  Comparison.Views.Formality = Backbone.View.extend({
-    template: "comparison/formality",
-    className: "comparison container",
-
-		initialize: function() {
-			 this.model.on("change", this.render, this);
-		},
-		
-    serialize: function() {
-      return { comparison: this.model};
-    }
-    
-  });
-
-  // Extended view for honesty, complexity, formality	
-  // ---------------------------------------------------------------------------------------------
-  Comparison.DispositionModel = Comparison.Model.extend({    	
-  	setValues: function(options) {
-	  	
-  		this.set({viewType:"disposition"});
-  	}
-  });
-
-  Comparison.Views.Disposition = Backbone.View.extend({
-    template: "comparison/disposition",
-    className: "comparison container",
-
-		initialize: function() {
-			 this.model.on("change", this.render, this);
-		},
-		
-    serialize: function() {
-      return { comparison: this.model};
-    }
-    
-  });
-
-
   // Extended view for word count, unique word count	
   // ---------------------------------------------------------------------------------------------
   Comparison.CountModel = Comparison.Model.extend({    	
@@ -333,8 +263,8 @@ function(app, Ref) {
   	
   		// massive memory leak here! move these new's out of here!
   		// this is the only way I could get this to pass info correctly
-  	  var oList = new Array("…", "…", "…", "…", "…", "…", "…", "…", "…", "…" );
-  	  var rList = new Array("…", "…", "…", "…", "…", "…", "…", "…", "…", "…" );
+  	  var oList = new Array();
+  	  var rList = new Array();
 	  	var oVals = new Array();
 	  	var rVals = new Array();  	
   	
@@ -345,14 +275,15 @@ function(app, Ref) {
   		  oVals[i] = this.get('uniqueWords').getTopPhrases(1)[i]['count'];
   		  rVals[i] = this.get('uniqueWords').getTopPhrases(2)[i]['count'];
   
-  		  if (oList[i] === "") {
-  		  
-	  		  oList[i] = "hello";
-  		  }
+  		  if (oList[i] === "") 
+	  		  oList[i] = "...";
+  		  if (rList[i] === "") 
+	  		  rList[i] = "...";	  		  
+
   		}
   	
 	  	this.set({obamaList: oList, romneyList: rList, obamaValues: oVals, romneyValues: rVals});
-	  	//console.log("#1: " + oList[5] + " "  + rList[5]);
+
   	}
 
   });
@@ -396,7 +327,89 @@ function(app, Ref) {
   });
 
 
+  Comparison.MegaListModel = Comparison.Model.extend({
+        	     	
+  	setValues: function(options) {
 
+  		this.set({viewType:"megalist", uniqueWords:options.uniqueWords, unique2Grams:options.unique2Grams, unique3Grams:options.unique3Grams, obamaWordList: new Array(), romneyWordList: new Array(), obamaWordValues: new Array(), romneyWordValues: new Array(), obama2GramList: new Array(), romney2GramList: new Array(), obama2GramValues: new Array(), romney2GramValues: new Array(), obama3GramList: new Array(), romney3GramList: new Array(), obama3GramValues: new Array(), romney3GramValues: new Array()});
+  		app.on("message:word", this.updateWordStats, this);	
+  			  		
+  	},
+  	
+  	updateWordStats: function() {
+  	
+  		// massive memory leak here! move these new's out of here!
+  		// this is the only way I could get this to pass info correctly
+  	  var oWordList = new Array();
+  	  var rWordList = new Array();
+	  	var oWordVals = new Array();
+	  	var rWordVals = new Array();  	
+  	  var o2GramList = new Array();
+  	  var r2GramList = new Array();
+	  	var o2GramVals = new Array();
+	  	var r2GramVals = new Array();  	
+  	  var o3GramList = new Array();
+  	  var r3GramList = new Array();
+	  	var o3GramVals = new Array();
+	  	var r3GramVals = new Array();  	
+  	
+  		for (var i = 0 ; i < 10 ; i++) {
+  		
+  		  oWordList[i] = this.get('uniqueWords').getTopPhrases(1)[i]['phrase'];
+  		  rWordList[i] = this.get('uniqueWords').getTopPhrases(2)[i]['phrase'];
+  		  oWordVals[i] = this.get('uniqueWords').getTopPhrases(1)[i]['count'];
+  		  rWordVals[i] = this.get('uniqueWords').getTopPhrases(2)[i]['count'];
+  		  o2GramList[i] = this.get('unique2Grams').getTopPhrases(1)[i]['phrase'];
+  		  r2GramList[i] = this.get('unique2Grams').getTopPhrases(2)[i]['phrase'];
+  		  o2GramVals[i] = this.get('unique2Grams').getTopPhrases(1)[i]['count'];
+  		  r2GramVals[i] = this.get('unique2Grams').getTopPhrases(2)[i]['count'];  
+  		  o3GramList[i] = this.get('unique3Grams').getTopPhrases(1)[i]['phrase'];
+  		  r3GramList[i] = this.get('unique3Grams').getTopPhrases(2)[i]['phrase'];
+  		  o3GramVals[i] = this.get('unique3Grams').getTopPhrases(1)[i]['count'];
+  		  r3GramVals[i] = this.get('unique3Grams').getTopPhrases(2)[i]['count'];  
+  		    
+  		  if (oWordList[i] === "") 
+	  		  oWordList[i] = "...";
+  		  if (rWordList[i] === "") 
+	  		  rWordList[i] = "...";	  		  
+  		  if (o2GramList[i] === "") 
+	  		  o2GramList[i] = "...";
+  		  if (r2GramList[i] === "") 
+	  		  r2GramList[i] = "...";	  
+  		  if (o3GramList[i] === "") 
+	  		  o3GramList[i] = "...";
+  		  if (r3GramList[i] === "") 
+	  		  r3GramList[i] = "...";	
+	  		   	  		  
+  		}
+  	
+	  	this.set({obamaWordList: oWordList, romneyWordList: rWordList, obamaWordValues: oWordVals, romneyWordValues: rWordVals, obama2GramList: o2GramList, romney2GramList: r2GramList, obama2GramValues: o2GramVals, romney2GramValues: r2GramVals, obama3GramList: o3GramList, romney3GramList: r3GramList, obama3GramValues: o3GramVals, romney3GramValues: r3GramVals, });
+
+  	}
+
+  });
+
+  Comparison.Views.MegaList = Backbone.View.extend({
+    template: "comparison/megalist",
+    className: "comparison container",
+
+    initialize: function() {
+			this.model.on("change", this.render, this);
+			
+			this.scrollY = this.options.scrollY;			// Top of scrolling.
+			this.scrollD = this.options.scrollD; 			// Total scroll distance.
+			this.scrollDet = this.options.scrollDet;	// Scroll detent.	
+		},
+		
+	  serialize: function() {
+	    return { comparison: this.model, scrollY: this.scrollY, scrollD: this.scrollD, scrollDet: this.scrollDet };
+	  },
+	 
+	  afterRender: function() {
+	    
+    }    
+  });
+  
   // ---------------------------------------------------------------------------------------------
   Comparison.Collection = Backbone.Collection.extend({
   });
@@ -443,26 +456,16 @@ function(app, Ref) {
 						model: comparison, scrollY: this.curScrollY, scrollD: this.scrollDist, scrollDet: this.scrollDetent
 					}));
 			}
+			else if (comparison.get("viewType") === "megalist") {
+				view =  this.insertView(new Comparison.Views.MegaList({
+						model: comparison, scrollY: this.curScrollY, scrollD: this.scrollDist, scrollDet: this.scrollDetent
+					}));
+			}			
 			else if (comparison.get("viewType") === "count") {
 				view = this.insertView(new Comparison.Views.Count({
 						model: comparison, scrollY: this.curScrollY, scrollD: this.scrollDist, scrollDet: this.scrollDetent
 					}));
-			}
-			else if (comparison.get("viewType") === "honesty") {
-				view = this.insertView(new Comparison.Views.Honesty({
-						model: comparison, scrollY: this.curScrollY, scrollD: this.scrollDist, scrollDet: this.scrollDetent
-					}));
-			}	
-			else if (comparison.get("viewType") === "disposition") {
-				view = this.insertView(new Comparison.Views.Disposition({
-						model: comparison, scrollY: this.curScrollY, scrollD: this.scrollDist, scrollDet: this.scrollDetent
-					}));
-			}	
-			else if (comparison.get("viewType") === "formality") {
-				view = this.insertView(new Comparison.Views.Formality({
-						model: comparison, scrollY: this.curScrollY, scrollD: this.scrollDist, scrollDet: this.scrollDetent
-					}));
-			}								
+			}							
 			else {
 		    view =  this.insertView(new Comparison.Views.Simple({
 			    model: comparison, scrollY: this.curScrollY, scrollD: this.scrollDist, scrollDet: this.scrollDetent

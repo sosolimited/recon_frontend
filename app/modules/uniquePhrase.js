@@ -80,14 +80,11 @@ function(app) {
 				    } else {
 					    for (var i=0; i<msg['ngrams'].length; i++) {
 			    			var str = this.getTheFuckingString(msg['ngrams'][i][0]);
-			    			if(str == "50749f999da90ba15bda8866") console.log("this middle");
-			    			if (msg['word'] == "middle") console.log("mid "+str);
-
 						    var p = this.where({dbid:str})[0];
 						    //if (msg['ngrams'][i][1] == this.phraseLength && p) {
 						    if (p) {
 							    p.increment();
-							 
+							    //console.log("inc "+p.get("phrase"));
 						    } 
 					    }
 					  }
@@ -95,7 +92,7 @@ function(app) {
 	    	} else if (msg['type'] == 'newNGram') {
 	    		// add new ngram
 	    		if (msg['ngram'].length == this.phraseLength) {		    		
-	    			this.add(new UniquePhrase.Model(msg, msg['ngram'].join(" "), parseInt(msg['instances'].length, 10)));
+	    			this.add(new UniquePhrase.Model(msg, msg['ngram'].join(" "), 2));
 		    		//console.log("added '"+msg['ngram'].join(" ")+"' speaker "+msg['speaker']+" for collection "+this.phraseLength+" "+msg['instances'].length);
 		    	}
 	    	}

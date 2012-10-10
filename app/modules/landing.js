@@ -40,7 +40,8 @@ function(app, Ref) {
 	    this.navigation = this.options.navigation;
 	    this.transcript = this.options.transcript;
 	    this.overlay = this.options.overlay;
-	    this.bigWords = this.options.bigWords;	    
+	    this.bigWords = this.options.bigWords;
+	    this.comparisons = this.options.comparisons;	    
     },
     
     events: {
@@ -60,6 +61,7 @@ function(app, Ref) {
 
 
       if(e.target.id === "landingButton0" || e.target.parentNode.id == "landingButton0"){
+        app.playback = true;
 	      this.enterDebate(0);
       }else if(e.target.id === "landingButton1" || e.target.parentNode.id == "landingButton1"){
       	this.transcript.setHeading("transcript 2");
@@ -87,6 +89,7 @@ function(app, Ref) {
 	    this.navigation.exit();
       this.transcript.exit();
       this.bigWords.exit();	
+      this.comparisons.exit();
       app.messages[this.model.get("lastDebateViewed")].stopPlayback();
     },
     

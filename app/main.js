@@ -21,7 +21,12 @@ function(app, Router) {
     // Wait for messages and respond to them.
     app.socket.on("message", function(msg) {
       // Hey kid, rock and roll.
-      handleMessage(JSON.parse(msg));
+      if (app.playback) {
+        handleMessage(JSON.parse(msg));
+      // Slow ride, take it easy.
+      } else {
+        app.bufferedMessages.push(JSON.parse(msg));
+      }
     });
   });
 

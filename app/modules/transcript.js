@@ -179,7 +179,7 @@ function(app, Overlay, Ref) {
 	        // Find two words back.
 	        var wordIndex = this.getIndexOfPreviousWord(cS, 1);
 	        
-	        var newSpan = $("<span class='quoteMarkup'>" + cSHTML.substring(wordIndex, cSHTML.length) + s+word['word'] + "</span>");
+	        var newSpan = $("<span class='catMarkup quoteMarkup'>" + cSHTML.substring(wordIndex, cSHTML.length) + s+word['word'] + "</span>");	        
 	        cS.html(cSHTML.substring(0,wordIndex));
 	        cS.append(newSpan);
 	
@@ -490,7 +490,7 @@ function(app, Overlay, Ref) {
       //             + spColor + "'>" + speakers[curSpeaker] + "</div><p class='metaBook gray60'></p></div><div class=clear></div>");                                                  
       this.$el.append(newP);
       // Add to skrollr manager.
-      app.skrollr.refresh(newP.get(0));
+      //app.skrollr.refresh(newP.get(0));
       
       // Cache position in data attributes
       newP.attr('data-top', newP.offset().top);

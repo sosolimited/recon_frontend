@@ -135,13 +135,17 @@ function(app) {
     leads: [],
     sentenceLeadLead: -1,
     curTrait: 0,
+    traitTimeout: 60000,
+    traitTimeoutFlag: false,
+    curSpeaker: 1,
     
     initialize: function() {
     	this.on("add", this.modelAdded, this);
     	app.on("message:stats", this.setCompareTraits, this);
+    	app.on("transcript:speakerSwitch", this.setSpeaker, this);
     	var coll = this;
     	//Tune this to 5 minutes
-    	var superlativeMins = 5;
+    	var superlativeMins = 4;
     	setInterval(function(){coll.sendRandomTraitLeader();}, superlativeMins*60000);
     },
     
@@ -157,6 +161,12 @@ function(app) {
 	    model.bind("change:longestSentenceLength", this.compareSentenceLengths, this);
     },
     
+    //PEND: set speaker message
+    setSpeaker: function(args) {
+    	//console.log("setSpeaker: " + args["speaker"]); 
+	    this.curSpeaker = args["speaker"];
+    },
+    
     compareSentenceLengths: function() {
 	    // check longest sentence
 	    var lead = (this.at(1).get("longestSentenceLength") > this.at(2).get("longestSentenceLength")) ? 1 : 2;
@@ -168,13 +178,11 @@ function(app) {
         
     setCompareTraits: function() {
     	var collection = this;
-	  	setTimeout(function() {collection.compareTraits();}, 5000); // wait a second for speakers to update first
+	  	setTimeout(function() {collection.compareTraits();}, 6*60000); // wait six minutes
     },
     
     compareTraits: function() {
-    
-    	
-    	
+  
     	var newLeads = [];
     
     	for (var i=0; i<this.at(1).get("traits").length; i++) {
@@ -186,8 +194,18 @@ function(app) {
  		    if (newLead != this.leads[i]) {
 		    	//console.log("newLead "+newLead+" "+this.at(1).get("traits")[i]['name']);
 		    	
-		    	//JRO commented this out, because at the rate we're sampling the data isn't good
-		    	//app.trigger("markup", {type:"traitLead", speaker:newLead, trait:this.at(1).get("traits")[i]['name'], new:true});
+		    	//JRO added a timeout
+		    	if (!this.traitTimeoutFlag) {
+		    		app.trigger("markup", {type:"traitLead", leader:newLead, trait:this.at(1).get("traits")[i]['name'], new:true, curSpeaker: this.curSpeaker});
+		    		this.traitTimeoutFlag = true;
+		    		//console.log("TimeoutTrue");
+		    		
+		    		window.setTimeout(function(){
+		    			this.traitTimeoutFlag = false;
+		    			//console.log("Timeout False");
+		    		}, this.traitTimeout, this) 	
+		    		
+		    	}
 		    	
 		    	//console.log("new lead "+newLead+" "+this.at(1).get("traits")[i]['name']);
 		    }
@@ -202,14 +220,19 @@ function(app) {
     
     sendRandomTraitLeader: function() {
 	    if (this.leads.length > 0) {
-		    
-		    //var t = Math.floor(Math.random()*this.leads.length);
-		    this.curTrait = (this.curTrait + 1)%this.leads.length;
-		    var t = this.curTrait;
-		    
-		    var leader = (this.at(1).get("traits")[t]['val'] > this.at(2).get("traits")[t]['val']) ? 1 : 2;
-		    app.trigger("markup", {type:"traitLead", speaker:leader, trait:this.at(1).get("traits")[t]['name'], new:false});
-		    //console.log("old lead "+leader+" "+this.at(1).get("traits")[t]['name']);
+	    
+	    	if (!this.traitTimeoutFlag)
+	    	{
+		    	//console.log("sendRandomTraitLeader");
+			  
+			    //var t = Math.floor(Math.random()*this.leads.length);
+			    this.curTrait = (this.curTrait + 1)%this.leads.length;
+			    var t = this.curTrait;
+			    
+			    var leader = (this.at(1).get("traits")[t]['val'] > this.at(2).get("traits")[t]['val']) ? 1 : 2;
+			    app.trigger("markup", {type:"traitLead", leader:leader, trait:this.at(1).get("traits")[t]['name'], new:false, curSpeaker: this.curSpeaker});
+			    //console.log("old lead "+leader+" "+this.at(1).get("traits")[t]['name']);
+		    }
 		    
 	    }
     },

@@ -58,7 +58,8 @@ function(app) {
     
     setDebateNumber : function(n) {
       n -= 1;
-      debateNumber = n;
+      // Set the debate number globally.
+      app.debateNumber = debateNumber = n;
       var dateString = startDates[n].toLocaleDateString();
       $("#navDate").text(dateString.substring(dateString.indexOf(",")+2));
 
@@ -158,20 +159,29 @@ function(app) {
       return diff / 1000 / 60 / 60 / 1.5 * scaleFactor;
     },
     
-    enter: function() {
+    enter: function(first) {
 	    $('#navigation').css("visibility", "visible");
-	    $('#navigation').css("webkitTransform", "translateX(5px) translateY(-5px) rotate(90deg)");
+	    $('#navLeft').css("webkitTransform", "translateX(5px) translateY(-5px) rotate(90deg)");
+	    $('#navRight').css("webkitTransform", "translateX(0px) translateY(-5px) rotate(-90deg)");
+	    if (first) {
+	    	$('#navInstructions').css("webkitTransform", "translateX(0%)");
+		    setTimeout(function(){ $('#navInstructions').css("webkitTransform", "translateX(110%)"); }, 4000);
+		  } 
     },
     
     exit: function() {
 	    //$('#navigation').css("visibility", "hidden");	    
-	    $('#navigation').css("webkitTransform", "translateX(-55px) translateY(-5px) rotate(90deg)");
+	    $('#navLeft').css("webkitTransform", "translateX(-55px) translateY(-5px) rotate(90deg)");
+	    $('#navRight').css("webkitTransform", "translateX(60px) translateY(-5px) rotate(-90deg)");
+	    $('#navInstructions').css("webkitTransform", "translateX(100%)");
     },
     
     // Reset puts everything where it's supposed to be before entering.
-    reset: function() {
-	    $('#navigation').css("visibility", "hidden");	    
-	    $('#navigation').css("webkitTransform", "translateX(-55px) translateY(-5px) rotate(90deg)");
+    reset: function() { 
+	    $('#navigation').css("visibility", "hidden");
+	    $('#navLeft').css("webkitTransform", "translateX(-55px) translateY(-5px) rotate(90deg)");
+	    $('#navRight').css("webkitTransform", "translateX(60px) translateY(-5px) rotate(-90deg)");
+	    $('#navInstructions').css("webkitTransform", "translateX(-120%)");
     },
     
     // Pass pointer to landing view so that title click can call enter on landing.

@@ -19,10 +19,10 @@ function(app) {
 	Ref.bigWordLeading = 336;
 	  
 	// For development, autoscrolling can be disabled completely
-  Ref.disableAutoScroll = true;
+  Ref.disableAutoScroll = false;
 
   // Flag for choosing emoburst trigger
-  Ref.useSentisstrengthBurst = false;
+  Ref.useSentistrengthBurst = false;
 
   // Position of the most recent sentence
   Ref.overlayOffsetY = 100;

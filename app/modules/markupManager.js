@@ -48,7 +48,6 @@ function(app, Overlay, Ref) {
 		  app.on("markup", this.addOverlay, this);			
 		  
 		  app.on("markup:sentenceLead", this.addTraitOverlay, this);		  	// EG FIXME convert to "markup", type="sentenceLeadMarkup" style.
-		  //app.on("body:scroll", this.handleScroll, this);	//EG Testing requestAnimFrame for this.
 		  //for testing
 		  app.on("keypress:test", this.test, this);
 		        
@@ -80,10 +79,14 @@ function(app, Overlay, Ref) {
 			  else if(args['type']=="sentimentMarkup"){
 				  this.addSentimentOverlay(args);
 			  }
-			  else if(args['type']=="traitLead"){
-				 // this.addTraitOverlay(args);
-			  }
 		  }
+		  
+		  //always showing the traitlead
+		  if(args['type']=="traitLead"){
+		   //console.log("received traitLead");
+			 this.addTraitOverlay(args);
+		  }
+		  
 	  },
 	  
 	  isAnyOverlayExpanded: function() {
@@ -107,11 +110,13 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  addTraitOverlay: function(args) {
-	 
+		  
+	  	var moreVal;
+	  	if (args["leader"] == args["curSpeaker"]) moreVal = "MORE ";
+	  	else moreVal = "LESS ";	  	
 	  	
 	  	var speakerString;
-	  	(args["speaker"] == 1) ? speakerString = "obama" : speakerString = "romney" ;
-	  	
+	  	(args["curSpeaker"] == 1) ? speakerString = "obama" : speakerString = "romney" ;
 	  	
 	  	var traitString = "";
 	  	if (args["trait"] == 'posemo') traitString = "POSITIVE";
@@ -122,9 +127,9 @@ function(app, Overlay, Ref) {
 	  	else if (args["trait"] == 'depression') traitString = "DEPRESSED";
 	  	else if (args["trait"] == 'honesty') traitString = "HONEST";
 	  	
-	  	console.log("addTraitOverlay() " + speakerString + " " + traitString);
+	  	console.log("addTraitOverlay() " + traitString + " leader:" + args["leader"] + " speaker:" + args["curSpeaker"] + " val:" + moreVal);
 	  	
-	  	var traitsOverlay = new Overlay.Views.TraitView({ trait: traitString, leader: speakerString, posY: this.scaleY(parseInt(this.attributes.transcript.getCurSentencePosY())) });
+	  	var traitsOverlay = new Overlay.Views.TraitView({ trait: traitString, speaker: speakerString, posY: this.scaleY(parseInt(this.attributes.transcript.getCurSentencePosY())), moreVal: moreVal });
 	  	$('#overlay').append(traitsOverlay.el);
 			traitsOverlay.render();
 	  	
@@ -168,7 +173,6 @@ function(app, Overlay, Ref) {
       }
 	  },
 	  
-	  
 	  // reusable overlays
 	  openCatOverlay: function(cat, delay) {
 	  	var lay = this.get("catOverlays")[cat];
@@ -181,14 +185,18 @@ function(app, Overlay, Ref) {
 	  },
 	  
 	  closeCatOverlays: function() {
+	  	$('.catMarkup').removeClass('reverse');
+	    $('.catMarkup').removeClass('grayed');
 	  	for (i in this.get("catOverlays")) {
 		  	this.get("catOverlays")[i].collapse();
 	  	}
 	  },
 	  
 	  scaleY: function(val) {
-		  if (app.mode === "transcript") return val;
-		  else if (app.mode === "comparison") return val*2.5;
+	  	return val;
+	  	// EG No more transcript scaling while in comparison mode.
+		  //if (app.mode === "transcript") return val;
+		  //else if (app.mode === "comparison") return val*2.5;
 	  },
 	  
  	  // -----------------------------------------------------------------------------------

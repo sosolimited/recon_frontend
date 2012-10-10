@@ -18,7 +18,10 @@
 	var SKROLLABLE_CLASS = 'skrollable';
 	var SKROLLR_CLASS = 'skrollr';
 	var NO_SKROLLR_CLASS = 'no-' + SKROLLR_CLASS;
-
+	// SOSO
+	var DOCSKROLLABLE_CLASS = 'docskrollable';
+	var ELSKROLLABLE_CLASS = 'elskrollable';
+	
 	var DEFAULT_EASING = 'linear';
 	var DEFAULT_DURATION = 1000;
 
@@ -200,9 +203,6 @@
 			_scale = options.scale || 1;
 		}
 		
-		// SOSO Extending to allow an arbitrary scroll object to be set (instead of doc).
-		_instance._skrollElement = null;
-
 		//Remove "no-skrollr" and add "skrollr" to the HTML element.
 		_updateClass(documentElement, [SKROLLR_CLASS], [NO_SKROLLR_CLASS]);
 
@@ -262,7 +262,14 @@
 			ignoreID = true;
 
 			_skrollables = [];
+			// SOSO support for both
+			//_docSkrollables = [];
+			//_elSkrollables = [];
+			
 			_skrollableIdCounter = 0;
+			// SOSO
+			//_elSkrollableIdCounter = 0;
+			//_docSkrollableIdCounter = 0;
 
 			elements = document.getElementsByTagName('*');
 		} else {
@@ -352,11 +359,18 @@
 			//Does this element have key frames?
 			if(keyFrames.length) {
 				var id;
-
+				//var isDoc = true;	//SOSO 
 				if(!ignoreID && SKROLLABLE_ID_DOM_PROPERTY in el) {
 					id = el[SKROLLABLE_ID_DOM_PROPERTY];
 				} else {
 					id = (el[SKROLLABLE_ID_DOM_PROPERTY] = _skrollableIdCounter++);
+					// SOSO Check if ELSKROLLABLE_CLASS is present. 
+					//if(el.classList.contains(ELSKROLLABLE_CLASS)){
+					//	id = (el[SKROLLABLE_ID_DOM_PROPERTY] = _elSkrollableIdCounter++);
+					//	isDoc = false;
+					//}else{
+					//	id = (el[SKROLLABLE_ID_DOM_PROPERTY] = _docSkrollableIdCounter++); 
+					//} 
 				}
 
 				_skrollables[id] = {
@@ -365,7 +379,25 @@
 					keyFrames: keyFrames,
 					smoothScrolling: smoothScrollThis
 				};
-
+				
+				/* // SOSO 
+				if(isDoc){
+					_docSkrollables[id] = {
+						element: el,
+						anchorTarget: anchorTarget,
+						keyFrames: keyFrames,
+						smoothScrolling: smoothScrollThis
+					};	
+				}else{
+					_elSkrollables[id] = {
+						element: el,
+						anchorTarget: anchorTarget,
+						keyFrames: keyFrames,
+						smoothScrolling: smoothScrollThis
+					};
+				}
+				*/
+				
 				_updateClass(el, [SKROLLABLE_CLASS, UNRENDERED_CLASS], [RENDERED_CLASS]);
 			}
 		}
@@ -487,21 +519,27 @@
 		if(window.skrollr.scrollerInstance) {
 			return window.skrollr.scrollerInstance.__scrollTop;
 		} else {
-			if(_instance._skrollElement == null){	// SOSO 
+			if(_skrollElement == null){	// SOSO 
+				//console.log("scrollTop body = "+body.scrollTop);		
 				return window.pageYOffset || documentElement.scrollTop || body.scrollTop || 0;
 			}else{ // SOSO 
-				console.log("scrollTop = "+_instance._skrollElement.scrollTop);
-				return _instance._skrollElement.scrollTop;	//SOSO testing
+				//console.log("scrollTop = "+_skrollElement.scrollTop);
+				return _skrollElement.scrollTop;	//SOSO testing
 			}	
 		}
 	};
 	
 	// SOSO Extending to allow skrollr to work off of the scrollTop of an arbitrary element.
 	Skrollr.prototype.setSkrollElement = function(el) {
-			window.skrollr._skrollElement = el;
+		//console.log("Skrollr.setSkrollElement("+el+")");
+		//_skrollElement = $('#comparisons').get(0);	
+		//_skrollables = _elSkrollables;
+		_skrollElement = el;
 	}
 	Skrollr.prototype.resetSkrollElement = function() {
-			window.skrollr._skrollElement = null;
+		//console.log("Skrollr.resetSkrollElement()");
+		//_skrollables = _docSkrollables;
+		_skrollElement = null;
 	}
 
 
@@ -580,69 +618,76 @@
 	var _calcSteps = function(fakeFrame, actualFrame) {
 		//Iterate over all skrollables.
 		for(var skrollableIndex = 0; skrollableIndex < _skrollables.length; skrollableIndex++) {
+		
 			var skrollable = _skrollables[skrollableIndex];
-			var frame = skrollable.smoothScrolling ? fakeFrame : actualFrame;
-			var frames = skrollable.keyFrames;
-			var firstFrame = frames[0].frame;
-			var lastFrame = frames[frames.length - 1].frame;
-			var atFirst = frame <= firstFrame;
-			var atLast = frame >= lastFrame;
-			var key;
-			var value;
-
-			//If we are before/after or exactly at the first/last frame, the element gets all props from this key frame.
-			if(atFirst || atLast) {
-				var props = frames[atFirst ? 0 : frames.length - 1].props;
-
-				for(key in props) {
-					if(hasProp.call(props, key)) {
-						value = _interpolateString(props[key].value);
-
-						_setStyle(skrollable.element, key, value);
-					}
-				}
-
-				//Add the unrendered class when exactly at first/last frame.
-				if(skrollable[SKROLLABLE_HAS_RENDERED_CLASS_PROPERTY] && (frame < firstFrame || frame > lastFrame)) {
-					_updateClass(skrollable.element, [UNRENDERED_CLASS], [RENDERED_CLASS]);
-
-					//Does a faster job than sth. like hasClass('string')
-					skrollable[SKROLLABLE_HAS_RENDERED_CLASS_PROPERTY] = false;
-				}
-
-				continue;
-			}
-
-			//We are between two frames.
-			if(!skrollable[SKROLLABLE_HAS_RENDERED_CLASS_PROPERTY]) {
-				_updateClass(skrollable.element, [RENDERED_CLASS], [UNRENDERED_CLASS]);
-
-				skrollable[SKROLLABLE_HAS_RENDERED_CLASS_PROPERTY] = true;
-			}
-
-			//Find out between which two key frames we are right now.
-			for(var keyFrameIndex = 0; keyFrameIndex < frames.length - 1; keyFrameIndex++) {
-				if(frame >= frames[keyFrameIndex].frame && frame <= frames[keyFrameIndex + 1].frame) {
-					var left = frames[keyFrameIndex];
-					var right = frames[keyFrameIndex + 1];
-
-					for(key in left.props) {
-						if(hasProp.call(left.props, key)) {
-							var progress = (frame - left.frame) / (right.frame - left.frame);
-
-							//Transform the current progress using the given easing function.
-							progress = left.props[key].easing(progress);
-
-							//Interpolate between the two values
-							value = _calcInterpolation(left.props[key].value, right.props[key].value, progress);
-
-							value = _interpolateString(value);
-
+		
+			// SOSO Only update elements with elskrollable class when _skrollElement is set and docskrollables when _skrollElement is null.
+			if( (_skrollElement!=null && skrollable.element.classList.contains(ELSKROLLABLE_CLASS)) ||
+			  	(_skrollElement==null && !skrollable.element.classList.contains(ELSKROLLABLE_CLASS)) ){
+				
+				var frame = skrollable.smoothScrolling ? fakeFrame : actualFrame;
+				var frames = skrollable.keyFrames;
+				var firstFrame = frames[0].frame;
+				var lastFrame = frames[frames.length - 1].frame;
+				var atFirst = frame <= firstFrame;
+				var atLast = frame >= lastFrame;
+				var key;
+				var value;
+	
+				//If we are before/after or exactly at the first/last frame, the element gets all props from this key frame.
+				if(atFirst || atLast) {
+					var props = frames[atFirst ? 0 : frames.length - 1].props;
+	
+					for(key in props) {
+						if(hasProp.call(props, key)) {
+							value = _interpolateString(props[key].value);
+	
 							_setStyle(skrollable.element, key, value);
 						}
 					}
-
-					break;
+	
+					//Add the unrendered class when exactly at first/last frame.
+					if(skrollable[SKROLLABLE_HAS_RENDERED_CLASS_PROPERTY] && (frame < firstFrame || frame > lastFrame)) {
+						_updateClass(skrollable.element, [UNRENDERED_CLASS], [RENDERED_CLASS]);
+	
+						//Does a faster job than sth. like hasClass('string')
+						skrollable[SKROLLABLE_HAS_RENDERED_CLASS_PROPERTY] = false;
+					}
+	
+					continue;
+				}
+	
+				//We are between two frames.
+				if(!skrollable[SKROLLABLE_HAS_RENDERED_CLASS_PROPERTY]) {
+					_updateClass(skrollable.element, [RENDERED_CLASS], [UNRENDERED_CLASS]);
+	
+					skrollable[SKROLLABLE_HAS_RENDERED_CLASS_PROPERTY] = true;
+				}
+	
+				//Find out between which two key frames we are right now.
+				for(var keyFrameIndex = 0; keyFrameIndex < frames.length - 1; keyFrameIndex++) {
+					if(frame >= frames[keyFrameIndex].frame && frame <= frames[keyFrameIndex + 1].frame) {
+						var left = frames[keyFrameIndex];
+						var right = frames[keyFrameIndex + 1];
+	
+						for(key in left.props) {
+							if(hasProp.call(left.props, key)) {
+								var progress = (frame - left.frame) / (right.frame - left.frame);
+	
+								//Transform the current progress using the given easing function.
+								progress = left.props[key].easing(progress);
+	
+								//Interpolate between the two values
+								value = _calcInterpolation(left.props[key].value, right.props[key].value, progress);
+	
+								value = _interpolateString(value);
+	
+								_setStyle(skrollable.element, key, value);
+							}
+						}
+	
+						break;
+					}
 				}
 			}
 		}
@@ -972,7 +1017,7 @@
 		//All classes to be added.
 		for(var classAddIndex = 0; classAddIndex < add.length; classAddIndex++) {
 			//Only add if el not already has class.
-			if(_untrim(val).indexOf(_untrim(add[classAddIndex])) === -1) {
+				if(_untrim(val).indexOf(_untrim(add[classAddIndex])) === -1) {
 				val += ' ' + add[classAddIndex];
 			}
 		}
@@ -1043,8 +1088,17 @@
 			]
 		};
 	*/
+	
 	var _skrollables = [];
-
+	// SOSO Adding support for two groups of skrollables, based on the current _skrollElement.
+	//var _docSkrollables = [];
+	//var _elSkrollables = [];
+	//var _skrollables = _docSkrollables;
+	
+	// SOSO Adding ability to scroll off of an arbitrary element.
+	var _skrollElement = null;
+		
+	
 	var _listeners;
 	var _forceHeight;
 	var _maxKeyFrame = 0;
@@ -1076,6 +1130,10 @@
 	//Each skrollable gets an unique ID incremented for each skrollable.
 	//The ID is the index in the _skrollables array.
 	var _skrollableIdCounter = 0;
+	// SOSO Support for two groups of skrollables.
+	//var _elSkrollableIdCounter = 0;
+	//var _docSkrollableIdCounter = 0;
+	
 
 	/*
 	 * Global api.

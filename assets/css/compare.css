@@ -3,7 +3,7 @@ margin-top: -156px;
 margin-left:-200px;
 margin-right:-200px;
 height:600px; 
-position:relative; 
+position:fixed; 
 
 /* Background Gradient Color */
 
@@ -24,6 +24,10 @@ z-index:-2;
 .compareContainer {
 	
 	position:relative; 
+	/* 
+	position: fixed; 
+	top: 100%;
+	*/
 	border-bottom: 3px gray !important;
 	padding-bottom: 50px !important;
 
@@ -31,7 +35,8 @@ z-index:-2;
 
 .list {
 
-height:1200px;
+	/* height:1200px;	*/ /* For Top 20 words */
+	height:900px;	 /* For Top 10 words */
 
 }
 
@@ -43,6 +48,12 @@ height:1200px;
 .emotion {
 	
 	height:700px;
+}
+
+.spectrum {
+	
+	height: 1000px;
+	
 }
 
 .comparisonTitle {
@@ -64,6 +75,7 @@ height:1200px;
 }
 
 .comparisonListCandidate {
+	position: relative;
 	font-size: 48px;
 	line-height:60px;
 
@@ -167,8 +179,11 @@ height:1200px;
 }
 
 .spectrumTitle {
-	position: relative;
+
+	position: absolute;
+	/*
 	text-align : center;
+	*/
 	font-size: 128px;
 	margin: 0px 0px 0px 0px;
 	line-height:128px;
@@ -221,6 +236,8 @@ height:1200px;
 .spectrumBackgroundPush {
   z-index: 2;
 	margin:0 -440px 1.5em 440px;
+		/*margin:0 -440px 1.5em 440px;*/
+
 }
 
 .spectrumPointer {

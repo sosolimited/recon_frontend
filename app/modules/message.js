@@ -25,6 +25,12 @@ function(app) {
   Message.Collection = Backbone.Collection.extend({  
     model: Message.Model,
     
+    defaults: function() {
+  		return {
+	  		lastMessage: 0
+	  	}	  			
+  	},
+
     
   	initialize: function() {
       app.on("message:word", this.addMessage, this);
@@ -36,6 +42,12 @@ function(app) {
 	    app.off(null, null, this);
     },
     
+    comparator: function(msg) { 
+    	// Sort collection based on count.
+    	// Negative makes it sort backwards.	
+	    return (msg.get("timeDiff"));
+	  },
+	  
     addMessage: function(args) {
     	if (args['live']) {
 
@@ -47,26 +59,54 @@ function(app) {
 			}
     },
     
-    playbackMessages: function(n) {
+    playbackMessages: function(restart, diff) {
     
     	this.stopPlayback();
     	
-  		var startMsg = this.get(n);
+    	var n = restart ? 0 : (this.lastMessage+1);
+    	//console.log("start with message "+n+restart);
+  		var startMsg = this.at(n);
 
-  		this.each( function(msg) {
-  			var diff = msg.get("timeDiff") - startMsg.get("timeDiff");
+      function runMessage(i) {
+        var messages = this;
+        var msg = this.at(i);
+        
+        var lastMsg = (i == n) ? startMsg : this.at(i-1);
+
+  			diff = msg.get("timeDiff") - lastMsg.get("timeDiff");
   			if (diff >= 0) {
-	  			setTimeoutEvents.push(setTimeout(function() { msg.emit(); }, diff));
+	  			setTimeoutEvents.push(setTimeout(function() {
+            app.trigger("message:" + msg.get("type"), { msg: msg.attributes, live: app.live });
+
+            //if (messages.length <= i+1) {
+              runMessage.call(messages, i+1);
+              this.lastMessage = i+1;
+              //console.log(this.lastMessage+" last");
+            //}
+          }, diff, this));
 	  			//console.log("settimeout "+msg.get("word")+" "+diff);
 	  		}
-  		});
+      }
+
+      runMessage.call(this, n);
+
+  		//this.each( function(msg) {
+  		//	diff = diff || msg.get("timeDiff") - startMsg.get("timeDiff");
+  		//	if (diff >= 0) {
+	  	//		setTimeoutEvents.push(setTimeout(function() {
+      //      app.trigger("message:" + msg.get("type"), { msg: msg.attributes, live: app.live });
+      //    }, 1000));
+	  	//		//console.log("settimeout "+msg.get("word")+" "+diff);
+	  	//	}
+  		//});
     },
     
     stopPlayback: function() {
   		for(var i=0; i<setTimeoutEvents.length; i++) 
   			clearTimeout(setTimeoutEvents[i]);
   		setTimeoutEvents = [];
-    }
+    },
+ 
   });
  
 

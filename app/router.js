@@ -23,12 +23,14 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
   var Router = Backbone.Router.extend({
     routes: {
       // Get access to arguments.
+      "": "index",
       ":args": "index"
     },
 
     index: function() {
-	    
       var $body = $(document.body);
+      app.useLayout("main").render();
+
 	    // Init msg collection.
 			var messageCollection = new Message.Collection();
 			
@@ -41,10 +43,9 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
     	
     	// Init uniquewords collection.
       //var uniqueWordCollection = new UniqueWord.Collection();
-      var uniqueWords = new UniquePhrase.Model.AllPhrases(1, 20);
-      var unique2Grams = new UniquePhrase.Model.AllPhrases(2, 20);
-      var unique3Grams = new UniquePhrase.Model.AllPhrases(3, 20);
-      var unique4Grams = new UniquePhrase.Model.AllPhrases(4, 20);
+      var uniqueWords = new UniquePhrase.Model.AllPhrases(1, 10);
+      var unique2Grams = new UniquePhrase.Model.AllPhrases(2, 10);
+      var unique3Grams = new UniquePhrase.Model.AllPhrases(3, 10);
       
 		  // Init transcript.
 		  var transcriptView = new Transcript.View( {messages: messageCollection, speakers: speakerCollection, uniqueWords: uniqueWords} );
@@ -57,13 +58,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 		  
 		  // Init navigation.
 		  var navigationView = new Navigation.View( {transcript: transcriptView, messages: messageCollection} );
-		  
-		  // Init landing page.
-			var landingView = new Landing.View( {model: new Landing.Model(), navigation: navigationView, transcript: transcriptView, overlay: markupManager, bigWords: bigWordsView} );
-			// Pass landing view to navigation for menu control.
-			navigationView.setLanding(landingView);
-		  
-			var live = true;
+		 		  
 			var startTime = new Date().getTime();
     	    	      
       // Init comparison collection.
@@ -71,28 +66,32 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
       var comparisonView = new Comparison.Views.All({collection: comparisonCollection});
 
       comparisonCollection.add(new Comparison.CountModel({traitNames:["wc"], speakerNames:speakerCollection, title:"WORD COUNT", subtitle:"The number of total words spoken by each candidate", range:[0,10000.0], color1:"Salmon"})); 
-      
-      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 20 WORDS", subtitle:"The top twenty words of each candidate (excluding 'the', 'I', 'if', etc.)", uniqueWords:uniqueWords, color1:"Lime"}));  
-      
-      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"2 Word PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique2Grams, color1:"Lime"}));     
-      
-      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"3 Word PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique3Grams, color1:"Lime"}));   
-      
-      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"4 Word PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique4Grams, color1:"Lime"}));   
-         
+          
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["posemo"], speakerNames:speakerCollection, title:"POSITIVITY", subtitle:"The percentage of words spoken that are positive in some way. ie. 'winning, happy, improve.'", range:[0,5.0], color1:"Sky"}));
+      
+      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 10 WORDS", subtitle:"The top twenty words of each candidate (excluding 'the', 'I', 'if', etc.)", uniqueWords:uniqueWords, color1:"Lime"}));     
        
-      comparisonCollection.add(new Comparison.EmotionModel({traitNames:["negemo"], speakerNames:speakerCollection, title:"NEGATIVITY", subtitle:"The percentage of words spoken that are negative in some way. ie. 'failure, dead, waste.'", range:[0,3.75], color1:"GrayBlue"})); 
+      comparisonCollection.add(new Comparison.EmotionModel({traitNames:["negemo"], speakerNames:speakerCollection, title:"NEGATIVITY", subtitle:"The percentage of words spoken that are negative in some way. ie. 'failure, dead, waste.'", range:[0,3.75], color1:"Negative"})); 
+          
+      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique2Grams, color1:"Lime"}));
           
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["anger"], speakerNames:speakerCollection, title:"ANGER", subtitle:"The percentage of words spoken that are angry in some way. ie. 'fight, destroy, annoy.'", range:[0,1.95], color1:"Angry"})); 
-         
-        
+
+      
+      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique3Grams, color1:"Lime"}));               
+
       comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["formality"], speakerNames:speakerCollection, title:"FORMAL", title2:"CASUAL", subtitle:"Casual speakers, compared to speech-readers, make fewer self-references, use smaller words, and speak in the present tense.", range:[3, 25.0], color1:Ref.formal, color2:Ref.casual, gradient:"gradientFormality"})); 
       
-      comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["depression"], speakerNames:speakerCollection, title:"DEPRESSED", title2:"CHEERFUL", subtitle:"Depressed people mention themselves more('I', 'me', 'my'), use more negative language ('hate', 'worthless'), use more physical words ('ache', 'sleep'), and use fewer positive words ('win', 'happy').", range:[-1.0, 5.0], color1:Ref.depressed, color2:Ref.cheery, gradient:"gradientDisposition"}));  
+      comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["depression"], speakerNames:speakerCollection, title:"DEPRESSED", title2:"CHEERFUL", subtitle:"Depressed people mention themselves more, use more negative language, use more physical words, and use fewer positive words.", range:[-1.0, 5.0], color1:Ref.depressed, color2:Ref.cheery, gradient:"gradientDisposition"}));  
       
       comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["honesty"], speakerNames:speakerCollection, title:"AUTHENTIC", title2:"DECEPTIVE", subtitle:"Compared to liars, truth-tellers tend to use more self-references, provide more detailed descriptions, and use fewer negative words. ", range:[0, 6.0], color1:Ref.purple, color2:Ref.redOrange, gradient:"gradientHonesty"}));                   
-      
+
+			// Init landing page.
+			var landingView = new Landing.View( {model: new Landing.Model(), navigation: navigationView, transcript: transcriptView, overlay: markupManager, bigWords: bigWordsView, comparisons: comparisonView} );
+			// Pass landing view to navigation for menu control.
+			navigationView.setLanding(landingView);      
+     
+       
       // Load from static file.
       if (this.qs.docName) {
       
@@ -117,7 +116,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	    
 	    // Testing playback (delay is how long to wait after start of connect to server).
 	    if (this.qs.playback) {
-	    	live = false;
+	    	app.live = false;
 	    	setTimeout(function() {
 	    		console.log("play "+messageCollection.length);
 	    		messageCollection.each(function(msg) {
@@ -126,16 +125,14 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	    	}, parseFloat(this.qs.playbackDelay, 100));
 	    }
 
-
-      app.useLayout("main").setViews({
-      }).render();
-
 			// EG Hack to fix loading race condition. calling render().then(... wasn't working above.
 			// I'm sure there's a less stupid way to do this.
-      window.setTimeout(function() {	
-      
-	      landingView.setElement("#landing").render();
-	      navigationView.setElement("#navigation").render();
+      //window.setTimeout(function() {	
+      // Yup, there is!
+      landingView.setElement("#landing").render();
+
+      //app.on("ready", function() {
+        navigationView.setElement("#navigation").render();
 	      comparisonView.setElement("#comparisons > .wrapper").render();
 	     	transcriptView.setElement("#transcript > .wrapper"); // Need transcript to point to the actual scrolling DOM element or else scroll event handling is wack
 	     	bigWordsView.setElement("#bigWords").render();
@@ -148,33 +145,49 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           // Work with the wrappers, not the actual layers.  --> ???
           var transcript = $("#transcript > .wrapper");
           var comparisons = $("#comparisons > .wrapper");
+          var navigation = $("#navigation");
           var bigWords = $("#bigWords");
           
           var enterComp = function(event) {
+          	event.stopPropagation();
           	app.mode = "comparison"; 
             var dist = transcript.offsetHeight;
             transcript.scrollTop = dist;
             transcript.addClass("fade");
             comparisons.addClass("active");
+            // EG Testing this for performance
+            $('#comparisons').css("visibility", "visible");	     	   // This is in case comparison.exit() was called.
+            $('#comparisons > .wrapper').css("display", "block");
+            $('#transcript').css("visibility", "hidden");        
 
             // Disable scrolling on the document body and save the current
             // offset (to be restored when closing the comparison view)
-            $body.addClass("no-scroll");
-            transcript.data("lastTop", $body.scrollTop());
+            $body.addClass("no-scroll");	
+            transcript.data("lastTop", $body.scrollTop());	
 
             var elt = $('#comparisons').find('.compareContainer.'+event.data.tag).parent();
             $("#comparisons > .wrapper").stop().animate({ scrollTop: elt.position().top}, 1.0);
+            
+            // Switch skrollr scroll element to comparisons container.
+						//app.skrollr.setSkrollElement($('#comparisons > .wrapper').get(0));
           };
           
-          var exitComp = function() {
+          var exitComp = function(event) {
+          	event.stopPropagation();
           	app.mode = "transcript";
             transcript.removeClass("fade");
             comparisons.removeClass("active");
-
+            // EG Testing this for performance
+            $('#comparisons > .wrapper').css("display", "none");
+            $('#transcript').css("visibility", "visible");
+            
             // Re-enable scrolling on the document body and restore the
             // previous offset
-            $body.removeClass("no-scroll");
-            $body.scrollTop(transcript.data("lastTop"));
+            $body.removeClass("no-scroll");	
+            $body.scrollTop(transcript.data("lastTop"));	
+            
+            // Switch skrollr scroll element back to body.
+						//app.skrollr.resetSkrollElement();
           }
           
           var closeCatLays = function() {
@@ -182,6 +195,9 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	          $('.catMarkup').removeClass('grayed');
 	          markupManager.closeCatOverlays();
           }
+          
+          navigation.on("click", "#navTranscriptButton", exitComp);
+          navigation.on("click", "#navComparisonButton", { tag: "count" }, enterComp);
 
           transcript.on("click", ".transcriptSpeaker", { tag: "count" }, enterComp);
           transcript.on("click", ".sentimentClick", { tag: "POSITIVITY" } , enterComp);
@@ -191,7 +207,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           var markupNames = ['posemo', 'negemo', 'certain', 'tentat', 'number'];          
           transcript.on("click", ".catMarkup", function(ev) {
           	ev.stopPropagation();
-          	closeCatLays();
+          	markupManager.closeCatOverlays();
           	var i;
           	if ($(this).hasClass("posemoMarkup")) i=0;
           	else if ($(this).hasClass("negemoMarkup")) i=1;
@@ -216,44 +232,23 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           	markupManager.openCatOverlay(markupNames[i], 30000);
           });
           
-          transcript.on("click", closeCatLays);
-          bigWords.on("click", closeCatLays);
+          transcript.on("click", function() {markupManager.closeCatOverlays();});
+          bigWords.on("click", function() {markupManager.closeCatOverlays();});
          
           comparisons.on("click", exitComp);
           
         })();
-      }, 50);
+      //});
      
 			// EG Again, stupid hack to fix loading. This seems to work, though: basically, wait until the DOM elements have been set to fire up events. 
       window.setTimeout(function() {
-	      // WEBSOCKET MESSAGE EVENTS
-	      // ----------------------------------------------------------------------
-	      app.socket.on("stats", function(msg) {    
-	      	app.trigger("message:stats", {msg:msg});
-	      });
-	      
-	      app.socket.on("word", function(msg) {    
-	      	app.trigger("message:word", {msg:msg,live:live});
-	      });
-	
-	      app.socket.on("newNGram", function(msg) {  
-	      	app.trigger("message:newNGram", {msg:msg,live:live});   
-	      });
-	      app.socket.on("sentenceEnd", function(msg) {  
-	      	app.trigger("message:sentenceEnd", {msg:msg,live:live});   
-	      });
-	
-	      app.socket.on("transcriptDone", function(msg) {   
-	      	app.trigger("message:transcriptDone", {msg:msg,live:live});
-		    	live = false;
-	      	console.log("transcriptDone");
-	      });
-	
-	      app.socket.on("close", function() {
+	      app.on("close", function() {
 	        console.error("Closed");
 	      });
       }, 100);
 	     
+      app.on("scrollBody", transcriptView.handleScroll, transcriptView);
+      app.on("scrollBody:user", transcriptView.handleUserScroll, transcriptView);
       // BODY/WINDOW EVENTS
       // ----------------------------------------------------------------------
       
@@ -264,7 +259,6 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
       var lastScrollY = 0;
       var ticking = false;
       $(window).scroll(_.throttle(function(ev) {
-		     	//app.trigger("body:scroll", document.body.scrollTop);
 		     	
 		     	// Intead of emitting events, keep track of scroll position for requestAnimFrame below.
 		     	lastScrollY = document.body.scrollTop;
@@ -300,7 +294,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
       
       if(keyboardEnabled){
 	      $body.keydown(function(event){
-	      	console.log(event.which);
+	      	//console.log(event.which);
 	      	//g for toggling test grid
 	      	if(event.which == 71){
 		      	if($('#testGrid').css("visibility") == "visible") $('#testGrid').css("visibility", "hidden");
@@ -320,13 +314,19 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 						if($('#transcript > .wrapper').css("visibility") == "visible") $('#transcript > .wrapper').css("visibility", "hidden");
 		      	else $('#transcript > .wrapper').css("visibility", "visible");
 					}
-					//w for skrollr object switching
+					//w 
 					else if(event.which == 87){	
+						//for skrollr object switching
 						//if(app.skrollr._skrollElement == null) app.skrollr.setSkrollElement("")
+						app.skrollr.resetSkrollElement();
 					}
-					//p for inserting parallax test objects
+					//p 
 					else if(event.which==80){	
-						app.trigger("keypress:test", {type:"testParallax"});
+						// Inserting test parallax objects.
+						// app.trigger("keypress:test", {type:"testParallax"});
+						var el = $('#comparisons > .wrapper').get(0);
+						//console.log("setSkrollElement("+el+")");
+						app.skrollr.setSkrollElement(el);
 					}
 					//z To nudge parallax test objects left
 					else if(event.which==90){	
@@ -368,6 +368,59 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
     },
     
     initialize: function() {
+      var updateBar = function() {
+        var percs = [0, 0];
+
+        return function(perc, i) {
+          percs[i] = perc;
+
+          window.setTimeout(function() {
+            var hr = document.querySelector(".landingRule.gray60");
+            var total = percs[0] + percs[1];
+
+            if (hr) {
+              hr.style.background = "-webkit-linear-gradient(left, rgb(207, 255, 36) " +
+                total + "%, rgb(76,76,76) " + (total+1) + "%)";
+            }
+          }, 100);
+        };
+      }();
+
+      // XHR.
+      var messages = new XMLHttpRequest();
+      var markup = new XMLHttpRequest();
+
+      // Opens.
+      messages.open("GET", "/messages/whateva", true);
+      markup.open("GET", "/markup/whateva", true);
+
+      // Prog rock.
+      messages.onprogress = function(e) {
+        updateBar(Math.ceil((e.loaded/e.total) * 50), 0);
+      };
+      markup.onprogress = function(e) {
+        updateBar(Math.ceil((e.loaded/e.total) * 50), 1);
+      };
+
+      // Lobes.
+      messages.onload = function() {
+        var contents = "[" +
+          messages.responseText.split("\n").slice(0, -1).join(",") +
+        "]";
+
+        app.messages["0"] = new Message.Collection(JSON.parse(contents));
+        updateBar(50, 0);
+      };
+
+      markup.onload = function() {
+        app.markup = markup.responseText;
+        updateBar(50, 1);
+      };
+
+      // Send!
+      messages.send();
+      markup.send();
+
       // Cache the querystring lookup.
       var querystring = location.search.slice(1);
 

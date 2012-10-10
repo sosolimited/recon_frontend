@@ -17,7 +17,6 @@ function(app, Overlay, Ref) {
   var openParagraph = null;
   var scrollLive = true;		
   var lastScrollHeight = 0;
-  var scrollAnimating = false;
 
   var recentPositiveEnergy = [0,0,0];
   var recentNegativeEnergy = [0,0,0];
@@ -47,24 +46,34 @@ function(app, Overlay, Ref) {
     initialize : function() {
       app.on("message:word", this.addWord, this);
       app.on("message:sentenceEnd", this.endSentence, this);
-      //app.on("body:scroll", this.handleScroll, this);  	//EG This is handled by requestAnimFrame now in router.
       app.on("navigation:goLive", this.reattachLiveScroll, this);
 
+      this.$window = $(window);
+      this.$body = $(window.body);
+
       var thisTranscript = this;
-      $(window).resize(function() {
+      this.$window.resize(function() {
         //if(scrollLive) { thisTranscript.reattachLiveScroll(0) };
-        var heightChange = $(window).height() - oldWindowHeight;
+        var heightChange = thisTranscript.$window.height() - oldWindowHeight;
         //console.log(heightChange);
-        $('body').scrollTop(oldScrollTop - heightChange);
-        oldWindowHeight = $(window).height();
-        oldScrollTop = $('body').scrollTop();
+        app.setScrollPos({
+          position: oldScrollTop - heightChange,
+          duration: 600
+        });
+        oldWindowHeight = thisTranscript.$window.height();
+        oldScrollTop = thisTranscript.$body.scrollTop();
       });
+		  app.on("userScroll", function() {
+		    console.log("USERSCROLL");
+		  });
+
       
       this.numberOpen = false;
       this.numberPhrase = "";
       
       this.speakers = this.options.speakers; // Speaker collection ref used to synchronously check on special events in addWords().
       this.uniqueWords = this.options.uniqueWords;	
+
   	},
 
     events : {
@@ -73,9 +82,14 @@ function(app, Overlay, Ref) {
     cleanup: function() {
 	    app.off(null, null, this);
     },
+    
+    setHeading: function(str) {
+	    $('#transcriptHeading').html(str+'<hr>');    
+    },
 
     addWord: function(args) {
-    	//console.log("transcript.addWord("+args['msg']['word']+")");
+      if (args.msg.type === "word" && app.restore) { return; }
+     // console.log("transcript.addWord("+args['msg']['word']+")");
 	    var word = args['msg'];
 	    
 	    // Add word to speakers, which returns an array of any special events triggered by the word.
@@ -97,11 +111,12 @@ function(app, Overlay, Ref) {
     			
     		// emit message to add chapter marker
     		app.trigger("playback:addChapter", {msg:word});
+    		app.trigger("transcript:speakerSwitch", {speaker: curSpeaker});
 
         this.startParagraph(word);
         
         // Clear sentiment running total
-        if(Ref.useSentisstrengthBurst) {
+        if(Ref.useSentistrengthBurst) {
           for(var i=0; i<recentPositiveEnergy.length; i++) {
             recentPositiveEnergy[i] = 0;
             recentNegativeEnergy[i] = 0;
@@ -150,10 +165,13 @@ function(app, Overlay, Ref) {
     	
     	var top20Count = 0;
     	// Only do other markup if a number phrase isn't open, and only if obama or romney are speaking
+      //console.log(word['word'] + ": " + word['cats']);
+      
     	if(!this.numberOpen && (curSpeaker==1 || curSpeaker==2)){    	
-    		// Check for quotes.
-    		/*	// EG TEMP for debate 1
-    		if ($.inArray('say', word['cats']) != -1) { 
+    		
+        // Check for quotes.
+        //console.log(word['word']  + ": " + word['cats']);
+    		if ($.inArray('say', word['cats']) != -1) { // TODO: Change this to 'say' cat once we're sure it's working everywhere 
 	        // Go back a word and pull it into this phrase.
 	        var cS = $('#curSentence');
 	        var cSHTML = cS.html();
@@ -167,12 +185,13 @@ function(app, Overlay, Ref) {
 	
 	        var quotePhrase = newSpan.text();
 	
-	        console.log("QUOTE: " + quotePhrase);
+	        //console.log("QUOTE: " + quotePhrase);
 	        
 		    	app.trigger("markup", {type:'quoteMarkup', phrase:quotePhrase, speaker:word['speaker'], anchor:newSpan.offset()});
 	    	}
-	    	*/
-		  	// Check for any special events returned by speaker.addWord() and add word to DOM with appropriate markup.
+        
+		  	
+        // Check for any special events returned by speaker.addWord() and add word to DOM with appropriate markup.
 		    if(wordProps.length > 0){
 		    	// For now, just grab whatever the first one is and apply it.
 		    	// Note: Class name is just whatever the 'type' of the arg is, so endSentence() down below has to match these class names. 
@@ -182,20 +201,18 @@ function(app, Overlay, Ref) {
 			    app.trigger("markup", wordProps[0]); 		   		 	 
 		    }
 		    // Check if the word is in the top N words. (20 was too busy, so we're trying 10)
-		    /*	//TEMP until freq words gets fixed.
 		    else if((top20Count = this.uniqueWords.isTopPhrase(curSpeaker, word['word'], 10))
 		    	&& (this.uniqueWords.getTotalUniquePhrases(curSpeaker) > 100)){
 				  var sp = $("<span class='frequentWordMarkup countClick transcriptWord'>"+s+word["word"]+"</span>");
 				  sp.attr("data-wordcount", top20Count);
 			   	$('#curSentence').append(sp);	
 		    }
-		    */
 		  	else if ($.inArray('posemo', word['cats']) != -1) {
 		  		 //app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
 		  		 $('#curSentence').append(s+"<span class='catMarkup posemoMarkup transcriptWord'>"+word["word"]+"</span>"); 
            positiveWord = true;
 		  	}
-		  	else if ($.inArray('negemo', word['cats']) != -1 || (!Ref.useSentisstrengthBurst && $.inArray('negate', word['cats']) != -1)) {
+		  	else if ($.inArray('negemo', word['cats']) != -1 || (!Ref.useSentistrengthBurst && $.inArray('negate', word['cats']) != -1)) {
 		  		 //app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
 		  		 $('#curSentence').append(s+"<span class='catMarkup negemoMarkup transcriptWord'>"+word["word"]+"</span>"); 
            negativeWord = true;
@@ -261,28 +278,30 @@ function(app, Overlay, Ref) {
 
       // Autoscroll the window to keep up with transcript
       // ----------------------------------------------------------------------
-      if(scrollTo != lastScrollHeight && !scrollAnimating && this.scrollShouldReattach()) {
+      if(scrollTo != lastScrollHeight && this.scrollShouldReattach()) {
         scrollLive = true;
         app.trigger("transcript:scrollAttach", {});         
       }
       if(scrollLive && !Ref.disableAutoScroll) {
-        var scrollTo = this.transcriptBottom() - $(window).height();
-        //var scrollTo = $(document).height() - $(window).height();
-        if(scrollTo != lastScrollHeight && !scrollAnimating) {  // Only trigger autoscroll if needed
+        var scrollTo = this.transcriptBottom() - this.$window.height();
+        //var scrollTo = $(document).height() - this.$window.height();
+        if(scrollTo != lastScrollHeight) {  // Only trigger autoscroll if needed
           //console.log("scrolling to: " + scrollTo);
           var duration = Math.abs(lastScrollHeight - scrollTo) * 3.0;
-          scrollAnimating = true;
-          $("body").animate({ scrollTop: scrollTo}, duration, function() { scrollAnimating = false; });
+          app.setScrollPos({
+            duration: duration,
+            position: scrollTo
+          });
           app.trigger("transcript:scrollTo", word["timeDiff"]); 
           lastScrollHeight = scrollTo;
         }
-      }           
+      }
       //$('#curSentence').css("margin-bottom", $('#curSentence').height() - Ref.overlayOffsetY);
       
       // Calculate recent positive/negative word count, trigger burst if appropriate
       // ---------------------------------------------------------------------------
       // Shift values back, calculate recent total
-      if(!Ref.useSentisstrengthBurst && args && (curSpeaker==1 || curSpeaker==2)) {
+      if(!Ref.useSentistrengthBurst && args && (curSpeaker==1 || curSpeaker==2)) {
         var positiveTotal = 0; var negativeTotal = 0;
         for(var i=0; i<emoWordsWindow-1; i++) {
           recentPositiveWords[i] = (recentPositiveWords[i+1] || 0);
@@ -338,7 +357,7 @@ function(app, Overlay, Ref) {
       	 }
       	 else if($(this).hasClass("negemoMarkup")){
 	      	 $(this).css("background-color", "rgb(122,52,183)");
-	      	 $(this).css("color", "rgb(255,255,255)");
+	      	 $(this).css("color", "rgb(180,180,180)");
       	 }
       	 else if($(this).hasClass("certainMarkup")){
 	      	 $(this).css("background-color", "rgb(255,175,108)");
@@ -357,11 +376,11 @@ function(app, Overlay, Ref) {
 	     	 else if($(this).hasClass("numberMarkup")){
 	     	 		//$(this).css("background-color", "rgb(64,180,229)");	    	    		
 	     	 		$(this).css("background-color", "rgb(80,80,80)");
-	     	 		$(this).css("color", "rgb(255,255,255)");	    	    			    	    		
+	     	 		$(this).css("color", "rgb(180,180,180)");	    	    			    	    		
 	     	 }
 	     	 // Quotation markup.
 	     	 else if($(this).hasClass("quoteMarkup")){
-	     	 		$(this).css("color", "rgb(124,51,64)");	    	    		
+	     	 		$(this).css("background-color", "rgb(48,179,228)");	    	    		
 	     	 }         
 	     	 // Frequent word markup.
 	     	 else if($(this).hasClass("frequentWordMarkup")){
@@ -369,6 +388,7 @@ function(app, Overlay, Ref) {
 		    		//$(this).css("border-bottom", "1px solid white");	//To do different color underline.
 		    		
 		    		//$(this).css("text-decoration-color", "rgb(255,255,255)");	
+		    		
 		        var count = $(this).attr("data-wordcount");
 		        if(count != undefined) {
 		          // Add a div at this point and animate it inCannot read property 'top' of null 
@@ -381,18 +401,21 @@ function(app, Overlay, Ref) {
 		          container.append(countDiv);
 		          $(this).parent().append(container);
 		          countDiv.animate({top: '0px'}, 300);
-
-              var spaceWidth = 5;  // To avoid underlining the leading space. This is an ugly hack.
-              var underlineDiv = $("<div class='freqWordUnderline' style='left: " + (pos.left+spaceWidth) + "px; top: " + (pos.top + lineHeight*0.8) + "px;  width: " + (wordWidth-spaceWidth) + "px;' />");
-              $(this).parent().append(underlineDiv);
-		        }  	     	 
+		          
+		          
+		          ////EG Trying it without underline.
+              //var spaceWidth = 5;  // To avoid underlining the leading space. This is an ugly hack.
+              //var underlineDiv = $("<div class='freqWordUnderline' style='left: " + (pos.left+spaceWidth) + "px; top: " + (pos.top + lineHeight*0.8) + "px;  width: " + (wordWidth-spaceWidth) + "px;' />");
+              //$(this).parent().append(underlineDiv);
+              
+		        } 
 	     	 }
       });
 
       // Calculate positive/negative energy over the last few sentences, determine if this is a burst
       // --------------------------------------------------------------------------------------------
       // Shift values back, calculate recent total
-      if(args && Ref.useSentisstrengthBurst && (curSpeaker==1 || curSpeaker==2)) {
+      if(args && Ref.useSentistrengthBurst && (curSpeaker==1 || curSpeaker==2)) {
         var positiveTotal = 0; var negativeTotal = 0;
         for(var i=0; i<energyBurstWindow-1; i++) {
           recentPositiveEnergy[i] = recentPositiveEnergy[i+1];
@@ -487,7 +510,7 @@ function(app, Overlay, Ref) {
       // When #curParagraph height goes to 'auto', the page collapses and scroll jumps up
       // So save the height with a temporary div!
       if($('#saveTheHeight').length == 0)
-        $('body').append("<div id='saveTheHeight' style='position: absolute; width:100%; height:2px; z-index:-100; left: 0;'></div>");
+        this.$body.append("<div id='saveTheHeight' style='position: absolute; width:100%; height:2px; z-index:-100; left: 0;'></div>");
 
       var screenBottom = this.transcriptBottom();
       $('#saveTheHeight').offset({'left':0, 'top':screenBottom});
@@ -574,17 +597,8 @@ function(app, Overlay, Ref) {
       var anchorPos;
       if(this.numberPhrase != null) 
       {
-        //TODO: this formatting seems to be erasing previous formatting in the sentence. 
-        // Anything before the last number event in the sentence will be reverted to normal text
-        // Uncomment the three console.log() lines below to see what's happening
-        
-        //console.log("numberPhrase = "+this.numberPhrase);
-        //console.log("sentence="+$('#curSentence').html());
-        
       	var cS = $('#curSentence');
-	      cS.html(cS.text().replace($.trim(this.numberPhrase), "<span id='positionMarker' class='transcriptWord numberMarkup catMarkup'>"+$.trim(this.numberPhrase)+"</span>"));
-	      
-	      //console.log("new sentence="+$('#curSentence').html());
+	      cS.html(cS.html().replace($.trim(this.numberPhrase), "<span id='positionMarker' class='transcriptWord numberMarkup catMarkup'>"+$.trim(this.numberPhrase)+"</span>"));
 	      
         anchorPos = $('#positionMarker').offset();
         $('#positionMarker').removeAttr("id");        
@@ -620,31 +634,20 @@ function(app, Overlay, Ref) {
           $('#curParagraph').height(newHeight);
       }
     },
-    
+
     reattachLiveScroll : function(duration) {
-      if(duration == null) duration = 600;
       var transcriptHeight = this.transcriptBottom();
-      var scrollTo = transcriptHeight - $(window).height();
-      scrollAnimating = true;
-      var theRealSlimShady = this;
-      if(duration > 0) {
-        $("body").stop().animate({ scrollTop: scrollTo}, duration, function() {
-           // If the document has grown, try again
-          if(false && theRealSlimShady.transcriptBottom() > transcriptHeight) theRealSlimShady.reattachLiveScroll(100);
-          else {
-            scrollAnimating = false;
-            scrollLive = true;
-            app.trigger("transcript:scrollAttach", {});
-          }
-        });
-      }
-      else {
-        $("body").scrollTop(scrollTo);
-        scrollAnimating = false;
-        scrollLive = true;
-        app.trigger("transcript:scrollAttach", {});
-      }
-      lastScrollHeight = scrollTo;
+      var scrollTo = transcriptHeight - this.$window.height();
+
+      app.setScrollPos({
+        position: scrollTo,
+        duration: duration,
+        done: function() {
+          scrollLive = true;
+          app.trigger("transcript:scrollAttach", {});
+        }
+      });
+
     },
 
     transcriptBottom : function() {
@@ -654,53 +657,57 @@ function(app, Overlay, Ref) {
       catch(e) { console.log("NO CURRENT PARAGRAPH"); return 0; }
     },
 
-    handleScroll : function() {
-      oldScrollTop = $('body').scrollTop(); // To keep scroll position on resize
-      //console.log("SCROLL animating? " + (scrollAnimating ? "YES" : "NO") + " live? " + (scrollLive ? "YES" : "NO"));
 
-      // If this is a user scrolling, decide whether to break or reattach live autoscrolling
-      if(!scrollAnimating) {
-        // Note: $(document).height() is height of the HTML document,
-        //       $(window).height() is the height of the viewport
-        var bottom = this.transcriptBottom() - $(window).height();
-        if(!scrollLive && this.scrollShouldReattach()) {
-          scrollLive = true;
-          app.trigger("transcript:scrollAttach", {}); // So other modules like nav can respond accordingly
-        }
-        else if(scrollLive && !this.scrollShouldReattach()) {
-          $("body").stop(); // Stop any scroll animation in progress
-          scrollLive = false;
-          app.trigger("transcript:scrollDetach", {});
-        }
+    // Decide whether to break or reattach live autoscrolling
+    handleUserScroll : function() {
+      // Note: $(document).height() is height of the HTML document,
+      //       this.$window.height() is the height of the viewport
+      var bottom = this.transcriptBottom() - this.$window.height();
+      if(!scrollLive && this.scrollShouldReattach()) {
+        scrollLive = true;
+        // So other modules like nav can respond accordingly
+        app.trigger("transcript:scrollAttach", {});
       }
+      else if(scrollLive && !this.scrollShouldReattach()) {
+        this.$body.stop(); // Stop any scroll animation in progress
+        scrollLive = false;
+        app.trigger("transcript:scrollDetach", {});
+      }
+    },
+
+    handleScroll : function() {
+      // Save value to keep scroll position on resize
+      oldScrollTop = this.$body.scrollTop();
 
       // Figure out which word is at the bottom of the screen and fire an event with that word's timediff
       // Also perform per-paragraph culling (hide paragraphs that aren't visible)
       var buffer = 50; // How far from the bottom the "bottom" is
-      var scrolled = $(window).scrollTop();
-      var bottomLine = $(window).scrollTop() + $(window).height() - buffer;
+      var scrolled = this.$window.scrollTop();
+      var bottomLine = this.$window.scrollTop() + this.$window.height() -
+        buffer;
 
-      //var viewportTop    = $(window).scrollTop();
-      //var viewportBottom = viewportTop + $(window).height();
+      //var viewportTop    = this.$window.scrollTop();
+      //var viewportBottom = viewportTop + this.$window.height();
       
       // First loop through paragraphs
       var scrolledParagraph = null;
       var closestParagraph = null;
-      var closestDistance = 1000000;
+      var closestDistance = Infinity;
       $(".transcriptParagraph").each(function(idx, el) {
         //var paraTop = $(el).offset().top;
         //var paraBottom = paraTop + $(el).height();
-        var paraTop = $(el).attr('data-top');
-        var paraBottom = $(el).attr('data-bottom');
+        var $el = $(el);
+        var paraTop = $el.data('top');
+        var paraBottom = $el.data('bottom');
 
         // Check if current scroll line is in this paragraph
         if(bottomLine <= paraBottom && bottomLine > paraTop) {
-          scrolledParagraph = $(el);
+          scrolledParagraph = $el;
           //return false; // break the each loop
         }
         else if(Math.abs(paraBottom - bottomLine) < closestDistance) {
           closestDistance = Math.abs(paraBottom - bottomLine);
-          closestParagraph = $(el);
+          closestParagraph = $el;
         }
 
         /*
@@ -713,8 +720,9 @@ function(app, Overlay, Ref) {
 
       });
 
-      if(!scrolledParagraph) 
+      if(!scrolledParagraph) {
         scrolledParagraph = closestParagraph;
+      }
 
       if(scrolledParagraph){  //EG Trying to fix initial race condition when you load page.
 	      // Find timestamp of first and last word, linearly interpolate to find current time
@@ -739,9 +747,9 @@ function(app, Overlay, Ref) {
     },
 
     scrollShouldReattach : function() {
-      var bottom = this.transcriptBottom() - $(window).height();
-      return Math.abs(bottom - $(window).scrollTop()) < Ref.autoscrollReattachThreshold;
-        // || $(document).height() - $(window).height() - $(window).scrollTop() < Ref.autoscrollReattachThreshold;
+      var bottom = this.transcriptBottom() - this.$window.height();
+      return Math.abs(bottom - this.$window.scrollTop()) < Ref.autoscrollReattachThreshold;
+        // || $(document).height() - this.$window.height() - this.$window.scrollTop() < Ref.autoscrollReattachThreshold;
         // Second case is to bounce from the bottom
     },      
 
@@ -761,7 +769,7 @@ function(app, Overlay, Ref) {
     },
     
     exit: function() {
-	    $('#transcript').css("visibility", "hidden");	    
+	    $('#transcript').css("visibility", "hidden");	     	   
     },
     
     // Reset puts everything where it's supposed to be before entering.

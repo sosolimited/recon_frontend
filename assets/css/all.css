@@ -5,7 +5,6 @@ body {
   background-color: rgb(140,146,146);	 
   background-image: url('../../images/background-tex.jpg');
   background-repeat: repeat; *;
-
   overflow-y: scroll;	
   overflow-x: hidden;	/* not working! */
   cursor: default;
@@ -152,7 +151,7 @@ h1:hover { /* Speaker names */
 }
 
 .transcriptSpeaker:hover {
-	color:rgb(255, 66, 55);
+	color:rgb(60,60,60);
 }
 
 
@@ -163,9 +162,12 @@ p { /* Transcript text */
 }
 
 #curSentence {
+	/*
 	color: white;
-	/* background-color: rgb(64, 180, 230);	*/
 	background-color: rgb(50,50,50);
+	*/
+	color: rgb(60,60,60);
+	background-color: white;
 }
 
 .transcriptSentence {
@@ -173,11 +175,21 @@ p { /* Transcript text */
 }
 
 .fade {
+  /*
   -webkit-transform: scale(.4);
   opacity: .5;
+  
   top: -75%;
   height: 250%;
+  */
 }
+
+/* EG Just to initialize it to hidden */
+/* 
+#comparisons {
+	display: none;
+}
+*/
 
 #comparisons .active {
   z-index: 5000;
@@ -186,17 +198,30 @@ p { /* Transcript text */
 #comparisons .active.wrapper {
   /*-webkit-transform: scale(1);
   transform: scale(1);*/
-  opacity: 1.0 !important;
+  /* opacity: 1.0 !important; */
 }
-
+ 
 #comparisons .wrapper {
+  /*
   -webkit-transition:  1s linear; 
   transition:  1s linear; 
-  opacity: 0 !important;
+  */
+  /* opacity: 0 !important; */
   position: fixed;
+  
+  display: none;	/* EG Init state */
+  
   /*-webkit-transform: scale(0);
   transform: scale(0);*/
+}
 
+/* For skrollr purposes */
+.comparisonFiller {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 1024px;
+	height: 30000px;	/* This should match the total height of all comparisons, aka the final value of Comparison.Views.All.scrollY. */
 }
 
 .pieChart {
@@ -218,12 +243,15 @@ hr {
 }
 
 /* Navigation */
-
 #navigation {
+	width: 100%;
+}
+
+#navLeft {
 	position: fixed;
 	width: 530px;
 	height: 48px;
-	z-index: 10;
+	z-index:6000;
 
 	transform:rotate(90deg);
 	-ms-transform:rotate(90deg); /* IE 9 */
@@ -237,22 +265,80 @@ hr {
   top: 245px;
 }
 
+#navRight {
+	position: fixed !important;
+	right:-166px !important;
+	height: 48px;
+	width:350px;
+	z-index:6000;
+
+	transform:rotate(-90deg);
+	-ms-transform:rotate(-90deg); /* IE 9 */
+	-moz-transform:rotate(-90deg); /* Firefox */
+	-webkit-transform:rotate(-90deg); /* Safari and Chrome */
+	-o-transform:rotate(-90deg); /* Opera */
+	
+	-webkit-transition: -webkit-transform 1s;	
+	
+
+	bottom: 200px;
+	font-size:20px;
+	text-transform:uppercase; 
+	float:right;
+	
+}
+
+
+
+#navTranscriptButton {
+	display:inline-block;
+	padding: 5px 5px 20px 5px;
+	
+}
+
+
+#navComparisonButton {
+	display:inline-block;
+	margin-top:-40px;
+	/*margin-left: 10px;*/
+	padding: 5px 5px 20px 5px;
+	/* padding: 5px; */
+
+	
+}
+
+#navComparisonButton .active{
+  -webkit-transition:  1s linear; 
+  transition:  1s linear; 
+  opacity: .5 !important;
+	
+	
+}
+
+
+#navTranscriptButton .active{
+  -webkit-transition:  1s linear; 
+  transition:  1s linear; 
+  opacity: .5 !important;
+}
 
 /* White box inside #navigation div */
 #navTimeline {
   width: 530px;
   height: 16px;
+  z-index:12;
 }
 #navProgressBar {
   height: 16px;
-  background-color: rgb(64, 180, 230);	
+  background-color: rgb(76,76,76);
+
   width: 0px;
   z-index: 0;
 }
 #navProgressMarker {
   height: 16px;
   width:4px;
-  background-color: black;
+  background-color: white;
   z-index: 2;
   position: absolute;
   top:0px;
@@ -267,15 +353,17 @@ hr {
   width: 530px;
 	height: 32px;
 	background-color: white;
+	z-index:12;
 }
 
 .navTitle {
 	padding: 10px 10px 10px 10px;
 	font-size: 24px;
+	cursor:pointer;
 }
 
 .navTitle:hover {
-	color: rgb(64, 180, 230)
+	color: rgb(64, 180, 230);
 }
 
 .navSubTitle {
@@ -284,6 +372,17 @@ hr {
 
 .navSubTitle:hover {
 	/*color: rgb(64, 180, 230)*/
+}
+
+.navButton {
+	color:black;
+	background:white;
+}
+
+.navButton:hover {
+	cursor:pointer;
+	background:black;
+	color:white;
 }
 
  
@@ -295,16 +394,69 @@ hr {
 	-o-transform:rotate(90deg); /* Opera */
 }
 
+#navInstructions {
+	font-size: 50px;
+	
+	
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	
+	
+	-webkit-transition: -webkit-transform 1s;	
+	z-index: 3500;
+}
+
+#backgroundInstructions{
+	opacity: .6;
+	background-color: rgb(76,76,76); /*rgb(207,255,36); rgb(255,213,0)*/
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	padding: 50px;
+	margin:-10px 50px 50px -100px;
+	z-index: 3500;
+
+	
+}
+.navInstructionsText{
+	
+	font-size:96px !important;
+	line-height: 120px;
+	text-transform: uppercase;
+	left: 50px;
+	position:fixed;
+	margin-top: 100px;
+	color:white;
+	z-index: 4500;
+}
 
 
+#transcriptHeading{
+	
+	left:64px;
+	width:500px;
+	font-family:"franklin-gothic-urw-comp-i7", "franklin-gothic-urw-comp"; font-weight:700; font-style:italic;
+	font-size: 96px;
+	line-height: 120px;
+	padding-bottom:50px;
+	
+	color:black;
+	text-transform: uppercase;
+	z-index: 6500;
+	
+	position: relative;
 
+}
 
 /* Typekit fonts */
 
 .metaBook{ font-family:"ff-meta-serif-web-pro"; font-weight:100; font-style:normal; }
+/* Not using
+
 .metaBookIt{ font-family:"ff-meta-serif-web-pro"; font-weight:100; font-style:italic; }
 .metaBold{ font-family:"ff-meta-serif-web-pro"; font-weight:700; font-style:normal; }
-.metaBoldIt{ font-family:"ff-meta-serif-web-pro"; font-weight:700; font-style:italic; }
+.metaBoldIt{ font-family:"ff-meta-serif-web-pro"; font-weight:700; font-style:italic; } */
 
 /* Franklin Compressed */
 
@@ -315,36 +467,36 @@ hr {
 .franklinDemiCompIt{ font-family:"franklin-gothic-urw-comp-i7", "franklin-gothic-urw-comp"; font-weight:700; font-style:italic; }
 
 
-/* Franklin Extra Compressed */
+/* Franklin Condensed */
+.franklinMedComp{ font-family:"franklin-gothic-urw-cond-n5", "franklin-gothic-urw-cond"; font-weight:600; font-style:normal; }
+.franklinMedCompIt{ font-family:"franklin-gothic-urw-cond-i5", "franklin-gothic-urw-cond"; font-weight:600; font-style:italic; }
+
+
+
+/* Franklin EXTRA Compressed */
 
 .franklinExBookComp{ font-family:"franklin-gothic-ext-comp-urw-n4", "franklin-gothic-ext-comp-urw"; font-weight:400; font-style:normal; }
 .franklinExDemiComp{ font-family:"franklin-gothic-ext-comp-urw-n7", "franklin-gothic-ext-comp-urw"; font-weight:700; font-style:normal; }
 
 
 
-
-
-
-
-/* Franklin Condensed */
-.franklinMedComp{ font-family:"franklin-gothic-urw-cond-n5", "franklin-gothic-urw-cond"; font-weight:600; font-style:normal; }
-.franklinMedCompIt{ font-family:"franklin-gothic-urw-cond-i5", "franklin-gothic-urw-cond"; font-weight:600; font-style:italic; }
-
-
 /* Franklin reg */
 
-.franklinLight{ font-family:"franklin-gothic-urw-n3", "franklin-gothic-urw"; font-weight:300; font-style:normal; }
+/* Not using
+ .franklinLight{ font-family:"franklin-gothic-urw-n3", "franklin-gothic-urw"; font-weight:300; font-style:normal; } 
 .franklinBook{ font-family:"franklin-gothic-urw-n4", "franklin-gothic-urw"; font-weight:400; font-style:normal; }
-.franklinBookIt{ font-family:"franklin-gothic-urw-i4", "franklin-gothic-urw"; font-weight:400; font-style:italic; }
+.franklinBookIt{ font-family:"franklin-gothic-urw-i4", "franklin-gothic-urw"; font-weight:400; font-style:italic; }*/
 
+.franklinBook{ font-family:"franklin-gothic-urw-n4", "franklin-gothic-urw"; font-weight:400; font-style:normal; }
 .franklinMed{ font-family:"franklin-gothic-urw-n5", "franklin-gothic-urw"; font-weight:500; font-style:normal; }
 .franklinMedIt{ font-family:"franklin-gothic-urw-i5", "franklin-gothic-urw"; font-weight:500; font-style:italic; }
 
-
+/* Not using
 .franklinDemi{ font-family:"franklin-gothic-urw-n7", "franklin-gothic-urw"; font-weight:700; font-style:normal; }
 .franklinDemiIt{ font-family:"franklin-gothic-urw-i7", "franklin-gothic-urw"; font-weight:700; font-style:italic; }
 .franklinHeavy{ font-family:"franklin-gothic-urw-n9", "franklin-gothic-urw"; font-weight:900; font-style:normal; }
 .franklinHeavyIt{ font-family:"franklin-gothic-urw-i9", "franklin-gothic-urw"; font-weight:900; font-style:italic; }
+*/
 
 /* Colors */
 .white{ color:rgb(255,255,255); }
@@ -356,22 +508,32 @@ hr {
 .gray80{ color:rgb(80,80,80); }
 .bgGray80{ background-color:rgb(80,80,80);}
 .gray160{ color:rgb(160,160,160); }
+
 .grayBlue{ color:rgb(67,67,75); }
 .bgGrayBlue{ background-color:rgb(77,77,85); }
+
 .pink{ color:rgb(231,0,149); }
 .bgPink{ background-color:rgb(231,0,149); }
+
 .sky{ color:rgb(64,180,229); }
 .bgSky{ background-color:rgb(64,180,229); }
+
 .lime{ color:rgb(207,255,36); }
 .bgLime{ background-color:rgb(207,255,36); }
+
+
 .magenta{ color:rgb(227, 31, 130); } 
-.bgMagenta{ background-color:rgb(227, 31, 130); } 
+.bgMagenta{ background-color:rgb(227, 31, 130); }
+ 
 .cherry{ color:rgb(255, 66, 55); } 
 .bgCherry{ background-color:rgb(255, 66, 55); } 
+
 .purple{ color:rgb(101, 45, 106); } 
 .bgPurple{ background-color:rgb(101, 45, 106); } 
+
 .salmon{ color:rgb(255,157,108); }
 .bgSalmon{ background-color:rgb(255,157,108); }
+
 .seaGreen{ color:rgb(124,240,179); }
 .orangeRed{ color:rgb(255, 85, 46); }
 .bgOrangeRed{ background-color:rgb(255, 85, 46); }
@@ -387,13 +549,16 @@ hr {
 
 .depressed{color:rgb(122,52,64);}
 
+.positive{color:rgb(124,240,179);}
+.bgPositive{background-color:rgb(124,240,179);}
 
-
+.negative{color:rgb(122,52,183);}
+.bgNegative{background-color:rgb(122,52,183);}
 
 /* Overlays */
 
 .over {
-	z-index: 2;	
+	z-index: 6;	
 }
 .under {
 	z-index: -2;
@@ -433,41 +598,11 @@ hr {
 	display:block;
 }
 
-landingTitleImage {
-	width:324px;
-	height:27px;
-	background: url("images/ReconLogo.png");
-	position:absolute;
-	top: 48px;
-	display:block;
-	
-}
-
-#landingSubTitle {
-
-	position: absolute;
-	top: 588px;
-	font-size: 42px;
-	line-height: 48px;
-	z-index:1;
-	padding-left: 25px;
-}
-
-#landingSubTitleDiv {
-	position: relative;
-	top: 588px;
-	height: 48px;
-	background-color: rgb(207,255,36);
-	z-index:0;
-	width: 3000px;
-	left:-900px;
-
-}
 
 #landingObama {
 	position: absolute;
 	top: 132px;
-	font-size: 200px;
+	font-size: 204px;
 	line-height: 156px;
 	
 	left:141px;
@@ -498,7 +633,7 @@ landingTitleImage {
 	left:110px;
 	position: absolute;
 	top: 396px;
-	font-size: 200px;
+	font-size: 204px;
 	line-height: 144px;
 	/*left:136px;*/
 	/*left:68px;*/
@@ -516,6 +651,8 @@ landingTitleImage {
 .landingButtonHolder {
 	position: relative;	
   cursor: pointer;
+  overflow:hidden;
+  z-index: 10;
 }
 
 .landingButton {
@@ -552,29 +689,6 @@ landingTitleImage {
 	background-color: rgb(76,76,76)!important;	
 }
 
-.landingMakingof {
-	position: static;
-	padding: 0 0 0 0;
-	left: 0px;
-	font-size: 25px;
-	line-height: 25px;
-	margin: 12px 0px 0px 0px;
-	color:rgb(200,200,200) !important;
-	 
-}
-
-.landingMakingofSubTitle {
-	position: static;
-	padding: 0 0 0 0;
-	left: 0px;
-	font-size: 20px;
-	line-height: 0px;
-	margin: 12px 0px 0px 0px;
-	color:rgb(200,200,200) !important;
-	 
-}
-
-
 .landingWhiteRule1 {
 	position: absolute;
 	border-bottom:1px dashed rgb(200,200,200)!important;
@@ -607,11 +721,70 @@ landingTitleImage {
 .landingWhiteRule3 {
 	position: absolute;
 	border-bottom:1px dashed rgb(200,200,200)!important;
-	top:541px; 
+	top:542px; 
 	left:-70px;
 	width: 496px;
 	margin: 0px 0px 0px 0px;
 }
+
+
+.landingMakingof {
+	position: static;
+	padding: 0 0 0 0;
+	left: 0px;
+	font-size: 25px;
+	line-height: 25px;
+	margin: 12px 0px 0px 0px;
+	color:rgb(200,200,200) !important;
+	 
+}
+
+.landingMakingofSubTitle {
+	position: static;
+	padding: 0 0 0 0;
+	left: 0px;
+	font-size: 20px;
+	line-height: 0px;
+	margin: 12px 0px 0px 0px;
+	color:rgb(200,200,200) !important;
+	 
+}
+
+
+/* FOOTER */
+
+
+landingTitleImage {
+	width:324px;
+	height:27px;
+	background: url("images/ReconLogo.png");
+	position:absolute;
+	top: 48px;
+	display:block;
+	
+}
+
+#landingSubTitle {
+
+	position: absolute;
+	top: 588px;
+	font-size: 42px;
+	line-height: 48px;
+	z-index:1;
+	padding-left: 25px;
+}
+
+#landingSubTitleDiv {
+	position: relative;
+	top: 588px;
+	height: 48px;
+	background-color: rgb(207,255,36);
+	z-index:0;
+	width: 3000px;
+	left:-900px;
+
+}
+
 
 #landingCreditsBox {
 	position: absolute;
@@ -634,6 +807,9 @@ landingTitleImage {
 	font-size: 14px;
 	line-height: 18px;
 }
+
+
+
 
 
 /*
@@ -662,7 +838,7 @@ landingTitleImage {
 	-webkit-transition: -webkit-transform 1s ease-in;	
 	/* -webkit-transform: translateZ(0px); */
 	
-	z-index: 2;
+	z-index: 8;
 	
 }
 
@@ -681,7 +857,7 @@ landingTitleImage {
 	font-size:720px;	
 	line-height:96px;
 	/*top:48px;*/
-	left:-600px;	/* Start out of view */
+	left:1800px;	/* Start out of view */
 
 	/* -webkit-transform: translateZ(0px); */
 }
@@ -691,7 +867,7 @@ landingTitleImage {
 	font-size:720px;	
 	line-height:96px;
 	/*top: 48px;*/
-	left: 1800px;	/* Start out of view */
+	left: -600px;	/* Start out of view */
 
 	/* -webkit-transform: translateZ(0px); */
 }
@@ -700,6 +876,7 @@ landingTitleImage {
 
 .catWrapper {
 	position: absolute;
+	z-index: 7000;
 }
 
 .categoryOverlay {
@@ -713,8 +890,9 @@ landingTitleImage {
   color: rgb(255,255,255);
 	/*-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
 	-webkit-transform: translateZ(0px);	*/
-  z-index: 10;
+  z-index: 7000;
   text-transform: uppercase;
+  -webkit-transition: left 1s;
 }
 
 .certainMarkup:hover{
@@ -877,13 +1055,13 @@ landingTitleImage {
 .quotePhrase {
 	position:absolute; 
 	overflow: visible;
-  width: 906px;
-  font-size: 240px;
+  width: 908px;
+  font-size: 360px;
   line-height: .75em;
 	margin: 0px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
-  color: rgb(124,51,64);
-	-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
+  color: rgb(48,179,228);
+	-webkit-transition: left 1s, right 1s, top 1s, height 1s, width 1s, font-size 1s, line-height 1s;
 	/* -webkit-transform: translateZ(0px);	*/
   z-index: 2;
 }
@@ -894,7 +1072,7 @@ landingTitleImage {
 .quoteLeftQuote, .quoteRightQuote {
   position: absolute;
   font-size: 400px;
-  color: rgb(124,51,64);
+  color: rgb(48,179,228);
   -webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
   z-index: 0;
 }
@@ -915,7 +1093,7 @@ landingTitleImage {
   font-size: 72px;
   line-height: 0.75em;
   opacity: 0;
-  z-index: 3;
+  z-index: 2;
   -webkit-transition: opacity 1s;
 }
 
@@ -1004,7 +1182,7 @@ landingTitleImage {
 
 .moderator {
 	width: 400px;
-	padding-left:400px;
+	padding-l?eft:400px;
 	display: block;
 	color: gray;
 }

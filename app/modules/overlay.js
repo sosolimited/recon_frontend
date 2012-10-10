@@ -21,7 +21,22 @@ function(app, Ref) {
 		initialize: function() {
 			this.forceCollapse = this.options.forceCollapse;
 			this.trait = this.options.trait;
-			this.leader = this.options.leader; 
+			this.speaker = this.options.speaker;
+			this.moreVal = this.options.moreVal;
+			
+			
+			this.aVal = '>'; 
+			
+			if (this.speaker == 1)
+			{
+				if (this.moreVal.indexOf('LESS') != -1) this.aVal = '<';
+			}
+			else 
+			{
+				if (this.moreVal.indexOf('MORE') != -1) this.aVal = '<';
+			}
+			
+			//console.log(this.moreVal + " " + this.aVal);
 
 			this.posY = this.options.posY;
 			//all durations in milliseconds	
@@ -32,12 +47,12 @@ function(app, Ref) {
 				
 			//console.log("posY = " + this.posY);
 				
-			if(this.options.leader==="obama") this.trailer="romney";
+			if(this.options.speaker==="obama") this.trailer="romney";
 			else this.trailer = "obama";
 		},	
 		 
 		serialize: function() {
-      return { trait: this.trait, leader: this.leader, trailer: this.trailer, startPosY: this.posY-96};
+      return { trait: this.trait, speaker: this.speaker, trailer: this.trailer, startPosY: this.posY-96, moreVal: this.moreVal, aVal: this.aVal };
     },
 
     expand: function() {
@@ -53,7 +68,7 @@ function(app, Ref) {
     	});
   
     	this.$el.find('.traitSymbolRight').each(function(){
-	    		$(this).animate({left:Ref.gridColumns[1]+'px'}, 1000);
+	    		$(this).animate({left:Ref.gridColumns[2]+'px'}, 1000);
     	});
     
     	//Sit for holdDur, then collapse.
@@ -77,7 +92,7 @@ function(app, Ref) {
      		
      		//else $(this).animate({'left':Ref.gridColumns[0], 'top':y+i*24+'px', 'height':'24px'}, collapseD);
     		//$(this).animate({'-webkit-transform':'translateZ(1000px)'}, collapseD);   	//Move div forward in Z.	
-    		this.style.webkitTransform = "translateZ(500px)";	//We're using CSS transitions to animate this.
+    		//this.style.webkitTransform = "translateZ(500px)";	//We're using CSS transitions to animate this.
     	
     	});
     	//Shrink and position big arrow.
@@ -93,6 +108,21 @@ function(app, Ref) {
     afterRender: function() {
 	    if (!this.forceCollapse) this.expand();
 	    else this.collapse(true);
+	    
+	    // Tell skrollr about new elements
+    	this.$el.find('.container').each(function(i){ 
+    		app.skrollr.refresh(this);
+    	});
+    	this.$el.find('.traitSymbolLeft').each(function(i){ 
+    		app.skrollr.refresh(this);
+    	});
+    	this.$el.find('.traitSymbolRight').each(function(i){ 
+    		app.skrollr.refresh(this);
+    	});
+    	
+    	
+    	
+    	
     }
   });
   
@@ -328,7 +358,7 @@ function(app, Ref) {
 		},
 		
 		serialize: function() {
-				return { speaker: this.speaker, phrase: this.phrase, posY: this.anchor.top + Ref.overlayEnterY, grid: Ref.gridColumns};
+				return { speaker: this.speaker, phrase: this.phrase, posY: this.anchor.top, anchor: this.anchor, grid: Ref.gridColumns};
 		},
 		
 		expand: function() {
@@ -340,16 +370,19 @@ function(app, Ref) {
       var quoteHeight = this.$el.find('.quotePhrase').height();
      
     	this.$el.find('.quotePhrase').each(function(i){ 
-          window.setTimeout(function() { thisView.speaker == 1 ? $(this).css("left",Ref.gridColumns[0]) : $(this).css("left",Ref.gridColumns[1]); }, 1, this);
+          window.setTimeout(function() {
+            thisView.speaker == 1 ? $(this).css("left",Ref.gridColumns[0]) : $(this).css("left",Ref.gridColumns[1]);
+            $(this).css("top", "-=" + (quoteHeight+100) + "px");
+          }, 1, this);
     	});
     	this.$el.find('.quoteLeftQuote').each(function(i){ 
-          window.setTimeout(function() { $(this).css("left", (thisView.speaker == 1 ? Ref.gridColumns[0] : Ref.gridColumns[1]) - 180); }, 1, this);
-          $(this).css("top", "-=180px");
+          window.setTimeout(function() { $(this).css("left", (thisView.speaker == 1 ? Ref.gridColumns[0] : Ref.gridColumns[2])); }, 1, this);
+          //$(this).css("top", "-=180px");
     	});
     	this.$el.find('.quoteRightQuote').each(function(i){ 
           window.setTimeout(function() {
-            $(this).css("left", (thisView.speaker == 1 ? Ref.gridColumns[0] : Ref.gridColumns[1]) + 900);
-            $(this).css("top", "+=" + (quoteHeight - 240) + "px");
+            $(this).css("left", (thisView.speaker == 1 ? Ref.gridColumns[4] : Ref.gridColumns[6]));
+            //$(this).css("top", "+=" + (quoteHeight - 240) + "px");
           }, 1, this);
     	});
       
@@ -365,7 +398,7 @@ function(app, Ref) {
       var sp = this.speaker;
       this.$el.find('.quotePhrase').each(function(i){ 
 	      if (force) $(this).css('-webkit-transition', '0s');
-	      $(this).css("font-size","26px");
+	      $(this).css("font-size","54px");
 	      $(this).css("width", Ref.gridWidth);
 	      $(this).css("top", (_posY - 18) + 'px');  // Center on line
 	      if(sp == 1)
@@ -375,15 +408,15 @@ function(app, Ref) {
     	});
       this.$el.find('.quoteLeftQuote').each(function(i){ 
 	      if (force) $(this).css('-webkit-transition', '0s');
-        $(this).css("font-size","80px");
+        $(this).css("font-size","180px");
         $(this).css("top", (_posY - 60) + 'px');  // Center on line
-        $(this).css("left", (Ref.gridColumns[(sp == 1 ? 4 : 2)] - 40) + 'px');
+        $(this).css("left", (Ref.gridColumns[(sp == 1 ? 0 : 1)]) + 'px');
     	});  		   
       this.$el.find('.quoteRightQuote').each(function(i){   
 	      if (force) $(this).css('-webkit-transition', '0s');
-        $(this).css("font-size","80px");
-        $(this).css("top", (_posY - 18) + 'px');  // Center on linea
-        $(this).css("left", (Ref.gridColumns[(sp == 1 ? 4 : 2)] + Ref.gridWidth) + 'px');
+        $(this).css("font-size","180px");
+        $(this).css("top", (_posY - 38) + 'px');  // Center on linea
+        $(this).css("left", (Ref.gridColumns[(sp == 1 ? 0 : 1)] + 70) + 'px');
     	});  		   
       
     	
@@ -392,6 +425,17 @@ function(app, Ref) {
     afterRender: function() {
 			if (!this.forceCollapse) this.expand();
 			else this.collapse(true);
+			
+			// Tell skrollr about new elements
+    	this.$el.find('.quotePhrase').each(function(i){ 
+    		app.skrollr.refresh(this);
+    	});
+    	this.$el.find('.quoteLeftQuote').each(function(i){ 
+    		app.skrollr.refresh(this);
+    	});
+    	this.$el.find('.quoteRightQuote').each(function(i){ 
+    		app.skrollr.refresh(this);
+    	});			
 		}
 		
 	});
@@ -470,7 +514,7 @@ function(app, Ref) {
 			
 			//PEND: WHAT SHOULD THE CONTAINER BE?
       var container = $(this.$el.find('.container')[0]);
-      this.nSigns = (Math.random() * 5 + 5) * (this.type == 'posemo' ? 1 : 2); // 5-15 random + or - signs
+      this.nSigns = (Math.random() * 3 + 7) * (this.type == 'posemo' ? 1 : 2); // 5-15 random + or - signs
       var signChar = this.type == 'posemo' ? '+' : '-';
       signChar = this.type == 'posemo' ? "<div class='plusSignA' /><div class='plusSignB'>" : "<div class='negativeSign' />";
       for(var i=0; i<this.nSigns; i++) {
@@ -563,19 +607,41 @@ function(app, Ref) {
     
     expand: function() {
       //this.$el.css('opacity',1.0); 
-      this.$el.css('display','inline'); // Opacity alone still blocks mouse interactions.
+      /*
+      this.$el.find('.categoryOverlay').each(function(){
+      	$(this).css('webkitTransition', '0s');
+	    	$(this).css('left', '-2000px');  
+	    	$(this).css('webkitTransition', '0s');
+      });
+      */	
+      this.$el.css('display','inline'); // Opacity alone still blocks mouse interactions.     
     },
     
     collapse: function() {
       this.$el.css('display', 'none');	
+      /*
+      window.setTimeout(function(){
+      	this.$el.css('display', 'none');
+      }, 1000, this);
+      */
+      //this.$el.find('.categoryOverlay').each(function(i){
+	    //	$(this).css('left', '3000px');  
+      //});	
     },
     
     hide: function() {
       this.$el.css('display', 'none');	// Opacity alone still blocks mouse interactions.
+      //this.$el.find('.categoryOverlay').each(function(i){
+	    //	$(this).css('left', '-2000px');  
+      //});
     },
     
     afterRender: function() {
 	    this.hide();
+	    // Add to skrollr manager.
+	    //this.$el.find(".categoryOverlay").each(function(){
+	    //	app.skrollr.refresh(this);		    
+	    //});
     }
   });
 	

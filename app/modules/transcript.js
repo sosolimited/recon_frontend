@@ -77,6 +77,25 @@ function(app, Overlay, Ref) {
   	},
 
     events : {
+    	"click" : "handleClick"
+    },
+    
+    handleClick: function(e) {
+	   /* if(e.target.class == 'transcriptSpeaker')
+        playbackChapter(e);
+
+      else if(e.target.id == 'goLive') {
+        app.trigger("navigation:goLive", 600);
+      }
+      else if(e.target.id == 'reconTitle'){
+				if (app.mode == "comparison") this.exitComparison(e);
+	      this.landing.enter();
+      }
+
+          transcript.on("click", ".transcriptSpeaker", function() {navigationView.enterComparison(event, "count");});
+          transcript.on("click", ".sentimentClick", function() {navigationView.enterComparison(event, "POSITIVITY");});
+          transcript.on("click", ".traitClick", function() {navigationView.enterComparison(event, "AUTHENTIC");});
+          transcript.on("click", ".countClick", function() {navigationView.enterComparison(event, "list");});*/
     },
   	
     cleanup: function() {
@@ -180,7 +199,7 @@ function(app, Overlay, Ref) {
 	        var wordIndex = this.getIndexOfPreviousWord(cS, 1);
 	        
 	        var newSpan = $("<span class='catMarkup quoteMarkup'>" + cSHTML.substring(wordIndex, cSHTML.length) + s+word['word'] + "</span>");	        
-	        cS.html(cSHTML.substring(0,wordIndex));
+	        cS.html(cSHTML.substring(0,wordIndex) + " ");
 	        cS.append(newSpan);
 	
 	        var quotePhrase = newSpan.text();
@@ -348,6 +367,7 @@ function(app, Overlay, Ref) {
       var mainEl = this.$el;
       
       //Go through all spans so you can create markup heirarchy (ie specify which markups take precedence)  
+      var thisView = this;
       $('#curSentence').find('span').each(function() {
       	 if($(this).hasClass("posemoMarkup")){
 	      	 $(this).css("background-color", "rgb(124,240,179)");

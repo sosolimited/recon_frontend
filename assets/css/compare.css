@@ -52,7 +52,7 @@ z-index:-2;
 
 .spectrum {
 	
-	height: 1000px;
+	height: 750px;
 	
 }
 
@@ -165,7 +165,7 @@ z-index:-2;
 	border-bottom-style: solid;
 	margin: 0 0 0 0;
 	line-height:48px;
-	z-index: 2;
+	z-index: 3;
 	
 }
 
@@ -174,12 +174,16 @@ z-index:-2;
 	font-size: 128px;
 	margin: 0 0 0 0;	
 	line-height: 128px;
+	z-index: 3;	
 	color: white;	
 }
 
 .spectrumTitle {
-	position: relative;
+
+	position: absolute;
+	/*
 	text-align : center;
+	*/
 	font-size: 128px;
 	margin: 0px 0px 0px 0px;
 	line-height:128px;

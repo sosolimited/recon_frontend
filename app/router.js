@@ -43,10 +43,9 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
     	
     	// Init uniquewords collection.
       //var uniqueWordCollection = new UniqueWord.Collection();
-      var uniqueWords = new UniquePhrase.Model.AllPhrases(1, 20);
-      var unique2Grams = new UniquePhrase.Model.AllPhrases(2, 20);
-      var unique3Grams = new UniquePhrase.Model.AllPhrases(3, 20);
-      var unique4Grams = new UniquePhrase.Model.AllPhrases(4, 20);
+      var uniqueWords = new UniquePhrase.Model.AllPhrases(1, 10);
+      var unique2Grams = new UniquePhrase.Model.AllPhrases(2, 10);
+      var unique3Grams = new UniquePhrase.Model.AllPhrases(3, 10);
       
 		  // Init transcript.
 		  var transcriptView = new Transcript.View( {messages: messageCollection, speakers: speakerCollection, uniqueWords: uniqueWords} );
@@ -59,12 +58,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 		  
 		  // Init navigation.
 		  var navigationView = new Navigation.View( {transcript: transcriptView, messages: messageCollection} );
-		  
-		  // Init landing page.
-			var landingView = new Landing.View( {model: new Landing.Model(), navigation: navigationView, transcript: transcriptView, overlay: markupManager, bigWords: bigWordsView} );
-			// Pass landing view to navigation for menu control.
-			navigationView.setLanding(landingView);
-		  
+		 		  
 			var startTime = new Date().getTime();
     	    	      
       // Init comparison collection.
@@ -74,26 +68,30 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 
       comparisonCollection.add(new Comparison.CountModel({traitNames:["wc"], speakerNames:speakerCollection, title:"WORD COUNT", subtitle:"The number of total words spoken by each candidate", range:[0,10000.0], color1:"Salmon"})); 
           
-      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 20 WORDS", subtitle:"The top twenty words of each candidate (excluding 'the', 'I', 'if', etc.)", uniqueWords:uniqueWords, color1:"Lime"}));  
-  
-      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 20 2 Word PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique2Grams, color1:"Lime"}));     
-
-      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"3 Word PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique3Grams, color1:"Lime"}));   
-      
-      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"4 Word PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique4Grams, color1:"Lime"}));   
-         
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["posemo"], speakerNames:speakerCollection, title:"POSITIVITY", subtitle:"The percentage of words spoken that are positive in some way. ie. 'winning, happy, improve.'", range:[0,5.0], color1:"Sky"}));
+      
+      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 10 WORDS", subtitle:"The top twenty words of each candidate (excluding 'the', 'I', 'if', etc.)", uniqueWords:uniqueWords, color1:"Lime"}));     
        
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["negemo"], speakerNames:speakerCollection, title:"NEGATIVITY", subtitle:"The percentage of words spoken that are negative in some way. ie. 'failure, dead, waste.'", range:[0,3.75], color1:"Negative"})); 
           
+      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 2-WORD PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique2Grams, color1:"Lime"}));
+          
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["anger"], speakerNames:speakerCollection, title:"ANGER", subtitle:"The percentage of words spoken that are angry in some way. ie. 'fight, destroy, annoy.'", range:[0,1.95], color1:"Angry"})); 
-                 
+      
+      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 3-WORD PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique3Grams, color1:"Lime"}));               
+
       comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["formality"], speakerNames:speakerCollection, title:"FORMAL", title2:"CASUAL", subtitle:"Casual speakers, compared to speech-readers, make fewer self-references, use smaller words, use more discrepancies ('could', 'should'), and speak in the present tense.", range:[3, 25.0], color1:Ref.formal, color2:Ref.casual, gradient:"gradientFormality"})); 
       
       comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["depression"], speakerNames:speakerCollection, title:"DEPRESSED", title2:"CHEERFUL", subtitle:"Depressed people mention themselves more('I', 'me', 'my'), use more negative language ('hate', 'worthless'), use more physical words ('ache', 'sleep'), and use fewer positive words ('win', 'happy').", range:[-1.0, 4.75], color1:Ref.depressed, color2:Ref.cheery, gradient:"gradientDisposition"}));  
       
       comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["honesty"], speakerNames:speakerCollection, title:"AUTHENTIC", title2:"DECEPTIVE", subtitle:"Compared to liars, truth-tellers tend to use more self-references, provide more detailed descriptions, and use fewer negative words. ", range:[0, 6.0], color1:Ref.purple, color2:Ref.redOrange, gradient:"gradientHonesty"}));                   
-      
+
+			// Init landing page.
+			var landingView = new Landing.View( {model: new Landing.Model(), navigation: navigationView, transcript: transcriptView, overlay: markupManager, bigWords: bigWordsView, comparisons: comparisonView} );
+			// Pass landing view to navigation for menu control.
+			navigationView.setLanding(landingView);      
+     
+       
       // Load from static file.
       if (this.qs.docName) {
       
@@ -157,17 +155,21 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
             transcript.scrollTop = dist;
             transcript.addClass("fade");
             comparisons.addClass("active");
+            // EG Testing this for performance
+            $('#comparisons').css("visibility", "visible");	     	   // This is in case comparison.exit() was called.
+            $('#comparisons > .wrapper').css("display", "block");
+            $('#transcript').css("visibility", "hidden");        
 
             // Disable scrolling on the document body and save the current
             // offset (to be restored when closing the comparison view)
-            $body.addClass("no-scroll");
-            transcript.data("lastTop", $body.scrollTop());
+            $body.addClass("no-scroll");	
+            transcript.data("lastTop", $body.scrollTop());	
 
             var elt = $('#comparisons').find('.compareContainer.'+event.data.tag).parent();
             $("#comparisons > .wrapper").stop().animate({ scrollTop: elt.position().top}, 1.0);
             
             // Switch skrollr scroll element to comparisons container.
-						app.skrollr.setSkrollElement($('#comparisons > .wrapper').get(0));
+						//app.skrollr.setSkrollElement($('#comparisons > .wrapper').get(0));
           };
           
           var exitComp = function(event) {
@@ -175,14 +177,17 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           	app.mode = "transcript";
             transcript.removeClass("fade");
             comparisons.removeClass("active");
-
-
-            // Switch skrollr scroll element back to body.
-						app.skrollr.resetSkrollElement();
+            // EG Testing this for performance
+            $('#comparisons > .wrapper').css("display", "none");
+            $('#transcript').css("visibility", "visible");
+            
             // Re-enable scrolling on the document body and restore the
             // previous offset
-            $body.removeClass("no-scroll");
-            $body.scrollTop(transcript.data("lastTop"));
+            $body.removeClass("no-scroll");	
+            $body.scrollTop(transcript.data("lastTop"));	
+            
+            // Switch skrollr scroll element back to body.
+						//app.skrollr.resetSkrollElement();
           }
           
           var closeCatLays = function() {
@@ -194,12 +199,24 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           navigation.on("click", "#navTranscriptButton", exitComp);
           navigation.on("click", "#navComparisonButton", { tag: "count" }, enterComp);
 
+          navigation.on("click", "#navPlaybackButton", function() {
+            var elem = $("#navPlaybackButton");
+            var states = ["1x", "2x", "10x"];
+
+            // Find the offset in the array.
+            var offset = (states.indexOf($.trim(elem.text())) + 1) % states.length;
+
+            elem.text(states[offset]);
+
+            app.modifier = window.parseInt(states[offset], 10);
+          });
+
           transcript.on("click", ".transcriptSpeaker", { tag: "count" }, enterComp);
           transcript.on("click", ".sentimentClick", { tag: "POSITIVITY" } , enterComp);
           transcript.on("click", ".traitClick", { tag: "AUTHENTIC" } , enterComp);
           transcript.on("click", ".countClick", { tag: "list" } , enterComp);
           
-          var markupNames = ['posemo', 'negemo', 'certain', 'tentat', 'number'];          
+          var markupNames = ['posemo', 'negemo', 'certain', 'tentat', 'number', 'quote'];          
           transcript.on("click", ".catMarkup", function(ev) {
           	ev.stopPropagation();
           	markupManager.closeCatOverlays();
@@ -209,10 +226,11 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           	else if ($(this).hasClass("certainMarkup")) i=2;
           	else if ($(this).hasClass("tentatMarkup")) i=3;
           	else if ($(this).hasClass("numberMarkup")) i=4;
+          	else if ($(this).hasClass("quoteMarkup")) i=5;
           
-	         	for(var a=0; a<5; a++){
+	         	for(var a=0; a<markupNames.length; a++){
 	          	if(a==i) $('.'+markupNames[a]+'Markup').addClass('reverse');				// Highlight the chosen category.
-	          	else $('.'+markupNames[a]+'Markup:not(.categoryOverlay)').addClass('grayed');          		// Gray out all the other categories.
+	          	else $('.'+markupNames[a]+'Markup:not(.categoryOverlayText)').addClass('grayed');          		// Gray out all the other categories.
           	}
           	
           	//$('.'+markupNames[i]+'Markup').filter('.categoryOverlay').addClass('reverse');

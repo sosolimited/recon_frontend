@@ -63,9 +63,9 @@ function(app, Overlay, Ref) {
         oldWindowHeight = thisTranscript.$window.height();
         oldScrollTop = thisTranscript.$body.scrollTop();
       });
-  app.on("userScroll", function() {
-    console.log("USERSCROLL");
-  });
+		  app.on("userScroll", function() {
+		    console.log("USERSCROLL");
+		  });
 
       
       this.numberOpen = false;
@@ -84,7 +84,7 @@ function(app, Overlay, Ref) {
     },
     
     setHeading: function(str) {
-	    $('#transcriptHeading').text(str);    
+	    $('#transcriptHeading').html(str+'<hr>');    
     },
 
     addWord: function(args) {
@@ -179,7 +179,7 @@ function(app, Overlay, Ref) {
 	        // Find two words back.
 	        var wordIndex = this.getIndexOfPreviousWord(cS, 1);
 	        
-	        var newSpan = $("<span class='quoteMarkup'>" + cSHTML.substring(wordIndex, cSHTML.length) + s+word['word'] + "</span>");
+	        var newSpan = $("<span class='catMarkup quoteMarkup'>" + cSHTML.substring(wordIndex, cSHTML.length) + s+word['word'] + "</span>");	        
 	        cS.html(cSHTML.substring(0,wordIndex));
 	        cS.append(newSpan);
 	
@@ -386,6 +386,7 @@ function(app, Overlay, Ref) {
 		    		//$(this).css("border-bottom", "1px solid white");	//To do different color underline.
 		    		
 		    		//$(this).css("text-decoration-color", "rgb(255,255,255)");	
+		    		
 		        var count = $(this).attr("data-wordcount");
 		        if(count != undefined) {
 		          // Add a div at this point and animate it inCannot read property 'top' of null 
@@ -398,12 +399,14 @@ function(app, Overlay, Ref) {
 		          container.append(countDiv);
 		          $(this).parent().append(container);
 		          countDiv.animate({top: '0px'}, 300);
-		          /* //EG Trying it without underline.
-              var spaceWidth = 5;  // To avoid underlining the leading space. This is an ugly hack.
-              var underlineDiv = $("<div class='freqWordUnderline' style='left: " + (pos.left+spaceWidth) + "px; top: " + (pos.top + lineHeight*0.8) + "px;  width: " + (wordWidth-spaceWidth) + "px;' />");
-              $(this).parent().append(underlineDiv);
-              */
-		        }  	     	 
+		          
+		          
+		          ////EG Trying it without underline.
+              //var spaceWidth = 5;  // To avoid underlining the leading space. This is an ugly hack.
+              //var underlineDiv = $("<div class='freqWordUnderline' style='left: " + (pos.left+spaceWidth) + "px; top: " + (pos.top + lineHeight*0.8) + "px;  width: " + (wordWidth-spaceWidth) + "px;' />");
+              //$(this).parent().append(underlineDiv);
+              
+		        } 
 	     	 }
       });
 
@@ -485,7 +488,7 @@ function(app, Overlay, Ref) {
       //             + spColor + "'>" + speakers[curSpeaker] + "</div><p class='metaBook gray60'></p></div><div class=clear></div>");                                                  
       this.$el.append(newP);
       // Add to skrollr manager.
-      app.skrollr.refresh(newP.get(0));
+      //app.skrollr.refresh(newP.get(0));
       
       // Cache position in data attributes
       newP.attr('data-top', newP.offset().top);
@@ -764,7 +767,7 @@ function(app, Overlay, Ref) {
     },
     
     exit: function() {
-	    $('#transcript').css("visibility", "hidden");	    
+	    $('#transcript').css("visibility", "hidden");	     	   
     },
     
     // Reset puts everything where it's supposed to be before entering.

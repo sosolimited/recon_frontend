@@ -26,7 +26,15 @@ function(app, Ref) {
 			
 			
 			this.aVal = '>'; 
-			if (this.moreVal.indexOf('LESS') != -1) this.aVal = '<';
+			
+			if (this.speaker == 1)
+			{
+				if (this.moreVal.indexOf('LESS') != -1) this.aVal = '<';
+			}
+			else 
+			{
+				if (this.moreVal.indexOf('MORE') != -1) this.aVal = '<';
+			}
 			
 			//console.log(this.moreVal + " " + this.aVal);
 
@@ -100,6 +108,21 @@ function(app, Ref) {
     afterRender: function() {
 	    if (!this.forceCollapse) this.expand();
 	    else this.collapse(true);
+	    
+	    // Tell skrollr about new elements
+    	this.$el.find('.container').each(function(i){ 
+    		app.skrollr.refresh(this);
+    	});
+    	this.$el.find('.traitSymbolLeft').each(function(i){ 
+    		app.skrollr.refresh(this);
+    	});
+    	this.$el.find('.traitSymbolRight').each(function(i){ 
+    		app.skrollr.refresh(this);
+    	});
+    	
+    	
+    	
+    	
     }
   });
   
@@ -402,6 +425,17 @@ function(app, Ref) {
     afterRender: function() {
 			if (!this.forceCollapse) this.expand();
 			else this.collapse(true);
+			
+			// Tell skrollr about new elements
+    	this.$el.find('.quotePhrase').each(function(i){ 
+    		app.skrollr.refresh(this);
+    	});
+    	this.$el.find('.quoteLeftQuote').each(function(i){ 
+    		app.skrollr.refresh(this);
+    	});
+    	this.$el.find('.quoteRightQuote').each(function(i){ 
+    		app.skrollr.refresh(this);
+    	});			
 		}
 		
 	});
@@ -572,34 +606,28 @@ function(app, Ref) {
     },
     
     expand: function() {
-      //this.$el.css('opacity',1.0); 
-      /*
-      this.$el.find('.categoryOverlay').each(function(){
-      	$(this).css('webkitTransition', '0s');
-	    	$(this).css('left', '-2000px');  
-	    	$(this).css('webkitTransition', '0s');
-      });
-      */	
-      this.$el.css('display','inline'); // Opacity alone still blocks mouse interactions.     
+      this.$el.css('display','block'); // Setting opacity alone still blocks mouse interactions.    
+      window.setTimeout(function(){
+   	   this.$el.find('.categoryOverlayText').each(function(){
+	  	 	$(this).css('top', '0px');
+	  	 });
+	  	}, 10, this);
     },
     
     collapse: function() {
-      this.$el.css('display', 'none');	
-      /*
-      window.setTimeout(function(){
-      	this.$el.css('display', 'none');
-      }, 1000, this);
-      */
-      //this.$el.find('.categoryOverlay').each(function(i){
-	    //	$(this).css('left', '3000px');  
-      //});	
+      this.$el.find('.categoryOverlayText').each(function(){
+	      $(this).css('top', '90px');
+	    });
+	    window.setTimeout(function(){
+	  	 	$(this).css('display', 'none');
+	  	}, 1000, this);	
     },
     
     hide: function() {
-      this.$el.css('display', 'none');	// Opacity alone still blocks mouse interactions.
-      //this.$el.find('.categoryOverlay').each(function(i){
-	    //	$(this).css('left', '-2000px');  
-      //});
+      this.$el.find('.categoryOverlayText').each(function(){
+	      $(this).css('top', '90px');
+	    });
+	    $(this).css('display', 'none'); 	 	
     },
     
     afterRender: function() {

@@ -63,10 +63,13 @@ function(app, Ref) {
       if(e.target.id === "landingButton0" || e.target.parentNode.id == "landingButton0"){
         app.playback = true;
 	      this.enterDebate(0);
+        app.trigger("navigation:goLive", 600);
       }else if(e.target.id === "landingButton1" || e.target.parentNode.id == "landingButton1"){
       	this.transcript.setHeading("transcript 2");
+        app.trigger("navigation:goLive", 600);
       }else if(e.target.id === "landingButton2" || e.target.parentNode.id == "landingButton2"){
       	this.transcript.setHeading("transcript 3");
+        app.trigger("navigation:goLive", 600);
 
       } 
     },
@@ -84,6 +87,7 @@ function(app, Ref) {
     
     enter: function() {
     	// Hello landing.
+      $('body').stop().scrollTop(0); // Jump to the top since landing is no longer postion: fixed
 	    $('#landingWrapper').css("visibility", "visible");
 	    // Bye bye everything else.
 	    this.navigation.exit();

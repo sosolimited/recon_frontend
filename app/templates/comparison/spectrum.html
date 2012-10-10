@@ -1,4 +1,4 @@
-<div class="compareContainer elskrollable" data-<%= (scrollY-scrollDet-scrollD) %>="top:100%;" data-<%= (scrollY-scrollDet) %>="top:0%;" data-<%= (scrollY+scrollDet) %>="top:0%;" data-<%= (scrollY+scrollDet+scrollD) %>="top:-300%;">
+<div class="compareContainer spectrum elskrollable" data-<%= (scrollY-scrollDet-scrollD) %>="top:100%;" data-<%= (scrollY-scrollDet) %>="top:0%;" data-<%= (scrollY+scrollDet) %>="top:0%;" data-<%= (scrollY+scrollDet+scrollD) %>="top:-300%;">
 
 		<p class="franklinMedCompIt comparisonTitle " style="color:rgb(<%=comparison.get("color1")[0]%>, <%=comparison.get("color1")[1]%>, <%=comparison.get("color1")[2]%>);"> <%= comparison.get("title") %></p>
 		<hr style="height:3px; background-color:rgb(<%=comparison.get("color1")[0]%>, <%=comparison.get("color1")[1]%>, <%=comparison.get("color1")[2]%>);"/> 
@@ -15,12 +15,16 @@
 			var range = [comparison.get("range")[0], comparison.get("range")[1]];
   		var colorExtreme1 = comparison.get("color1");
   		var colorExtreme2 = comparison.get("color2");
+			var midpoint = 0.5*(range[0] + range[1]);
 			
 			function mapVal(val, bound) {
 			
 				if (bound && (val < range[0]/100.0)) val = range[0]/100.0;
 				if (bound && (range[1]/100.0 < val)) val = range[1]/100.0;
-							
+				
+				if (val == 0)
+					val = midpoint;
+											
 				var h = totalBarH*(100*val-range[0])/(range[1]-range[0]);
 				var t = totalH-h;
 				return [h,t];
@@ -35,14 +39,14 @@
 			
 		%>
 		
-		<div class="spectrumPointer push-1 span-2" style="top:<%= mapVal(val0, true)[1] - 50%>px;" >
+		<div class="spectrumPointer push-0 span-3" style="top:<%= mapVal(val0, true)[1] - 50%>px;" >
 		<p class="franklinMedCompIt spectrumObama" > Obama </span>  
-		<hr class="spectrumLine span-2" style="background-color:rgb(<%=col0[0]%>, <%=col0[1]%>, <%=col0[2]%>);"/>
+		<hr class="spectrumLine span-3" style="background-color:rgb(<%=col0[0]%>, <%=col0[1]%>, <%=col0[2]%>);"/>
 		<p class="franklinMedComp spectrumValue" > <%=  (Math.round(10000*val0)/100).toFixed(2) %> </p> </div>
 	
-		<div class="spectrumPointer spectrumPush-3 span-2" style="top:<%= mapVal(val1, true)[1] - 50%>px;" >
+		<div class="spectrumPointer spectrumPush-3 span-3" style="top:<%= mapVal(val1, true)[1] - 50%>px;" >
 		<p class="franklinMedCompIt spectrumRomney" > Romney </p> 
-		<hr class="spectrumLine span-2" style = "background-color:rgb(<%=col1[0]%>, <%=col1[1]%>, <%=col1[2]%>);"/>
+		<hr class="spectrumLine span-3" style = "background-color:rgb(<%=col1[0]%>, <%=col1[1]%>, <%=col1[2]%>);"/>
 	  <p class="franklinMedComp spectrumValueRight" > <%=  (Math.round(10000*val1)/100).toFixed(2) %>  </p> </div>
 		
 		<% comparison.get("traits").forEach(function(trait){ 

@@ -81,7 +81,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
       
       comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique3Grams, color1:"Lime"}));               
 
-      comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["formality"], speakerNames:speakerCollection, title:"FORMAL", title2:"CASUAL", subtitle:"Casual speakers, compared to speech-readers, make fewer self-references, use smaller words, and speak in the present tense.", range:[3, 25.0], color1:Ref.formal, color2:Ref.casual, gradient:"gradientFormality"})); 
+      comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["formality"], speakerNames:speakerCollection, title:"FORMAL", title2:"CASUAL", subtitle:"Formal speakers, compared to conversationalists, make more self-references, use bigger words, and speak in the present tense less often.", range:[3, 27.0], color1:Ref.formal, color2:Ref.casual, gradient:"gradientFormality"})); 
       
       comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["depression"], speakerNames:speakerCollection, title:"DEPRESSED", title2:"CHEERFUL", subtitle:"Depressed people mention themselves more, use more negative language, use more physical words, and use fewer positive words.", range:[-1.0, 5.0], color1:Ref.depressed, color2:Ref.cheery, gradient:"gradientDisposition"}));  
       

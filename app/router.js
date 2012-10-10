@@ -199,6 +199,18 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           navigation.on("click", "#navTranscriptButton", exitComp);
           navigation.on("click", "#navComparisonButton", { tag: "count" }, enterComp);
 
+          navigation.on("click", "#navPlaybackButton", function() {
+            var elem = $("#navPlaybackButton");
+            var states = ["1x", "2x", "10x"];
+
+            // Find the offset in the array.
+            var offset = (states.indexOf($.trim(elem.text())) + 1) % states.length;
+
+            elem.text(states[offset]);
+
+            app.modifier = window.parseInt(states[offset], 10);
+          });
+
           transcript.on("click", ".transcriptSpeaker", { tag: "count" }, enterComp);
           transcript.on("click", ".sentimentClick", { tag: "POSITIVITY" } , enterComp);
           transcript.on("click", ".traitClick", { tag: "AUTHENTIC" } , enterComp);

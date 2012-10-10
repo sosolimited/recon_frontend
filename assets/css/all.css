@@ -289,6 +289,11 @@ hr {
 }
 
 
+#navPlaybackButton {
+	display:inline-block;
+	padding: 5px 5px 20px 5px;
+	
+}
 
 #navTranscriptButton {
 	display:inline-block;

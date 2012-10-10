@@ -199,7 +199,7 @@ function(app, Overlay, Ref) {
 	        var wordIndex = this.getIndexOfPreviousWord(cS, 1);
 	        
 	        var newSpan = $("<span class='catMarkup quoteMarkup'>" + cSHTML.substring(wordIndex, cSHTML.length) + s+word['word'] + "</span>");	        
-	        cS.html(cSHTML.substring(0,wordIndex));
+	        cS.html(cSHTML.substring(0,wordIndex) + " ");
 	        cS.append(newSpan);
 	
 	        var quotePhrase = newSpan.text();
@@ -367,6 +367,7 @@ function(app, Overlay, Ref) {
       var mainEl = this.$el;
       
       //Go through all spans so you can create markup heirarchy (ie specify which markups take precedence)  
+      var thisView = this;
       $('#curSentence').find('span').each(function() {
       	 if($(this).hasClass("posemoMarkup")){
 	      	 $(this).css("background-color", "rgb(124,240,179)");
@@ -381,7 +382,7 @@ function(app, Overlay, Ref) {
 	      	 //$(this).css("color", "rgb(255,255,255)");
       	 }
       	 else if($(this).hasClass("tentatMarkup")){
-	      	 $(this).css("background-color", "rgb(193,186,134)");
+           $(this).css("background-color", "rgb(193,186,134)");
 	      	 //$(this).css("color", "rgb(255,255,255)");
       	 }
 	     	 // Word count markup.
@@ -397,7 +398,7 @@ function(app, Overlay, Ref) {
 	     	 }
 	     	 // Quotation markup.
 	     	 else if($(this).hasClass("quoteMarkup")){
-	     	 		$(this).css("background-color", "rgb(48,179,228)");	    	    		
+            $(this).css("background-color", "rgb(48,179,228)");	    	    		
 	     	 }         
 	     	 // Frequent word markup.
 	     	 else if($(this).hasClass("frequentWordMarkup")){

@@ -36,8 +36,6 @@ function(app) {
       // Bind custom events
       app.on("playback:addChapter", this.addChapter, this);
       app.on("debate:change", this.setDebateNumber, this);
-      app.on("debate:activate", this.activateDebate, this);
-      app.on("debate:deactivate", this.deactivateDebate, this);
       app.on("message:word", this.updateProgress, this);
       app.on("message:transcriptDone", this.addChapter, this);
       app.on("transcript:scrollTo", this.updateTime, this);
@@ -207,20 +205,16 @@ function(app) {
     
     enterComparison: function(event, tag) {
 	    event.stopPropagation();
-    	app.mode = "comparison"; 
+    	app.mode = "comparison";  
     	
-    	var transcript = $("#transcript > .wrapper");
-    	var comparisons = $("#comparisons > .wrapper");
-      var navigation = $("#navigation");
-    	
-      var dist = transcript.offsetHeight;
-      transcript.scrollTop = dist;
-      transcript.addClass("fade");
-      comparisons.addClass("active");
+      var dist = $("#transcript > .wrapper").offsetHeight;
+      $("#transcript > .wrapper").scrollTop = dist;
+      $("#transcript > .wrapper").addClass("fade");
+      $("#comparisons > .wrapper").addClass("active");
       
       // switch buttons
-      $('#navTranscriptButton').addClass('active').removeClass('inactive'); 
-      $('#navComparisonButton').addClass('inactive').removeClass('active');
+      $('#navTranscriptButton').css('display', 'inline-block'); 
+      $('#navComparisonButton').css('display', 'none');
 
       // EG Testing this for performance
       $('#comparisons').css("visibility", "visible");	     	   // This is in case comparison.exit() was called.
@@ -230,7 +224,7 @@ function(app) {
       // Disable scrolling on the document body and save the current
       // offset (to be restored when closing the comparison view)
       $(document.body).addClass("no-scroll");	
-      transcript.data("lastTop", $(document.body).scrollTop());	
+      $("#transcript > .wrapper").data("lastTop", $(document.body).scrollTop());	
 
       var elt = $('#comparisons').find('.compareContainer.'+tag).parent();
       $("#comparisons > .wrapper").stop().animate({ scrollTop: elt.position().top}, 1.0);
@@ -241,19 +235,15 @@ function(app) {
     },
     
     exitComparison: function(event) {
-    	
-    	var transcript = $("#transcript > .wrapper");
-    	var comparisons = $("#comparisons > .wrapper");
-      var navigation = $("#navigation");
       
     	event.stopPropagation();
     	app.mode = "transcript";
-      transcript.removeClass("fade");
-      comparisons.removeClass("active");
+      $("#transcript > .wrapper").removeClass("fade");
+      $("#comparisons > .wrapper").removeClass("active");
         
       // switch buttons
-      $('#navTranscriptButton').addClass('inactive').removeClass('active'); 
-      $('#navComparisonButton').addClass('active').removeClass('inactive');
+      $('#navTranscriptButton').css('display', 'none'); 
+      $('#navComparisonButton').css('display', 'inline-block');
       
       // EG Testing this for performance
       $('#comparisons > .wrapper').css("display", "none");
@@ -262,30 +252,11 @@ function(app) {
       // Re-enable scrolling on the document body and restore the
       // previous offset
       $(document.body).removeClass("no-scroll");	
-      $(document.body).scrollTop(transcript.data("lastTop"));	
+      $(document.body).scrollTop($("#transcript > .wrapper").data("lastTop"));	
       
       // Switch skrollr scroll element back to body.
 			//app.skrollr.resetSkrollElement();
-    },
-    
-    deactivateDebate: function(num) {
-    	if (num >= 0 && num < 3) {
-		    console.log("deactivating "+num);
-		    $('#landingButton'+num).addClass('inactive');
-		    $('#landingRule'+num).addClass('inactive');
-		   	app.active[num] = false; 
-		  }
-    },
-    
-    activateDebate: function(num) {
-    	if (num >= 0 && num < 3) {
-		    console.log("activating "+num+$('landingButton1').id);
-		    $('#landingButton'+num).removeClass('inactive');
-		    $('#landingRule'+num).removeClass('inactive');
-		    app.active[num] = true;
-		  }
     }
-    
 
    
 

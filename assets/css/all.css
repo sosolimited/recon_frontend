@@ -280,35 +280,25 @@ hr {
 }
 
 
-#navPlaybackButton, #navTranscriptButton {
-	display:inline-block;
-	padding: 5px 5px 20px 5px;
-	
+#navTranscriptButton {
+	display: none;
 }
 
-
-#navComparisonButton {
-	display:inline-block;
-	margin-top:-40px;
-	/*margin-left: 10px;*/
-	padding: 5px 5px 20px 5px;
-	/* padding: 5px; */
+#navPlaybackButton, #navComparisonButton {
+	display: inline-block;
 }
 
 .navButton {
-	background:white;
+	background:white;	
+	padding: 5px 5px 20px 5px;
+	cursor: pointer;
 }
 
-.navButton.active:hover {
-	cursor:pointer;
+.navButton:hover {
 	background:rgb(76,76,76);
 	color:white;
 }
 
-
-#navComparisonButton.inactive, #navTranscriptButton.inactive{
-  opacity: .5 !important;
-}
 
 
 /* White box inside #navigation div */

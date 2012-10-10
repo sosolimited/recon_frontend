@@ -12,9 +12,9 @@ transcript:scrollAttach   {}                                  transcript.js:176
 transcript:scrollTo       timeDiff                            transcript.js:97,239
 navigation:goLive         {}                                  navigation.js
 message:stats             {msg}                               router.js:125
-message:word              {msg, live}                         router.js:129
-message:sentenceEnd       {msg, live}                         router.js:133
-message:transcriptDone    {msg, live}                         router.js:137
+message:word              {msg}                         			router.js:129
+message:sentenceEnd       {msg}                         			router.js:133
+message:transcriptDone    {msg}                         			router.js:137
 scrollBody                undefined                           app.js:88
 scrollBody:user           undefined                           app.js:86
 keypress:test             {type, kind}                        router.js:158,160
@@ -22,6 +22,7 @@ debate:change             {type, kind}                        router.js:169
 debate:deactivate					{number}														router.js:364
 debate:reset							{}																	landing.js:83
 app:goToMode							{mode}															navigation.js, transcript.js, comparison.js
+app:setLive								{live}															main.js:14
 
 Find all with:
   $ grep -rn "[^/]app.trigger(" .

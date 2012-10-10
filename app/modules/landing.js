@@ -18,14 +18,11 @@ function(app, Ref) {
 	  		endDates: [new Date(2012, 10, 3, 22, 30), new Date(2012, 10, 16, 22, 30), new Date(2012, 10, 22, 22, 30)],
 	  		/*
 	  		description: "ReConstitution 2012 is a live web app linked to the three US Presidential Debates. As the debates are happening, language used by the candidates is fed into the app in real time, generating a live data map. Algorithms track the psychological states of Romney and Obama and compare them to past candidates, revealing hidden meaning behind their words.",*/
-	  		now: new Date(),
-	  		live: 0	// 1,2,3 if we are watching a debate live.
+	  		now: new Date()
 	  	}	  			
   	},
   	
   	initialize: function() {
-	  	if(this.attributes.live) 
-	  		this.live = this.attributes.live; 
   	}	
   });
 
@@ -40,7 +37,29 @@ function(app, Ref) {
 	    this.transcript = this.options.transcript;
 	    this.overlay = this.options.overlay;
 	    this.bigWords = this.options.bigWords;
-	    this.comparisons = this.options.comparisons;	    
+	    this.comparisons = this.options.comparisons;	  
+	    
+	    app.on("app:setLive", function(num) {
+	    	console.log("set live "+num+app.live);
+	    	if (app.live) {
+		    	this.enter();
+		    	[0,1,2].forEach(function(i) {
+			    	if (i != num) this.deactivateDebate(i);
+			    	else this.activateDebate(i);
+			    }, this);
+			  } else {
+		    	[0,1,2].forEach(function(i) {
+			    	if (app.messages[String(i)]) this.activateDebate(i);
+			    	else this.deactivateDebate(i);
+			    }, this);
+			  }
+	    }, this);
+      app.on("debate:activate", this.activateDebate, this);
+      app.on("debate:deactivate", this.deactivateDebate, this);
+    },
+    
+    cleanup: function() {
+	    app.off(null, null, this);
     },
     
     events: {
@@ -50,7 +69,7 @@ function(app, Ref) {
     },
     
     serialize: function() {
-	    return {live: this.model.live, dates: this.model.get("startDates"), now: this.model.now};	
+	    return {dates: this.model.get("startDates"), now: this.model.now};	
     },
     
     handleDebateClick: function(e) {
@@ -75,11 +94,12 @@ function(app, Ref) {
     enterDebate: function(num) {
 	  	this.transcript.setHeading("DEBATE "+(num+1));
       // Playback messages.
-	    if (app.router.qs.playback) {
+      if (!app.live) {
+	    //if (app.router.qs.playback) {
 	    	if (num == app.lastDebateViewed) {
-		    	app.messages[num].playbackMessages(false);
+		    	app.messages[String(num)].playbackMessages(false);
 		    } else {
-		    	app.messages[num].playbackMessages(true);
+		    	app.messages[String(num)].playbackMessages(true);
 		    	app.trigger("debate:reset");
 		    }
 	    }
@@ -106,8 +126,27 @@ function(app, Ref) {
  	    this.navigation.enter(app.lastDebateViewed == -1);
       this.transcript.enter();
       this.bigWords.enter();	
-      this.model.set({lastDebateViewed:num}); // set to false once nav has exited once (something has been viewed)
+      this.model.set({lastDebateViewed:num});
+    },
+    
+    deactivateDebate: function(num) {
+    	if (num >= 0 && num < 3) {
+		    console.log("deactivating "+num);
+		    $('#landingButton'+num).addClass('inactive');
+		    $('#landingRule'+num).addClass('inactive');
+		   	app.active[num] = false; 
+		  }
+    },
+    
+    activateDebate: function(num) {
+    	if (num >= 0 && num < 3) {
+		    console.log("activating "+num);
+		    $('#landingButton'+num).removeClass('inactive');
+		    $('#landingRule'+num).removeClass('inactive');
+		    app.active[num] = true;
+		  }
     }
+    
     
   });
 

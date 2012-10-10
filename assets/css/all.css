@@ -968,6 +968,11 @@ landingTitleImage {
 	color: rgb(60,60,60) !important;
 }
 
+.wordCountMarkup:hover {
+	background-color: 207,255,36 !important;
+	color: rgb(60,60,60) !important;
+}
+
 .catMarkup{
 	cursor: pointer;
   display: inline-block;

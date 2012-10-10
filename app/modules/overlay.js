@@ -619,7 +619,7 @@ function(app, Ref) {
 	      $(this).css('top', '90px');
 	    });
 	    window.setTimeout(function(){
-	  	 	$(this).css('display', 'none');
+	  	 	this.$el.css('display', 'none');
 	  	}, 500, this);	
     },
     
@@ -627,7 +627,7 @@ function(app, Ref) {
       this.$el.find('.categoryOverlayText').each(function(){
 	      $(this).css('top', '90px');
 	    });
-	    $(this).css('display', 'none'); 	 	
+	    this.$el.css('display', 'none'); 	 	
     },
     
     afterRender: function() {

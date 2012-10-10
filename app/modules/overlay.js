@@ -26,7 +26,15 @@ function(app, Ref) {
 			
 			
 			this.aVal = '>'; 
-			if (this.moreVal.indexOf('LESS') != -1) this.aVal = '<';
+			
+			if (this.speaker == 1)
+			{
+				if (this.moreVal.indexOf('LESS') != -1) this.aVal = '<';
+			}
+			else 
+			{
+				if (this.moreVal.indexOf('MORE') != -1) this.aVal = '<';
+			}
 			
 			//console.log(this.moreVal + " " + this.aVal);
 

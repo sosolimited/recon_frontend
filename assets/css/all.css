@@ -2,8 +2,8 @@ body {
   /* background: -webkit-linear-gradient(left, #9699A0, #C9D1CF, #C9D1CF, #9699A0); */
   /*background-color: rgb(110,116,116);*/
   
-  background-color: rgb(140,146,146);	 
-  background-image: url('../../images/background-tex.jpg');
+  background-color: rgb(200,200,200); /*rgb(140,146,146);*/
+  /* background-image: url('../../images/background-tex.jpg'); */
   background-repeat: repeat; *;
   overflow-y: scroll;	
   overflow-x: hidden;	/* not working! */
@@ -97,8 +97,8 @@ body {
 	/*font-family:"franklin-gothic-urw-comp-i7", "franklin-gothic-urw-comp"; font-weight:700; font-style:italic;*/
 	font-family:"franklin-gothic-urw-i7", "franklin-gothic-urw"; font-weight:700; font-style:italic;
 
-	color: rgb(146,152,152);
-	/*color: rgb(150,156,156);*/
+	/* color: rgb(146,152,152); */
+	color: rgb(185, 185, 185);
 
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;

@@ -606,34 +606,28 @@ function(app, Ref) {
     },
     
     expand: function() {
-      //this.$el.css('opacity',1.0); 
-      /*
-      this.$el.find('.categoryOverlay').each(function(){
-      	$(this).css('webkitTransition', '0s');
-	    	$(this).css('left', '-2000px');  
-	    	$(this).css('webkitTransition', '0s');
-      });
-      */	
-      this.$el.css('display','inline'); // Opacity alone still blocks mouse interactions.     
+      this.$el.css('display','block'); // Setting opacity alone still blocks mouse interactions.    
+      window.setTimeout(function(){
+   	   this.$el.find('.categoryOverlayText').each(function(){
+	  	 	$(this).css('top', '0px');
+	  	 });
+	  	}, 10, this);
     },
     
     collapse: function() {
-      this.$el.css('display', 'none');	
-      /*
-      window.setTimeout(function(){
-      	this.$el.css('display', 'none');
-      }, 1000, this);
-      */
-      //this.$el.find('.categoryOverlay').each(function(i){
-	    //	$(this).css('left', '3000px');  
-      //});	
+      this.$el.find('.categoryOverlayText').each(function(){
+	      $(this).css('top', '90px');
+	    });
+	    window.setTimeout(function(){
+	  	 	$(this).css('display', 'none');
+	  	}, 1000, this);	
     },
     
     hide: function() {
-      this.$el.css('display', 'none');	// Opacity alone still blocks mouse interactions.
-      //this.$el.find('.categoryOverlay').each(function(i){
-	    //	$(this).css('left', '-2000px');  
-      //});
+      this.$el.find('.categoryOverlayText').each(function(){
+	      $(this).css('top', '90px');
+	    });
+	    $(this).css('display', 'none'); 	 	
     },
     
     afterRender: function() {

@@ -72,7 +72,7 @@ function(app) {
         playbackChapter(e);
 
       else if(e.target.id == 'goLive') {
-        app.trigger("navigation:goLive");
+        app.trigger("navigation:goLive", 600);
       }
       else if(e.target.id == 'reconTitle'){
 	      this.landing.enter();

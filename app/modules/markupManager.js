@@ -36,12 +36,12 @@ function(app, Overlay, Ref) {
   	defaults: function() {
   		return {
   			"overlays":[],
-  			"catOverlays": {"posemo": new Overlay.Views.CatView({ category: 'posemo', title: 'Positive'}),
-  											"negemo": new Overlay.Views.CatView({ category: 'negemo', title:'Negative' }),
-  											"certain": new Overlay.Views.CatView({ category: 'certain', title:'Swaggy' }),
-  											"tentat": new Overlay.Views.CatView({ category: 'tentat', title:'Wimpy'}),
-  											"number": new Overlay.Views.CatView({ category: 'number', title:'Number'}),
-  											"quote": new Overlay.Views.CatView({ category: 'quote', title:'Quoted'}) }
+  			"catOverlays": {"posemo": new Overlay.Views.CatView({ category: 'posemo', title: ['GIDDY','WORDS']}),
+  											"negemo": new Overlay.Views.CatView({ category: 'negemo', title: ['GRUMPY', 'WORDS '] }),
+  											"certain": new Overlay.Views.CatView({ category: 'certain', title:['SWAGGER', 'BABY'] }),
+  											"tentat": new Overlay.Views.CatView({ category: 'tentat', title: ['WISHY', 'WASHY']}),
+  											"number": new Overlay.Views.CatView({ category: 'number', title: ['MEANINGLESS', 'NUMBERS']}),
+  											"quote": new Overlay.Views.CatView({ category: 'quote', title: ['HE_SAID', 'SHE_SAID']}) }
   		}	
   	},
   	

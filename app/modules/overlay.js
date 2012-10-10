@@ -602,7 +602,7 @@ function(app, Ref) {
 		 },	
 		 
 		 serialize: function() {
-      return { category: this.category, title: this.title };
+      return { category: this.category, title: this.title};
     },
     
     expand: function() {
@@ -644,9 +644,9 @@ function(app, Ref) {
     afterRender: function() {
 	    this.hide();
 	    // Add to skrollr manager.
-	    //this.$el.find(".categoryOverlay").each(function(){
-	    //	app.skrollr.refresh(this);		    
-	    //});
+	    this.$el.find(".categoryOverlay").each(function(){
+	    	app.skrollr.refresh(this);		    
+	    });
     }
   });
 	

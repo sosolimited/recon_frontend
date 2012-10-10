@@ -36,12 +36,15 @@ function(app, Overlay, Ref) {
   	defaults: function() {
   		return {
   			"overlays":[],
+  			
+  			//PEND: temp changes only, to be overwritten
   			"catOverlays": {"posemo": new Overlay.Views.CatView({ category: 'posemo', title: 'Giddy'}),
   											"negemo": new Overlay.Views.CatView({ category: 'negemo', title:'Grumpy' }),
   											"certain": new Overlay.Views.CatView({ category: 'certain', title:'Swagger' }),
   											"tentat": new Overlay.Views.CatView({ category: 'tentat', title:'Weak'}),
   											"number": new Overlay.Views.CatView({ category: 'number', title:'Wall Street'}),
   											"quote": new Overlay.Views.CatView({ category: 'quote', title:'Name Dropping'}) }
+
   		}	
   	},
   	

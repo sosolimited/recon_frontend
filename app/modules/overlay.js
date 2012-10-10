@@ -398,8 +398,12 @@ function(app, Ref) {
       var sp = this.speaker;
       this.$el.find('.quotePhrase').each(function(i){ 
 	      if (force) $(this).css('-webkit-transition', '0s');
-	      $(this).css("font-size","54px");
-	      $(this).css("width", Ref.gridWidth);
+	      //$(this).css("font-size","54px");
+	      //$(this).css("line-height","60px");
+	      //$(this).css("width", Ref.gridWidth);
+	      $(this).css("font-size","0px");
+	      $(this).css("line-height","0px");
+	      $(this).css("width", "0px");
 	      $(this).css("top", (_posY - 18) + 'px');  // Center on line
 	      if(sp == 1)
 	        $(this).css("left", Ref.gridColumns[4]);
@@ -408,13 +412,13 @@ function(app, Ref) {
     	});
       this.$el.find('.quoteLeftQuote').each(function(i){ 
 	      if (force) $(this).css('-webkit-transition', '0s');
-        $(this).css("font-size","180px");
+        $(this).css("font-size","204px");
         $(this).css("top", (_posY - 60) + 'px');  // Center on line
         $(this).css("left", (Ref.gridColumns[(sp == 1 ? 0 : 1)]) + 'px');
     	});  		   
       this.$el.find('.quoteRightQuote').each(function(i){   
 	      if (force) $(this).css('-webkit-transition', '0s');
-        $(this).css("font-size","180px");
+        $(this).css("font-size","204px");
         $(this).css("top", (_posY - 38) + 'px');  // Center on linea
         $(this).css("left", (Ref.gridColumns[(sp == 1 ? 0 : 1)] + 70) + 'px');
     	});  		   
@@ -620,7 +624,7 @@ function(app, Ref) {
 	    });
 	    window.setTimeout(function(){
 	  	 	$(this).css('display', 'none');
-	  	}, 1000, this);	
+	  	}, 500, this);	
     },
     
     hide: function() {

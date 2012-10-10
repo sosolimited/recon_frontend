@@ -2,8 +2,8 @@ body {
   /* background: -webkit-linear-gradient(left, #9699A0, #C9D1CF, #C9D1CF, #9699A0); */
   /*background-color: rgb(110,116,116);*/
   
-  background-color: rgb(140,146,146);	 
-  background-image: url('../../images/background-tex.jpg');
+  background-color: rgb(200,200,200); /*rgb(140,146,146);*/
+  /* background-image: url('../../images/background-tex.jpg'); */
   background-repeat: repeat; *;
   overflow-y: scroll;	
   overflow-x: hidden;	/* not working! */
@@ -97,8 +97,8 @@ body {
 	/*font-family:"franklin-gothic-urw-comp-i7", "franklin-gothic-urw-comp"; font-weight:700; font-style:italic;*/
 	font-family:"franklin-gothic-urw-i7", "franklin-gothic-urw"; font-weight:700; font-style:italic;
 
-	color: rgb(146,152,152);
-	/*color: rgb(150,156,156);*/
+	/* color: rgb(146,152,152); */
+	color: rgb(185, 185, 185);
 
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -289,6 +289,11 @@ hr {
 }
 
 
+#navPlaybackButton {
+	display:inline-block;
+	padding: 5px 5px 20px 5px;
+	
+}
 
 #navTranscriptButton {
 	display:inline-block;
@@ -881,19 +886,29 @@ landingTitleImage {
 
 .categoryOverlay {
 	position:absolute; 
-	overflow: visible;
-  /*width: 906px;*/
-  font-size: 180px;
-  line-height: 160px;
-	margin: 0px 0px 0px 0px;
-	padding: 0px 20px 0px 10px;
-  color: rgb(255,255,255);
-	/*-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
-	-webkit-transform: translateZ(0px);	*/
+	overflow: hidden;
+  height: 80px; 
   z-index: 7000;
-  text-transform: uppercase;
-  -webkit-transition: left 1s;
 }
+
+.categoryOverlayText {
+	position: relative;
+	top: 90px;
+	font-size: 90px; 
+  line-height: 80px; 
+  margin: 0px 0px 0px 0px;
+	padding: 0px 20px 0px 10px;
+  color: rgb(255,255,255);	
+  text-transform: uppercase;
+	
+	-webkit-transition: top 1s;
+}
+
+/*
+.overlay-bottom {
+	top: 175px;
+}
+*/
 
 .certainMarkup:hover{
 	background-color: rgb(255,255,255) !important;
@@ -967,6 +982,20 @@ landingTitleImage {
 	color: rgb(60,60,60) !important;
 }
 
+.quoteMarkup:hover{
+	background-color: rgb(255,255,255) !important;
+	color: rgb(60,60,60) !important;
+}
+.quoteMarkup.reverse{
+	background-color: rgb(48,179,228) !important;
+	color: rgb(255,255,255) !important;
+}
+.quoteMarkup.grayed{
+	background-color: transparent !important;
+	color: rgb(60,60,60) !important;
+}
+
+
 .catMarkup{
 	cursor: pointer;
 }
@@ -980,10 +1009,6 @@ landingTitleImage {
 	color: rgb(255,255,255) !important;
 }
 
-.overlay-bottom {
-	position:absolute;
-	top: 175px;
-}
 
 /* Word count overlays */
 

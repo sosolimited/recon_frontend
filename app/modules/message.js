@@ -73,7 +73,11 @@ function(app) {
         
         var lastMsg = (i == n) ? startMsg : this.at(i-1);
 
-  			diff = msg.get("timeDiff") - lastMsg.get("timeDiff");
+  			diff = (msg.get("timeDiff") - lastMsg.get("timeDiff"));
+
+        if (app.modifier) {
+          diff = diff / app.modifier;
+        }
   			if (diff >= 0) {
 	  			setTimeoutEvents.push(setTimeout(function() {
             app.trigger("message:" + msg.get("type"), { msg: msg.attributes, live: app.live });

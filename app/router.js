@@ -46,6 +46,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
       var uniqueWords = new UniquePhrase.Model.AllPhrases(1, 10);
       var unique2Grams = new UniquePhrase.Model.AllPhrases(2, 10);
       var unique3Grams = new UniquePhrase.Model.AllPhrases(3, 10);
+      var unique4Grams = new UniquePhrase.Model.AllPhrases(4, 10);
       
 		  // Init transcript.
 		  var transcriptView = new Transcript.View( {messages: messageCollection, speakers: speakerCollection, uniqueWords: uniqueWords} );
@@ -89,8 +90,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 			// Init landing page.
 			var landingView = new Landing.View( {model: new Landing.Model(), navigation: navigationView, transcript: transcriptView, overlay: markupManager, bigWords: bigWordsView, comparisons: comparisonView} );
 			// Pass landing view to navigation for menu control.
-			navigationView.setLanding(landingView);      
-     
+			navigationView.setLanding(landingView);    
        
       // Load from static file.
       if (this.qs.docName) {
@@ -199,12 +199,24 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           navigation.on("click", "#navTranscriptButton", exitComp);
           navigation.on("click", "#navComparisonButton", { tag: "count" }, enterComp);
 
+          navigation.on("click", "#navPlaybackButton", function() {
+            var elem = $("#navPlaybackButton");
+            var states = ["1x", "2x", "10x"];
+
+            // Find the offset in the array.
+            var offset = (states.indexOf($.trim(elem.text())) + 1) % states.length;
+
+            elem.text(states[offset]);
+
+            app.modifier = window.parseInt(states[offset], 10);
+          });
+
           transcript.on("click", ".transcriptSpeaker", { tag: "count" }, enterComp);
           transcript.on("click", ".sentimentClick", { tag: "POSITIVITY" } , enterComp);
           transcript.on("click", ".traitClick", { tag: "AUTHENTIC" } , enterComp);
           transcript.on("click", ".countClick", { tag: "list" } , enterComp);
           
-          var markupNames = ['posemo', 'negemo', 'certain', 'tentat', 'number'];          
+          var markupNames = ['posemo', 'negemo', 'certain', 'tentat', 'number', 'quote'];          
           transcript.on("click", ".catMarkup", function(ev) {
           	ev.stopPropagation();
           	markupManager.closeCatOverlays();
@@ -214,10 +226,11 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           	else if ($(this).hasClass("certainMarkup")) i=2;
           	else if ($(this).hasClass("tentatMarkup")) i=3;
           	else if ($(this).hasClass("numberMarkup")) i=4;
+          	else if ($(this).hasClass("quoteMarkup")) i=5;
           
-	         	for(var a=0; a<5; a++){
+	         	for(var a=0; a<markupNames.length; a++){
 	          	if(a==i) $('.'+markupNames[a]+'Markup').addClass('reverse');				// Highlight the chosen category.
-	          	else $('.'+markupNames[a]+'Markup:not(.categoryOverlay)').addClass('grayed');          		// Gray out all the other categories.
+	          	else $('.'+markupNames[a]+'Markup:not(.categoryOverlayText)').addClass('grayed');          		// Gray out all the other categories.
           	}
           	
           	//$('.'+markupNames[i]+'Markup').filter('.categoryOverlay').addClass('reverse');

@@ -165,7 +165,7 @@ function(app) {
 	    $('#navRight').css("webkitTransform", "translateX(0px) translateY(-5px) rotate(-90deg)");
 	    if (first) {
 	    	$('#navInstructions').css("webkitTransform", "translateX(0%)");
-		    setTimeout(function(){ $('#navInstructions').css("webkitTransform", "translateX(100%)"); }, 4000);
+		    setTimeout(function(){ $('#navInstructions').css("webkitTransform", "translateX(110%)"); }, 4000);
 		  } 
     },
     
@@ -173,7 +173,7 @@ function(app) {
 	    //$('#navigation').css("visibility", "hidden");	    
 	    $('#navLeft').css("webkitTransform", "translateX(-55px) translateY(-5px) rotate(90deg)");
 	    $('#navRight').css("webkitTransform", "translateX(60px) translateY(-5px) rotate(-90deg)");
-		  $('#navInstructions').css("webkitTransform", "translateX(100%)");
+	    $('#navInstructions').css("webkitTransform", "translateX(100%)");
     },
     
     // Reset puts everything where it's supposed to be before entering.

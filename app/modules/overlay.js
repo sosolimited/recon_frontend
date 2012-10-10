@@ -108,6 +108,21 @@ function(app, Ref) {
     afterRender: function() {
 	    if (!this.forceCollapse) this.expand();
 	    else this.collapse(true);
+	    
+	    // Tell skrollr about new elements
+    	this.$el.find('.container').each(function(i){ 
+    		app.skrollr.refresh(this);
+    	});
+    	this.$el.find('.traitSymbolLeft').each(function(i){ 
+    		app.skrollr.refresh(this);
+    	});
+    	this.$el.find('.traitSymbolRight').each(function(i){ 
+    		app.skrollr.refresh(this);
+    	});
+    	
+    	
+    	
+    	
     }
   });
   
@@ -410,6 +425,17 @@ function(app, Ref) {
     afterRender: function() {
 			if (!this.forceCollapse) this.expand();
 			else this.collapse(true);
+			
+			// Tell skrollr about new elements
+    	this.$el.find('.quotePhrase').each(function(i){ 
+    		app.skrollr.refresh(this);
+    	});
+    	this.$el.find('.quoteLeftQuote').each(function(i){ 
+    		app.skrollr.refresh(this);
+    	});
+    	this.$el.find('.quoteRightQuote').each(function(i){ 
+    		app.skrollr.refresh(this);
+    	});			
 		}
 		
 	});

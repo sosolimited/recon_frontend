@@ -351,18 +351,22 @@ function(app, Overlay, Ref) {
       $('#curSentence').find('span').each(function() {
       	 if($(this).hasClass("posemoMarkup")){
 	      	 $(this).css("background-color", "rgb(124,240,179)");
+	      	 $(this).css("color", "rgb(124,240,179)");
 	      	 //$(this).css("color", "rgb(255,255,255)");
       	 }
       	 else if($(this).hasClass("negemoMarkup")){
 	      	 $(this).css("background-color", "rgb(122,52,183)");
-	      	 $(this).css("color", "rgb(180,180,180)");
+	      	 $(this).css("color", "rgb(122,52,183)");
+	      	 //$(this).css("color", "rgb(180,180,180)");
       	 }
       	 else if($(this).hasClass("certainMarkup")){
 	      	 $(this).css("background-color", "rgb(255,175,108)");
+	      	 $(this).css("color", "rgb(255,175,108)");
 	      	 //$(this).css("color", "rgb(255,255,255)");
       	 }
       	 else if($(this).hasClass("tentatMarkup")){
 	      	 $(this).css("background-color", "rgb(193,186,134)");
+	      	 $(this).css("color", "rgb(193,186,134)");
 	      	 //$(this).css("color", "rgb(255,255,255)");
       	 }
 	     	 // Word count markup.
@@ -374,18 +378,19 @@ function(app, Overlay, Ref) {
 	     	 else if($(this).hasClass("numberMarkup")){
 	     	 		//$(this).css("background-color", "rgb(64,180,229)");	    	    		
 	     	 		$(this).css("background-color", "rgb(80,80,80)");
-	     	 		$(this).css("color", "rgb(180,180,180)");	    	    			    	    		
+	     	 		$(this).css("color", "rgb(80,80,80)");
+	     	 		//$(this).css("color", "rgb(180,180,180)");	    	    			    	    		
 	     	 }
 	     	 // Quotation markup.
 	     	 else if($(this).hasClass("quoteMarkup")){
 	     	 		$(this).css("background-color", "rgb(48,179,228)");	    	    		
+	     	 		$(this).css("color", "rgb(48,179,228)");	    	    		
 	     	 }         
 	     	 // Frequent word markup.
 	     	 else if($(this).hasClass("frequentWordMarkup")){
-			     	//$(this).css("color", "rgb(100,100,100)");	
-		    		//$(this).css("border-bottom", "1px solid white");	//To do different color underline.
+			     	
+			     	$(this).css("color", "transparent");		    		
 		    		
-		    		//$(this).css("text-decoration-color", "rgb(255,255,255)");	
 		    		
 		        var count = $(this).attr("data-wordcount");
 		        if(count != undefined) {
@@ -402,9 +407,9 @@ function(app, Overlay, Ref) {
 		          
 		          
 		          ////EG Trying it without underline.
-              //var spaceWidth = 5;  // To avoid underlining the leading space. This is an ugly hack.
-              //var underlineDiv = $("<div class='freqWordUnderline' style='left: " + (pos.left+spaceWidth) + "px; top: " + (pos.top + lineHeight*0.8) + "px;  width: " + (wordWidth-spaceWidth) + "px;' />");
-              //$(this).parent().append(underlineDiv);
+              var spaceWidth = 5;  // To avoid underlining the leading space. This is an ugly hack.
+              var underlineDiv = $("<div class='freqWordUnderline' style='left: " + (pos.left+spaceWidth) + "px; top: " + (pos.top + lineHeight*0.8) + "px;  width: " + (wordWidth-spaceWidth) + "px;' />");
+              $(this).parent().append(underlineDiv);
               
 		        } 
 	     	 }

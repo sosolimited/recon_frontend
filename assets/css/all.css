@@ -902,7 +902,7 @@ landingTitleImage {
   color: rgb(255,255,255);	
   text-transform: uppercase;
 	
-	-webkit-transition: top 1s;
+	-webkit-transition: top 0.5s;
 }
 
 /*
@@ -912,7 +912,7 @@ landingTitleImage {
 */
 
 .certainMarkup:hover{
-	background-color: rgb(255,255,255) !important;
+	background-color: rgb(255,175,108) !important;
 	/* color: rgb(255,175,108) !important; */
 	color: rgb(60,60,60) !important;
 }
@@ -927,7 +927,7 @@ landingTitleImage {
 
 
 .tentatMarkup:hover{
-	background-color: rgb(255,255,255) !important;
+	background-color: rgb(193,186,134) !important;
 	/* color: rgb(193,186,134) !important; */
 	color: rgb(60,60,60) !important;
 }
@@ -942,7 +942,7 @@ landingTitleImage {
 
 
 .posemoMarkup:hover {
-	background-color: rgb(255,255,255) !important;
+	background-color: rgb(124,240,179) !important;
 	/* color: rgb(124,240,179) !important; */
 	color: rgb(60,60,60) !important;
 }
@@ -957,9 +957,9 @@ landingTitleImage {
 
 
 .negemoMarkup:hover{
-	background-color: rgb(255,255,255) !important;
+	background-color: rgb(122,52,183) !important;
 	/* color: rgb(122,52,183) !important; */
-	color: rgb(60,60,60) !important;
+	color: rgb(180,180,180) !important;
 }
 .negemoMarkup.reverse{
 	background-color: rgb(122,52,183) !important;
@@ -971,8 +971,8 @@ landingTitleImage {
 }
 
 .numberMarkup:hover{
-	background-color: rgb(255,255,255) !important;
-	color: rgb(60,60,60) !important;
+	background-color: rgb(80,80,80) !important;
+	color: rgb(180,180,180) !important;
 }
 .numberMarkup.reverse{
 	background-color: rgb(80,80,80) !important;
@@ -984,7 +984,7 @@ landingTitleImage {
 }
 
 .quoteMarkup:hover{
-	background-color: rgb(255,255,255) !important;
+	background-color: rgb(48,179,228) !important;
 	color: rgb(60,60,60) !important;
 }
 .quoteMarkup.reverse{
@@ -996,6 +996,9 @@ landingTitleImage {
 	color: rgb(60,60,60) !important;
 }
 
+.frequentWordMarkup:hover {
+	color: rgb(60,60,60) !important;
+}
 
 .catMarkup{
 	cursor: pointer;
@@ -1172,14 +1175,14 @@ landingTitleImage {
 #transcript .freqWordCount {
   position: relative;
   top: 1em;
-  color: rgb(207,255,36); 
-  /*color: white;*/
+  /* color: rgb(207,255,36); */
+  color: white;
 }
 #transcript .freqWordUnderline {
   position: absolute;
-  height: 1px;
-  background-color: white;
-  z-index: -1;
+  height: 2px;
+  background-color: rgb(80,80,80);
+  z-index: 2;
 }
 .tapable {
   cursor: pointer;

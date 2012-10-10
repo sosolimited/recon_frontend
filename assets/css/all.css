@@ -105,7 +105,7 @@ body {
 	font-family:"franklin-gothic-urw-i7", "franklin-gothic-urw"; font-weight:700; font-style:italic;
 
 	/* color: rgb(146,152,152); */
-	color: rgb(185, 185, 185);
+	color: rgb(190,190,190);
 
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -531,6 +531,8 @@ hr {
 .negative{color:rgb(122,52,183);}
 .bgNegative{background-color:rgb(122,52,183);}
 
+
+
 /* Overlays */
 
 .over {
@@ -560,7 +562,7 @@ hr {
 	font-weight:700; 
 	font-style:italic;*/ 
 	font-family:"franklin-gothic-urw-i7", "franklin-gothic-urw"; font-weight:700; font-style:italic;
-	color: rgb(185, 185, 185);
+	color: rgb(190,190,190);
 	z-index:-1;
 }
 
@@ -890,12 +892,12 @@ landingTitleImage {
 */
 
 .certainMarkup:hover{
-	background-color: rgb(255,175,108) !important;
+	background-color: rgb(138,78,216) !important;
 	/* color: rgb(255,175,108) !important; */
 	color: rgb(60,60,60) !important;
 }
 .certainMarkup.reverse{
-	background-color: rgb(255,175,108) !important;
+	background-color: rgb(138,78,216) !important;
 	color: rgb(255, 255, 255) !important;
 }
 .certainMarkup.grayed{
@@ -905,12 +907,12 @@ landingTitleImage {
 
 
 .tentatMarkup:hover{
-	background-color: rgb(193,186,134) !important;
+	background-color: rgb(255,175,108) !important;
 	/* color: rgb(193,186,134) !important; */
 	color: rgb(60,60,60) !important;
 }
 .tentatMarkup.reverse{
-	background-color: rgb(193,186,134) !important;
+	background-color: rgb(255,175,108) !important;
 	color: rgb(255, 255, 255) !important;
 }
 .tentatMarkup.grayed{
@@ -920,13 +922,13 @@ landingTitleImage {
 
 
 .posemoMarkup:hover {
-	background-color: rgb(124,240,179) !important;
+	background-color: rgb(255, 239,54) !important;
 	/* color: rgb(124,240,179) !important; */
 	color: rgb(60,60,60) !important;
 }
 .posemoMarkup.reverse{
-	background-color: rgb(124,240,179) !important;
-	color: rgb(255, 255, 255) !important;
+	background-color: rgb(255, 239,54) !important;
+	color: rgb(60,60,60) !important;
 }
 .posemoMarkup.grayed{
 	background-color: transparent !important;
@@ -935,12 +937,12 @@ landingTitleImage {
 
 
 .negemoMarkup:hover{
-	background-color: rgb(122,52,183) !important;
+	background-color: rgb(64,180,230) !important;
 	/* color: rgb(122,52,183) !important; */
-	color: rgb(180,180,180) !important;
+	color: rgb(60,60,60) !important;
 }
 .negemoMarkup.reverse{
-	background-color: rgb(122,52,183) !important;
+	background-color: rgb(64,180,230) !important;
 	color: rgb(255, 255, 255) !important;
 }
 .negemoMarkup.grayed{
@@ -950,7 +952,7 @@ landingTitleImage {
 
 .numberMarkup:hover{
 	background-color: rgb(80,80,80) !important;
-	color: rgb(180,180,180) !important;
+	color: rgb(255,255,255) !important;
 }
 .numberMarkup.reverse{
 	background-color: rgb(80,80,80) !important;
@@ -962,11 +964,11 @@ landingTitleImage {
 }
 
 .quoteMarkup:hover{
-	background-color: rgb(48,179,228) !important;
+	background-color: rgb(255,59,162) !important;
 	color: rgb(60,60,60) !important;
 }
 .quoteMarkup.reverse{
-	background-color: rgb(48,179,228) !important;
+	background-color: rgb(255,59,162) !important;
 	color: rgb(255,255,255) !important;
 }
 .quoteMarkup.grayed{
@@ -979,8 +981,8 @@ landingTitleImage {
 }
 
 .wordCountMarkup:hover {
-	background-color: 207,255,36 !important;
-	color: rgb(60,60,60) !important;
+	background-color: rgb(44,124,14) !important;
+	color: rgb(255,255,255) !important;
 }
 
 .catMarkup{
@@ -1019,7 +1021,7 @@ landingTitleImage {
 	position:relative;
 	top:120px;	/* Start out of view */
 	font-size: 120px;
-	color: rgb(207,255,36);
+	color: rgb(44,124,14);
 	margin: 0px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
 	line-height:120px;
@@ -1042,7 +1044,7 @@ landingTitleImage {
 .wordCountLine {
 	position:absolute;
 	height: 0; 
-	border-bottom: 2px dotted rgb(207,255,36);
+	border-bottom: 2px dotted rgb(44,124,14);
 	background-color: transparent;
 	margin: 0 0 0 0;
 	padding: 0 0 0 0;
@@ -1074,7 +1076,7 @@ landingTitleImage {
   line-height: .75em;
 	margin: 0px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
-  color: rgb(48,179,228);
+  color: rgb(255,59,162);
 	-webkit-transition: left 1s, right 1s, top 1s, height 1s, width 1s, font-size 1s, line-height 1s;
 	/* -webkit-transform: translateZ(0px);	*/
   z-index: 2;
@@ -1086,7 +1088,7 @@ landingTitleImage {
 .quoteLeftQuote, .quoteRightQuote {
   position: absolute;
   font-size: 400px;
-  color: rgb(48,179,228);
+  color: rgb(255,59,162);
   -webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
   z-index: 0;
 }
@@ -1112,10 +1114,10 @@ landingTitleImage {
 }
 
 .posemo {
-  color: rgb(112,241,184);
+  color: rgb(255, 239,54);
 }
 .negemo {
-  color: rgb(127, 48, 177);
+  color: rgb(64,180,230);
 }
 
 .emoSign {
@@ -1132,11 +1134,11 @@ landingTitleImage {
   width: 400px;
   height: 100px;
   top: 150px;
-  background-color: rgb(127,48,177);
+  background-color: rgb(64,180,230);
 }
 .plusSignA, .plusSignB {
   position: absolute;
-  background-color: rgb(112,241,184);
+  background-color: rgb(255, 239,54);
 }
 .plusSignA {
   left: 150px;
@@ -1160,8 +1162,8 @@ landingTitleImage {
 #transcript .freqWordCount {
   position: relative;
   top: 1em;
-  /* color: rgb(207,255,36); */
-  color: white;
+  color: rgb(35,255,49); 
+  /* color: white; */
 }
 #transcript .freqWordUnderline {
   position: absolute;

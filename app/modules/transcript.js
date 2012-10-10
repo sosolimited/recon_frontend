@@ -371,29 +371,29 @@ function(app, Overlay, Ref) {
       var thisView = this;
       $('#curSentence').find('span').each(function() {
       	 if($(this).hasClass("posemoMarkup")){
-	      	 $(this).css("background-color", "rgb(124,240,179)");
-	      	 $(this).css("color", "rgb(124,240,179)");
+	      	 $(this).css("background-color", "rgb(255, 239,54)");
+	      	 $(this).css("color", "rgb(255, 239,54)");
 	      	 //$(this).css("color", "rgb(255,255,255)");
       	 }
       	 else if($(this).hasClass("negemoMarkup")){
-	      	 $(this).css("background-color", "rgb(122,52,183)");
-	      	 $(this).css("color", "rgb(122,52,183)");
+	      	 $(this).css("background-color", "rgb(64,180,230)");
+	      	 $(this).css("color", "rgb(64,180,230)");
 	      	 //$(this).css("color", "rgb(180,180,180)");
       	 }
       	 else if($(this).hasClass("certainMarkup")){
+	      	 $(this).css("background-color", "rgb(138,78,216)");
+	      	 $(this).css("color", "rgb(138,78,216)");
+	      	 //$(this).css("color", "rgb(255,255,255)");
+      	 }
+      	 else if($(this).hasClass("tentatMarkup")){
 	      	 $(this).css("background-color", "rgb(255,175,108)");
 	      	 $(this).css("color", "rgb(255,175,108)");
 	      	 //$(this).css("color", "rgb(255,255,255)");
       	 }
-      	 else if($(this).hasClass("tentatMarkup")){
-	      	 $(this).css("background-color", "rgb(193,186,134)");
-	      	 $(this).css("color", "rgb(193,186,134)");
-	      	 //$(this).css("color", "rgb(255,255,255)");
-      	 }
 	     	 // Word count markup.
 	     	 else if($(this).hasClass("wordCountMarkup")){	
-	     	   $(this).css("background-color", "rgb(207,255,36)");
-	     	   $(this).css("color", "rgb(207,255,36)");
+	     	   $(this).css("background-color", "rgb(44,124,14)");
+	     	   $(this).css("color", "rgb(44,124,14)");
 	     	   //$(this).css("text-decoration", "underline");	    	
 	     	 }
 	     	 // Number markup.
@@ -405,8 +405,8 @@ function(app, Overlay, Ref) {
 	     	 }
 	     	 // Quotation markup.
 	     	 else if($(this).hasClass("quoteMarkup")){
-	     	 		$(this).css("background-color", "rgb(48,179,228)");	    	    		
-	     	 		$(this).css("color", "rgb(48,179,228)");	    	    		
+	     	 		$(this).css("background-color", "rgb(255,59,162)");	    	    		
+	     	 		$(this).css("color", "rgb(255,59,162)");	    	    		
 	     	 }         
 	     	 // Frequent word markup.
 	     	 else if($(this).hasClass("frequentWordMarkup")){

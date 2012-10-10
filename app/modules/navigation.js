@@ -154,7 +154,7 @@ function(app) {
         $("#navTime").text(nowString);
       }
       else {
-        $("#navTime").html("<span id='goLive' class='tapable'>Go Live!</span>");
+        $("#navTime").html("<span id='goLive' class='tapable'>GO LIVE!</span>");
       }
 
       var percent = this.timeDiffToPercent(newTime);

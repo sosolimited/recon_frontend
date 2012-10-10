@@ -22,9 +22,10 @@
 				if (bound && (val < range[0]/100.0)) val = range[0]/100.0;
 				if (bound && (range[1]/100.0 < val)) val = range[1]/100.0;
 				
-				if (val == 0)
+				if (val == 0) {
 					val = midpoint;
-											
+					
+				}
 				var h = totalBarH*(100*val-range[0])/(range[1]-range[0]);
 				var t = totalH-h;
 				return [h,t];

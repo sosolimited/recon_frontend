@@ -631,6 +631,13 @@ hr {
   z-index: 10;
 }
 
+
+.landingButtonHolder.inactive, .landingRule.inactive{
+  opacity: .5 !important;
+  cursor: default !important;
+}
+
+
 .landingButton {
 	position: static;
 	padding: 0 0 0 0;

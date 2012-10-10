@@ -12,7 +12,7 @@
 		<p class="franklinMedCompIt comparisonTitle <%=comparison.get("color1").toLowerCase()%>"> <%= comparison.get("title") %></p>
 		<hr class="bg<%=comparison.get("color1")%>" style="height:3px"/>
 		<p class="franklinBookComp <%=comparison.get("color1").toLowerCase()%> comparisonSubtitle"><%= comparison.get("subtitle") %></p>
-		<div class="backgroundGradient"></div>
+		<div class="backgroundGradient" style="z-index:0;"></div>
 		
 		<% 	
 			var val0 = comparison.get("traits")[0].vals[0]; 

@@ -65,25 +65,26 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
       // Init comparison collection.
       var comparisonCollection = new Comparison.Collection();
       var comparisonView = new Comparison.Views.All({collection: comparisonCollection});
-
+			
+			/*
       comparisonCollection.add(new Comparison.CountModel({traitNames:["wc"], speakerNames:speakerCollection, title:"WORD COUNT", subtitle:"The number of total words spoken by each candidate", range:[0,10000.0], color1:"Salmon"})); 
-          
+          */
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["posemo"], speakerNames:speakerCollection, title:"POSITIVITY", subtitle:"The percentage of words spoken that are positive in some way. ie. 'winning, happy, improve.'", range:[0,5.0], color1:"Sky"}));
       
-      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP 10 WORDS", subtitle:"The top twenty words of each candidate (excluding 'the', 'I', 'if', etc.)", uniqueWords:uniqueWords, color1:"Lime"}));     
+      comparisonCollection.add(new Comparison.MegaListModel({traitNames:["megalist"], speakerNames:speakerCollection, title:"SHIT THEY REPEAT", subtitle:"The favorite words and phases of each candidate (excluding shitty little words like 'the', 'I', 'if', etc.)", uniqueWords:uniqueWords, unique2Grams:unique2Grams, unique3Grams:unique3Grams, color1:"Lime"}));     
        
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["negemo"], speakerNames:speakerCollection, title:"NEGATIVITY", subtitle:"The percentage of words spoken that are negative in some way. ie. 'failure, dead, waste.'", range:[0,3.75], color1:"Negative"})); 
           
-      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique2Grams, color1:"Lime"}));
+      //comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique2Grams, color1:"Lime"}));
           
-      comparisonCollection.add(new Comparison.EmotionModel({traitNames:["anger"], speakerNames:speakerCollection, title:"ANGER", subtitle:"The percentage of words spoken that are angry in some way. ie. 'fight, destroy, annoy.'", range:[0,1.95], color1:"Angry"})); 
+      comparisonCollection.add(new Comparison.EmotionModel({traitNames:["anger"], speakerNames:speakerCollection, title:"RAGE INDEX", subtitle:"The percentage of words spoken that are angry in some way. ie. 'fight, destroy, annoy.'", range:[0,1.95], color1:"Angry"})); 
 
       
-      comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique3Grams, color1:"Lime"}));               
+      //comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique3Grams, color1:"Lime"}));               
 
-      comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["formality"], speakerNames:speakerCollection, title:"FORMAL", title2:"CASUAL", subtitle:"Formal speakers, compared to conversationalists, make more self-references, use bigger words, and speak in the present tense less often.", range:[3, 27.0], color1:Ref.formal, color2:Ref.casual, gradient:"gradientFormality"})); 
+      comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["formality"], speakerNames:speakerCollection, title:"SCRIPTED", title2:"CASUAL", subtitle:"Formal speakers, compared to conversationalists, make more self-references, use bigger words, and speak in the present tense less often.", range:[3, 27.0], color1:Ref.formal, color2:Ref.casual, gradient:"gradientFormality"})); 
       
-      comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["depression"], speakerNames:speakerCollection, title:"DEPRESSED", title2:"CHEERFUL", subtitle:"Depressed people mention themselves more, use more negative language, use more physical words, and use fewer positive words.", range:[-1.0, 5.0], color1:Ref.depressed, color2:Ref.cheery, gradient:"gradientDisposition"}));  
+      comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["depression"], speakerNames:speakerCollection, title:"SUICIDAL", title2:"CHEERFUL", subtitle:"Depressed people mention themselves more, use more negative language, use more physical words, and use fewer positive words.", range:[-1.0, 5.0], color1:Ref.depressed, color2:Ref.cheery, gradient:"gradientDisposition"}));  
       
       comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["honesty"], speakerNames:speakerCollection, title:"AUTHENTIC", title2:"DECEPTIVE", subtitle:"Compared to liars, truth-tellers tend to use more self-references, provide more detailed descriptions, and use fewer negative words. ", range:[0, 6.0], color1:Ref.purple, color2:Ref.redOrange, gradient:"gradientHonesty"}));                   
 
@@ -129,7 +130,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 			// I'm sure there's a less stupid way to do this.
       //window.setTimeout(function() {	
       // Yup, there is!
-      landingView.setElement("#landing").render();
+      landingView.setElement("#landing").render().then(this.loadData);
 
       //app.on("ready", function() {
         navigationView.setElement("#navigation").render();
@@ -316,58 +317,6 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
     },
     
     initialize: function() {
-      var updateBar = function() {
-        var percs = [0, 0];
-
-        return function(perc, i) {
-          percs[i] = perc;
-
-          window.setTimeout(function() {
-            var hr = document.querySelector(".landingRule.gray60");
-            var total = percs[0] + percs[1];
-
-            if (hr) {
-              hr.style.background = "-webkit-linear-gradient(left, rgb(207, 255, 36) " +
-                total + "%, rgb(76,76,76) " + (total+1) + "%)";
-            }
-          }, 100);
-        };
-      }();
-
-      // XHR.
-      var messages = new XMLHttpRequest();
-      var markup = new XMLHttpRequest();
-
-      // Opens.
-      messages.open("GET", "/messages/whateva", true);
-      markup.open("GET", "/markup/whateva", true);
-
-      // Prog rock.
-      messages.onprogress = function(e) {
-        updateBar(Math.ceil((e.loaded/e.total) * 50), 0);
-      };
-      markup.onprogress = function(e) {
-        updateBar(Math.ceil((e.loaded/e.total) * 50), 1);
-      };
-
-      // Lobes.
-      messages.onload = function() {
-        var contents = "[" +
-          messages.responseText.split("\n").slice(0, -1).join(",") +
-        "]";
-
-        app.messages["0"] = new Message.Collection(JSON.parse(contents));
-        updateBar(50, 0);
-      };
-
-      markup.onload = function() {
-        app.markup = markup.responseText;
-        updateBar(50, 1);
-      };
-
-      // Send!
-      messages.send();
-      markup.send();
 
       // Cache the querystring lookup.
       var querystring = location.search.slice(1);
@@ -388,6 +337,69 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
         }
       });
       
+    },
+    
+    loadData: function() {
+	    var updateBar = function() {
+        var percs = [0, 0];
+
+        return function(perc, i, num) {
+          percs[i] = perc;
+
+          window.setTimeout(function() {
+            var hr = document.querySelector(".landingRule"+num+".gray60");
+            var total = percs[0] + percs[1];
+
+            if (hr) {
+              hr.style.background = "-webkit-linear-gradient(left, rgb(207, 255, 36) " +
+                total + "%, rgb(76,76,76) " + (total+1) + "%)";
+            }
+          }, 100);
+        };
+      }();
+
+      // XHR.
+      [0, 1, 2].forEach(function(i) {
+
+	      var messages = new XMLHttpRequest();
+	      var markup = new XMLHttpRequest();
+	
+	      // Opens.
+	      messages.open("GET", "/messages/"+i, true);
+	      markup.open("GET", "/markup/whateva", true);
+	
+	      // Prog rock.
+	      messages.onprogress = function(e) {
+	        updateBar(Math.ceil((e.loaded/e.total) * 50), 0, i);
+	      };
+	      markup.onprogress = function(e) {
+	        updateBar(Math.ceil((e.loaded/e.total) * 50), 1, i);
+	      };
+	
+	      // Lobes.
+	      messages.onload = function(e) {
+	      
+	      	if (e.target.responseText.length != 1) {
+		        var contents = "[" +
+		          e.target.responseText.split("\n").slice(0, -1).join(",") +
+		        "]";
+		        app.messages[i] = new Message.Collection(JSON.parse(contents));
+		        updateBar(50, 0, i);
+			      app.trigger("debate:activate", i);
+		      } else {
+			      app.trigger("debate:deactivate", i);
+		      }
+	      };
+	
+	      markup.onload = function() {
+	        app.markup = markup.responseText;
+	        updateBar(50, 1, i);
+	      };
+	
+	      // Send!
+	      messages.send();
+	      markup.send();
+	    });
     }
   });
 

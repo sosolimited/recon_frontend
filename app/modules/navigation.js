@@ -36,6 +36,8 @@ function(app) {
       // Bind custom events
       app.on("playback:addChapter", this.addChapter, this);
       app.on("debate:change", this.setDebateNumber, this);
+      app.on("debate:activate", this.activateDebate, this);
+      app.on("debate:deactivate", this.deactivateDebate, this);
       app.on("message:word", this.updateProgress, this);
       app.on("message:transcriptDone", this.addChapter, this);
       app.on("transcript:scrollTo", this.updateTime, this);
@@ -70,7 +72,7 @@ function(app) {
 
     handleClick : function(e) {
       if(e.target.id.substring(0,2) == 'CH') {
-        playbackChapter(e);
+        //playbackChapter(e); //PEND out for now
       } else if(e.target.id == 'goLive') {
         app.trigger("navigation:goLive", 600);
       } else if(e.target.id == 'reconTitle'){
@@ -175,6 +177,7 @@ function(app) {
 	    $('#navLeft').css("webkitTransform", "translateX(5px) translateY(-5px) rotate(90deg)");
 	    $('#navRight').css("webkitTransform", "translateX(0px) translateY(-5px) rotate(-90deg)");
 	    if (first) {
+	    	console.log("first");
 	    	$('#navInstructions').css("webkitTransform", "translateX(0%)");
 		    instructionTimeout = setTimeout(function(){ $('#navInstructions').css("webkitTransform", "translateX(100%)"); }, 4000);
 		  } 
@@ -263,6 +266,24 @@ function(app) {
       
       // Switch skrollr scroll element back to body.
 			//app.skrollr.resetSkrollElement();
+    },
+    
+    deactivateDebate: function(num) {
+    	if (num >= 0 && num < 3) {
+		    console.log("deactivating "+num);
+		    $('#landingButton'+num).addClass('inactive');
+		    $('#landingRule'+num).addClass('inactive');
+		   	app.active[num] = false; 
+		  }
+    },
+    
+    activateDebate: function(num) {
+    	if (num >= 0 && num < 3) {
+		    console.log("activating "+num+$('landingButton1').id);
+		    $('#landingButton'+num).removeClass('inactive');
+		    $('#landingRule'+num).removeClass('inactive');
+		    app.active[num] = true;
+		  }
     }
     
 

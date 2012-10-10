@@ -46,6 +46,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
       var uniqueWords = new UniquePhrase.Model.AllPhrases(1, 10);
       var unique2Grams = new UniquePhrase.Model.AllPhrases(2, 10);
       var unique3Grams = new UniquePhrase.Model.AllPhrases(3, 10);
+      var unique4Grams = new UniquePhrase.Model.AllPhrases(4, 10);
       
 		  // Init transcript.
 		  var transcriptView = new Transcript.View( {messages: messageCollection, speakers: speakerCollection, uniqueWords: uniqueWords} );
@@ -89,8 +90,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 			// Init landing page.
 			var landingView = new Landing.View( {model: new Landing.Model(), navigation: navigationView, transcript: transcriptView, overlay: markupManager, bigWords: bigWordsView, comparisons: comparisonView} );
 			// Pass landing view to navigation for menu control.
-			navigationView.setLanding(landingView);      
-     
+			navigationView.setLanding(landingView);    
        
       // Load from static file.
       if (this.qs.docName) {

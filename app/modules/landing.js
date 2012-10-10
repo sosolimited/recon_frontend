@@ -19,8 +19,7 @@ function(app, Ref) {
 	  		/*
 	  		description: "ReConstitution 2012 is a live web app linked to the three US Presidential Debates. As the debates are happening, language used by the candidates is fed into the app in real time, generating a live data map. Algorithms track the psychological states of Romney and Obama and compare them to past candidates, revealing hidden meaning behind their words.",*/
 	  		now: new Date(),
-	  		live: 0,	// 1,2,3 if we are watching a debate live.
-	  		lastDebateViewed: -1 // -1 if nothing has been watched yet
+	  		live: 0	// 1,2,3 if we are watching a debate live.
 	  	}	  			
   	},
   	
@@ -62,15 +61,14 @@ function(app, Ref) {
 
       if(e.target.id === "landingButton0" || e.target.parentNode.id == "landingButton0"){
         app.playback = true;
-	      this.enterDebate(0);
+	      if (app.active[0]) this.enterDebate(0);
         app.trigger("navigation:goLive", 600);
       }else if(e.target.id === "landingButton1" || e.target.parentNode.id == "landingButton1"){
-      	this.transcript.setHeading("transcript 2");
         app.trigger("navigation:goLive", 600);
+	      if (app.active[1]) this.enterDebate(1);
       }else if(e.target.id === "landingButton2" || e.target.parentNode.id == "landingButton2"){
-      	this.transcript.setHeading("transcript 3");
         app.trigger("navigation:goLive", 600);
-
+	      if (app.active[2]) this.enterDebate(2);
       } 
     },
     
@@ -78,11 +76,15 @@ function(app, Ref) {
 	  	this.transcript.setHeading("DEBATE "+(num+1));
       // Playback messages.
 	    if (app.router.qs.playback) {
-	    	if (num == this.model.get("lastDebateViewed"))
+	    	if (num == app.lastDebateViewed) {
 		    	app.messages[num].playbackMessages(false);
-		    else app.messages[num].playbackMessages(true);
+		    } else {
+		    	app.messages[num].playbackMessages(true);
+		    	app.trigger("debate:reset");
+		    }
 	    }
       this.exit(num);
+		  app.lastDebateViewed = num;
     },
     
     enter: function() {
@@ -94,14 +96,14 @@ function(app, Ref) {
       this.transcript.exit();
       this.bigWords.exit();	
       this.comparisons.exit();
-      app.messages[this.model.get("lastDebateViewed")].stopPlayback();
+      app.messages[app.lastDebateViewed].stopPlayback();
     },
     
     exit: function(num) {
     	// Bye bye landing.
  	    $('#landing').hide();
  	    // Hello everything else.
- 	    this.navigation.enter(this.model.get("lastDebateViewed") == -1);
+ 	    this.navigation.enter(app.lastDebateViewed == -1);
       this.transcript.enter();
       this.bigWords.enter();	
       this.model.set({lastDebateViewed:num}); // set to false once nav has exited once (something has been viewed)

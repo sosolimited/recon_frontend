@@ -606,40 +606,51 @@ function(app, Ref) {
 		 },	
 		 
 		 serialize: function() {
-      return { category: this.category, title: this.title };
+      return { category: this.category, title: this.title};
     },
     
     expand: function() {
-      this.$el.css('display','block'); // Setting opacity alone still blocks mouse interactions.    
-      window.setTimeout(function(){
+      //this.$el.css('display','block'); // Setting opacity alone still blocks mouse interactions.    
+      //this.$el.find('.categoryOverlay').each(function(){
+	    //  $(this).css('left', '0px');
+	    //});
+	    //window.setTimeout(function(){
    	   this.$el.find('.categoryOverlayText').each(function(){
 	  	 	$(this).css('top', '0px');
 	  	 });
-	  	}, 10, this);
+	  	//}, 10, this);
     },
     
     collapse: function() {
       this.$el.find('.categoryOverlayText').each(function(){
 	      $(this).css('top', '90px');
 	    });
-	    window.setTimeout(function(){
-	  	 	$(this).css('display', 'none');
-	  	}, 500, this);	
+	    //window.setTimeout(function(){
+	  	// 	//this.$el.css('display', 'none');
+	  	// 	this.$el.find('.categoryOverlay').each(function(){
+	    //  	$(this).css('left', '-1000px');	//Hack to get it out of the way so it doesn't block transcript markup selection.
+	    //  });
+	  	//}, 500, this);	
     },
     
     hide: function() {
       this.$el.find('.categoryOverlayText').each(function(){
 	      $(this).css('top', '90px');
 	    });
-	    $(this).css('display', 'none'); 	 	
+	    //window.setTimeout(function(){
+	  	// 	//this.$el.css('display', 'none');
+	  	// 	this.$el.find('.categoryOverlay').each(function(){
+	    //  	$(this).css('left', '-1000px');
+	    //  });
+	  	//}, 500, this);	
     },
     
     afterRender: function() {
 	    this.hide();
 	    // Add to skrollr manager.
-	    //this.$el.find(".categoryOverlay").each(function(){
-	    //	app.skrollr.refresh(this);		    
-	    //});
+	    this.$el.find(".categoryOverlay").each(function(){
+	    	app.skrollr.refresh(this);		    
+	    });
     }
   });
 	

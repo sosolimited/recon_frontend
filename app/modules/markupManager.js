@@ -36,14 +36,12 @@ function(app, Overlay, Ref) {
   	defaults: function() {
   		return {
   			"overlays":[],
-  			
-  			//PEND: temp changes only, to be overwritten
-  			"catOverlays": {"posemo": new Overlay.Views.CatView({ category: 'posemo', title: 'Giddy'}),
-  											"negemo": new Overlay.Views.CatView({ category: 'negemo', title:'Grumpy' }),
-  											"certain": new Overlay.Views.CatView({ category: 'certain', title:'Swagger' }),
-  											"tentat": new Overlay.Views.CatView({ category: 'tentat', title:'Weak'}),
-  											"number": new Overlay.Views.CatView({ category: 'number', title:'Wall Street'}),
-  											"quote": new Overlay.Views.CatView({ category: 'quote', title:'Name Dropping'}) }
+  			"catOverlays": {"posemo": new Overlay.Views.CatView({ category: 'posemo', title: ['GIDDY','WORDS']}),
+  											"negemo": new Overlay.Views.CatView({ category: 'negemo', title: ['GRUMPY', 'WORDS '] }),
+  											"certain": new Overlay.Views.CatView({ category: 'certain', title:['SWAGGER', 'BABY'] }),
+  											"tentat": new Overlay.Views.CatView({ category: 'tentat', title: ['WISHY', 'WASHY']}),
+  											"number": new Overlay.Views.CatView({ category: 'number', title: ['MEANINGLESS', 'NUMBERS']}),
+  											"quote": new Overlay.Views.CatView({ category: 'quote', title: ['HE_SAID', 'SHE_SAID']}) }
 
   		}	
   	},
@@ -60,10 +58,22 @@ function(app, Overlay, Ref) {
 	      $('#overlay').append(this.get("catOverlays")[cat].el);
 	      this.get("catOverlays")[cat].render();
       }
+      app.on("debate:reset", this.clearMarkup, this);
 	  },
 	  
 	  cleanup: function() {
 		  app.off(null, null, this);
+	  },
+	  
+	  clearMarkup: function() {
+		  $('#overlay').empty();
+		  this.set({overlays:[]});
+		  
+		  // Add resuable cat overlays back into DOM.
+      for (var cat in this.get("catOverlays")) {
+	      $('#overlay').append(this.get("catOverlays")[cat].el);
+	      this.get("catOverlays")[cat].render();
+      }
 	  },
 	  
 	  // All overlay events get funnelled through this function.

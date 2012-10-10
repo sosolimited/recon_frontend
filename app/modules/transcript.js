@@ -47,6 +47,7 @@ function(app, Overlay, Ref) {
       app.on("message:word", this.addWord, this);
       app.on("message:sentenceEnd", this.endSentence, this);
       app.on("navigation:goLive", this.reattachLiveScroll, this);
+      //app.on("debate:reset", this.clear, this);
 
       this.$window = $(window);
       this.$body = $(window.body);
@@ -392,6 +393,7 @@ function(app, Overlay, Ref) {
 	     	 // Word count markup.
 	     	 else if($(this).hasClass("wordCountMarkup")){	
 	     	   $(this).css("background-color", "rgb(207,255,36)");
+	     	   $(this).css("color", "rgb(207,255,36)");
 	     	   //$(this).css("text-decoration", "underline");	    	
 	     	 }
 	     	 // Number markup.
@@ -798,6 +800,17 @@ function(app, Overlay, Ref) {
     // Reset puts everything where it's supposed to be before entering.
     reset: function() {
 	    $('#transcript').css("visibility", "hidden");	    
+    },
+    
+    clear: function() {  		
+          
+      this.numberOpen = false;
+      this.numberPhrase = "";
+      
+    	curSpeaker = "";
+  		this.endSentence();
+  		this.endParagraph();
+	    $('#transcriptHeading').nextAll().remove();
     }
    
   });

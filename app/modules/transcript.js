@@ -235,7 +235,7 @@ function(app, Overlay, Ref) {
       if (this.numberOpen){
       
       	//1. if end punct, emit number and don't add word
-      	if((word['punctuationFlag'] != 0) && (word["word"] != '$')) {
+      	if((word['punctuationFlag'] != 0) && (word["word"] != '$') && word['word'] != '%') {
       		//console.log("closing with punctFlag");
       		this.emitNumberEvent();
       	}

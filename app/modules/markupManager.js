@@ -38,9 +38,9 @@ function(app, Overlay, Ref) {
   			"overlays":[],
   			"catOverlays": {"posemo": new Overlay.Views.CatView({ category: 'posemo', title: 'Positive'}),
   											"negemo": new Overlay.Views.CatView({ category: 'negemo', title:'Negative' }),
-  											"certain": new Overlay.Views.CatView({ category: 'certain', title:'Confident' }),
-  											"tentat": new Overlay.Views.CatView({ category: 'tentat', title:'Tentative'}),
-  											"number": new Overlay.Views.CatView({ category: 'number', title:'Quantitative'}),
+  											"certain": new Overlay.Views.CatView({ category: 'certain', title:'Swaggy' }),
+  											"tentat": new Overlay.Views.CatView({ category: 'tentat', title:'Wimpy'}),
+  											"number": new Overlay.Views.CatView({ category: 'number', title:'Number'}),
   											"quote": new Overlay.Views.CatView({ category: 'quote', title:'Quoted'}) }
   		}	
   	},

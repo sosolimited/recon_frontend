@@ -19,7 +19,6 @@ function(app, Ref) {
 	  			 
 		 initialize: function() {
 		  this.bigWordLength = 8;
-		  this.curY = 0;		// Used to absolutely layout big words.
 		 	app.on("message:word", this.addWord, this);
 		 	app.on("debate:reset", this.clearWords, this);
 
@@ -77,7 +76,7 @@ function(app, Ref) {
 				   	//var holder = this.$el.children(".bigWordsHolder")[0];
 				   	// Horizontal skrolling!
 	          //var bigWord = $("<span class='bigWord' style='top:"+this.curY+"px;'data--500-top-bottom='display:block; margin-left:-400px;' data-500-bottom-top='display:block; margin-left:200px;'>"+word+"</span>");
-	          var bigWord = $("<span class='bigWord' style='top:"+this.curY+"px;'>"+word+"</span>");
+	          var bigWord = $("<span class='bigWord'>"+word+"</span>");
 	          $('#bigWordsHolder').append(bigWord);
 	          // Add to skrollr manager. 
 	          //app.skrollr.refresh(bigWord.get(0));
@@ -90,7 +89,6 @@ function(app, Ref) {
 	          bigWord.attr("data-bottom", bottom);
 	          bigWord.attr("data-scale", s);
 	          */
-				   	this.curY += Ref.bigWordLeading;
 				   	//$(holder).append(word+"</br>");
 				   }
 			   }

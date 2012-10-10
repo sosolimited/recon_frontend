@@ -82,15 +82,15 @@ function(app, Ref) {
 		    	app.messages[num].playbackMessages(true);
 		    	app.trigger("debate:reset");
 		    }
-		    app.lastDebateViewed = num;
 	    }
       this.exit(num);
+		  app.lastDebateViewed = num;
     },
     
     enter: function() {
     	// Hello landing.
       $('body').stop().scrollTop(0); // Jump to the top since landing is no longer postion: fixed
-	    $('#landingWrapper').css("visibility", "visible");
+	    $('#landing').show();
 	    // Bye bye everything else.
 	    this.navigation.exit();
       this.transcript.exit();
@@ -101,7 +101,7 @@ function(app, Ref) {
     
     exit: function(num) {
     	// Bye bye landing.
- 	    $('#landingWrapper').css("visibility", "hidden");	    
+ 	    $('#landing').hide();
  	    // Hello everything else.
  	    this.navigation.enter(app.lastDebateViewed == -1);
       this.transcript.enter();

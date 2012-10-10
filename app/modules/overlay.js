@@ -620,7 +620,7 @@ function(app, Ref) {
 	    });
 	    window.setTimeout(function(){
 	  	 	$(this).css('display', 'none');
-	  	}, 1000, this);	
+	  	}, 500, this);	
     },
     
     hide: function() {

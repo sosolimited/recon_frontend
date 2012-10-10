@@ -29,6 +29,7 @@ function($, _, Backbone, eio) {
     
     // Init skrollr lib
     skrollr: skrollr.init({    	
+      forceHeight: false,
 	    beforerender: function(data) {
 				//console.log('beforerender');
 			},

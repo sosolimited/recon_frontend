@@ -325,27 +325,34 @@ function(app, Ref) {
   	setValues: function(options) {
 
   		this.set({viewType:"list", uniqueWords:options.uniqueWords, obamaList: new Array(), romneyList: new Array(), obamaValues: new Array(), romneyValues: new Array()});
-  		app.on("message:word", this.updateWordStats, this);		  		
+  		app.on("message:word", this.updateWordStats, this);	
+  			  		
   	},
   	
   	updateWordStats: function() {
   	
   		// massive memory leak here! move these new's out of here!
   		// this is the only way I could get this to pass info correctly
-  	  var oList = new Array();
-  	  var rList = new Array();
+  	  var oList = new Array("…", "…", "…", "…", "…", "…", "…", "…", "…", "…" );
+  	  var rList = new Array("…", "…", "…", "…", "…", "…", "…", "…", "…", "…" );
 	  	var oVals = new Array();
 	  	var rVals = new Array();  	
   	
   		for (var i = 0 ; i < 10 ; i++) {
+  		
   		  oList[i] = this.get('uniqueWords').getTopPhrases(1)[i]['phrase'];
   		  rList[i] = this.get('uniqueWords').getTopPhrases(2)[i]['phrase'];
   		  oVals[i] = this.get('uniqueWords').getTopPhrases(1)[i]['count'];
   		  rVals[i] = this.get('uniqueWords').getTopPhrases(2)[i]['count'];
+  
+  		  if (oList[i] === "") {
+  		  
+	  		  oList[i] = "hello";
+  		  }
   		}
   	
 	  	this.set({obamaList: oList, romneyList: rList, obamaValues: oVals, romneyValues: rVals});
-	  	//console.log("#1: " + this.get("oList")[5] + " "  + this.get("rList")[5]);
+	  	//console.log("#1: " + oList[5] + " "  + rList[5]);
   	}
 
   });

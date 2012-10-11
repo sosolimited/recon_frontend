@@ -254,6 +254,27 @@ hr {
   top: 245px;
 }
 
+#navLeftButtons {
+	
+	position: fixed;
+	width: 204px;
+	height: 36px;
+	z-index:6000;
+	top: 531px;
+	left: -87px;
+	
+	transform:rotate(90deg);
+	-ms-transform:rotate(90deg); /* IE 9 */
+	-moz-transform:rotate(90deg); /* Firefox */
+	-webkit-transform:rotate(90deg); /* Safari and Chrome */
+	-o-transform:rotate(90deg); /* Opera */
+	
+	-webkit-transition: -webkit-transform 1s;	
+	
+	font-size:20px;
+	
+}
+
 #navRight {
 	position: fixed !important;
 	right:-166px !important;
@@ -270,7 +291,7 @@ hr {
 	-webkit-transition: -webkit-transform 1s;	
 
 	bottom: 200px;
-	font-size:20px;
+	font-size:18px;
 	/* text-transform:uppercase; */
 	float:right;
 	
@@ -288,13 +309,13 @@ hr {
 	display: none;
 }
 
-#navPlaybackButton, #navComparisonButton {
+#navPlaybackButton, #navComparisonButton, #navGoLiveButton{
 	display: inline-block;
 }
 
 .navButton {
 	background:white;	
-	padding: 5px 5px 20px 5px;
+	padding: 4px 6px 6px 6px;
 	cursor: pointer;
 }
 
@@ -307,7 +328,7 @@ hr {
 
 /* White box inside #navigation div */
 #navTimeline {
-  width: 530px;
+  width: 444px; /*changed from 530 */
   height: 16px;
   z-index:12;
 }
@@ -333,7 +354,7 @@ hr {
   top: 0px;
 }
 #navBar {
-  width: 520px;	
+  width: 444px;	
 	height: 32px;
 	background-color: white;
 	z-index:12;
@@ -618,7 +639,9 @@ hr {
 	left: 286px;
 	font-size: 96px;
 	line-height: 90px;
-	color:rgb(78,78,74);
+	color:rgb(255, 239,54);
+	/*color:rgb(207,255,36);*/
+	/*color:rgb(35,255,49);*/
 	/*line-height: 98px;
 	left: 244px;
 	left: 312px;
@@ -660,13 +683,21 @@ hr {
 
 
 .landingButtonHolder:hover, .landingRule:hover{
+
   color:rgb(255,85,57); 
 }
+
 
 .landingButtonHolder.inactive, .landingRule.inactive{
   opacity: .5 !important;
   cursor: default !important;
   color:rgb(78,79,74) !important;
+}
+
+
+.landingButtonHolder.active, .landingRule.active{
+	cursor: default !important;
+	color:rgb(255,85,57) !important; 
 }
 
 
@@ -678,9 +709,6 @@ hr {
 	font-size: 36px;
 	line-height: 36px;
 	margin: 12px 0px 0px 0px;
-	
-
-
 }
 
 .landingDate {
@@ -750,37 +778,33 @@ hr {
 }
 
 
-.landingMakingof {
+.landingMakingof 
+{
+	visibility: hidden;
 	position: static;
 	padding: 0 0 0 0;
 	left: 0px;
 	font-size: 25px;
 	line-height: 25px;
 	margin: 12px 0px 0px 0px;
-	color:rgb(255,239,54) !important;
-	
-
+	/*color:rgb(255,239,54) !important;*/
+	/*color:rgb(255,85,57);*/
 }
+
 
 .landingMakingof:hover{
-	
 	color:rgb(255,255,255) !important;
-	
 }
 
-
-
-
 .landingMakingofSubTitle {
+	visibility: hidden;
 	position: static;
 	padding: 0 0 0 0;
 	left: 0px;
 	font-size: 20px;
 	line-height: 0px;
 	margin: 12px 0px 0px 0px;
-	color:rgb(255,239,54) !important;
-	
-	
+	/*color:rgb(255,239,54) !important;*/
 
 	/*
 	yellow color:rgb(255,239,54) !important;
@@ -788,9 +812,7 @@ hr {
 	color:rgb(255,85,57);
 	color:rgb(138,78,216 ) !important;
 	color:rgb(120,120,120) !important;
-	
 	*/
-	 
 }
 
 
@@ -822,11 +844,11 @@ landingTitleImage {
 	top: 588px;
 	height: 48px;
 	/*lime background-color: rgb(35,255,49);*/
-	 /* blue background-color: rgb(64,180,230);
-background-color: rgb(255,239,54);
+	background-color: rgb(64,180,230);
+/*background-color: rgb(255,239,54);
 red background-color: rgb(255,85,57);
 */
- background-color: rgb(255,239,54);
+ /*background-color: rgb(255,239,54);*/
 
 
 	

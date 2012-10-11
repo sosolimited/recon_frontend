@@ -110,9 +110,9 @@ function(app, Ref) {
 	    else this.collapse(true);
 	    
 	    // Tell skrollr about new elements
-    	this.$el.find('.container').each(function(i){ 
-    		app.skrollr.refresh(this);
-    	});
+    	//this.$el.find('.container').each(function(i){ 
+    	//	app.skrollr.refresh(this);
+    	//});
     	this.$el.find('.traitSymbolLeft').each(function(i){ 
     		app.skrollr.refresh(this);
     	});

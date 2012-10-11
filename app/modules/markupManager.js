@@ -94,13 +94,12 @@ function(app, Overlay, Ref) {
 				  this.addSentimentOverlay(args);
 			  }
 		  }
-		  
+		  		  
 		  //always showing the traitlead
 		  if(args['type']=="traitLead"){
 		   //console.log("received traitLead");
 			 this.addTraitOverlay(args);
 		  }
-		  
 	  },
 	  
 	  isAnyOverlayExpanded: function() {

@@ -265,7 +265,6 @@ hr {
 	-o-transform:rotate(-90deg); /* Opera */
 	
 	-webkit-transition: -webkit-transform 1s;	
-	
 
 	bottom: 200px;
 	font-size:20px;
@@ -274,6 +273,13 @@ hr {
 	
 }
 
+/*
+#navModeButtons {
+	position:absolute;
+	left:700px;
+	top: -100px;
+}
+*/
 
 #navTranscriptButton {
 	display: none;

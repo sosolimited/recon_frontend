@@ -41,7 +41,7 @@ function(app, Overlay, Ref) {
   											"certain": new Overlay.Views.CatView({ category: 'certain', title:['SWAGGER', 'BABY'] }),
   											"tentat": new Overlay.Views.CatView({ category: 'tentat', title: ['WISHY', 'WASHY']}),
   											"number": new Overlay.Views.CatView({ category: 'number', title: ['MEANINGLESS', 'NUMBERS']}),
-  											"quote": new Overlay.Views.CatView({ category: 'quote', title: ['HE_SAID', 'SHE_SAID']}) }
+  											"quote": new Overlay.Views.CatView({ category: 'quote', title: ['HE&nbspSAID', 'SHE&nbspSAID']}) }
 
   		}	
   	},

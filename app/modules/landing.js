@@ -82,11 +82,9 @@ function(app, Ref) {
       //$("#transcript").html(app.markup);
       //app.restore = true;
 
-      console.log(e.target.className+" "+e.target);
       if(e.target.id === "landingButton0" || e.target.parentNode.id == "landingButton0"){
         app.playback = true;
 	      if (app.active[0]) this.enterDebate(0);
-	      console.log("lll"+app.active[0]);
         app.trigger("navigation:goLive", 600);
       }else if(e.target.id === "landingButton1" || e.target.parentNode.id == "landingButton1"){
         app.trigger("navigation:goLive", 600);

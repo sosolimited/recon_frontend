@@ -259,7 +259,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           percs[i] = perc;
 
           window.setTimeout(function() {
-            var hr = document.querySelector(".landingRule"+num+".gray60");
+            var hr = document.querySelector("#landingRule"+num);
             var total = percs[0] + percs[1];
 
             if (hr) {
@@ -295,7 +295,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 		        var contents = "[" +
 		          e.target.responseText.split("\n").slice(0, -1).join(",") +
 		        "]";
-		        app.messages[String(i)] = new Message.Collection(JSON.parse(contents));
+		        app.messages[i] = new Message.Collection(JSON.parse(contents));
 		        updateBar(50, 0, i);
 			      app.trigger("debate:activate", i);
 		      } else {

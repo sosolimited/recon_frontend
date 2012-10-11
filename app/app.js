@@ -29,6 +29,7 @@ function($, _, Backbone, eio) {
     
     // Init skrollr lib
     skrollr: skrollr.init({    	
+      forceHeight: false,
 	    beforerender: function(data) {
 				//console.log('beforerender');
 			},
@@ -43,11 +44,17 @@ function($, _, Backbone, eio) {
 			}
 		}),
 		    
-    // Default to the application thinking it's live.
-    live: true,
+    // Default to the application thinking it's not live.
+    live: false,
+    
+    liveDebate: -1,
 
     // Collection of all debate messages.
     messages: {},
+    
+    active: new Array(3),
+    
+	  lastDebateViewed: -1, // -1 if nothing has been watched yet
 
     // Buffer incoming messages when replay is happening.
     bufferedMessages: []

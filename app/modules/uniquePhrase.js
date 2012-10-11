@@ -21,7 +21,6 @@ function(app) {
   	
   	initialize: function(msg, phrase, count) {
   		var str = this.getTheFuckingString(msg.dbid);
-  		if (phrase == "I want to") console.log("DBID ="+str+" "+phrase+" "+count+" "+JSON.stringify(msg));
   		if (msg && str) this.set({dbid:str, phrase:phrase, cats:msg['cats'], count:count});
     },
     
@@ -51,10 +50,19 @@ function(app) {
   		this.topPhrases = [];
   		for(var i=0; i<this.numTop+1; i++)
   			this.topPhrases.push({phrase:"", count:0});		
+  		
+  		app.on("debate:reset", this.empty, this);
   	},
   	
     cleanup: function() {
 	    app.off(null, null, this);
+    },
+    
+    empty: function() {
+	    this.reset();
+	    this.topPhrases = [];
+  		for(var i=0; i<this.numTop+1; i++)
+  			this.topPhrases.push({phrase:"", count:0});	
     },
     
     getTheFuckingString: function(oid) {
@@ -173,7 +181,7 @@ function(app) {
 			app.on("message:word", this.addPhrase, this);
 			if (length != 1) app.on("message:newNGram", this.addPhrase, this);	
 		},
-		
+
 		addPhrase: function(args) {
 			// Add word to appropriate speaker collection.
 			if(args['msg']['speaker']==0) this.get("moderator").addPhrase(args);

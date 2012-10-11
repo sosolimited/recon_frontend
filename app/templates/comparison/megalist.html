@@ -1,0 +1,51 @@
+<div class="compareContainer megalist ">
+
+		
+	<p class="franklinMedCompIt comparisonTitle <%=comparison.get("color1").toLowerCase()%> comparisonExpText" > <%= comparison.get("title") %> </p>
+	<hr class="bg<%=comparison.get("color1")%>"" style="height:3px"/>
+	<p class="franklinBookComp comparisonSubtitle <%=comparison.get("color1").toLowerCase()%> "><%= comparison.get("subtitle") %></p>
+		
+	<!-- Obama top 20 -->					
+	<div class="push-0" style="position:absolute;">
+	<p class="listCandidate grayBlue franklinDemiCompIt "> <br>Obama <br></p>
+	<hr class="bgGrayBlue span-2" style="height:3px"/>  	
+
+	<!-- WORDS -->
+	<% for (var i = 0 ; i < 10 ; i++) { if (typeof(comparison.get("obamaWordList")[i]) == "string") { %>
+		<span class="listWord gray80 franklinDemiComp"><%=comparison.get("obamaWordList")[i]%> </span><span class="listValue <%=comparison.get("color1").toLowerCase()%> franklinBookComp"><sup><%=comparison.get("obamaWordValues")[i] %> </sup><br></span>
+	<% } }%>	
+	<!-- 2 GRAMS -->
+	<% for (var i = 0 ; i < 5 ; i++) { if (typeof(comparison.get("obama2GramList")[i]) == "string") { %>
+		<span class="listWord gray80 franklinDemiComp" ><%=comparison.get("obama2GramList")[i]%> </span><span class="listValue <%=comparison.get("color1").toLowerCase()%> franklinBookComp"><sup><%=comparison.get("obama2GramValues")[i] %> </sup><br></span>
+	<% } }%>	
+	<!-- 3 GRAMS -->
+	<% for (var i = 0 ; i < 5 ; i++) { if (typeof(comparison.get("obama3GramList")[i]) == "string") { %>
+		<span class="listWord gray80 franklinDemiComp" ><%=comparison.get("obama3GramList")[i]%> </span><span class="listValue <%=comparison.get("color1").toLowerCase()%> franklinBookComp"><sup><%=comparison.get("obama3GramValues")[i] %> </sup><br></span>
+	<% } }%>	
+	
+	</div>
+	
+	<!-- Romney top 20 -->					
+	<div class="push-3" style="position:absolute;">
+	<span class="listCandidate grayBlue franklinDemiCompIt"> <br>Romney<br> </span> 
+	<hr class="bgGrayBlue span-2" style="height:3px"/> 
+
+	<!-- WORDS -->
+	<% for (var i = 0 ; i < 10 ; i++) { if (typeof(comparison.get("romneyWordList")[i]) == "string") { %>
+		<span class="listWord gray80 franklinDemiComp" ><%=comparison.get("romneyWordList")[i]%> </span><span class="listValue <%=comparison.get("color1").toLowerCase()%> franklinBookComp"> <sup><%=comparison.get("romneyWordValues")[i] %> </sup><br></span>
+	<% } } %>			
+	
+	<!-- 2 GRAMS -->	
+	<% for (var i = 0 ; i < 5 ; i++) { if (typeof(comparison.get("romney2GramList")[i]) == "string") { %>
+		<span class="listWord gray80 franklinDemiComp" ><%=comparison.get("romney2GramList")[i]%> </span><span class="listValue <%=comparison.get("color1").toLowerCase()%> franklinBookComp"><sup><%=comparison.get("romney2GramValues")[i] %> </sup><br></span>
+	<% } }%>		
+		
+	<!-- 3 GRAMS -->	
+	<% for (var i = 0 ; i < 5 ; i++) { if (typeof(comparison.get("romney3GramList")[i]) == "string") { %>
+		<span class="listWord gray80 franklinDemiComp" data-<%= (scrollY-scrollDet-scrollD) %>="margin-left:<%=-(400+i*50)%>px;" data-<%= (scrollY-scrollDet) %>="margin-left:0px;" data-<%= (scrollY+scrollDet) %>="margin-left:0px;" data-<%= (scrollY+scrollDet+scrollD) %>="margin-left:<%=-(400+i*50)%>px;"><%=comparison.get("romney3GramList")[i]%> </span><span class="listValue <%=comparison.get("color1").toLowerCase()%> franklinBookComp"><sup><%=comparison.get("romney3GramValues")[i] %> </sup><br></span>
+	<% } }%>				
+		
+	</div>
+					
+
+</div>

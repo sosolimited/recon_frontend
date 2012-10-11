@@ -278,7 +278,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	
 	      // Opens.
 	      messages.open("GET", "/messages/"+i, true);
-	      markup.open("GET", "/markup/whateva", true);
+	      markup.open("GET", "/markup", true);
 	
 	      // Prog rock.
 	      messages.onprogress = function(e) {

@@ -103,6 +103,11 @@ function(app, Ref) {
 		    	app.trigger("debate:reset");
 		    }
 	    }
+
+      if (app.live) {
+        $("#transcript").html(app.markup);
+      }
+      
       this.exit(num);
 		  app.lastDebateViewed = num;
     },

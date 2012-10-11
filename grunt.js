@@ -138,8 +138,8 @@ module.exports = function(grunt) {
         var express = require("express");
         var app = express();
 
-        app.get("/markup/:debate", function(req, res) {
-          var path = "./test.html";
+        app.get("/markup", function(req, res) {
+          var path = "./live.html";
           var contents = fs.readFileSync(path).toString();
           
           res.header["Content-Length"] = contents.length;
@@ -173,6 +173,8 @@ module.exports = function(grunt) {
         // Ensure the favicon is mapped correctly.
         files: { "favicon.ico": "favicon.ico" },
 
+        server: "<config:server.server>",
+
         // Map `server:debug` to `debug` folders.
         folders: {
           "app": "dist/debug",
@@ -187,6 +189,8 @@ module.exports = function(grunt) {
 
         // Ensure the favicon is mapped correctly.
         files: { "favicon.ico": "favicon.ico" },
+
+        server: "<config:server.server>",
 
         // Map `server:release` to `release` folders.
         folders: {

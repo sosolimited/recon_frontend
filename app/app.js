@@ -44,8 +44,10 @@ function($, _, Backbone, eio) {
 			}
 		}),
 		    
-    // Default to the application thinking it's live.
-    live: true,
+    // Default to the application thinking it's not live.
+    live: false,
+    
+    liveDebate: -1,
 
     // Collection of all debate messages.
     messages: {},

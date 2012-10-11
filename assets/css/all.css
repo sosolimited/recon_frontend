@@ -481,12 +481,14 @@ hr {
 .pink{ color:rgb(231,0,149); }
 .bgPink{ background-color:rgb(231,0,149); }
 
-.sky{ color:rgb(64,180,229); }
-.bgSky{ background-color:rgb(64,180,229); }
+.sky{ color:rgb(64,180,230); }
+.bgSky{ background-color:rgb(64,180,230); }
 
-.lime{ color:rgb(207,255,36); }
-.bgLime{ background-color:rgb(207,255,36); }
+.lime{ color:rgb(35,255,49); }
+.bgLime{ background-color:rgb(35,255,49); }
 
+.yellow{ color:rgb(255, 239,54); }
+.bgYellow{ background-color:rgb(255, 239,54); }
 
 .magenta{ color:rgb(227, 31, 130); } 
 .bgMagenta{ background-color:rgb(227, 31, 130); }

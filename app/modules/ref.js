@@ -47,8 +47,8 @@ function(app) {
   Ref.purple = [101, 45, 106];
   Ref.redOrange = [255, 66, 55];
   Ref.angry = [255,67,55];
-	Ref.casual = [254,131,35];
-	Ref.formal = [0,95,113];
+	Ref.casual = [244, 146,17];
+	Ref.formal = [44,124,141];
 	Ref.cheery = [232,12,122];
 	Ref.depressed = [122,52,64];  
   

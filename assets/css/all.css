@@ -660,24 +660,14 @@ hr {
 
 
 .landingButtonHolder:hover, .landingRule:hover{
-  cursor: default !important;
-  /*color:rgb(44,124,141);
-  yellow color:rgb(255,239,54);
-  light blue color:rgb(64,180,230);*/
-  
   color:rgb(255,85,57); 
 }
 
 .landingButtonHolder.inactive, .landingRule.inactive{
   opacity: .5 !important;
   cursor: default !important;
+  color:rgb(78,79,74) !important;
 }
-
-.landingButtonHolder.active, .landingRule.active{
-	cursor: default !important;
-	color:rgb(255,85,57) !important; 
-}
-
 
 
 

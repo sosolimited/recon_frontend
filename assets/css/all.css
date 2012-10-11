@@ -620,7 +620,8 @@ hr {
 	left: 286px;
 	font-size: 96px;
 	line-height: 90px;
-	color:rgb(78,78,74);
+	/*color:rgb(78,78,74);*/
+	color:rgb(255,239,54);
 	/*line-height: 98px;
 	left: 244px;
 	left: 312px;
@@ -660,8 +661,8 @@ hr {
  /* color:rgb(255,239,54);*/
 }
 
-
-.landingButtonHolder:hover, .landingRule:hover{
+/*
+.landingButtonHolder.active:hover, .landingRule:hover{
   cursor: default !important;
   /*color:rgb(44,124,141);
   yellow color:rgb(255,239,54);
@@ -669,6 +670,7 @@ hr {
   
   color:rgb(255,85,57); 
 }
+*/
 
 .landingButtonHolder.inactive, .landingRule.inactive{
   opacity: .5 !important;
@@ -681,8 +683,6 @@ hr {
 }
 
 
-
-
 .landingButton {
 	position: static;
 	padding: 0 0 0 0;
@@ -690,9 +690,6 @@ hr {
 	font-size: 36px;
 	line-height: 36px;
 	margin: 12px 0px 0px 0px;
-	
-
-
 }
 
 .landingDate {
@@ -762,37 +759,33 @@ hr {
 }
 
 
-.landingMakingof {
+.landingMakingof 
+{
+	visibility: hidden;
 	position: static;
 	padding: 0 0 0 0;
 	left: 0px;
 	font-size: 25px;
 	line-height: 25px;
 	margin: 12px 0px 0px 0px;
-	color:rgb(255,239,54) !important;
-	
-
+	/*color:rgb(255,239,54) !important;*/
+	/*color:rgb(255,85,57);*/
 }
+
 
 .landingMakingof:hover{
-	
 	color:rgb(255,255,255) !important;
-	
 }
 
-
-
-
 .landingMakingofSubTitle {
+	visibility: hidden;
 	position: static;
 	padding: 0 0 0 0;
 	left: 0px;
 	font-size: 20px;
 	line-height: 0px;
 	margin: 12px 0px 0px 0px;
-	color:rgb(255,239,54) !important;
-	
-	
+	/*color:rgb(255,239,54) !important;*/
 
 	/*
 	yellow color:rgb(255,239,54) !important;
@@ -800,9 +793,7 @@ hr {
 	color:rgb(255,85,57);
 	color:rgb(138,78,216 ) !important;
 	color:rgb(120,120,120) !important;
-	
 	*/
-	 
 }
 
 
@@ -834,11 +825,11 @@ landingTitleImage {
 	top: 588px;
 	height: 48px;
 	/*lime background-color: rgb(35,255,49);*/
-	 /* blue background-color: rgb(64,180,230);
-background-color: rgb(255,239,54);
+	background-color: rgb(64,180,230);
+/*background-color: rgb(255,239,54);
 red background-color: rgb(255,85,57);
 */
- background-color: rgb(255,239,54);
+ /*background-color: rgb(255,239,54);*/
 
 
 	

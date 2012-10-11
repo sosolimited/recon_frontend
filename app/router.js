@@ -294,7 +294,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 		        var contents = "[" +
 		          e.target.responseText.split("\n").slice(0, -1).join(",") +
 		        "]";
-		        app.messages[String(i)] = new Message.Collection(JSON.parse(contents));
+		        app.messages[i] = new Message.Collection(JSON.parse(contents));
 		        updateBar(50, 0, i);
 			      app.trigger("debate:activate", i);
 		      } else {

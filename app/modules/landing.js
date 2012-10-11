@@ -49,7 +49,7 @@ function(app, Ref) {
 			    }, this);
 			  } else {
 		    	[0,1,2].forEach(function(i) {
-			    	if (app.messages[String(i)]) this.activateDebate(i);
+			    	if (app.messages[i]) this.activateDebate(i);
 			    	else this.deactivateDebate(i);
 			    }, this);
 			  }
@@ -97,9 +97,9 @@ function(app, Ref) {
       if (!app.live) {
 	    //if (app.router.qs.playback) {
 	    	if (num == app.lastDebateViewed) {
-		    	app.messages[String(num)].playbackMessages(false);
+		    	app.messages[num].playbackMessages(false);
 		    } else {
-		    	app.messages[String(num)].playbackMessages(true);
+		    	app.messages[num].playbackMessages(true);
 		    	app.trigger("debate:reset");
 		    }
 	    }

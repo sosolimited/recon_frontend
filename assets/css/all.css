@@ -8,6 +8,8 @@ body {
   overflow-y: scroll;	
   overflow-x: hidden;	/* not working! */
   cursor: default;
+  
+  -webkit-font-smoothing: antialiased;
   margin: 0;
 }
 
@@ -75,14 +77,6 @@ body {
 #bigWordsHolder {
 	/* display: block; */
 	/* left: -600px; */	/* account for perspective */
-	font-size: 400px;
-	line-height: 336px;
-	font-family:"ff-meta-serif-web-pro"; 
-	font-weight:700; 
-	font-style:italic; 
-
-		
-	/*color: rgb(116,120,120);*/
 	
 	/*
 	background-color: yellow;
@@ -95,17 +89,18 @@ body {
 
 .bigWord {
 	display: block;
-	font-size: 400px;
-	line-height: 336px;
-	/*font-family:"ff-meta-serif-web-pro"; */
-	/*font-weight:700; */
-	/*font-style:italic; */
 	
 	/*font-family:"franklin-gothic-urw-comp-i7", "franklin-gothic-urw-comp"; font-weight:700; font-style:italic;*/
-	font-family:"franklin-gothic-urw-i7", "franklin-gothic-urw"; font-weight:700; font-style:italic;
+		
+	font-family:"franklin-gothic-urw-comp-i7", "franklin-gothic-urw-comp"; font-weight:700; font-style:italic; 
+	font-size: 400px;
+	height:auto;
+	line-height: 336px;
+	
+	-webkit-font-smoothing: antialiased;
 
 	/* color: rgb(146,152,152); */
-	color: rgb(185, 185, 185);
+	color: rgb(190,190,190);
 
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -274,7 +269,7 @@ hr {
 
 	bottom: 200px;
 	font-size:20px;
-	text-transform:uppercase; 
+	/* text-transform:uppercase; */
 	float:right;
 	
 }
@@ -295,7 +290,7 @@ hr {
 }
 
 .navButton:hover {
-	background:rgb(76,76,76);
+	background:rgb(255, 66, 55);
 	color:white;
 }
 
@@ -329,7 +324,7 @@ hr {
   top: 0px;
 }
 #navBar {
-  width: 530px;
+  width: 520px;	
 	height: 32px;
 	background-color: white;
 	z-index:12;
@@ -366,19 +361,17 @@ hr {
 
 #navInstructions {
 	font-size: 50px;
-	
-	
+		
 	width: 100%;
 	height: 100%;
 	position: fixed;
-	
-	
+		
 	-webkit-transition: -webkit-transform 1s;	
 	z-index: 3500;
 }
 
 #backgroundInstructions{
-	opacity: .6;
+	opacity: .8;
 	background-color: rgb(76,76,76); /*rgb(207,255,36); rgb(255,213,0)*/
 	width: 100%;
 	height: 100%;
@@ -390,9 +383,10 @@ hr {
 	font-size:96px !important;
 	line-height: 120px;
 	text-transform: uppercase;
-	left: 50px;
-	position:fixed;
-	margin-top: 100px;
+	/* left: 200px; */
+	position: absolute;
+	margin-top: 140px;
+	
 	color:white;
 	z-index: 4500;
 }
@@ -400,14 +394,14 @@ hr {
 
 #transcriptHeading{
 	
-	left:64px;
+	/* left:64px; */
 	width:500px;
 	font-family:"franklin-gothic-urw-comp-i7", "franklin-gothic-urw-comp"; font-weight:700; font-style:italic;
 	font-size: 96px;
 	line-height: 120px;
 	padding-bottom:50px;
 	
-	color:black;
+	color:rgb(80,80,80);
 	text-transform: uppercase;
 	z-index: 6500;
 	
@@ -438,7 +432,6 @@ hr {
 .franklinMedCompIt{ font-family:"franklin-gothic-urw-cond-i5", "franklin-gothic-urw-cond"; font-weight:600; font-style:italic; }
 
 
-
 /* Franklin EXTRA Compressed */
 
 .franklinExBookComp{ font-family:"franklin-gothic-ext-comp-urw-n4", "franklin-gothic-ext-comp-urw"; font-weight:400; font-style:normal; }
@@ -456,10 +449,10 @@ hr {
 .franklinBook{ font-family:"franklin-gothic-urw-n4", "franklin-gothic-urw"; font-weight:400; font-style:normal; }
 .franklinMed{ font-family:"franklin-gothic-urw-n5", "franklin-gothic-urw"; font-weight:500; font-style:normal; }
 .franklinMedIt{ font-family:"franklin-gothic-urw-i5", "franklin-gothic-urw"; font-weight:500; font-style:italic; }
+.franklinDemiIt{ font-family:"franklin-gothic-urw-i7", "franklin-gothic-urw"; font-weight:700; font-style:italic; }
 
 /* Not using
 .franklinDemi{ font-family:"franklin-gothic-urw-n7", "franklin-gothic-urw"; font-weight:700; font-style:normal; }
-.franklinDemiIt{ font-family:"franklin-gothic-urw-i7", "franklin-gothic-urw"; font-weight:700; font-style:italic; }
 .franklinHeavy{ font-family:"franklin-gothic-urw-n9", "franklin-gothic-urw"; font-weight:900; font-style:normal; }
 .franklinHeavyIt{ font-family:"franklin-gothic-urw-i9", "franklin-gothic-urw"; font-weight:900; font-style:italic; }
 */
@@ -481,12 +474,14 @@ hr {
 .pink{ color:rgb(231,0,149); }
 .bgPink{ background-color:rgb(231,0,149); }
 
-.sky{ color:rgb(64,180,229); }
-.bgSky{ background-color:rgb(64,180,229); }
+.sky{ color:rgb(64,180,230); }
+.bgSky{ background-color:rgb(64,180,230); }
 
-.lime{ color:rgb(207,255,36); }
-.bgLime{ background-color:rgb(207,255,36); }
+.lime{ color:rgb(35,255,49); }
+.bgLime{ background-color:rgb(35,255,49); }
 
+.yellow{ color:rgb(255, 239,54); }
+.bgYellow{ background-color:rgb(255, 239,54); }
 
 .magenta{ color:rgb(227, 31, 130); } 
 .bgMagenta{ background-color:rgb(227, 31, 130); }
@@ -501,8 +496,9 @@ hr {
 .bgSalmon{ background-color:rgb(255,157,108); }
 
 .seaGreen{ color:rgb(124,240,179); }
-.orangeRed{ color:rgb(255, 85, 46); }
-.bgOrangeRed{ background-color:rgb(255, 85, 46); }
+
+.orangeRed{ color:rgb(255, 85, 57); }
+.bgOrangeRed{ background-color:rgb(255, 85, 57); }
 
 .angry{color:rgb(255,67,55);}
 .bgAngry{background-color:rgb(255,67,55);}
@@ -520,6 +516,8 @@ hr {
 
 .negative{color:rgb(122,52,183);}
 .bgNegative{background-color:rgb(122,52,183);}
+
+
 
 /* Overlays */
 
@@ -549,8 +547,8 @@ hr {
 	/*font-family:"ff-meta-serif-web-pro"; 
 	font-weight:700; 
 	font-style:italic;*/ 
-	font-family:"franklin-gothic-urw-i7", "franklin-gothic-urw"; font-weight:700; font-style:italic;
-	color: rgb(185, 185, 185);
+	font-family:"franklin-gothic-urw-comp-i7", "franklin-gothic-urw-comp"; font-weight:700; font-style:italic; 
+	color: rgb(190,190,190);
 	z-index:-1;
 }
 
@@ -853,14 +851,27 @@ landingTitleImage {
 	z-index: 7000;
 }
 
+/* The categoryOverlay element is normally positioned off-screen so as not to
+ * interfere with the mouse. */
 .categoryOverlay {
 	position:absolute; 
 	overflow: hidden;
 	width: auto;
   height: 80px; 
+  left: -4000px;
   z-index: 7000;
-}
 
+  /* This transition ensures that the categoryOverlay element does not move out
+   * of view until after its child has finished animating. Therefore, the
+   * duration parameter should match the child's animation duration. */
+  -webkit-transition: left 0 linear 0.5s;
+}
+/* When the "play" class is added, the categoryElement immediately transitions
+ * into view. */
+.categoryOverlay.play {
+  left: 0;
+  -webkit-transition: left 0 linear 0;
+}
 .categoryOverlayText {
 	position: relative;
 	top: 90px;
@@ -872,6 +883,9 @@ landingTitleImage {
 	
 	-webkit-transition: top 0.5s;
 }
+.categoryOverlay.play .categoryOverlayText {
+  top: 0;
+}
 
 /*
 .overlay-bottom {
@@ -880,12 +894,12 @@ landingTitleImage {
 */
 
 .certainMarkup:hover{
-	background-color: rgb(255,175,108) !important;
+	background-color: rgb(138,78,216) !important;
 	/* color: rgb(255,175,108) !important; */
 	color: rgb(60,60,60) !important;
 }
 .certainMarkup.reverse{
-	background-color: rgb(255,175,108) !important;
+	background-color: rgb(138,78,216) !important;
 	color: rgb(255, 255, 255) !important;
 }
 .certainMarkup.grayed{
@@ -895,12 +909,12 @@ landingTitleImage {
 
 
 .tentatMarkup:hover{
-	background-color: rgb(193,186,134) !important;
+	background-color: rgb(255,175,108) !important;
 	/* color: rgb(193,186,134) !important; */
 	color: rgb(60,60,60) !important;
 }
 .tentatMarkup.reverse{
-	background-color: rgb(193,186,134) !important;
+	background-color: rgb(255,175,108) !important;
 	color: rgb(255, 255, 255) !important;
 }
 .tentatMarkup.grayed{
@@ -910,13 +924,13 @@ landingTitleImage {
 
 
 .posemoMarkup:hover {
-	background-color: rgb(124,240,179) !important;
+	background-color: rgb(255, 239,54) !important;
 	/* color: rgb(124,240,179) !important; */
 	color: rgb(60,60,60) !important;
 }
 .posemoMarkup.reverse{
-	background-color: rgb(124,240,179) !important;
-	color: rgb(255, 255, 255) !important;
+	background-color: rgb(255, 239,54) !important;
+	color: rgb(60,60,60) !important;
 }
 .posemoMarkup.grayed{
 	background-color: transparent !important;
@@ -925,12 +939,12 @@ landingTitleImage {
 
 
 .negemoMarkup:hover{
-	background-color: rgb(122,52,183) !important;
+	background-color: rgb(64,180,230) !important;
 	/* color: rgb(122,52,183) !important; */
-	color: rgb(180,180,180) !important;
+	color: rgb(60,60,60) !important;
 }
 .negemoMarkup.reverse{
-	background-color: rgb(122,52,183) !important;
+	background-color: rgb(64,180,230) !important;
 	color: rgb(255, 255, 255) !important;
 }
 .negemoMarkup.grayed{
@@ -940,7 +954,7 @@ landingTitleImage {
 
 .numberMarkup:hover{
 	background-color: rgb(80,80,80) !important;
-	color: rgb(180,180,180) !important;
+	color: rgb(255,255,255) !important;
 }
 .numberMarkup.reverse{
 	background-color: rgb(80,80,80) !important;
@@ -952,11 +966,11 @@ landingTitleImage {
 }
 
 .quoteMarkup:hover{
-	background-color: rgb(48,179,228) !important;
+	background-color: rgb(255,59,162) !important;
 	color: rgb(60,60,60) !important;
 }
 .quoteMarkup.reverse{
-	background-color: rgb(48,179,228) !important;
+	background-color: rgb(255,59,162) !important;
 	color: rgb(255,255,255) !important;
 }
 .quoteMarkup.grayed{
@@ -969,7 +983,7 @@ landingTitleImage {
 }
 
 .wordCountMarkup:hover {
-	background-color: 207,255,36 !important;
+	background-color: rgb(124,240,179) !important;
 	color: rgb(60,60,60) !important;
 }
 
@@ -1009,7 +1023,7 @@ landingTitleImage {
 	position:relative;
 	top:120px;	/* Start out of view */
 	font-size: 120px;
-	color: rgb(207,255,36);
+	color: rgb(124,240,179);
 	margin: 0px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
 	line-height:120px;
@@ -1032,7 +1046,7 @@ landingTitleImage {
 .wordCountLine {
 	position:absolute;
 	height: 0; 
-	border-bottom: 2px dotted rgb(207,255,36);
+	border-bottom: 2px dotted rgb(124,240,179);
 	background-color: transparent;
 	margin: 0 0 0 0;
 	padding: 0 0 0 0;
@@ -1064,7 +1078,7 @@ landingTitleImage {
   line-height: .75em;
 	margin: 0px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
-  color: rgb(48,179,228);
+  color: rgb(255,59,162);
 	-webkit-transition: left 1s, right 1s, top 1s, height 1s, width 1s, font-size 1s, line-height 1s;
 	/* -webkit-transform: translateZ(0px);	*/
   z-index: 2;
@@ -1076,7 +1090,7 @@ landingTitleImage {
 .quoteLeftQuote, .quoteRightQuote {
   position: absolute;
   font-size: 400px;
-  color: rgb(48,179,228);
+  color: rgb(255,59,162);
   -webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
   z-index: 0;
 }
@@ -1089,7 +1103,7 @@ landingTitleImage {
   line-height: 0.75em;
   opacity: 0;
   -webkit-transition: font-size 1s, opacity 1s;
-  z-index: 3;
+  z-index: 6;
 }
 
 .emoTextSmall {
@@ -1102,15 +1116,15 @@ landingTitleImage {
 }
 
 .posemo {
-  color: rgb(112,241,184);
+  color: rgb(255, 239,54);
 }
 .negemo {
-  color: rgb(127, 48, 177);
+  color: rgb(64,180,230);
 }
 
 .emoSign {
   position: absolute;
-  z-index: 2;
+  z-index: 4;
   -webkit-transform: scale(0.0001);
   -webkit-transition: font-size 1s, -webkit-transform 2s, opacity 1s;
   -webkit-transform-origin: 50% 50%;
@@ -1122,11 +1136,11 @@ landingTitleImage {
   width: 400px;
   height: 100px;
   top: 150px;
-  background-color: rgb(127,48,177);
+  background-color: rgb(64,180,230);
 }
 .plusSignA, .plusSignB {
   position: absolute;
-  background-color: rgb(112,241,184);
+  background-color: rgb(255, 239,54);
 }
 .plusSignA {
   left: 150px;
@@ -1150,8 +1164,8 @@ landingTitleImage {
 #transcript .freqWordCount {
   position: relative;
   top: 1em;
-  /* color: rgb(207,255,36); */
-  color: white;
+  color: rgb(35,255,49); 
+  /* color: white; */
 }
 #transcript .freqWordUnderline {
   position: absolute;

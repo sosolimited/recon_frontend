@@ -11,6 +11,7 @@ function(app) {
   var chapters = [];
 
   var showTime = true;
+  var instructionTimeout;
   
 
   // Create a new module.
@@ -68,15 +69,25 @@ function(app) {
     },
 
     handleClick : function(e) {
-      if(e.target.id.substring(0,2) == 'CH')
-        playbackChapter(e);
-
-      else if(e.target.id == 'goLive') {
-        app.trigger("navigation:goLive");
-      }
-      else if(e.target.id == 'reconTitle'){
+      if(e.target.id.substring(0,2) == 'CH') {
+        //playbackChapter(e); //PEND out for now
+      } else if(e.target.id == 'goLive') {
+        app.trigger("navigation:goLive", 600);
+      } else if(e.target.id == 'reconTitle'){
+				if (app.mode == "comparison") this.exitComparison(e);
 	      this.landing.enter();
-      }
+      } else if (e.target.id == 'navTranscriptButton') {
+	      this.exitComparison(e);
+      } else if (e.target.id == 'navComparisonButton') {
+	      this.enterComparison(e, "count");
+      } else if (e.target.id == 'navPlaybackButton') {
+				var elem = $("#navPlaybackButton");
+	      var states = ["1x", "2x", "10x"];
+	      // Find the offset in the array.
+	      var offset = (states.indexOf($.trim(elem.text())) + 1) % states.length;
+	      elem.text(states[offset]);
+	      app.modifier = window.parseInt(states[offset], 10);
+      }    
     },
       
   	playbackChapter: function(e) {
@@ -141,7 +152,7 @@ function(app) {
         $("#navTime").text(nowString);
       }
       else {
-        $("#navTime").html("<span id='goLive' class='tapable'>Go Live!</span>");
+        $("#navTime").html("<span id='goLive' class='tapable'>GO LIVE!</span>");
       }
 
       var percent = this.timeDiffToPercent(newTime);
@@ -164,8 +175,9 @@ function(app) {
 	    $('#navLeft').css("webkitTransform", "translateX(5px) translateY(-5px) rotate(90deg)");
 	    $('#navRight').css("webkitTransform", "translateX(0px) translateY(-5px) rotate(-90deg)");
 	    if (first) {
+	    	console.log("first");
 	    	$('#navInstructions').css("webkitTransform", "translateX(0%)");
-		    setTimeout(function(){ $('#navInstructions').css("webkitTransform", "translateX(110%)"); }, 4000);
+		    instructionTimeout = setTimeout(function(){ $('#navInstructions').css("webkitTransform", "translateX(100%)"); }, 4000);
 		  } 
     },
     
@@ -173,7 +185,8 @@ function(app) {
 	    //$('#navigation').css("visibility", "hidden");	    
 	    $('#navLeft').css("webkitTransform", "translateX(-55px) translateY(-5px) rotate(90deg)");
 	    $('#navRight').css("webkitTransform", "translateX(60px) translateY(-5px) rotate(-90deg)");
-	    $('#navInstructions').css("webkitTransform", "translateX(100%)");
+	    $('#navInstructions').css("webkitTransform", "translateX(110%)");
+	    clearTimeout(instructionTimeout);
     },
     
     // Reset puts everything where it's supposed to be before entering.
@@ -182,11 +195,67 @@ function(app) {
 	    $('#navLeft').css("webkitTransform", "translateX(-55px) translateY(-5px) rotate(90deg)");
 	    $('#navRight').css("webkitTransform", "translateX(60px) translateY(-5px) rotate(-90deg)");
 	    $('#navInstructions').css("webkitTransform", "translateX(-120%)");
+	    clearTimeout(instructionTimeout);
     },
     
     // Pass pointer to landing view so that title click can call enter on landing.
     setLanding: function(arg) {
 	    this.landing = arg;
+    },
+    
+    enterComparison: function(event, tag) {
+	    event.stopPropagation();
+    	app.mode = "comparison";  
+    	
+      var dist = $("#transcript > .wrapper").offsetHeight;
+      $("#transcript > .wrapper").scrollTop = dist;
+      $("#transcript > .wrapper").addClass("fade");
+      $("#comparisons > .wrapper").addClass("active");
+      
+      // switch buttons
+      $('#navTranscriptButton').css('display', 'inline-block'); 
+      $('#navComparisonButton').css('display', 'none');
+
+      // EG Testing this for performance
+      $('#comparisons').css("visibility", "visible");	     	   // This is in case comparison.exit() was called.
+      $('#comparisons > .wrapper').css("display", "block");
+      $('#transcript').css("visibility", "hidden");       
+      
+      // Disable scrolling on the document body and save the current
+      // offset (to be restored when closing the comparison view)
+      $(document.body).addClass("no-scroll");	
+      $("#transcript > .wrapper").data("lastTop", $(document.body).scrollTop());	
+
+      var elt = $('#comparisons').find('.compareContainer.'+tag).parent();
+      $("#comparisons > .wrapper").stop().animate({ scrollTop: elt.position().top}, 1.0);
+      
+      // Switch skrollr scroll element to comparisons container.
+			//app.skrollr.setSkrollElement($('#comparisons > .wrapper').get(0));
+	    
+    },
+    
+    exitComparison: function(event) {
+      
+    	event.stopPropagation();
+    	app.mode = "transcript";
+      $("#transcript > .wrapper").removeClass("fade");
+      $("#comparisons > .wrapper").removeClass("active");
+        
+      // switch buttons
+      $('#navTranscriptButton').css('display', 'none'); 
+      $('#navComparisonButton').css('display', 'inline-block');
+      
+      // EG Testing this for performance
+      $('#comparisons > .wrapper').css("display", "none");
+      $('#transcript').css("visibility", "visible");
+      
+      // Re-enable scrolling on the document body and restore the
+      // previous offset
+      $(document.body).removeClass("no-scroll");	
+      $(document.body).scrollTop($("#transcript > .wrapper").data("lastTop"));	
+      
+      // Switch skrollr scroll element back to body.
+			//app.skrollr.resetSkrollElement();
     }
 
    

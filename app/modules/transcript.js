@@ -47,6 +47,7 @@ function(app, Overlay, Ref) {
       app.on("message:word", this.addWord, this);
       app.on("message:sentenceEnd", this.endSentence, this);
       app.on("navigation:goLive", this.reattachLiveScroll, this);
+      //app.on("debate:reset", this.clear, this);
 
       this.$window = $(window);
       this.$body = $(window.body);
@@ -77,6 +78,25 @@ function(app, Overlay, Ref) {
   	},
 
     events : {
+    	"click" : "handleClick"
+    },
+    
+    handleClick: function(e) {
+	   /* if(e.target.class == 'transcriptSpeaker')
+        playbackChapter(e);
+
+      else if(e.target.id == 'goLive') {
+        app.trigger("navigation:goLive", 600);
+      }
+      else if(e.target.id == 'reconTitle'){
+				if (app.mode == "comparison") this.exitComparison(e);
+	      this.landing.enter();
+      }
+
+          transcript.on("click", ".transcriptSpeaker", function() {navigationView.enterComparison(event, "count");});
+          transcript.on("click", ".sentimentClick", function() {navigationView.enterComparison(event, "POSITIVITY");});
+          transcript.on("click", ".traitClick", function() {navigationView.enterComparison(event, "AUTHENTIC");});
+          transcript.on("click", ".countClick", function() {navigationView.enterComparison(event, "list");});*/
     },
   	
     cleanup: function() {
@@ -171,16 +191,16 @@ function(app, Overlay, Ref) {
     		
         // Check for quotes.
         //console.log(word['word']  + ": " + word['cats']);
-    		if ($.inArray('say', word['cats']) != -1) { // TODO: Change this to 'say' cat once we're sure it's working everywhere 
-	        // Go back a word and pull it into this phrase.
+    		if ($.inArray('say', word['cats']) != -1) { 
+          // Go back a word and pull it into this phrase.
 	        var cS = $('#curSentence');
 	        var cSHTML = cS.html();
 	
 	        // Find two words back.
 	        var wordIndex = this.getIndexOfPreviousWord(cS, 1);
 	        
-	        var newSpan = $("<span class='quoteMarkup'>" + cSHTML.substring(wordIndex, cSHTML.length) + s+word['word'] + "</span>");
-	        cS.html(cSHTML.substring(0,wordIndex));
+	        var newSpan = $("<span class='catMarkup quoteMarkup'>" + cSHTML.substring(wordIndex, cSHTML.length) + s+word['word'] + "</span>");	        
+	        cS.html(cSHTML.substring(0,wordIndex) + " ");
 	        cS.append(newSpan);
 	
 	        var quotePhrase = newSpan.text();
@@ -189,10 +209,8 @@ function(app, Overlay, Ref) {
 	        
 		    	app.trigger("markup", {type:'quoteMarkup', phrase:quotePhrase, speaker:word['speaker'], anchor:newSpan.offset()});
 	    	}
-        
-		  	
         // Check for any special events returned by speaker.addWord() and add word to DOM with appropriate markup.
-		    if(wordProps.length > 0){
+		    else if(wordProps.length > 0){
 		    	// For now, just grab whatever the first one is and apply it.
 		    	// Note: Class name is just whatever the 'type' of the arg is, so endSentence() down below has to match these class names. 
 		    	$('#curSentence').append("<span class='"+wordProps[0]['type']+" transcriptWord'>"+s+word["word"]+"</span>");	
@@ -237,7 +255,7 @@ function(app, Overlay, Ref) {
       if (this.numberOpen){
       
       	//1. if end punct, emit number and don't add word
-      	if((word['punctuationFlag'] != 0) && (word["word"] != '$')) {
+      	if((word['punctuationFlag'] != 0) && (word["word"] != '$') && word['word'] != '%') {
       		//console.log("closing with punctFlag");
       		this.emitNumberEvent();
       	}
@@ -350,44 +368,51 @@ function(app, Overlay, Ref) {
       var mainEl = this.$el;
       
       //Go through all spans so you can create markup heirarchy (ie specify which markups take precedence)  
+      var thisView = this;
       $('#curSentence').find('span').each(function() {
       	 if($(this).hasClass("posemoMarkup")){
-	      	 $(this).css("background-color", "rgb(124,240,179)");
+	      	 $(this).css("background-color", "rgb(255, 239,54)");
+	      	 $(this).css("color", "rgb(255, 239,54)");
 	      	 //$(this).css("color", "rgb(255,255,255)");
       	 }
       	 else if($(this).hasClass("negemoMarkup")){
-	      	 $(this).css("background-color", "rgb(122,52,183)");
-	      	 $(this).css("color", "rgb(180,180,180)");
+	      	 $(this).css("background-color", "rgb(64,180,230)");
+	      	 $(this).css("color", "rgb(64,180,230)");
+	      	 //$(this).css("color", "rgb(180,180,180)");
       	 }
       	 else if($(this).hasClass("certainMarkup")){
-	      	 $(this).css("background-color", "rgb(255,175,108)");
+	      	 $(this).css("background-color", "rgb(138,78,216)");
+	      	 $(this).css("color", "rgb(138,78,216)");
 	      	 //$(this).css("color", "rgb(255,255,255)");
       	 }
       	 else if($(this).hasClass("tentatMarkup")){
-	      	 $(this).css("background-color", "rgb(193,186,134)");
+	      	 $(this).css("background-color", "rgb(255,175,108)");
+	      	 $(this).css("color", "rgb(255,175,108)");
 	      	 //$(this).css("color", "rgb(255,255,255)");
       	 }
 	     	 // Word count markup.
 	     	 else if($(this).hasClass("wordCountMarkup")){	
-	     	   $(this).css("color", "rgb(207,255,36)");
-	     	   $(this).css("text-decoration", "underline");	    	
+	     	   $(this).css("background-color", "rgb(124,240,179)");
+	     	   $(this).css("color", "rgb(124,240,179)");
+	     	   //$(this).css("text-decoration", "underline");	    	
 	     	 }
 	     	 // Number markup.
 	     	 else if($(this).hasClass("numberMarkup")){
 	     	 		//$(this).css("background-color", "rgb(64,180,229)");	    	    		
 	     	 		$(this).css("background-color", "rgb(80,80,80)");
-	     	 		$(this).css("color", "rgb(180,180,180)");	    	    			    	    		
+	     	 		$(this).css("color", "rgb(80,80,80)");
+	     	 		//$(this).css("color", "rgb(180,180,180)");	    	    			    	    		
 	     	 }
 	     	 // Quotation markup.
 	     	 else if($(this).hasClass("quoteMarkup")){
-	     	 		$(this).css("background-color", "rgb(48,179,228)");	    	    		
+	     	 		$(this).css("background-color", "rgb(255,59,162)");	    	    		
+	     	 		$(this).css("color", "rgb(255,59,162)");	    	    		
 	     	 }         
 	     	 // Frequent word markup.
 	     	 else if($(this).hasClass("frequentWordMarkup")){
-			     	//$(this).css("color", "rgb(100,100,100)");	
-		    		//$(this).css("border-bottom", "1px solid white");	//To do different color underline.
+			     	
+			     	$(this).css("color", "transparent");		    		
 		    		
-		    		//$(this).css("text-decoration-color", "rgb(255,255,255)");	
 		    		
 		        var count = $(this).attr("data-wordcount");
 		        if(count != undefined) {
@@ -404,9 +429,9 @@ function(app, Overlay, Ref) {
 		          
 		          
 		          ////EG Trying it without underline.
-              //var spaceWidth = 5;  // To avoid underlining the leading space. This is an ugly hack.
-              //var underlineDiv = $("<div class='freqWordUnderline' style='left: " + (pos.left+spaceWidth) + "px; top: " + (pos.top + lineHeight*0.8) + "px;  width: " + (wordWidth-spaceWidth) + "px;' />");
-              //$(this).parent().append(underlineDiv);
+              var spaceWidth = 5;  // To avoid underlining the leading space. This is an ugly hack.
+              var underlineDiv = $("<div class='freqWordUnderline' style='left: " + (pos.left+spaceWidth) + "px; top: " + (pos.top + lineHeight*0.8) + "px;  width: " + (wordWidth-spaceWidth) + "px;' />");
+              $(this).parent().append(underlineDiv);
               
 		        } 
 	     	 }
@@ -490,7 +515,7 @@ function(app, Overlay, Ref) {
       //             + spColor + "'>" + speakers[curSpeaker] + "</div><p class='metaBook gray60'></p></div><div class=clear></div>");                                                  
       this.$el.append(newP);
       // Add to skrollr manager.
-      app.skrollr.refresh(newP.get(0));
+      //app.skrollr.refresh(newP.get(0));
       
       // Cache position in data attributes
       newP.attr('data-top', newP.offset().top);
@@ -775,6 +800,17 @@ function(app, Overlay, Ref) {
     // Reset puts everything where it's supposed to be before entering.
     reset: function() {
 	    $('#transcript').css("visibility", "hidden");	    
+    },
+    
+    clear: function() {  		
+          
+      this.numberOpen = false;
+      this.numberPhrase = "";
+      
+    	curSpeaker = "";
+  		this.endSentence();
+  		this.endParagraph();
+	    $('#transcriptHeading').nextAll().remove();
     }
    
   });

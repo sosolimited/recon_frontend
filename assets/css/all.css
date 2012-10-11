@@ -2,12 +2,19 @@ body {
   /* background: -webkit-linear-gradient(left, #9699A0, #C9D1CF, #C9D1CF, #9699A0); */
   /*background-color: rgb(110,116,116);*/
   
-  background-color: rgb(140,146,146);	 
-  background-image: url('../../images/background-tex.jpg');
+  background-color: rgb(200,200,200); /*rgb(140,146,146);*/
+  background-image: url('../../images/background-tex.jpg'); 
   background-repeat: repeat; *;
   overflow-y: scroll;	
   overflow-x: hidden;	/* not working! */
   cursor: default;
+  margin: 0;
+}
+
+.layout.main {
+  position: relative;
+  overflow: hidden;
+  min-height: 100%;
 }
 
 .layer {
@@ -28,6 +35,7 @@ body {
   -webkit-transition: -webkit-transform .5s linear; 
   transition: all .5s linear;
   overflow:visible;
+  position: static;
   /* overflow-x: hidden; */
   /* background-color: yellow; */
  
@@ -45,13 +53,14 @@ body {
 
 #landing {
 	/* background-color:yellow; */
-	position: fixed;
+	position: relative;
+	height: 748px;
 }
 
 #bigWords {
 	position: absolute;
 	top: 0px;	
-
+  z-index: -2;
 /*
 	-webkit-perspective: 700px; 
 	-webkit-perspective-origin: 50% 1000px;	
@@ -85,9 +94,7 @@ body {
 }
 
 .bigWord {
-	position: absolute;
 	display: block;
-	left: 0px;	/* account for perspective */
 	font-size: 400px;
 	line-height: 336px;
 	/*font-family:"ff-meta-serif-web-pro"; */
@@ -97,8 +104,8 @@ body {
 	/*font-family:"franklin-gothic-urw-comp-i7", "franklin-gothic-urw-comp"; font-weight:700; font-style:italic;*/
 	font-family:"franklin-gothic-urw-i7", "franklin-gothic-urw"; font-weight:700; font-style:italic;
 
-	color: rgb(146,152,152);
-	/*color: rgb(150,156,156);*/
+	/* color: rgb(146,152,152); */
+	color: rgb(190,190,190);
 
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -127,22 +134,6 @@ body {
 
 /* Transcript bizniss */
 
-h1 { /* Speaker names */
-  text-decoration: underline;	
-  /* border-bottom-style: solid; */ 	/* alternative to control "underline" weight */
-  /* border-bottom-width: 2px */
-  line-height: 0px;
-  font-size: 36px;
-  cursor: pointer;
-}
-
-h1:hover { /* Speaker names */
-  line-height: 0px;
-  font-size: 36px;
-  background-color: rgb(20,20,20);
-  cursor: pointer;
-}
-
 .transcriptSpeaker {
 	text-decoration: none;	
   line-height: 24px;
@@ -162,12 +153,12 @@ p { /* Transcript text */
 }
 
 #curSentence {
-	/*
-	color: white;
-	background-color: rgb(50,50,50);
-	*/
 	color: rgb(60,60,60);
 	background-color: white;
+	/* 
+	display: inline-block;
+  height: 1.2em;
+  */
 }
 
 .transcriptSentence {
@@ -289,38 +280,26 @@ hr {
 }
 
 
-
 #navTranscriptButton {
-	display:inline-block;
+	display: none;
+}
+
+#navPlaybackButton, #navComparisonButton {
+	display: inline-block;
+}
+
+.navButton {
+	background:white;	
 	padding: 5px 5px 20px 5px;
-	
+	cursor: pointer;
+}
+
+.navButton:hover {
+	background:rgb(76,76,76);
+	color:white;
 }
 
 
-#navComparisonButton {
-	display:inline-block;
-	margin-top:-40px;
-	/*margin-left: 10px;*/
-	padding: 5px 5px 20px 5px;
-	/* padding: 5px; */
-
-	
-}
-
-#navComparisonButton .active{
-  -webkit-transition:  1s linear; 
-  transition:  1s linear; 
-  opacity: .5 !important;
-	
-	
-}
-
-
-#navTranscriptButton .active{
-  -webkit-transition:  1s linear; 
-  transition:  1s linear; 
-  opacity: .5 !important;
-}
 
 /* White box inside #navigation div */
 #navTimeline {
@@ -350,7 +329,7 @@ hr {
   top: 0px;
 }
 #navBar {
-  width: 530px;
+  width: 520px;	
 	height: 32px;
 	background-color: white;
 	z-index:12;
@@ -374,16 +353,7 @@ hr {
 	/*color: rgb(64, 180, 230)*/
 }
 
-.navButton {
-	color:black;
-	background:white;
-}
 
-.navButton:hover {
-	cursor:pointer;
-	background:black;
-	color:white;
-}
 
  
 .rot90 {
@@ -413,11 +383,7 @@ hr {
 	width: 100%;
 	height: 100%;
 	position: fixed;
-	padding: 50px;
-	margin:-10px 50px 50px -100px;
 	z-index: 3500;
-
-	
 }
 .navInstructionsText{
 	
@@ -535,8 +501,9 @@ hr {
 .bgSalmon{ background-color:rgb(255,157,108); }
 
 .seaGreen{ color:rgb(124,240,179); }
-.orangeRed{ color:rgb(255, 85, 46); }
-.bgOrangeRed{ background-color:rgb(255, 85, 46); }
+
+.orangeRed{ color:rgb(255, 85, 57); }
+.bgOrangeRed{ background-color:rgb(255, 85, 57); }
 
 .angry{color:rgb(255,67,55);}
 .bgAngry{background-color:rgb(255,67,55);}
@@ -554,6 +521,8 @@ hr {
 
 .negative{color:rgb(122,52,183);}
 .bgNegative{background-color:rgb(122,52,183);}
+
+
 
 /* Overlays */
 
@@ -584,7 +553,7 @@ hr {
 	font-weight:700; 
 	font-style:italic;*/ 
 	font-family:"franklin-gothic-urw-i7", "franklin-gothic-urw"; font-weight:700; font-style:italic;
-	color: rgb(146,152,152);
+	color: rgb(190,190,190);
 	z-index:-1;
 }
 
@@ -655,6 +624,13 @@ hr {
   z-index: 10;
 }
 
+
+.landingButtonHolder.inactive, .landingRule.inactive{
+  opacity: .5 !important;
+  cursor: default !important;
+}
+
+
 .landingButton {
 	position: static;
 	padding: 0 0 0 0;
@@ -685,6 +661,7 @@ hr {
 .landingRule {
 	position: static; 
 	width: 296px;
+	height: 4px;
 	margin: 0px 0px 0px 0px;
 	background-color: rgb(76,76,76)!important;	
 }
@@ -881,27 +858,37 @@ landingTitleImage {
 
 .categoryOverlay {
 	position:absolute; 
-	overflow: visible;
-  /*width: 906px;*/
-  font-size: 180px;
-  line-height: 160px;
-	margin: 0px 0px 0px 0px;
-	padding: 0px 20px 0px 10px;
-  color: rgb(255,255,255);
-	/*-webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
-	-webkit-transform: translateZ(0px);	*/
+	overflow: hidden;
+	width: auto;
+  height: 80px; 
   z-index: 7000;
-  text-transform: uppercase;
-  -webkit-transition: left 1s;
 }
 
+.categoryOverlayText {
+	position: relative;
+	top: 90px;
+	font-size: 90px; 
+  line-height: 80px; 
+  margin: 0px 0px 0px 0px;
+	padding: 0px 20px 0px 10px;
+  color: rgb(255,255,255);	
+	
+	-webkit-transition: top 0.5s;
+}
+
+/*
+.overlay-bottom {
+	top: 175px;
+}
+*/
+
 .certainMarkup:hover{
-	background-color: rgb(255,255,255) !important;
+	background-color: rgb(138,78,216) !important;
 	/* color: rgb(255,175,108) !important; */
 	color: rgb(60,60,60) !important;
 }
 .certainMarkup.reverse{
-	background-color: rgb(255,175,108) !important;
+	background-color: rgb(138,78,216) !important;
 	color: rgb(255, 255, 255) !important;
 }
 .certainMarkup.grayed{
@@ -911,12 +898,12 @@ landingTitleImage {
 
 
 .tentatMarkup:hover{
-	background-color: rgb(255,255,255) !important;
+	background-color: rgb(255,175,108) !important;
 	/* color: rgb(193,186,134) !important; */
 	color: rgb(60,60,60) !important;
 }
 .tentatMarkup.reverse{
-	background-color: rgb(193,186,134) !important;
+	background-color: rgb(255,175,108) !important;
 	color: rgb(255, 255, 255) !important;
 }
 .tentatMarkup.grayed{
@@ -926,13 +913,13 @@ landingTitleImage {
 
 
 .posemoMarkup:hover {
-	background-color: rgb(255,255,255) !important;
+	background-color: rgb(255, 239,54) !important;
 	/* color: rgb(124,240,179) !important; */
 	color: rgb(60,60,60) !important;
 }
 .posemoMarkup.reverse{
-	background-color: rgb(124,240,179) !important;
-	color: rgb(255, 255, 255) !important;
+	background-color: rgb(255, 239,54) !important;
+	color: rgb(60,60,60) !important;
 }
 .posemoMarkup.grayed{
 	background-color: transparent !important;
@@ -941,12 +928,12 @@ landingTitleImage {
 
 
 .negemoMarkup:hover{
-	background-color: rgb(255,255,255) !important;
+	background-color: rgb(64,180,230) !important;
 	/* color: rgb(122,52,183) !important; */
 	color: rgb(60,60,60) !important;
 }
 .negemoMarkup.reverse{
-	background-color: rgb(122,52,183) !important;
+	background-color: rgb(64,180,230) !important;
 	color: rgb(255, 255, 255) !important;
 }
 .negemoMarkup.grayed{
@@ -955,8 +942,8 @@ landingTitleImage {
 }
 
 .numberMarkup:hover{
-	background-color: rgb(255,255,255) !important;
-	color: rgb(60,60,60) !important;
+	background-color: rgb(80,80,80) !important;
+	color: rgb(255,255,255) !important;
 }
 .numberMarkup.reverse{
 	background-color: rgb(80,80,80) !important;
@@ -967,8 +954,32 @@ landingTitleImage {
 	color: rgb(60,60,60) !important;
 }
 
+.quoteMarkup:hover{
+	background-color: rgb(255,59,162) !important;
+	color: rgb(60,60,60) !important;
+}
+.quoteMarkup.reverse{
+	background-color: rgb(255,59,162) !important;
+	color: rgb(255,255,255) !important;
+}
+.quoteMarkup.grayed{
+	background-color: transparent !important;
+	color: rgb(60,60,60) !important;
+}
+
+.frequentWordMarkup:hover {
+	color: rgb(60,60,60) !important;
+}
+
+.wordCountMarkup:hover {
+	background-color: rgb(124,240,179) !important;
+	color: rgb(60,60,60) !important;
+}
+
 .catMarkup{
 	cursor: pointer;
+  display: inline-block;
+  height: 1.2em;
 }
 
 
@@ -980,10 +991,6 @@ landingTitleImage {
 	color: rgb(255,255,255) !important;
 }
 
-.overlay-bottom {
-	position:absolute;
-	top: 175px;
-}
 
 /* Word count overlays */
 
@@ -1005,7 +1012,7 @@ landingTitleImage {
 	position:relative;
 	top:120px;	/* Start out of view */
 	font-size: 120px;
-	color: rgb(207,255,36);
+	color: rgb(124,240,179);
 	margin: 0px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
 	line-height:120px;
@@ -1028,7 +1035,7 @@ landingTitleImage {
 .wordCountLine {
 	position:absolute;
 	height: 0; 
-	border-bottom: 2px dotted rgb(207,255,36);
+	border-bottom: 2px dotted rgb(124,240,179);
 	background-color: transparent;
 	margin: 0 0 0 0;
 	padding: 0 0 0 0;
@@ -1048,7 +1055,7 @@ landingTitleImage {
   color: rgb(255,255,255); 
 	-webkit-transition: left 1s, right 1s, top 1s, height 1s, width 1s, font-size 1s, line-height 1s, color 1s;
 	/* -webkit-transform: translateZ(0px);	*/
-  z-index: 2;
+  z-index: 3;
 
 }
 
@@ -1060,7 +1067,7 @@ landingTitleImage {
   line-height: .75em;
 	margin: 0px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
-  color: rgb(48,179,228);
+  color: rgb(255,59,162);
 	-webkit-transition: left 1s, right 1s, top 1s, height 1s, width 1s, font-size 1s, line-height 1s;
 	/* -webkit-transform: translateZ(0px);	*/
   z-index: 2;
@@ -1072,7 +1079,7 @@ landingTitleImage {
 .quoteLeftQuote, .quoteRightQuote {
   position: absolute;
   font-size: 400px;
-  color: rgb(48,179,228);
+  color: rgb(255,59,162);
   -webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
   z-index: 0;
 }
@@ -1080,12 +1087,12 @@ landingTitleImage {
 
 .emoTextBig {
   position: absolute;
-  color: rgb(140,146,146);	
+  color: rgb(200,200,200);	
   font-size: 0px;
   line-height: 0.75em;
   opacity: 0;
   -webkit-transition: font-size 1s, opacity 1s;
-  z-index: 3;
+  z-index: 6;
 }
 
 .emoTextSmall {
@@ -1098,15 +1105,15 @@ landingTitleImage {
 }
 
 .posemo {
-  color: rgb(112,241,184);
+  color: rgb(255, 239,54);
 }
 .negemo {
-  color: rgb(127, 48, 177);
+  color: rgb(64,180,230);
 }
 
 .emoSign {
   position: absolute;
-  z-index: 2;
+  z-index: 4;
   -webkit-transform: scale(0.0001);
   -webkit-transition: font-size 1s, -webkit-transform 2s, opacity 1s;
   -webkit-transform-origin: 50% 50%;
@@ -1118,11 +1125,11 @@ landingTitleImage {
   width: 400px;
   height: 100px;
   top: 150px;
-  background-color: rgb(127,48,177);
+  background-color: rgb(64,180,230);
 }
 .plusSignA, .plusSignB {
   position: absolute;
-  background-color: rgb(112,241,184);
+  background-color: rgb(255, 239,54);
 }
 .plusSignA {
   left: 150px;
@@ -1146,20 +1153,22 @@ landingTitleImage {
 #transcript .freqWordCount {
   position: relative;
   top: 1em;
-  color: rgb(207,255,36); 
-  /*color: white;*/
+  color: rgb(35,255,49); 
+  /* color: white; */
 }
 #transcript .freqWordUnderline {
   position: absolute;
-  height: 1px;
-  background-color: white;
-  z-index: -1;
+  height: 2px;
+  background-color: rgb(80,80,80);
+  z-index: 2;
 }
 .tapable {
   cursor: pointer;
 }
 
-
+#overlay {
+  position: relative;
+}
 
 .skTest {
 	position: absolute;

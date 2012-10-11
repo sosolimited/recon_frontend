@@ -8,11 +8,28 @@ require([
 
 function(app, Router) {
   function handleMessage(msg) {
-    // Trigger the message.
-    app.trigger("message:" + msg.type, { msg: msg, live: app.live }); 
+  	if (msg.type == "livestate") {
+  		// change between nonlive to live
+  		if (!app.live && msg.debate > -1) {
+	  		console.log("CHANGING APP LIVESTATE TO LIVE "+msg.debate);
+	  		app.live = true;
+	  		app.liveDebate = msg.debate;
+	  		app.trigger("app:setLive", msg.debate);
+  		} else if (app.live && msg.debate == -1) {
+  			console.log("CHANGING APP LIVESTATE TO NOT LIVE");
+  			app.live = false;
+  			app.liveDebate = -1;
+  		}
+  		
+
+  	} else {
+    	// Trigger the message.
+    	app.trigger("message:" + msg.type, { msg: msg }); 
+  	}
+  
 
     if (msg.type === "transcriptDone") {
-      app.live = false;
+      app.live = -1;
     }
   }
 
@@ -21,7 +38,12 @@ function(app, Router) {
     // Wait for messages and respond to them.
     app.socket.on("message", function(msg) {
       // Hey kid, rock and roll.
-      handleMessage(JSON.parse(msg));
+      if (app.playback) {
+        handleMessage(JSON.parse(msg));
+      // Slow ride, take it easy.
+      } else {
+        app.bufferedMessages.push(JSON.parse(msg));
+      }
     });
   });
 

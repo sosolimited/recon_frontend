@@ -1,5 +1,10 @@
 <div id="landingWrapper" class="container">
-	<span id="landingBigWords">government</br>education</br>opposition</br>election</span>
+  <span id="landingBigWords">
+    <span class="bigWord">government</span>
+    <span class="bigWord">education</span>
+    <span class="bigWord">opposition</span>
+    <span class="bigWord">election</span>
+  </span>
 <a> <img src="images/ReconLogo.png" class="push-0" style="position:absolute; top:48px;"/></a>
 	<!--<span id="landingTitle" class="franklinDemiCompIt push-0">ReConstitution2012</span> -->
 
@@ -17,14 +22,12 @@
 
 	<div id="landingButtonBox" class="push-4">
 		<% for (var i=0; i<3; i++){ %>
-			<div id="landingButton<%= i %>" class="landingButtonHolder">
+			<div id="landingButton<%= i %>" class="landingButtonHolder inactive">
 				<span class="landingButton franklinDemiCompIt gray60 span-2"><%= "WATCH DEBATE "+(i+1) %></span>
 				<span class="landingArrow gray60 franklinMedComp">></span>
 				<span class="landingDate franklinDemiCompIt gray60 span-2"><%= "October "+dates[i].getDate()+", "+dates[i].getFullYear()+" "+dates[i].getHours()%12+" PM EST" %></span>
 			</div>
-			<% if(i<2) { %>
-			 	<hr class="landingRule gray60"></hr> 
-			 <% } %>
+			 	<hr id="landingRule<%= i %>" class="landingRule gray60 inactive"></hr> 
 		<% } %>
 		
 

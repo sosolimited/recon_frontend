@@ -20,13 +20,17 @@ function(app) {
   	},
   	
   	initialize: function(msg, phrase, count) {
-  		this.set({id:msg['dbid'], phrase:phrase, cats:msg['cats']});
-  		this.increment(count);
+  		var str = this.getTheFuckingString(msg.dbid);
+  		if (msg && str) this.set({dbid:str, phrase:phrase, cats:msg['cats'], count:count});
     },
     
-    increment: function(count){
-    	var inc = count ? count : 1;
-    	this.set({count: this.get("count")+inc});
+    getTheFuckingString: function(oid) {
+	    var str = JSON.stringify(oid);
+  		if (str) return str.substring(10, str.length-2);
+    },
+    
+    increment: function(){
+    	this.set({count: this.get("count")+1});
     }
   });
 
@@ -46,50 +50,62 @@ function(app) {
   		this.topPhrases = [];
   		for(var i=0; i<this.numTop+1; i++)
   			this.topPhrases.push({phrase:"", count:0});		
+  		
+  		app.on("debate:reset", this.empty, this);
   	},
   	
     cleanup: function() {
 	    app.off(null, null, this);
     },
     
+    empty: function() {
+	    this.reset();
+	    this.topPhrases = [];
+  		for(var i=0; i<this.numTop+1; i++)
+  			this.topPhrases.push({phrase:"", count:0});	
+    },
+    
+    getTheFuckingString: function(oid) {
+	    var str = JSON.stringify(oid);
+  		if (str) return str.substring(10, str.length-2);
+    },
+    
     addPhrase: function(args) {
-  	
-			//console.log("add "+this.phraseLength+" "+this.numTop+" "+args['msg']['ngram'].join(" "));
 			
-    	if (args['live']) {
+    	//if (args['live']) { //PEND take out for not, but need to remember why this was here...
 	    	var msg = args['msg'];
 	    	// Only add word if it's NOT punctuation.
 	    	
 	    	if (msg['type'] == 'word') {
 		    	if(msg['punctuationFlag'] == 0){
-	    	
-		    	//console.log("UniqueWord.Collection.addWord("+word['word']+")");
 		    	
 			    	if (this.phraseLength == 1) {
-			    	
-				    	var w = this.get(msg["dbid"]); //PEND Change 0s.
+			    		var str = this.getTheFuckingString(msg.dbid);
+			    		//console.log(str);
+				    	var w = this.where({dbid:str})[0]; //PEND Change 0s.
 				    	if (w) w.increment();
-				    	else this.add(msg, msg["word"], 1, msg["cats"]);				    	
+				    	else this.add(new UniquePhrase.Model(msg, msg["word"], 1));				    	
 				    } else {
 					    for (var i=0; i<msg['ngrams'].length; i++) {
-						    var p = this.get(msg['ngrams'][i][0]);
-						    if (msg['ngrams'][i][1] == this.phraseLength && p) {
+			    			var str = this.getTheFuckingString(msg['ngrams'][i][0]);
+						    var p = this.where({dbid:str})[0];
+						    //if (msg['ngrams'][i][1] == this.phraseLength && p) {
+						    if (p) {
 							    p.increment();
-							    //console.log("incremented "+p.get("phrase")+" speaker "+msg['speaker']+" for collection "+this.phraseLength);
-						    }
+							    //console.log("inc "+p.get("phrase"));
+						    } 
 					    }
 					  }
 					}
 	    	} else if (msg['type'] == 'newNGram') {
-	    	
 	    		// add new ngram
-	    		if (msg['ngram'].length == this.phraseLength) {
-		    		this.add(msg, msg['ngram'].join(" "), parseInt(msg['instances'].length, 10));
-		    		//console.log("added "+msg['ngram'].join(" ")+" speaker "+msg['speaker']+" for collection "+this.phraseLength);
+	    		if (msg['ngram'].length == this.phraseLength) {		    		
+	    			this.add(new UniquePhrase.Model(msg, msg['ngram'].join(" "), 2));
+		    		//console.log("added '"+msg['ngram'].join(" ")+"' speaker "+msg['speaker']+" for collection "+this.phraseLength+" "+msg['instances'].length);
 		    	}
 	    	}
 	    	
-	    }
+	    //}
     },
     
     getCollectionSize: function() {
@@ -111,6 +127,7 @@ function(app) {
 				if (this.filterPhrase(this.at(index))){
 					this.topPhrases[i]['phrase'] = this.at(index).get("phrase");
 					this.topPhrases[i]['count'] = this.at(index).get("count");
+					//console.log("p "+this.topPhrases[i]['phrase']+" c "+this.topPhrases[i]['phrase']);
 					i++;
 				}
 				index++;	  	
@@ -164,7 +181,7 @@ function(app) {
 			app.on("message:word", this.addPhrase, this);
 			if (length != 1) app.on("message:newNGram", this.addPhrase, this);	
 		},
-		
+
 		addPhrase: function(args) {
 			// Add word to appropriate speaker collection.
 			if(args['msg']['speaker']==0) this.get("moderator").addPhrase(args);

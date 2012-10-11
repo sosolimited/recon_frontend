@@ -36,12 +36,12 @@ function(app, Overlay, Ref) {
   	defaults: function() {
   		return {
   			"overlays":[],
-  			"catOverlays": {"posemo": new Overlay.Views.CatView({ category: 'posemo', title: ['GIDDY','WORDS']}),
-  											"negemo": new Overlay.Views.CatView({ category: 'negemo', title: ['GRUMPY', 'WORDS '] }),
-  											"certain": new Overlay.Views.CatView({ category: 'certain', title:['SWAGGER', 'BABY'] }),
-  											"tentat": new Overlay.Views.CatView({ category: 'tentat', title: ['WISHY', 'WASHY']}),
-  											"number": new Overlay.Views.CatView({ category: 'number', title: ['MEANINGLESS', 'NUMBERS']}),
-  											"quote": new Overlay.Views.CatView({ category: 'quote', title: ['HE&nbspSAID', 'SHE&nbspSAID']}) }
+  			"catOverlays": {"posemo": new Overlay.Views.CatView({ category: 'posemo', title: ['BULLISH','ATTITUDE'] }),
+  											"negemo": new Overlay.Views.CatView({ category: 'negemo', title: ['GLOOMY', 'OUTLOOK'] }),
+  											"certain": new Overlay.Views.CatView({ category: 'certain', title:['UNWAVERING', 'STANCES'] }),
+  											"tentat": new Overlay.Views.CatView({ category: 'tentat', title: ['AMBIGUOUS', 'THOUGHTS'] }),
+  											"number": new Overlay.Views.CatView({ category: 'number', title: ['DUBIOUS', 'FIGURES'] }),
+  											"quote": new Overlay.Views.CatView({ category: 'quote', title: ['HE&nbspSAID', 'SHE&nbspSAID'] }) }
 
   		}	
   	},
@@ -94,13 +94,12 @@ function(app, Overlay, Ref) {
 				  this.addSentimentOverlay(args);
 			  }
 		  }
-		  
+		  		  
 		  //always showing the traitlead
 		  if(args['type']=="traitLead"){
 		   //console.log("received traitLead");
 			 this.addTraitOverlay(args);
 		  }
-		  
 	  },
 	  
 	  isAnyOverlayExpanded: function() {

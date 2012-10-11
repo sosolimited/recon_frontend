@@ -615,16 +615,16 @@ function(app, Ref) {
 	    //  $(this).css('left', '0px');
 	    //});
 	    //window.setTimeout(function(){
-   	   this.$el.find('.categoryOverlayText').each(function(){
-	  	 	$(this).css('top', '0px');
-	  	 });
+      this.$el
+        .find(".categoryOverlay")
+        .addClass("play");
 	  	//}, 10, this);
     },
     
     collapse: function() {
-      this.$el.find('.categoryOverlayText').each(function(){
-	      $(this).css('top', '90px');
-	    });
+      this.$el
+        .find(".categoryOverlay")
+        .removeClass("play");
 	    //window.setTimeout(function(){
 	  	// 	//this.$el.css('display', 'none');
 	  	// 	this.$el.find('.categoryOverlay').each(function(){
@@ -634,9 +634,10 @@ function(app, Ref) {
     },
     
     hide: function() {
-      this.$el.find('.categoryOverlayText').each(function(){
-	      $(this).css('top', '90px');
-	    });
+      // This method is identical to the "collapse" method
+      // TODO: Replace all references to this method with the "collapse"
+      // method and then remove it.
+      this.collapse.apply(this, arguments);
 	    //window.setTimeout(function(){
 	  	// 	//this.$el.css('display', 'none');
 	  	// 	this.$el.find('.categoryOverlay').each(function(){

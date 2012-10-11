@@ -109,7 +109,7 @@ function(app, Ref) {
 	    }
 
       if (app.live) {
-        $("#transcript").html(app.markup);
+        //$("#transcript").html(app.markup);
       }
       
       this.exit(num);

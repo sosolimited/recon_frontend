@@ -150,9 +150,9 @@ module.exports = function(grunt) {
         app.get("/messages/:debate", function(req, res) {
         	var d = req.params.debate;
         	var path = "./messages/";
-        	if (d == "0") path += "d0";
-        	else if (d == "1") path += "d1";
-        	else if (d == "2") path += "d2";
+        	if (d == "0") path += "_d0";
+        	else if (d == "1") path += "_d1";
+        	else if (d == "2") path += "_d2";
         	
           var timediff = req.params.timediff;
           var contents;

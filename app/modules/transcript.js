@@ -108,7 +108,6 @@ function(app, Overlay, Ref) {
     },
 
     addWord: function(args) {
-      if (args.msg.type === "word" && app.restore) { return; }
       //console.log("transcript.addWord("+args['msg']['word']+")");
 	    var word = args['msg'];
 	    
@@ -154,7 +153,7 @@ function(app, Overlay, Ref) {
     	if (word["sentenceStartFlag"]) this.endSentence();
     	
     	if (!openSentence) {
-    		$('#curParagraph p').append("<span id=curSentence class='transcriptSentence'></span>"); // add sentence span wrapper
+    		if (!app.restore) $('#curParagraph p').append("<span id=curSentence class='transcriptSentence'></span>"); // add sentence span wrapper
     		openSentence = true;
     	}
     	
@@ -201,8 +200,8 @@ function(app, Overlay, Ref) {
 	        var wordIndex = this.getIndexOfPreviousWord(cS, 1);
 	        
 	        var newSpan = $("<span class='catMarkup quoteMarkup'>" + cSHTML.substring(wordIndex, cSHTML.length) + s+word['word'] + "</span>");	        
-	        cS.html(cSHTML.substring(0,wordIndex) + " ");
-	        cS.append(newSpan);
+	        if (!app.restore) cS.html(cSHTML.substring(0,wordIndex) + " ");
+	        if (!app.restore) cS.append(newSpan);
 	
 	        var quotePhrase = newSpan.text();
 	
@@ -228,28 +227,28 @@ function(app, Overlay, Ref) {
 		    }
 		  	else if ($.inArray('posemo', word['cats']) != -1) {
 		  		 //app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
-		  		 $('#curSentence').append(s+"<span class='catMarkup posemoMarkup transcriptWord'>"+word["word"]+"</span>"); 
+		  		 if (!app.restore) $('#curSentence').append(s+"<span class='catMarkup posemoMarkup transcriptWord'>"+word["word"]+"</span>"); 
            positiveWord = true;
 		  	}
 		  	else if ($.inArray('negemo', word['cats']) != -1 || (!Ref.useSentistrengthBurst && $.inArray('negate', word['cats']) != -1)) {
 		  		 //app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
-		  		 $('#curSentence').append(s+"<span class='catMarkup negemoMarkup transcriptWord'>"+word["word"]+"</span>"); 
+		  		 if (!app.restore) $('#curSentence').append(s+"<span class='catMarkup negemoMarkup transcriptWord'>"+word["word"]+"</span>"); 
            negativeWord = true;
 		  	}		  	
 		  	else if ($.inArray('certain', word['cats']) != -1) {
 		  		 //app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
-		  		 $('#curSentence').append(s+"<span class='catMarkup certainMarkup transcriptWord'>"+word["word"]+"</span>"); 
+		  		 if (!app.restore) $('#curSentence').append(s+"<span class='catMarkup certainMarkup transcriptWord'>"+word["word"]+"</span>"); 
 		  	}
 		  	else if ($.inArray('tentat', word['cats']) != -1) {
 		  		 //app.trigger("markup:posemo", {type:'posemo', speaker:word['speaker'], word:word['word']});
-		  		 $('#curSentence').append(s+"<span class='catMarkup tentatMarkup transcriptWord'>"+word["word"]+"</span>"); 
+		  		 if (!app.restore) $('#curSentence').append(s+"<span class='catMarkup tentatMarkup transcriptWord'>"+word["word"]+"</span>"); 
 		  	}
 		    else{
-		    	$('#curSentence').append(s+word["word"]); 
+		    	if (!app.restore) $('#curSentence').append(s+word["word"]); 
 		    }
       }
       else{
-	      $('#curSentence').append(s+word["word"]); 
+	      if (!app.restore) $('#curSentence').append(s+word["word"]); 
       }
       
     	// Check for any open number phrases.  
@@ -290,8 +289,8 @@ function(app, Overlay, Ref) {
     	}
       
       // Update the paragraph size cache
-      $('#curParagraph').attr('data-bottom', parseInt($("#curParagraph").attr('data-top')) + $("#curParagraph").height());
-      $('#curParagraph').attr('data-end', word['timeDiff']);
+      if (!app.restore) $('#curParagraph').attr('data-bottom', parseInt($("#curParagraph").attr('data-top')) + $("#curParagraph").height());
+      if (!app.restore) $('#curParagraph').attr('data-end', word['timeDiff']);
 
       this.keepBottomSpacing();
 
@@ -370,73 +369,77 @@ function(app, Overlay, Ref) {
       
       //Go through all spans so you can create markup heirarchy (ie specify which markups take precedence)  
       var thisView = this;
-      $('#curSentence').find('span').each(function() {
-      	 if($(this).hasClass("posemoMarkup")){
-	      	 $(this).css("background-color", "rgb(255, 239,54)");
-	      	 $(this).css("color", "rgb(255, 239,54)");
-	      	 //$(this).css("color", "rgb(255,255,255)");
-      	 }
-      	 else if($(this).hasClass("negemoMarkup")){
-	      	 $(this).css("background-color", "rgb(64,180,230)");
-	      	 $(this).css("color", "rgb(64,180,230)");
-	      	 //$(this).css("color", "rgb(180,180,180)");
-      	 }
-      	 else if($(this).hasClass("certainMarkup")){
-	      	 $(this).css("background-color", "rgb(138,78,216)");
-	      	 $(this).css("color", "rgb(138,78,216)");
-	      	 //$(this).css("color", "rgb(255,255,255)");
-      	 }
-      	 else if($(this).hasClass("tentatMarkup")){
-	      	 $(this).css("background-color", "rgb(255,175,108)");
-	      	 $(this).css("color", "rgb(255,175,108)");
-	      	 //$(this).css("color", "rgb(255,255,255)");
-      	 }
-	     	 // Word count markup.
-	     	 else if($(this).hasClass("wordCountMarkup")){	
-	     	   $(this).css("background-color", "rgb(124,240,179)");
-	     	   $(this).css("color", "rgb(124,240,179)");
-	     	   //$(this).css("text-decoration", "underline");	    	
-	     	 }
-	     	 // Number markup.
-	     	 else if($(this).hasClass("numberMarkup")){
-	     	 		//$(this).css("background-color", "rgb(64,180,229)");	    	    		
-	     	 		$(this).css("background-color", "rgb(80,80,80)");
-	     	 		$(this).css("color", "rgb(80,80,80)");
-	     	 		//$(this).css("color", "rgb(180,180,180)");	    	    			    	    		
-	     	 }
-	     	 // Quotation markup.
-	     	 else if($(this).hasClass("quoteMarkup")){
-	     	 		$(this).css("background-color", "rgb(255,59,162)");	    	    		
-	     	 		$(this).css("color", "rgb(255,59,162)");	    	    		
-	     	 }         
-	     	 // Frequent word markup.
-	     	 else if($(this).hasClass("frequentWordMarkup")){
-			     	
-			     	$(this).css("color", "transparent");		    		
-		    		
-		    		
-		        var count = $(this).attr("data-wordcount");
-		        if(count != undefined) {
-		          // Add a div at this point and animate it inCannot read property 'top' of null 
-		          var pos = $(this).position();
-		          var wordWidth = $(this).width();
-		          var lineHeight = $(this).height();
-              var leftInset = 2; // Keep the superscripts a little tighter to the word
-		          var container = $("<div class='freqWordFrame' style='left: " + (pos.left + wordWidth - leftInset) + "px; top: " + (pos.top - lineHeight*.25) + "px;'></div>");
-		          var countDiv = $("<div class='freqWordCount'>" + count + "</div>");
-		          container.append(countDiv);
-		          $(this).parent().append(container);
-		          countDiv.animate({top: '0px'}, 300);
-		          
-		          
-		          ////EG Trying it without underline.
-              var spaceWidth = 5;  // To avoid underlining the leading space. This is an ugly hack.
-              var underlineDiv = $("<div class='freqWordUnderline' style='left: " + (pos.left+spaceWidth) + "px; top: " + (pos.top + lineHeight*0.8) + "px;  width: " + (wordWidth-spaceWidth) + "px;' />");
-              $(this).parent().append(underlineDiv);
-              
-		        } 
-	     	 }
-      });
+      
+      if (!app.restore) {
+	      $('#curSentence').find('span').each(function() {
+	      	
+	      	 if($(this).hasClass("posemoMarkup")){
+		      	 $(this).css("background-color", "rgb(255, 239,54)");
+		      	 $(this).css("color", "rgb(255, 239,54)");
+		      	 //$(this).css("color", "rgb(255,255,255)");
+	      	 }
+	      	 else if($(this).hasClass("negemoMarkup")){
+		      	 $(this).css("background-color", "rgb(64,180,230)");
+		      	 $(this).css("color", "rgb(64,180,230)");
+		      	 //$(this).css("color", "rgb(180,180,180)");
+	      	 }
+	      	 else if($(this).hasClass("certainMarkup")){
+		      	 $(this).css("background-color", "rgb(138,78,216)");
+		      	 $(this).css("color", "rgb(138,78,216)");
+		      	 //$(this).css("color", "rgb(255,255,255)");
+	      	 }
+	      	 else if($(this).hasClass("tentatMarkup")){
+		      	 $(this).css("background-color", "rgb(255,175,108)");
+		      	 $(this).css("color", "rgb(255,175,108)");
+		      	 //$(this).css("color", "rgb(255,255,255)");
+	      	 }
+		     	 // Word count markup.
+		     	 else if($(this).hasClass("wordCountMarkup")){	
+		     	   $(this).css("background-color", "rgb(124,240,179)");
+		     	   $(this).css("color", "rgb(124,240,179)");
+		     	   //$(this).css("text-decoration", "underline");	    	
+		     	 }
+		     	 // Number markup.
+		     	 else if($(this).hasClass("numberMarkup")){
+		     	 		//$(this).css("background-color", "rgb(64,180,229)");	    	    		
+		     	 		$(this).css("background-color", "rgb(80,80,80)");
+		     	 		$(this).css("color", "rgb(80,80,80)");
+		     	 		//$(this).css("color", "rgb(180,180,180)");	    	    			    	    		
+		     	 }
+		     	 // Quotation markup.
+		     	 else if($(this).hasClass("quoteMarkup")){
+		     	 		$(this).css("background-color", "rgb(255,59,162)");	    	    		
+		     	 		$(this).css("color", "rgb(255,59,162)");	    	    		
+		     	 }         
+		     	 // Frequent word markup.
+		     	 else if($(this).hasClass("frequentWordMarkup")){
+				     	
+				     	$(this).css("color", "transparent");		    		
+			    		
+			    		
+			        var count = $(this).attr("data-wordcount");
+			        if(count != undefined) {
+			          // Add a div at this point and animate it inCannot read property 'top' of null 
+			          var pos = $(this).position();
+			          var wordWidth = $(this).width();
+			          var lineHeight = $(this).height();
+	              var leftInset = 2; // Keep the superscripts a little tighter to the word
+			          var container = $("<div class='freqWordFrame' style='left: " + (pos.left + wordWidth - leftInset) + "px; top: " + (pos.top - lineHeight*.25) + "px;'></div>");
+			          var countDiv = $("<div class='freqWordCount'>" + count + "</div>");
+			          container.append(countDiv);
+			          $(this).parent().append(container);
+			          countDiv.animate({top: '0px'}, 300);
+			          
+			          
+			          ////EG Trying it without underline.
+	              var spaceWidth = 5;  // To avoid underlining the leading space. This is an ugly hack.
+	              var underlineDiv = $("<div class='freqWordUnderline' style='left: " + (pos.left+spaceWidth) + "px; top: " + (pos.top + lineHeight*0.8) + "px;  width: " + (wordWidth-spaceWidth) + "px;' />");
+	              $(this).parent().append(underlineDiv);
+	              
+			        } 
+		     	 }
+	      });
+	    }
 
       // Calculate positive/negative energy over the last few sentences, determine if this is a burst
       // --------------------------------------------------------------------------------------------

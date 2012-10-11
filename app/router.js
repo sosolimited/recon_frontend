@@ -137,6 +137,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           
           var markupNames = ['posemo', 'negemo', 'certain', 'tentat', 'number', 'quote'];          
           transcript.on("click", ".catMarkup", function(ev) {
+
           	ev.stopPropagation();
           	markupManager.closeCatOverlays();
           	var i;

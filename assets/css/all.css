@@ -251,6 +251,27 @@ hr {
   top: 245px;
 }
 
+#navLeftButtons {
+	
+	position: fixed;
+	width: 204px;
+	height: 36px;
+	z-index:6000;
+	top: 531px;
+	left: -87px;
+	
+	transform:rotate(90deg);
+	-ms-transform:rotate(90deg); /* IE 9 */
+	-moz-transform:rotate(90deg); /* Firefox */
+	-webkit-transform:rotate(90deg); /* Safari and Chrome */
+	-o-transform:rotate(90deg); /* Opera */
+	
+	-webkit-transition: -webkit-transform 1s;	
+	
+	font-size:20px;
+	
+}
+
 #navRight {
 	position: fixed !important;
 	right:-166px !important;
@@ -265,10 +286,9 @@ hr {
 	-o-transform:rotate(-90deg); /* Opera */
 	
 	-webkit-transition: -webkit-transform 1s;	
-	
 
 	bottom: 200px;
-	font-size:20px;
+	font-size:18px;
 	/* text-transform:uppercase; */
 	float:right;
 	
@@ -279,13 +299,13 @@ hr {
 	display: none;
 }
 
-#navPlaybackButton, #navComparisonButton {
+#navPlaybackButton, #navComparisonButton, #navGoLiveButton{
 	display: inline-block;
 }
 
 .navButton {
 	background:white;	
-	padding: 5px 5px 20px 5px;
+	padding: 4px 6px 6px 6px;
 	cursor: pointer;
 }
 
@@ -298,7 +318,7 @@ hr {
 
 /* White box inside #navigation div */
 #navTimeline {
-  width: 530px;
+  width: 444px; /*changed from 530 */
   height: 16px;
   z-index:12;
 }
@@ -324,7 +344,7 @@ hr {
   top: 0px;
 }
 #navBar {
-  width: 520px;	
+  width: 444px;	
 	height: 32px;
 	background-color: white;
 	z-index:12;

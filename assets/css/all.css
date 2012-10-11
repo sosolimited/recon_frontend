@@ -200,6 +200,9 @@ p { /* Transcript text */
   
   display: none;	/* EG Init state */
   
+  overflow-y: scroll;
+  overflow-x: hidden;
+  
   /*-webkit-transform: scale(0);
   transform: scale(0);*/
 }

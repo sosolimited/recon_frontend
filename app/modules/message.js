@@ -27,12 +27,13 @@ function(app) {
     
     defaults: function() {
   		return {
-	  		lastMessage: 0
+	  		lastMessage: -1
 	  	}	  			
   	},
 
     
   	initialize: function() {
+      this.lastMessage = -1;
       app.on("message:word", this.addMessage, this);
       app.on("message:sentenceEnd", this.addMessage, this);
       app.on("message:transcriptEnd", this.addMessage, this);

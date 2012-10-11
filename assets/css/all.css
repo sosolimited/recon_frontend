@@ -844,9 +844,15 @@ red background-color: rgb(255,85,57);
 		
 		
 	}
-
-
-
+	
+/*#twitter-button {
+	width:40px;
+	height:40px;
+	background-image: url('/images/landingTwitterLogo.png');
+	position:absolute; 
+	top:26px;
+}
+*/
 .landingCredits {
 	position: absolute;
 	font-size: 14px;

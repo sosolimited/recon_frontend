@@ -8,6 +8,8 @@ body {
   overflow-y: scroll;	
   overflow-x: hidden;	/* not working! */
   cursor: default;
+  
+  -webkit-font-smoothing: antialiased;
   margin: 0;
 }
 
@@ -75,14 +77,6 @@ body {
 #bigWordsHolder {
 	/* display: block; */
 	/* left: -600px; */	/* account for perspective */
-	font-size: 400px;
-	line-height: 336px;
-	font-family:"ff-meta-serif-web-pro"; 
-	font-weight:700; 
-	font-style:italic; 
-
-		
-	/*color: rgb(116,120,120);*/
 	
 	/*
 	background-color: yellow;
@@ -95,14 +89,15 @@ body {
 
 .bigWord {
 	display: block;
-	font-size: 400px;
-	line-height: 336px;
-	/*font-family:"ff-meta-serif-web-pro"; */
-	/*font-weight:700; */
-	/*font-style:italic; */
 	
 	/*font-family:"franklin-gothic-urw-comp-i7", "franklin-gothic-urw-comp"; font-weight:700; font-style:italic;*/
-	font-family:"franklin-gothic-urw-i7", "franklin-gothic-urw"; font-weight:700; font-style:italic;
+		
+	font-family:"franklin-gothic-urw-comp-i7", "franklin-gothic-urw-comp"; font-weight:700; font-style:italic; 
+	font-size: 400px;
+	height:auto;
+	line-height: 336px;
+	
+	-webkit-font-smoothing: antialiased;
 
 	/* color: rgb(146,152,152); */
 	color: rgb(190,190,190);
@@ -437,7 +432,6 @@ hr {
 .franklinMedCompIt{ font-family:"franklin-gothic-urw-cond-i5", "franklin-gothic-urw-cond"; font-weight:600; font-style:italic; }
 
 
-
 /* Franklin EXTRA Compressed */
 
 .franklinExBookComp{ font-family:"franklin-gothic-ext-comp-urw-n4", "franklin-gothic-ext-comp-urw"; font-weight:400; font-style:normal; }
@@ -455,10 +449,10 @@ hr {
 .franklinBook{ font-family:"franklin-gothic-urw-n4", "franklin-gothic-urw"; font-weight:400; font-style:normal; }
 .franklinMed{ font-family:"franklin-gothic-urw-n5", "franklin-gothic-urw"; font-weight:500; font-style:normal; }
 .franklinMedIt{ font-family:"franklin-gothic-urw-i5", "franklin-gothic-urw"; font-weight:500; font-style:italic; }
+.franklinDemiIt{ font-family:"franklin-gothic-urw-i7", "franklin-gothic-urw"; font-weight:700; font-style:italic; }
 
 /* Not using
 .franklinDemi{ font-family:"franklin-gothic-urw-n7", "franklin-gothic-urw"; font-weight:700; font-style:normal; }
-.franklinDemiIt{ font-family:"franklin-gothic-urw-i7", "franklin-gothic-urw"; font-weight:700; font-style:italic; }
 .franklinHeavy{ font-family:"franklin-gothic-urw-n9", "franklin-gothic-urw"; font-weight:900; font-style:normal; }
 .franklinHeavyIt{ font-family:"franklin-gothic-urw-i9", "franklin-gothic-urw"; font-weight:900; font-style:italic; }
 */
@@ -553,7 +547,7 @@ hr {
 	/*font-family:"ff-meta-serif-web-pro"; 
 	font-weight:700; 
 	font-style:italic;*/ 
-	font-family:"franklin-gothic-urw-i7", "franklin-gothic-urw"; font-weight:700; font-style:italic;
+	font-family:"franklin-gothic-urw-comp-i7", "franklin-gothic-urw-comp"; font-weight:700; font-style:italic; 
 	color: rgb(190,190,190);
 	z-index:-1;
 }

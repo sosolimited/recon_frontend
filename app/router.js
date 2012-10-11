@@ -259,7 +259,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           percs[i] = perc;
 
           window.setTimeout(function() {
-            var hr = document.querySelector(".landingRule"+num+".gray60");
+            var hr = document.querySelector("#landingRule"+num);
             var total = percs[0] + percs[1];
 
             if (hr) {

@@ -851,14 +851,27 @@ landingTitleImage {
 	z-index: 7000;
 }
 
+/* The categoryOverlay element is normally positioned off-screen so as not to
+ * interfere with the mouse. */
 .categoryOverlay {
 	position:absolute; 
 	overflow: hidden;
 	width: auto;
   height: 80px; 
+  left: -4000px;
   z-index: 7000;
-}
 
+  /* This transition ensures that the categoryOverlay element does not move out
+   * of view until after its child has finished animating. Therefore, the
+   * duration parameter should match the child's animation duration. */
+  -webkit-transition: left 0 linear 0.5s;
+}
+/* When the "play" class is added, the categoryElement immediately transitions
+ * into view. */
+.categoryOverlay.play {
+  left: 0;
+  -webkit-transition: left 0 linear 0;
+}
 .categoryOverlayText {
 	position: relative;
 	top: 90px;
@@ -869,6 +882,9 @@ landingTitleImage {
   color: rgb(255,255,255);	
 	
 	-webkit-transition: top 0.5s;
+}
+.categoryOverlay.play .categoryOverlayText {
+  top: 0;
 }
 
 /*

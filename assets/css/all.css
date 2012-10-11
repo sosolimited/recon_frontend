@@ -2,8 +2,7 @@ body {
   /* background: -webkit-linear-gradient(left, #9699A0, #C9D1CF, #C9D1CF, #9699A0); */
   /*background-color: rgb(110,116,116);*/
   
-<<<<<<< HEAD
-  /*background-color: rgb(200,200,200); /*rgb(140,146,146);*/
+  background-color: rgb(200,200,200); /*rgb(140,146,146);*/
 
   background-image: url('../../images/background-tex.jpg'); 
 
@@ -13,6 +12,7 @@ body {
   cursor: default;
   margin: 0;
 }
+
 
 .layout.main {
   position: relative;
@@ -380,7 +380,7 @@ hr {
 
 #backgroundInstructions{
 	opacity: .8;
-	background-color: rgb(76,76,76); /*rgb(207,255,36); rgb(255,213,0)*/
+	background-color: rgb(231,200,31); /*rgb(76,76,76); rgb(207,255,36); rgb(255,213,0)*/
 	width: 100%;
 	height: 100%;
 	position: fixed;
@@ -470,14 +470,18 @@ hr {
 
 /* Colors */
 .white{ color:rgb(255,255,255); }
-.gray50{ color:rgb(50,50,50); }
+
+.gray55{ color:rgb(55,54,50); }
 
 .gray60{ color:rgb(76,76,76); }
 /*.gray60{ color:rgb(60,60,60); }*/
 
+.gray78{ color:rgb(78,78,74); }
+
 .gray80{ color:rgb(80,80,80); }
 .bgGray80{ background-color:rgb(80,80,80);}
 .gray160{ color:rgb(160,160,160); }
+.gray200{ color:rgb(200,200,200); }
 
 .grayBlue{ color:rgb(67,67,75); }
 .bgGrayBlue{ background-color:rgb(77,77,85); }
@@ -581,7 +585,7 @@ hr {
 	line-height: 156px;
 	
 	left:141px;
-	
+	color:rgb(78,78,74);
 	/*left:99px;*/
 	/*left:10px;*/
 	/*font-size: 238px;*/
@@ -595,7 +599,7 @@ hr {
 	left: 286px;
 	font-size: 96px;
 	line-height: 90px;
-	
+	color:rgb(78,78,74);
 	/*line-height: 98px;
 	left: 244px;
 	left: 312px;
@@ -610,6 +614,7 @@ hr {
 	top: 396px;
 	font-size: 204px;
 	line-height: 144px;
+	color:rgb(78,78,74);
 	/*left:136px;*/
 	/*left:68px;*/
 
@@ -620,6 +625,8 @@ hr {
 	width: 296px;
 	height: 264px;
 	top: 156px;
+	
+
 	/* background-color: yellow; */
 }
 
@@ -628,13 +635,31 @@ hr {
   cursor: pointer;
   overflow:hidden;
   z-index: 10;
+  color:rgb(78,79,74);
+ /* color:rgb(255,239,54);*/
 }
 
+
+.landingButtonHolder:hover, .landingRule:hover{
+  cursor: default !important;
+  /*color:rgb(44,124,141);
+  yellow color:rgb(255,239,54);
+  light blue color:rgb(64,180,230);*/
+  
+  color:rgb(255,85,57); 
+}
 
 .landingButtonHolder.inactive, .landingRule.inactive{
   opacity: .5 !important;
   cursor: default !important;
 }
+
+.landingButtonHolder.active, .landingRule.active{
+	cursor: default !important;
+	color:rgb(255,85,57) !important; 
+}
+
+
 
 
 .landingButton {
@@ -644,6 +669,9 @@ hr {
 	font-size: 36px;
 	line-height: 36px;
 	margin: 12px 0px 0px 0px;
+	
+
+
 }
 
 .landingDate {
@@ -661,20 +689,22 @@ hr {
 	font-size: 96px;
 	line-height: 96px;
 	top: -6px;
-	left: 248px;	
+	left: 248px;
+	/*color:rgb(255,85,57);*/
+	
 }
 
 .landingRule {
 	position: static; 
 	width: 296px;
-	height: 4px;
-	margin: 0px 0px 0px 0px;
-	background-color: rgb(76,76,76)!important;	
+	height: 3px;
+	margin: -12px 0px 15px 0px;
+	background-color: rgb(150,150,150)!important;	
 }
 
 .landingWhiteRule1 {
 	position: absolute;
-	border-bottom:1px dashed rgb(200,200,200)!important;
+	border-bottom:1px dashed; /*rgb(150,150,150)!important;*/
 	top:284px; 
 	left:59px;
 	width: 420px;
@@ -684,7 +714,7 @@ hr {
 
 .landingWhiteRule2 {
 	position: absolute;
-	border-bottom:1px dashed rgb(200,200,200)!important;
+	border-bottom:1px dashed; /*rgb(150,150,150)!important;*/
 	top:380px; 
 	left:170px;
 	width: 150px;
@@ -694,7 +724,7 @@ hr {
 
 .landingWhiteRule0 {
 	position: absolute;
-	border-bottom:1px dashed rgb(200,200,200)!important;
+	border-bottom:1px dashed; /*rgb(150,150,150)!important;*/
 	top:84px; 
 	left:-80px;
 	width: 400px;
@@ -703,7 +733,7 @@ hr {
 
 .landingWhiteRule3 {
 	position: absolute;
-	border-bottom:1px dashed rgb(200,200,200)!important;
+	border-bottom:1px dashed; /*rgb(150,150,150)!important;*/
 	top:542px; 
 	left:-70px;
 	width: 496px;
@@ -718,9 +748,19 @@ hr {
 	font-size: 25px;
 	line-height: 25px;
 	margin: 12px 0px 0px 0px;
-	color:rgb(200,200,200) !important;
-	 
+	color:rgb(255,239,54) !important;
+	
+
 }
+
+.landingMakingof:hover{
+	
+	color:rgb(255,255,255) !important;
+	
+}
+
+
+
 
 .landingMakingofSubTitle {
 	position: static;
@@ -729,7 +769,18 @@ hr {
 	font-size: 20px;
 	line-height: 0px;
 	margin: 12px 0px 0px 0px;
-	color:rgb(200,200,200) !important;
+	color:rgb(255,239,54) !important;
+	
+	
+
+	/*
+	yellow color:rgb(255,239,54) !important;
+	d blue color:rgb(44,124,141) !important;
+	color:rgb(255,85,57);
+	color:rgb(138,78,216 ) !important;
+	color:rgb(120,120,120) !important;
+	
+	*/
 	 
 }
 
@@ -761,8 +812,17 @@ landingTitleImage {
 	position: relative;
 	top: 588px;
 	height: 48px;
-	background-color: rgb(207,255,36);
-	z-index:0;
+	/*lime background-color: rgb(35,255,49);*/
+	 /* blue background-color: rgb(64,180,230);
+background-color: rgb(255,239,54);
+red background-color: rgb(255,85,57);
+*/
+ background-color: rgb(255,239,54);
+
+
+	
+	
+		z-index:0;
 	width: 3000px;
 	left:-900px;
 
@@ -785,6 +845,8 @@ landingTitleImage {
 		
 	}
 
+
+
 .landingCredits {
 	position: absolute;
 	font-size: 14px;
@@ -792,7 +854,11 @@ landingTitleImage {
 }
 
 
-
+.landingCredits a {
+	text-decoration: none !important;
+	color:white;
+	cursor: auto;
+}
 
 
 /*

@@ -339,7 +339,7 @@ hr {
   top: 0px;
 }
 #navBar {
-  width: 530px;
+  width: 520px;	
 	height: 32px;
 	background-color: white;
 	z-index:12;
@@ -511,8 +511,9 @@ hr {
 .bgSalmon{ background-color:rgb(255,157,108); }
 
 .seaGreen{ color:rgb(124,240,179); }
-.orangeRed{ color:rgb(255, 85, 46); }
-.bgOrangeRed{ background-color:rgb(255, 85, 46); }
+
+.orangeRed{ color:rgb(255, 85, 57); }
+.bgOrangeRed{ background-color:rgb(255, 85, 57); }
 
 .angry{color:rgb(255,67,55);}
 .bgAngry{background-color:rgb(255,67,55);}
@@ -981,8 +982,8 @@ landingTitleImage {
 }
 
 .wordCountMarkup:hover {
-	background-color: rgb(44,124,14) !important;
-	color: rgb(255,255,255) !important;
+	background-color: rgb(124,240,179) !important;
+	color: rgb(60,60,60) !important;
 }
 
 .catMarkup{
@@ -1021,7 +1022,7 @@ landingTitleImage {
 	position:relative;
 	top:120px;	/* Start out of view */
 	font-size: 120px;
-	color: rgb(44,124,14);
+	color: rgb(124,240,179);
 	margin: 0px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
 	line-height:120px;
@@ -1044,7 +1045,7 @@ landingTitleImage {
 .wordCountLine {
 	position:absolute;
 	height: 0; 
-	border-bottom: 2px dotted rgb(44,124,14);
+	border-bottom: 2px dotted rgb(124,240,179);
 	background-color: transparent;
 	margin: 0 0 0 0;
 	padding: 0 0 0 0;
@@ -1101,7 +1102,7 @@ landingTitleImage {
   line-height: 0.75em;
   opacity: 0;
   -webkit-transition: font-size 1s, opacity 1s;
-  z-index: 3;
+  z-index: 6;
 }
 
 .emoTextSmall {
@@ -1122,7 +1123,7 @@ landingTitleImage {
 
 .emoSign {
   position: absolute;
-  z-index: 2;
+  z-index: 4;
   -webkit-transform: scale(0.0001);
   -webkit-transition: font-size 1s, -webkit-transform 2s, opacity 1s;
   -webkit-transform-origin: 50% 50%;

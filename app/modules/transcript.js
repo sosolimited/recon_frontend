@@ -392,8 +392,8 @@ function(app, Overlay, Ref) {
       	 }
 	     	 // Word count markup.
 	     	 else if($(this).hasClass("wordCountMarkup")){	
-	     	   $(this).css("background-color", "rgb(44,124,14)");
-	     	   $(this).css("color", "rgb(44,124,14)");
+	     	   $(this).css("background-color", "rgb(124,240,179)");
+	     	   $(this).css("color", "rgb(124,240,179)");
 	     	   //$(this).css("text-decoration", "underline");	    	
 	     	 }
 	     	 // Number markup.

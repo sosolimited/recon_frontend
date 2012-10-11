@@ -47,7 +47,7 @@ function(app, Overlay, Ref) {
       app.on("message:word", this.addWord, this);
       app.on("message:sentenceEnd", this.endSentence, this);
       app.on("navigation:goLive", this.reattachLiveScroll, this);
-      //app.on("debate:reset", this.clear, this);
+      app.on("debate:reset", this.clearTranscript, this);
 
       this.$window = $(window);
       this.$body = $(window.body);
@@ -109,7 +109,7 @@ function(app, Overlay, Ref) {
 
     addWord: function(args) {
       if (args.msg.type === "word" && app.restore) { return; }
-     // console.log("transcript.addWord("+args['msg']['word']+")");
+      //console.log("transcript.addWord("+args['msg']['word']+")");
 	    var word = args['msg'];
 	    
 	    // Add word to speakers, which returns an array of any special events triggered by the word.
@@ -125,8 +125,9 @@ function(app, Overlay, Ref) {
     	var s = "";
 
       var col=1;
-    		
+    	
     	if (word["speaker"] != curSpeaker) {
+    	
     		curSpeaker = word["speaker"];
     			
     		// emit message to add chapter marker
@@ -148,7 +149,7 @@ function(app, Overlay, Ref) {
             recentNegativeWords[i] = 0;
           }
         }
-    	}
+    	} 
     	
     	if (word["sentenceStartFlag"]) this.endSentence();
     	
@@ -494,9 +495,9 @@ function(app, Overlay, Ref) {
 
     startParagraph : function(msg) {
      	//console.log("transcript.startParagraph()");
-      var curSpeaker = msg["speaker"];
-      if(curSpeaker==0) col = 2;	//obama
-  		else if(curSpeaker==2) col = 3;	//romney
+      var cSpeaker = msg["speaker"];
+      if(cSpeaker==0) col = 2;	//obama
+  		else if(cSpeaker==2) col = 3;	//romney
       else col = 1; // ???
     		
   		if (openSentence) this.endSentence();
@@ -504,14 +505,14 @@ function(app, Overlay, Ref) {
     	
     	// Color candidates white and speaker gray.
     	var spColor = "white";
-    	//if(curSpeaker == 0) spColor = "gray60";	
+    	//if(cSpeaker == 0) spColor = "gray60";	
     		
   		var newP = $("<div id='curParagraph' class='push-" + col + " span-3 " +
-                   speakers[curSpeaker] + " transcriptParagraph'><div class='transcriptSpeaker franklinMedIt " + spColor + "'>" +
-                   speakers[curSpeaker] + "</div><p class='metaBook gray60'></p></div><div class=clear></div>");                   
+                   speakers[cSpeaker] + " transcriptParagraph'><div class='transcriptSpeaker franklinMedIt " + spColor + "'>" +
+                   speakers[cSpeaker] + "</div><p class='metaBook gray60'></p></div><div class=clear></div>");                   
       // Adding parallax.
       //var newP = $("<div id='curParagraph' class='push-" + col + " span-3 " +
-      //             speakers[curSpeaker] + " transcriptParagraph' data-top-bottom='margin-top:-40px;' data-top-top='margin-top:40px;'><div class='transcriptSpeaker franklinMedIt " 
+      //             speakers[cSpeaker] + " transcriptParagraph' data-top-bottom='margin-top:-40px;' data-top-top='margin-top:40px;'><div class='transcriptSpeaker franklinMedIt " 
       //             + spColor + "'>" + speakers[curSpeaker] + "</div><p class='metaBook gray60'></p></div><div class=clear></div>");                                                  
       this.$el.append(newP);
       // Add to skrollr manager.
@@ -785,7 +786,7 @@ function(app, Overlay, Ref) {
   		curSpeaker = "";
   		this.endSentence();
   		this.endParagraph();
-  		$('#'+n).parent().parent().parent().nextAll().andSelf().remove();
+  		$('#'+n).parent().parent().parent().nextAll().andSelf().remove();	
   		
     },
     
@@ -802,15 +803,18 @@ function(app, Overlay, Ref) {
 	    $('#transcript').css("visibility", "hidden");	    
     },
     
-    clear: function() {  		
-          
+    clearTranscript: function() {  		
+    	//console.log("transcript.clearTranscript()");
+      // Close current shit.
+      this.endSentence();
+  		this.endParagraph();
+  		// Reset vars.    
       this.numberOpen = false;
       this.numberPhrase = "";
-      
-    	curSpeaker = "";
-  		this.endSentence();
-  		this.endParagraph();
-	    $('#transcriptHeading').nextAll().remove();
+      curSpeaker = -1;
+  		// Empty out contents of transcript.	    
+	    $('.transcriptParagraph').remove();
+	    	    
     }
    
   });

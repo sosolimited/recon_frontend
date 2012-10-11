@@ -278,7 +278,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	
 	      // Opens.
 	      messages.open("GET", "/messages/"+i, true);
-	      markup.open("GET", "/markup/whateva", true);
+	      markup.open("GET", "/markup", true);
 	
 	      // Prog rock.
 	      messages.onprogress = function(e) {
@@ -344,15 +344,15 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 					else if(event.which == 87){	
 						//for skrollr object switching
 						//if(app.skrollr._skrollElement == null) app.skrollr.setSkrollElement("")
-						app.skrollr.resetSkrollElement();
+						//app.skrollr.resetSkrollElement();						
 					}
 					//p 
 					else if(event.which==80){	
 						// Inserting test parallax objects.
 						// app.trigger("keypress:test", {type:"testParallax"});
-						var el = $('#comparisons > .wrapper').get(0);
+						// var el = $('#comparisons > .wrapper').get(0);
 						//console.log("setSkrollElement("+el+")");
-						app.skrollr.setSkrollElement(el);
+						//app.skrollr.setSkrollElement(el);
 					}
 					//z To nudge parallax test objects left
 					else if(event.which==90){	

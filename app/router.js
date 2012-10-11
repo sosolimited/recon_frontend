@@ -162,8 +162,9 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           	markupManager.openCatOverlay(markupNames[i], 30000);
           });
           
-          transcript.on("click", function() {markupManager.closeCatOverlays();});
-          bigWords.on("click", function() {markupManager.closeCatOverlays();});
+          //transcript.on("click", function() {markupManager.closeCatOverlays();});
+          //bigWords.on("click", function() {markupManager.closeCatOverlays();});
+          $('body').on("click", function() {markupManager.closeCatOverlays();});
           comparisons.on("click", function() {navigationView.exitComparison(event);});
           
         })();

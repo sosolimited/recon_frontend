@@ -104,7 +104,7 @@ function(app, Overlay, Ref) {
     },
     
     setHeading: function(str) {
-	    $('#transcriptHeading').html(str+'<hr>');    
+	    $('#transcriptHeading').html("<span class='push-0'>"+str+"</span> <hr style='rgb(80,80,80)'></hr>");    
     },
 
     addWord: function(args) {

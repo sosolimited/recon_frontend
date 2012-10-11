@@ -37,7 +37,7 @@ function(app, Ref) {
 	    this.transcript = this.options.transcript;
 	    this.overlay = this.options.overlay;
 	    this.bigWords = this.options.bigWords;
-	    this.comparisons = this.options.comparisons;	  
+	    this.comparisons = this.options.comparisons;	
 	    
 	    app.on("app:setLive", function(num) {
 	    	console.log("set live "+num+app.live);
@@ -47,9 +47,13 @@ function(app, Ref) {
 			    	if (i != num) this.deactivateDebate(i);
 			    	else this.activateDebate(i);
 			    }, this);
+			    
+			    $('#navNotification > div > .navInstructionsText').text("Debate "+num+" is now live!");
+			    $('#navNotification').css("webkitTransform", "translateX(0%)");
+			    setTimeout(function(){ $('#navNotification').css("webkitTransform", "translateX(100%)"); }, 3000);
 			  } else {
 		    	[0,1,2].forEach(function(i) {
-			    	if (app.messages[String(i)]) this.activateDebate(i);
+			    	if (app.messages[i]) this.activateDebate(i);
 			    	else this.deactivateDebate(i);
 			    }, this);
 			  }
@@ -65,7 +69,8 @@ function(app, Ref) {
     events: {
         'click #landingButton0': 'handleDebateClick',
         'click #landingButton1': 'handleDebateClick',
-        'click #landingButton2': 'handleDebateClick'
+        'click #landingButton2': 'handleDebateClick',
+        'click': 'handleDebateClick'
     },
     
     serialize: function() {
@@ -76,7 +81,6 @@ function(app, Ref) {
       // Add markup.
       //$("#transcript").html(app.markup);
       //app.restore = true;
-
 
       if(e.target.id === "landingButton0" || e.target.parentNode.id == "landingButton0"){
         app.playback = true;
@@ -97,12 +101,17 @@ function(app, Ref) {
       if (!app.live) {
 	    //if (app.router.qs.playback) {
 	    	if (num == app.lastDebateViewed) {
-		    	app.messages[String(num)].playbackMessages(false);
+		    	app.messages[num].playbackMessages(false);
 		    } else {
-		    	app.messages[String(num)].playbackMessages(true);
+		    	app.messages[num].playbackMessages(true);
 		    	app.trigger("debate:reset");
 		    }
 	    }
+
+      if (app.live) {
+        $("#transcript").html(app.markup);
+      }
+      
       this.exit(num);
 		  app.lastDebateViewed = num;
     },
@@ -116,7 +125,7 @@ function(app, Ref) {
       this.transcript.exit();
       this.bigWords.exit();	
       this.comparisons.exit();
-      app.messages[app.lastDebateViewed].stopPlayback();
+      if (app.lastDebateViewed > -1) app.messages[app.lastDebateViewed].stopPlayback();    
     },
     
     exit: function(num) {

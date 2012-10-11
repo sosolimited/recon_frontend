@@ -22,10 +22,12 @@ function(app) {
   			//curWordCountThreshhold: 0,
   			frequentWordThreshold: 5,
   			//wordCountPeriod: 500, 	//1000, //EG low number for testing 
-  			wordCountThresholds: [666, 911, 1776, 2012, 11111],	
+  			wordCountThresholds: [666, 911, 1492, 1776, 2012, 3456, 5050, 7777],	
   			longestSentenceLength: 0,
   			longestSentence: "",
   			curSentence: "",
+  			lastWordTime: 0,
+  			curTraitTime:0,
   			//jro removed posemo and negemo
   			traits: [{name: "anger", val: 0},
   							 {name: "complexity", val: 0},
@@ -54,6 +56,9 @@ function(app) {
     handleWord: function(args) {
     	//console.log("handleWord(), args.speaker= "+args['msg']['speaker']+" this.speakerId = "+this.get('speakerId'));
     	// Empty out return array. Will this cause a memory leak?
+    	
+    	this.lastWordTime = new Date().getTime();
+    	
     	// Note: The order in which you add the event objects to wordProps determines their priority in transcript.
     	this.get("wordProps").length = 0;	
     	
@@ -177,7 +182,7 @@ function(app) {
         
     setCompareTraits: function() {
     	var collection = this;
-	  	setTimeout(function() {collection.compareTraits();}, 6*60000); // wait six minutes
+	  	setTimeout(function() {collection.compareTraits();}, 5*60000); // wait six minutes
     },
     
     compareTraits: function() {
@@ -222,6 +227,10 @@ function(app) {
 	    
 	    	if (!this.traitTimeoutFlag)
 	    	{
+	    	
+	    		this.curTraitTime = new Date().getTime();
+    			if (this.curTraitTime - this.lastWordTime < 10)
+    			{
 		    	//console.log("sendRandomTraitLeader");
 			  
 			    //var t = Math.floor(Math.random()*this.leads.length);
@@ -231,8 +240,9 @@ function(app) {
 			    var leader = (this.at(1).get("traits")[t]['val'] > this.at(2).get("traits")[t]['val']) ? 1 : 2;
 			    app.trigger("markup", {type:"traitLead", leader:leader, trait:this.at(1).get("traits")[t]['name'], new:false, curSpeaker: this.curSpeaker});
 			    //console.log("old lead "+leader+" "+this.at(1).get("traits")[t]['name']);
-		    }
-		    
+			    
+			   }
+			  }  
 	    }
     },
     

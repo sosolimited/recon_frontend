@@ -24,16 +24,23 @@ function(app, Ref) {
 			this.speaker = this.options.speaker;
 			this.moreVal = this.options.moreVal;
 			
+			console.log("speaker:" + this.options.speaker);
 			
 			this.aVal = '>'; 
 			
-			if (this.speaker == 1)
+			if (this.options.speaker == "obama")
 			{
+				//console.log("1 Obama More val:" + this.moreVal);
+				//console.log("Index:"+this.moreVal.indexOf('LESS'));
 				if (this.moreVal.indexOf('LESS') != -1) this.aVal = '<';
+				//console.log(this.aVal);
 			}
 			else 
 			{
+				//console.log("2 Romney More val:" + this.moreVal);
+				//console.log("Index:"+this.moreVal.indexOf('MORE'));
 				if (this.moreVal.indexOf('MORE') != -1) this.aVal = '<';
+				//console.log(this.aVal);
 			}
 			
 			//console.log(this.moreVal + " " + this.aVal);

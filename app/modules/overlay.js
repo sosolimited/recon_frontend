@@ -260,7 +260,7 @@ function(app, Ref) {
 
 			// All durations in milliseconds.
 			this.expandDur = 2*300 + 1000;		
-			this.holdDur = 4000;								
+			this.holdDur = 4500;								
 			this.collapseDur = 1500;				
 		},
 		

@@ -274,7 +274,7 @@ hr {
 
 	bottom: 200px;
 	font-size:20px;
-	text-transform:uppercase; 
+	/* text-transform:uppercase; */
 	float:right;
 	
 }
@@ -366,19 +366,17 @@ hr {
 
 #navInstructions {
 	font-size: 50px;
-	
-	
+		
 	width: 100%;
 	height: 100%;
 	position: fixed;
-	
-	
+		
 	-webkit-transition: -webkit-transform 1s;	
 	z-index: 3500;
 }
 
 #backgroundInstructions{
-	opacity: .6;
+	opacity: .8;
 	background-color: rgb(76,76,76); /*rgb(207,255,36); rgb(255,213,0)*/
 	width: 100%;
 	height: 100%;
@@ -390,9 +388,10 @@ hr {
 	font-size:96px !important;
 	line-height: 120px;
 	text-transform: uppercase;
-	left: 50px;
-	position:fixed;
-	margin-top: 100px;
+	/* left: 200px; */
+	position: absolute;
+	margin-top: 140px;
+	
 	color:white;
 	z-index: 4500;
 }
@@ -400,14 +399,14 @@ hr {
 
 #transcriptHeading{
 	
-	left:64px;
+	/* left:64px; */
 	width:500px;
 	font-family:"franklin-gothic-urw-comp-i7", "franklin-gothic-urw-comp"; font-weight:700; font-style:italic;
 	font-size: 96px;
 	line-height: 120px;
 	padding-bottom:50px;
 	
-	color:rgb(60,60,60);
+	color:rgb(80,80,80);
 	text-transform: uppercase;
 	z-index: 6500;
 	
@@ -481,12 +480,14 @@ hr {
 .pink{ color:rgb(231,0,149); }
 .bgPink{ background-color:rgb(231,0,149); }
 
-.sky{ color:rgb(64,180,229); }
-.bgSky{ background-color:rgb(64,180,229); }
+.sky{ color:rgb(64,180,230); }
+.bgSky{ background-color:rgb(64,180,230); }
 
-.lime{ color:rgb(207,255,36); }
-.bgLime{ background-color:rgb(207,255,36); }
+.lime{ color:rgb(35,255,49); }
+.bgLime{ background-color:rgb(35,255,49); }
 
+.yellow{ color:rgb(255, 239,54); }
+.bgYellow{ background-color:rgb(255, 239,54); }
 
 .magenta{ color:rgb(227, 31, 130); } 
 .bgMagenta{ background-color:rgb(227, 31, 130); }

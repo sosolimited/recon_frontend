@@ -98,7 +98,7 @@ function(app, Ref) {
     		$(this).animate({'left':Ref.gridColumns[0], 'top':y+i*36+'px', 'height':'36px'}, collapseD);
      		
      		//else $(this).animate({'left':Ref.gridColumns[0], 'top':y+i*24+'px', 'height':'24px'}, collapseD);
-    		//$(this).animate({'-webkit-transform':'translateZ(1000px)'}, collapseD);   	//Move div forward in Z.	
+    		//$(this).animate({'transform':'translateZ(1000px)'}, collapseD);   	//Move div forward in Z.	
     		//this.style.webkitTransform = "translateZ(500px)";	//We're using CSS transitions to animate this.
     	
     	});

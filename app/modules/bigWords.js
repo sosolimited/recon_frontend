@@ -33,7 +33,7 @@ function(app, Ref) {
     /*	// Using skrollr lib to cull and do parallax now.
     handleScroll: function(val) {
        // Move the origin to make parallax happen
-			 //$('#bigWords').css("webkit-perspective-origin", "50% "+(val)+"px");		     
+			 //$('#bigWords').css("perspective-origin", "50% "+(val)+"px");		     
 			 
        // Perform culling
        var viewportTop = $('body').scrollTop();

@@ -41,6 +41,7 @@ function(app) {
       app.on("transcript:scrollTo", this.updateTime, this);
       app.on("transcript:scrollDetach", this.liveScrollOff, this);
       app.on("transcript:scrollAttach", this.liveScrollOn, this);
+      app.on("app:setLive", this.handleLive, this);
       
       this.landing = null;
     },
@@ -259,6 +260,14 @@ function(app) {
       
       // Switch skrollr scroll element back to body.
 			//app.skrollr.resetSkrollElement();
+    },
+    
+    handleLive: function(num) {
+	    if (num > -1) {
+      	$('#navPlaybackButton').css('display', 'none'); 
+	    } else {
+      	$('#navPlaybackButton').css('display', 'inline-block'); 
+	    }
     }
 
    

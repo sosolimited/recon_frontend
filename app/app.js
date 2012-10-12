@@ -47,29 +47,34 @@ function($, _, Backbone, eio) {
     // Specifically handles messages.
     handleMessage: function(msg) {
       if (msg.type == "livestate") {
-        // change between nonlive to live
-        if (!app.live && msg.debate > -1) {
-          console.log("CHANGING APP LIVESTATE TO LIVE "+msg.debate);
-          app.live = true;
-          app.liveDebate = msg.debate;
-          app.trigger("app:setLive", msg.debate);
-        } else if (app.live && msg.debate == -1) {
-          console.log("CHANGING APP LIVESTATE TO NOT LIVE");
-          app.live = false;
-          app.liveDebate = -1;
-        }
-        
-
-      } else {
-        // Trigger the message.
-        app.trigger("message:" + msg.type, { msg: msg }); 
-      }
-    
-
-      if (msg.type === "transcriptDone") {
-        app.live = -1;
+        app.setLive(msg.debate);
+      } else {      
+        if (app.live) {
+        	if (!app.restore) {
+	        	app.trigger("message:" + msg.type, { msg: msg }); 
+	        } else {
+	        	app.bufferedMessages.push(msg);
+	        }
+	      }
       }
     },
+    
+    setLive: function(num) {
+      if (!app.live && num > -1) {
+        console.log("changing app LIVESTATE to LIVE "+num);
+        app.live = true;
+        app.liveDebate = num;
+        app.trigger("app:setLive", num);
+        app.trigger("debate:reset", num);
+      } else if (app.live && num == -1) {
+        console.log("chaning app LIVESTATE to NOT LIVE");
+        app.live = false;
+        app.liveDebate = -1;
+				app.trigger("app:setLive", -1);
+      }
+    },
+    
+    loadDoc: false,
 		    
     // Default to the application thinking it's not live.
     live: false,

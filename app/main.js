@@ -21,13 +21,9 @@ function(app, Router) {
     app.socket.on("open", function() {
       // Wait for messages and respond to them.
       app.socket.on("message", function(msg) {
-        // Hey kid, rock and roll.
-        if (app.playback) {
-          app.handleMessage(JSON.parse(msg));
-        // Slow ride, take it easy.
-        } else {
-          app.bufferedMessages.push(JSON.parse(msg));
-        }
+      
+	      app.handleMessage(JSON.parse(msg));
+        
       });
     });
   }

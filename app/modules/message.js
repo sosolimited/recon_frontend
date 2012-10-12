@@ -65,7 +65,7 @@ function(app) {
     	this.stopPlayback();
     	
     	var n = restart ? 0 : (this.lastMessage+1);
-    	//console.log("start with message "+n+restart);
+    	console.log("start with message "+n+restart);
   		var startMsg = this.at(n);
 
       function runMessage(i) {
@@ -81,7 +81,7 @@ function(app) {
         }
   			if (diff >= 0) {
 	  			setTimeoutEvents.push(setTimeout(function() {
-            app.trigger("message:" + msg.get("type"), { msg: msg.attributes, live: app.live });
+            app.trigger("message:" + msg.get("type"), { msg: msg.attributes });
 
             //if (messages.length <= i+1) {
               runMessage.call(messages, i+1);

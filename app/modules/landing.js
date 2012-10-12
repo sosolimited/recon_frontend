@@ -60,6 +60,7 @@ function(app, Ref) {
 	    }, this);
       app.on("debate:activate", this.activateDebate, this);
       app.on("debate:deactivate", this.deactivateDebate, this);
+      app.on("landing:activate", this.activatePage, this);
     },
     
     cleanup: function() {
@@ -159,6 +160,10 @@ function(app, Ref) {
 			    app.active[num] = true;
 			  }
 			}
+    },
+    
+    activatePage: function() {
+	    $('#landingSubTitle').text("A LIVE DECONSTRUCTION OF THE US PRESIDENTIAL DEBATES");
     }
     
     

@@ -95,6 +95,13 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 			// Pass landing view to navigation for menu control.
 			navigationView.setLanding(landingView);    
        
+      
+			// EG Hack to fix loading race condition. calling render().then(... wasn't working above.
+			// I'm sure there's a less stupid way to do this.
+      //window.setTimeout(function() {	
+      // Yup, there is!
+      landingView.setElement("#landing").render().then(this.loadData); 
+       
       // Load from static file.
       if (this.qs.docName) {
 	      app.socket.send(JSON.stringify({
@@ -106,15 +113,10 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	          url: location.host
 	        }
 	      }));
-	      app.loadDoc = true;
 	      app.setLive(1);
+	      app.loadDoc = true;
 	    }
 
-			// EG Hack to fix loading race condition. calling render().then(... wasn't working above.
-			// I'm sure there's a less stupid way to do this.
-      //window.setTimeout(function() {	
-      // Yup, there is!
-      landingView.setElement("#landing").render().then(this.loadData);
 
       //app.on("ready", function() {
         navigationView.setElement("#navigation").render();

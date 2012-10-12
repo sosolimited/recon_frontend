@@ -94,13 +94,12 @@ function(app, Overlay, Ref) {
 				  this.addSentimentOverlay(args);
 			  }
 		  }
-		  
+		  		  
 		  //always showing the traitlead
 		  if(args['type']=="traitLead"){
 		   //console.log("received traitLead");
 			 this.addTraitOverlay(args);
 		  }
-		  
 	  },
 	  
 	  isAnyOverlayExpanded: function() {
@@ -140,7 +139,7 @@ function(app, Overlay, Ref) {
 	  	else if (args["trait"] == 'depression') traitString = "SUICIDAL";
 	  	else if (args["trait"] == 'honesty') traitString = "HONEST";
 	  	
-	  	console.log("addTraitOverlay() " + traitString + " leader:" + args["leader"] + " speaker:" + args["curSpeaker"] + " val:" + moreVal);
+	  	//console.log("addTraitOverlay() " + traitString + " leader:" + args["leader"] + " speaker:" + args["curSpeaker"] + " val:" + moreVal);
 	  	
 	  	var traitsOverlay = new Overlay.Views.TraitView({ trait: traitString, speaker: speakerString, posY: this.scaleY(parseInt(this.attributes.transcript.getCurSentencePosY())), moreVal: moreVal });
 	  	$('#overlay').append(traitsOverlay.el);

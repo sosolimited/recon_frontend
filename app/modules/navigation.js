@@ -149,10 +149,10 @@ function(app) {
       if(showTime) {
         var now = new Date(startDates[debateNumber].getTime() + newTime);
         var nowString = (now.getHours() > 12 ? now.getHours() - 12 : now.getHours()) + ":" + (now.getMinutes() < 10 ? "0" + now.getMinutes() : now.getMinutes()) + (now.getHours() > 12 ? " PM" : " AM"); 
-        $("#navTime").text(nowString);
+        $("#navGoLiveButton").text(nowString);
       }
       else {
-        $("#navTime").html("<span id='goLive' class='tapable'>GO LIVE!</span>");
+        $("#navGoLiveButton").html("<span id='goLive' class='tapable'>GO LIVE!</span>");
       }
 
       var percent = this.timeDiffToPercent(newTime);
@@ -173,6 +173,7 @@ function(app) {
     enter: function(first) {
 	    $('#navigation').css("visibility", "visible");
 	    $('#navLeft').css("webkitTransform", "translateX(5px) translateY(-5px) rotate(90deg)");
+	    $('#navLeftButtons').css("webkitTransform", "translateX(0px) translateY(0px) rotate(90deg)");
 	    $('#navRight').css("webkitTransform", "translateX(0px) translateY(-5px) rotate(-90deg)");
 	    if (first) {
 	    	console.log("first");
@@ -185,6 +186,7 @@ function(app) {
 	    //$('#navigation').css("visibility", "hidden");	    
 	    $('#navLeft').css("webkitTransform", "translateX(-55px) translateY(-5px) rotate(90deg)");
 	    $('#navRight').css("webkitTransform", "translateX(60px) translateY(-5px) rotate(-90deg)");
+	    $('#navLeftButtons').css("webkitTransform", "translateX(-55px) translateY(0px) rotate(90deg)");
 	    $('#navInstructions').css("webkitTransform", "translateX(110%)");
 	    clearTimeout(instructionTimeout);
     },
@@ -193,6 +195,7 @@ function(app) {
     reset: function() { 
 	    $('#navigation').css("visibility", "hidden");
 	    $('#navLeft').css("webkitTransform", "translateX(-55px) translateY(-5px) rotate(90deg)");
+	    $('#navLeftButtons').css("webkitTransform", "translateX(-55px) translateY(0px) rotate(90deg)");
 	    $('#navRight').css("webkitTransform", "translateX(60px) translateY(-5px) rotate(-90deg)");
 	    $('#navInstructions').css("webkitTransform", "translateX(-120%)");
 	    clearTimeout(instructionTimeout);

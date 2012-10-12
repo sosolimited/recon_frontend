@@ -24,16 +24,23 @@ function(app, Ref) {
 			this.speaker = this.options.speaker;
 			this.moreVal = this.options.moreVal;
 			
+			console.log("speaker:" + this.options.speaker);
 			
 			this.aVal = '>'; 
 			
-			if (this.speaker == 1)
+			if (this.options.speaker == "obama")
 			{
+				//console.log("1 Obama More val:" + this.moreVal);
+				//console.log("Index:"+this.moreVal.indexOf('LESS'));
 				if (this.moreVal.indexOf('LESS') != -1) this.aVal = '<';
+				//console.log(this.aVal);
 			}
 			else 
 			{
+				//console.log("2 Romney More val:" + this.moreVal);
+				//console.log("Index:"+this.moreVal.indexOf('MORE'));
 				if (this.moreVal.indexOf('MORE') != -1) this.aVal = '<';
+				//console.log(this.aVal);
 			}
 			
 			//console.log(this.moreVal + " " + this.aVal);
@@ -110,9 +117,9 @@ function(app, Ref) {
 	    else this.collapse(true);
 	    
 	    // Tell skrollr about new elements
-    	this.$el.find('.container').each(function(i){ 
-    		app.skrollr.refresh(this);
-    	});
+    	//this.$el.find('.container').each(function(i){ 
+    	//	app.skrollr.refresh(this);
+    	//});
     	this.$el.find('.traitSymbolLeft').each(function(i){ 
     		app.skrollr.refresh(this);
     	});
@@ -615,16 +622,16 @@ function(app, Ref) {
 	    //  $(this).css('left', '0px');
 	    //});
 	    //window.setTimeout(function(){
-   	   this.$el.find('.categoryOverlayText').each(function(){
-	  	 	$(this).css('top', '0px');
-	  	 });
+      this.$el
+        .find(".categoryOverlay")
+        .addClass("play");
 	  	//}, 10, this);
     },
     
     collapse: function() {
-      this.$el.find('.categoryOverlayText').each(function(){
-	      $(this).css('top', '90px');
-	    });
+      this.$el
+        .find(".categoryOverlay")
+        .removeClass("play");
 	    //window.setTimeout(function(){
 	  	// 	//this.$el.css('display', 'none');
 	  	// 	this.$el.find('.categoryOverlay').each(function(){
@@ -634,9 +641,10 @@ function(app, Ref) {
     },
     
     hide: function() {
-      this.$el.find('.categoryOverlayText').each(function(){
-	      $(this).css('top', '90px');
-	    });
+      // This method is identical to the "collapse" method
+      // TODO: Replace all references to this method with the "collapse"
+      // method and then remove it.
+      this.collapse.apply(this, arguments);
 	    //window.setTimeout(function(){
 	  	// 	//this.$el.css('display', 'none');
 	  	// 	this.$el.find('.categoryOverlay').each(function(){

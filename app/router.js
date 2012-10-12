@@ -71,6 +71,8 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           */
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["posemo"], speakerNames:speakerCollection, title:"POSITIVITY", subtitle:"The percentage of words spoken that are positive in some way. ie. 'winning, happy, improve.'", range:[0,5.0], color1:"Yellow"}));
       
+      //comparisonCollection.add(new Comparison.ListModel({traitNames:["megalist"], speakerNames:speakerCollection, title:"SHIT THEY REPEAT", subtitle:"The favorite words and phases of each candidate (excluding shitty little words like 'the', 'I', 'if', etc.)", uniqueWords:uniqueWords, unique2Grams:unique2Grams, unique3Grams:unique3Grams, color1:"Lime"}));  
+
       comparisonCollection.add(new Comparison.MegaListModel({traitNames:["megalist"], speakerNames:speakerCollection, title:"SHIT THEY REPEAT", subtitle:"The favorite words and phases of each candidate (excluding shitty little words like 'the', 'I', 'if', etc.)", uniqueWords:uniqueWords, unique2Grams:unique2Grams, unique3Grams:unique3Grams, color1:"Lime"}));     
        
       comparisonCollection.add(new Comparison.EmotionModel({traitNames:["negemo"], speakerNames:speakerCollection, title:"NEGATIVITY", subtitle:"The percentage of words spoken that are negative in some way. ie. 'failure, dead, waste.'", range:[0,3.75], color1:"Sky"})); 
@@ -259,7 +261,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           percs[i] = perc;
 
           window.setTimeout(function() {
-            var hr = document.querySelector(".landingRule"+num+".gray60");
+            var hr = document.querySelector("#landingRule"+num);
             var total = percs[0] + percs[1];
 
             if (hr) {
@@ -278,7 +280,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	
 	      // Opens.
 	      messages.open("GET", "/messages/"+i, true);
-	      markup.open("GET", "/markup/whateva", true);
+	      markup.open("GET", "/markup", true);
 	
 	      // Prog rock.
 	      messages.onprogress = function(e) {
@@ -295,7 +297,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 		        var contents = "[" +
 		          e.target.responseText.split("\n").slice(0, -1).join(",") +
 		        "]";
-		        app.messages[String(i)] = new Message.Collection(JSON.parse(contents));
+		        app.messages[i] = new Message.Collection(JSON.parse(contents));
 		        updateBar(50, 0, i);
 			      app.trigger("debate:activate", i);
 		      } else {
@@ -344,15 +346,15 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 					else if(event.which == 87){	
 						//for skrollr object switching
 						//if(app.skrollr._skrollElement == null) app.skrollr.setSkrollElement("")
-						app.skrollr.resetSkrollElement();
+						//app.skrollr.resetSkrollElement();						
 					}
 					//p 
 					else if(event.which==80){	
 						// Inserting test parallax objects.
 						// app.trigger("keypress:test", {type:"testParallax"});
-						var el = $('#comparisons > .wrapper').get(0);
+						// var el = $('#comparisons > .wrapper').get(0);
 						//console.log("setSkrollElement("+el+")");
-						app.skrollr.setSkrollElement(el);
+						//app.skrollr.setSkrollElement(el);
 					}
 					//z To nudge parallax test objects left
 					else if(event.which==90){	

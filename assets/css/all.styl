@@ -1,7 +1,7 @@
 @import "nib"
 
 body {
-  /* background: -webkit-linear-gradient(left, #9699A0, #C9D1CF, #C9D1CF, #9699A0); */
+  /* background: linear-gradient(left, #9699A0, #C9D1CF, #C9D1CF, #9699A0); */
   /*background-color: rgb(110,116,116);*/
   
   background-color: rgb(200,200,200); /*rgb(140,146,146);*/
@@ -47,8 +47,8 @@ body {
   /* overflow-x: hidden; */
   /* background-color: yellow; */
  
-  /* -webkit-perspective: 700px;	
-  -webkit-perspective-origin: 50% 1000px;	*/
+  /* perspective: 700px;
+  perspective-origin: 50% 1000px;	*/
 }
 
 #overlay {
@@ -70,8 +70,8 @@ body {
 	top: 0px;	
   z-index: -2;
 /*
-	-webkit-perspective: 700px; 
-	-webkit-perspective-origin: 50% 1000px;	
+	perspective: 700px;
+	perspective-origin: 50% 1000px;
 */
 }
 
@@ -89,7 +89,7 @@ body {
 	height: 300px;
 	width: 1024px;
 	*/
-	/* -webkit-transform: translateZ(-100px); */
+	/* transform: translateZ(-100px); */
 	
 }
 
@@ -111,7 +111,7 @@ body {
 	user-select: none;
 	/*color: rgb(135,140,140);*/
 	/*color: rgb(116,120,120);*/
-	/* -webkit-transform: translateZ(-500px); */
+	/* transform: translateZ(-500px); */
 }
 
 .testZ {
@@ -119,7 +119,7 @@ body {
 	width:50px;
 	background-color:red;
 	position:absolute;
-	/* -webkit-transform: translateZ(-300px);	*/
+	/* transform: translateZ(-300px);	*/
 }
 
 .testZno {
@@ -163,7 +163,7 @@ p { /* Transcript text */
 
 .fade {
   /*
-  -webkit-transform: scale(.4);
+  transform: scale(.4);
   opacity: .5;
   
   top: -75%;
@@ -183,8 +183,7 @@ p { /* Transcript text */
  
 #comparisons .wrapper {
   /*
-  -webkit-transition:  1s linear; 
-  transition:  1s linear; 
+  transition:  1s linear;
   */
   /* opacity: 0 !important; */
   position: fixed;
@@ -939,7 +938,7 @@ red background-color: rgb(255,85,57);
 	/* background-color:yellow; */
 
 	transition: transform 1s ease-in;
-	/* -webkit-transform: translateZ(0px); */
+	/* transform: translateZ(0px); */
 	
 	z-index: 8;
 	
@@ -962,7 +961,7 @@ red background-color: rgb(255,85,57);
 	/*top:48px;*/
 	left:1800px;	/* Start out of view */
 
-	/* -webkit-transform: translateZ(0px); */
+	/* transform: translateZ(0px); */
 }
 
 .traitSymbolRight {
@@ -972,7 +971,7 @@ red background-color: rgb(255,85,57);
 	/*top: 48px;*/
 	left: -600px;	/* Start out of view */
 
-	/* -webkit-transform: translateZ(0px); */
+	/* transform: translateZ(0px); */
 }
 
 /* Category words overlays */
@@ -1147,7 +1146,7 @@ red background-color: rgb(255,85,57);
 	/* background-color:yellow; */
 
 	transition: transform 1s ease-in, left 1s, top 1s, height 1s, width 1s;
-	/* -webkit-transform: translateZ(0px); */
+	/* transform: translateZ(0px); */
 
 }
 
@@ -1201,7 +1200,7 @@ red background-color: rgb(255,85,57);
 	padding: 0px 0px 0px 0px;
   color: rgb(255,255,255); 
 	transition: left 1s, right 1s, top 1s, height 1s, width 1s, font-size 1s, line-height 1s, color 1s;
-	/* -webkit-transform: translateZ(0px);	*/
+	/* transform: translateZ(0px);	*/
   z-index: 2;
 
 }
@@ -1216,7 +1215,7 @@ red background-color: rgb(255,85,57);
 	padding: 0px 0px 0px 0px;
   color: rgb(255,59,162);
 	transition: left 1s, right 1s, top 1s, height 1s, width 1s, font-size 1s, line-height 1s;
-	/* -webkit-transform: translateZ(0px);	*/
+	/* transform: translateZ(0px);	*/
   z-index: 2;
 }
 

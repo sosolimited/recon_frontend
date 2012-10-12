@@ -256,20 +256,21 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
       
     },
     
-    loadData: function() {
+    loadData: function(landing) {
 	    var updateBar = function() {
-        var percs = [0, 0, 0, 0, 0, 0];
+        var percs = [0, 0, 0, 0];
 
         return function(perc, i) {
           percs[i] = perc;
 
           window.setTimeout(function() {
-            var hr = document.querySelector("#landingRule0");
-            var total = percs[0] + percs[1] + percs[2] + percs[3] + percs[4] + percs[5];
+            var hr = document.querySelector("#landingSubTitleDiv");
+            var total = percs[0] + percs[1] + percs[2] + percs[3];
 
             if (hr) {
-              hr.style.background = "-webkit-linear-gradient(left, rgb(207, 255, 36) " +
-                total + "%, rgb(76,76,76) " + (total+1) + "%)";
+              hr.style.background = "-webkit-linear-gradient(left, rgb(64,180,230) " +
+                total + "%, rgb(78, 78, 74) " + (total) + "%)";
+              if (total == 100) app.trigger("landing:activate");
             }
           }, 100);
         };
@@ -279,24 +280,19 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
       [0, 1, 2].forEach(function(i) {
 
 	      var messages = new XMLHttpRequest();
-	      var markup = new XMLHttpRequest();
 	
 	      // Opens.
 	      messages.open("GET", "/messages/"+i, true);
-	      markup.open("GET", "/markup", true);
 	
 	      // Prog rock.
 	      messages.onprogress = function(e) {
-	        updateBar(Math.ceil((e.loaded/e.total) * 50/3), 2*i);
-	      };
-	      markup.onprogress = function(e) {
-	        updateBar(Math.ceil((e.loaded/e.total) * 50/3), 2*i+1);
+	        updateBar(Math.ceil((e.loaded/e.total) * 25), i);
 	      };
 	
 	      // Lobes.
 	      messages.onload = function(e) {
 	   		  
-	   		  updateBar(50/3, 2*i);   
+	   		  updateBar(25, i);   
 	      
 	      	if (e.target.responseText.length != 1) {
 		        var contents = "[" +
@@ -310,16 +306,25 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 		      }
 	      };
 	
-	      markup.onload = function() {
-	        app.markup = markup.responseText;
-	        updateBar(50/3, 2*i+1);
-	      };
 	
 	      // Send!
 	      messages.send();
-	      markup.send();
 	    });
+	    
+	    
+		  var markup = new XMLHttpRequest();
+	    markup.open("GET", "/markup", true);
+      markup.onprogress = function(e) {
+        updateBar(Math.ceil((e.loaded/e.total) * 25), 3);
+      };
+	    markup.onload = function() {
+	      app.markup = markup.responseText;
+	      updateBar(25, 3);
+	    };
+		  markup.send();
+		  
     },
+	  
     
     initKeyEvents: function() {
 	          // Listen for keydown events.

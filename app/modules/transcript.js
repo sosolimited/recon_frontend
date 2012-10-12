@@ -529,6 +529,7 @@ function(app, Overlay, Ref) {
     endParagraph: function() {
     	//console.log("transcript.endParagraph()");
       // Update attributes to cache position properties
+	      
       $('#curParagraph').attr('data-top', this.$("#curParagraph").offset().top);
       $('#curParagraph').attr('data-bottom', this.$("#curParagraph").offset().top + $("#curParagraph").height());
 
@@ -541,6 +542,7 @@ function(app, Overlay, Ref) {
       $('#saveTheHeight').offset({'left':0, 'top':screenBottom});
       $('#curParagraph').css('height', 'auto'); // No more offset
     	$('#curParagraph').removeAttr('id');
+	    
     	openParagraph = false;
     },
     
@@ -794,8 +796,8 @@ function(app, Overlay, Ref) {
     clearTranscript: function() {  		
     	console.log("transcript.clearTranscript()");
       // Close current shit.
-      this.endSentence();
-  		this.endParagraph();
+      if (openSentence) this.endSentence();
+  		if (openParagraph) this.endParagraph();
   		// Reset vars.    
       this.numberOpen = false;
       this.numberPhrase = "";

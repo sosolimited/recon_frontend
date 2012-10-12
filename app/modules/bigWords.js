@@ -22,7 +22,7 @@ function(app, Ref) {
 		 	app.on("message:word", this.addWord, this);
 		 	app.on("debate:reset", this.clearWords, this);
 
-      //focalLength = parseInt($("#bigWords").css("webkit-perspective"));
+      //focalLength = parseInt($("#bigWords").css("perspective"));
 
 		 },	
 		 
@@ -99,11 +99,11 @@ function(app, Ref) {
     foreshortening : function(element, _focalLength) {
       if(_focalLength == null) {
         // Calculate cached focal length if it hasn't been calculated yet
-        if(isNaN(focalLength)) focalLength = parseInt($("#bigWords").css("webkit-perspective"));
+        if(isNaN(focalLength)) focalLength = parseInt($("#bigWords").css("perspective"));
         _focalLength = focalLength;
       }
       
-      var mat = $(element).css('webkit-transform').split(" ");
+      var mat = $(element).css('transform').split(" ");
       var z = parseInt(mat[mat.length-2]);
       
       var out = _focalLength / (_focalLength - z);

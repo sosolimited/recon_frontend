@@ -236,7 +236,7 @@ function(app, Overlay, Ref) {
 	  	  
 	  handleScroll: function(val) {
  			 //console.log("markupManager.handleScroll("+val+")");
-			 $('#transcript > .wrapper').css("webkit-perspective-origin", "50% "+(val+500)+"px");
+			 $('#transcript > .wrapper').css("perspective-origin", "50% "+(val+500)+"px");
 	  },
 	  
 	  enter: function() {

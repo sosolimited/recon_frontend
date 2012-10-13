@@ -35,9 +35,9 @@ function(app, Ref) {
 	    
 	    this.navigation = this.options.navigation;
 	    this.transcript = this.options.transcript;
-	    this.overlay = this.options.overlay;
 	    this.bigWords = this.options.bigWords;
 	    this.comparisons = this.options.comparisons;	
+	    this.overlay = this.options.overlay;
 	    
 	    app.on("app:setLive", function(num) {
 	    	console.log("set live "+num+app.live);
@@ -50,6 +50,8 @@ function(app, Ref) {
 			    
 			    $('#navNotification > div > .navInstructionsText').text("Debate "+num+" is now live!");
 			    $('#navNotification').css("webkitTransform", "translateX(0%)");
+			    
+			    this.transcript.setHeading("DEBATE "+(num+1));
 			    setTimeout(function(){ $('#navNotification').css("webkitTransform", "translateX(100%)"); }, 3000);
 			  } else {
 		    	[0,1,2].forEach(function(i) {
@@ -114,6 +116,7 @@ function(app, Ref) {
 	        $("#transcript > .wrapper").html(app.markup);
 	        $("#bigWordsHolder").html(app.bigwords);
 	      }
+	      this.overlay.rerender();
       }
       
       this.exit(num);

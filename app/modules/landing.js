@@ -110,8 +110,10 @@ function(app, Ref) {
 	    }
 
       if (app.live) {
-      	//if (!app.loadDoc)
-	        //$("#transcript > .wrapper").html(app.markup);
+      	if (!app.loadDoc) {
+	        $("#transcript > .wrapper").html(app.markup);
+	        $("#bigWordsHolder").html(app.bigwords);
+	      }
       }
       
       this.exit(num);

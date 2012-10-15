@@ -228,9 +228,10 @@ function(app) {
 	    	if (!this.traitTimeoutFlag)
 	    	{
 	    	
-	    		this.curTraitTime = new Date().getTime();
-    			if (this.curTraitTime - this.lastWordTime < 10)
-    			{
+	    		//PEND: check seems to be broken
+	    		//this.curTraitTime = new Date().getTime();
+    			//if (this.curTraitTime - this.lastWordTime < 10)
+    			//{
 		    	//console.log("sendRandomTraitLeader");
 			  
 			    //var t = Math.floor(Math.random()*this.leads.length);
@@ -241,7 +242,7 @@ function(app) {
 			    app.trigger("markup", {type:"traitLead", leader:leader, trait:this.at(1).get("traits")[t]['name'], new:false, curSpeaker: this.curSpeaker});
 			    //console.log("old lead "+leader+" "+this.at(1).get("traits")[t]['name']);
 			    
-			   }
+			   //}
 			  }  
 	    }
     },

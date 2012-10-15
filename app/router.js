@@ -136,8 +136,8 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 
           transcript.on("click", ".transcriptSpeaker", function() {navigationView.enterComparison(event, "count");});
           transcript.on("click", ".sentimentClick", function() {navigationView.enterComparison(event, "POSITIVITY");});
-          transcript.on("click", ".traitClick", function() {navigationView.enterComparison(event, "AUTHENTIC");});
-          transcript.on("click", ".countClick", function() {navigationView.enterComparison(event, "list");});
+          transcript.on("click", ".traitClick", function() {navigationView.enterComparison(event, "TRUTHY");});
+          transcript.on("click", ".countClick", function() {navigationView.enterComparison(event, "megalist");});
           
           var markupNames = ['posemo', 'negemo', 'certain', 'tentat', 'number', 'quote'];          
           transcript.on("click", ".catMarkup", function(ev) {

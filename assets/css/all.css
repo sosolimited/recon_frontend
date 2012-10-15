@@ -435,11 +435,11 @@ hr {
 	
 	font-size:24px !important;
 	line-height: 36px;
-	text-transform: uppercase;
+	/*text-transform: uppercase;*/
 	/* left: 200px; */
 	position: absolute;
 	margin-top: 140px;
-	margin-right: 140px;
+	margin-right: 360px;
 	
 	color:white;
 	z-index: 4500;

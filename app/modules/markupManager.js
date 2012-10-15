@@ -76,6 +76,18 @@ function(app, Overlay, Ref) {
       }
 	  },
 	  
+	  rerender: function() {
+	  	
+	  	// remove old dom elts, hack, there must be a better way...
+	  	$('#overlay').find('.categoryOverlay').parent().parent().parent().remove();
+	  	
+	  	// make new ones
+		  for (var cat in this.get("catOverlays")) {
+	      $('#overlay').append(this.get("catOverlays")[cat].el);
+	      this.get("catOverlays")[cat].render();
+      }
+	  },
+	  
 	  // All overlay events get funnelled through this function.
 	  addOverlay: function(args) {
 	  	//console.log("markupManager.addOverlay(" + args['type'] + ")");

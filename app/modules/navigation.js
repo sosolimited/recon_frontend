@@ -231,8 +231,10 @@ function(app) {
       $("#transcript > .wrapper").data("lastTop", $(document.body).scrollTop());	
 
       var elt = $('#comparisons').find('.compareContainer.'+tag).parent();
-      $("#comparisons > .wrapper").stop().animate({ scrollTop: elt.position().top}, 1.0);
-      
+      //$("#comparisons > .wrapper").stop().animate({ scrollTop: elt.position().top}, 1.0);
+      console.log("Comparison jump to " + tag + " : " + elt.position().top + "| elt= : " + elt);      
+      $("#comparisons > .wrapper").scrollTop(elt.position().top);
+
       // Switch skrollr scroll element to comparisons container.
 			//app.skrollr.setSkrollElement($('#comparisons > .wrapper').get(0));
 	    

@@ -617,27 +617,16 @@ function(app, Ref) {
     },
     
     expand: function() {
-      //this.$el.css('display','block'); // Setting opacity alone still blocks mouse interactions.    
-      //this.$el.find('.categoryOverlay').each(function(){
-	    //  $(this).css('left', '0px');
-	    //});
-	    //window.setTimeout(function(){
+    	console.log("EXPAND "+this.$el.id+" "+this.$el.className+" "+this.$el.find('.categoryOverlay').className);
       this.$el
         .find(".categoryOverlay")
         .addClass("play");
-	  	//}, 10, this);
     },
     
     collapse: function() {
       this.$el
         .find(".categoryOverlay")
         .removeClass("play");
-	    //window.setTimeout(function(){
-	  	// 	//this.$el.css('display', 'none');
-	  	// 	this.$el.find('.categoryOverlay').each(function(){
-	    //  	$(this).css('left', '-1000px');	//Hack to get it out of the way so it doesn't block transcript markup selection.
-	    //  });
-	  	//}, 500, this);	
     },
     
     hide: function() {
@@ -645,12 +634,6 @@ function(app, Ref) {
       // TODO: Replace all references to this method with the "collapse"
       // method and then remove it.
       this.collapse.apply(this, arguments);
-	    //window.setTimeout(function(){
-	  	// 	//this.$el.css('display', 'none');
-	  	// 	this.$el.find('.categoryOverlay').each(function(){
-	    //  	$(this).css('left', '-1000px');
-	    //  });
-	  	//}, 500, this);	
     },
     
     afterRender: function() {

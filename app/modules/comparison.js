@@ -209,6 +209,7 @@ function(app, Ref) {
   		
   		app.on("message:word", this.updateWordStats, this);
   		app.on("debate:reset", this.clearWordStats, this);
+  		app.on("message:stats", this.rebaseWordStats, this);
   	},
   	
   	clearWordStats: function() {
@@ -231,6 +232,19 @@ function(app, Ref) {
   			this.set({wc:[ val1, val2] });
    			//console.log("speaker[2] wc = " + val2); 			
   			//console.log("wc[1] ++");
+  		}	
+  	},
+  	
+  	rebaseWordStats: function(args) {
+  		
+  		var msgTrait = args['msg']['speaker'];
+  		var punct = args['msg']['punctuationFlag'];
+  		var val1 = this.get('speakers').at(1).get("wordCount");
+  		var val2 = this.get('speakers').at(2).get("wordCount");
+  		  		
+  		if (args['msg']['total'][0] > this.get("wc")[0] ||
+  			args['msg']['total'][1] > this.get("wc")[1]) {
+  			this.set({wc:args['msg']['total']});		
   		}	
   	}
 

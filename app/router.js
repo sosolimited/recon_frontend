@@ -79,16 +79,16 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           
       //comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique2Grams, color1:"Lime"}));
           
-      comparisonCollection.add(new Comparison.EmotionModel({traitNames:["anger"], speakerNames:speakerCollection, title:"RAGE INDEX", subtitle:"The percentage of words spoken that are angry in some way. ie. 'fight, destroy, annoy.'", range:[0,1.95], color1:"Angry"})); 
+      comparisonCollection.add(new Comparison.EmotionModel({traitNames:["anger"], speakerNames:speakerCollection, title:"RAGE", subtitle:"The percentage of words spoken that are angry in some way. ie. 'fight, destroy, annoy.'", range:[0,1.95], color1:"Angry"})); 
 
       
       //comparisonCollection.add(new Comparison.ListModel({traitNames:["list"], speakerNames:speakerCollection, title:"TOP PHRASES", subtitle:"The top twenty phrases of each candidate", uniqueWords:unique3Grams, color1:"Lime"}));               
 
-      comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["formality"], speakerNames:speakerCollection, title:"SCRIPTED", title2:"CASUAL", subtitle:"Formal speakers, compared to conversationalists, make more self-references, use bigger words, and speak in the present tense less often.", range:[3, 27.0], color1:Ref.formal, color2:Ref.casual, gradient:"gradientFormality"})); 
+      comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["formality"], speakerNames:speakerCollection, title:"SCRIPTED", title2:"CASUAL", subtitle:"Formal speakers, compared to conversationalists, make more self-references, use bigger words, and speak in the present tense less often.", range:[0, 29.0], color1:Ref.formal, color2:Ref.casual, gradient:"gradientFormality"})); 
       
-      comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["depression"], speakerNames:speakerCollection, title:"SUICIDAL", title2:"CHEERFUL", subtitle:"Depressed people mention themselves more, use more negative language, use more physical words, and use fewer positive words.", range:[-1.0, 5.0], color1:Ref.depressed, color2:Ref.cheery, gradient:"gradientDisposition"}));  
+      comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["depression"], speakerNames:speakerCollection, title:"SUICIDAL", title2:"CHEERFUL", subtitle:"Depressed people mention themselves more, use more negative language, use more physical words, and use fewer positive words.", range:[-2.0, 6.0], color1:Ref.depressed, color2:Ref.cheery, gradient:"gradientDisposition"}));  
       
-      comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["honesty"], speakerNames:speakerCollection, title:"TRUTHY", title2:"DECEPTIVE", subtitle:"Compared to liars, truth-tellers tend to use more self-references, provide more detailed descriptions, and use fewer negative words. ", range:[0, 6.0], color1:Ref.purple, color2:Ref.redOrange, gradient:"gradientHonesty"}));                   
+      comparisonCollection.add(new Comparison.SpectrumModel({traitNames:["honesty"], speakerNames:speakerCollection, title:"TRUTHY", title2:"DECEPTIVE", subtitle:"Compared to liars, truth-tellers tend to use more self-references, provide more detailed descriptions, and use fewer negative words. ", range:[-1, 7.0], color1:Ref.purple, color2:Ref.redOrange, gradient:"gradientHonesty"}));                   
 
 			// Init landing page.
 			var landingView = new Landing.View( {model: new Landing.Model(), navigation: navigationView, transcript: transcriptView, overlay: markupManager, bigWords: bigWordsView, comparisons: comparisonView} );
@@ -134,10 +134,18 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           var comparisons = $("#comparisons > .wrapper");
           var bigWords = $("#bigWords");
 
-          transcript.on("click", ".transcriptSpeaker", function() {navigationView.enterComparison(event, "count");});
-          transcript.on("click", ".sentimentClick", function() {navigationView.enterComparison(event, "POSITIVITY");});
-          transcript.on("click", ".traitClick", function() {navigationView.enterComparison(event, "AUTHENTIC");});
-          transcript.on("click", ".countClick", function() {navigationView.enterComparison(event, "list");});
+          transcript.on("click", ".transcriptSpeaker", function() {navigationView.enterComparison(event, "megalist");});
+          //transcript.on("click", ".sentimentClick", function() {navigationView.enterComparison(event, "POSITIVITY");});
+          transcript.on("click", ".posemo", function() {navigationView.enterComparison(event, "POSITIVITY");});
+          transcript.on("click", ".negemo", function() {navigationView.enterComparison(event, "NEGATIVITY");});
+          
+//          transcript.on("click", ".traitClick", function() {navigationView.enterComparison(event, "TRUTHY");});
+          transcript.on("click", ".ENRAGED", function() {navigationView.enterComparison(event, "RAGE");});
+          transcript.on("click", ".DETACHED", function() {navigationView.enterComparison(event, "SCRIPTED");});
+          transcript.on("click", ".SUICIDAL", function() {navigationView.enterComparison(event, "SUICIDAL");});
+          transcript.on("click", ".HONEST", function() {navigationView.enterComparison(event, "TRUTHY");});
+          
+          transcript.on("click", ".countClick", function() {navigationView.enterComparison(event, "megalist");});
           
           var markupNames = ['posemo', 'negemo', 'certain', 'tentat', 'number', 'quote'];          
           transcript.on("click", ".catMarkup", function(ev) {

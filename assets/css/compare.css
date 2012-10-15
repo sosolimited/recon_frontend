@@ -42,6 +42,46 @@
 	z-index:-2;
 }
 
+.spectrumGradient{
+	
+	margin-top: -156px;
+	margin-left:-1500px;
+	margin-right:-1500px;
+	height: 642px; 
+	position:relative; 
+
+	background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%); 
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,1))); 
+	background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); 
+	background: -o-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); 
+	background: -ms-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); 
+	background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); 
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); 
+
+	opacity:0.2; 
+	z-index:-2;
+}
+
+.listGradient{
+	
+	margin-top: -156px;
+	margin-left:-1500px;
+	margin-right:-1500px;
+	height: 1150px; 
+	position:relative; 
+
+	background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%); 
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,1))); 
+	background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); 
+	background: -o-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); 
+	background: -ms-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); 
+	background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); 
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); 
+
+	opacity:0.2; 
+	z-index:-2;
+}
+
 .compareContainer {
 	
 	position:relative; 
@@ -57,7 +97,7 @@
 .list {
 
 	/* height:1200px;	*/ /* For Top 20 words */
-	height:700px;	 /* For Top 10 words */
+	height:750px;	 /* For Top 10 words */
 
 }
 
@@ -326,7 +366,7 @@
 	line-height:48px;
 	margin: 0 0 0 0;	
 	color: white;
-
+  z-index: 2;
 	
 }
 
@@ -339,7 +379,7 @@
 	line-height:48px;
 	margin: 0 0 0 0;	
 	color: white;
-
+  z-index: 2;
 	
 }
 

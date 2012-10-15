@@ -232,9 +232,14 @@ function(app) {
 
       var elt = $('#comparisons').find('.compareContainer.'+tag).parent();
       //$("#comparisons > .wrapper").stop().animate({ scrollTop: elt.position().top}, 1.0);
-      console.log("Comparison jump to " + tag + " : " + elt.position().top + "| elt= : " + elt);      
+      console.log("Comparison jump to " + tag + " : " + elt.position().top);      
       $("#comparisons > .wrapper").scrollTop(elt.position().top);
 
+
+			$("#comparisons > .wrapper").children().each(function(i) {
+				console.log("Child " + i + " = " + $(this).position().top);
+			
+			 });
       // Switch skrollr scroll element to comparisons container.
 			//app.skrollr.setSkrollElement($('#comparisons > .wrapper').get(0));
 	    
@@ -246,7 +251,8 @@ function(app) {
     	app.mode = "transcript";
       $("#transcript > .wrapper").removeClass("fade");
       $("#comparisons > .wrapper").removeClass("active");
-        
+      $("#comparisons > .wrapper").scrollTop(0);  
+      
       // switch buttons
       $('#navTranscriptButton').css('display', 'none'); 
       $('#navComparisonButton').css('display', 'inline-block');

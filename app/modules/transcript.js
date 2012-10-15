@@ -108,7 +108,6 @@ function(app, Overlay, Ref) {
     },
 
     addWord: function(args) {
-      if (args.msg.type === "word" && app.restore) { return; }
       //console.log("transcript.addWord("+args['msg']['word']+")");
 	    var word = args['msg'];
 	    
@@ -494,7 +493,7 @@ function(app, Overlay, Ref) {
     },
 
     startParagraph : function(msg) {
-     	//console.log("transcript.startParagraph()");
+     	console.log("transcript.startParagraph()");
       var cSpeaker = msg["speaker"];
       if(cSpeaker==0) col = 2;	//obama
   		else if(cSpeaker==2) col = 3;	//romney
@@ -530,6 +529,7 @@ function(app, Overlay, Ref) {
     endParagraph: function() {
     	//console.log("transcript.endParagraph()");
       // Update attributes to cache position properties
+	      
       $('#curParagraph').attr('data-top', this.$("#curParagraph").offset().top);
       $('#curParagraph').attr('data-bottom', this.$("#curParagraph").offset().top + $("#curParagraph").height());
 
@@ -542,6 +542,7 @@ function(app, Overlay, Ref) {
       $('#saveTheHeight').offset({'left':0, 'top':screenBottom});
       $('#curParagraph').css('height', 'auto'); // No more offset
     	$('#curParagraph').removeAttr('id');
+	    
     	openParagraph = false;
     },
     
@@ -778,17 +779,6 @@ function(app, Overlay, Ref) {
         // || $(document).height() - this.$window.height() - this.$window.scrollTop() < Ref.autoscrollReattachThreshold;
         // Second case is to bounce from the bottom
     },      
-
-
-    resetToNode: function(n) {
-	    
-  		// clear out following text in prep for playback
-  		curSpeaker = "";
-  		this.endSentence();
-  		this.endParagraph();
-  		$('#'+n).parent().parent().parent().nextAll().andSelf().remove();	
-  		
-    },
     
     enter: function() {
 	    $('#transcript').css("visibility", "visible");
@@ -804,17 +794,17 @@ function(app, Overlay, Ref) {
     },
     
     clearTranscript: function() {  		
-    	//console.log("transcript.clearTranscript()");
+    	console.log("transcript.clearTranscript()");
       // Close current shit.
-      this.endSentence();
-  		this.endParagraph();
+      if (openSentence) this.endSentence();
+  		if (openParagraph) this.endParagraph();
   		// Reset vars.    
       this.numberOpen = false;
       this.numberPhrase = "";
       curSpeaker = -1;
   		// Empty out contents of transcript.	    
 	    $('.transcriptParagraph').remove();
-	    	    
+	    console.log("clear transcript");
     }
    
   });

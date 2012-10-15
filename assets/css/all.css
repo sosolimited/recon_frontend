@@ -738,7 +738,7 @@ hr {
 	width: 296px;
 	height: 3px;
 	margin: -12px 0px 15px 0px;
-	background-color: rgb(150,150,150)!important;	
+  color:rgb(78,79,74);
 }
 
 .landingWhiteRule1 {
@@ -845,8 +845,9 @@ landingTitleImage {
 	position: relative;
 	top: 588px;
 	height: 48px;
+	background-color: rgb(78,78,74); 
 	/*lime background-color: rgb(35,255,49);*/
-	background-color: rgb(64,180,230);
+	/*background-color: rgb(64,180,230);*/
 /*background-color: rgb(255,239,54);
 red background-color: rgb(255,85,57);
 */

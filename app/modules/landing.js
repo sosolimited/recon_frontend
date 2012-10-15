@@ -35,21 +35,23 @@ function(app, Ref) {
 	    
 	    this.navigation = this.options.navigation;
 	    this.transcript = this.options.transcript;
-	    this.overlay = this.options.overlay;
 	    this.bigWords = this.options.bigWords;
 	    this.comparisons = this.options.comparisons;	
+	    this.overlay = this.options.overlay;
 	    
 	    app.on("app:setLive", function(num) {
 	    	console.log("set live "+num+app.live);
 	    	if (app.live) {
 		    	this.enter();
 		    	[0,1,2].forEach(function(i) {
-			    	if (i != num) this.deactivateDebate(i);
-			    	else this.activateDebate(i);
+			    	if (i != num) this.deactivateDebate(i, true);
+			    	else this.activateDebate(i, true);
 			    }, this);
 			    
 			    $('#navNotification > div > .navInstructionsText').text("Debate "+num+" is now live!");
 			    $('#navNotification').css("webkitTransform", "translateX(0%)");
+			    
+			    this.transcript.setHeading("DEBATE "+(num+1));
 			    setTimeout(function(){ $('#navNotification').css("webkitTransform", "translateX(100%)"); }, 3000);
 			  } else {
 		    	[0,1,2].forEach(function(i) {
@@ -60,6 +62,7 @@ function(app, Ref) {
 	    }, this);
       app.on("debate:activate", this.activateDebate, this);
       app.on("debate:deactivate", this.deactivateDebate, this);
+      app.on("landing:activate", this.activatePage, this);
     },
     
     cleanup: function() {
@@ -69,8 +72,7 @@ function(app, Ref) {
     events: {
         'click #landingButton0': 'handleDebateClick',
         'click #landingButton1': 'handleDebateClick',
-        'click #landingButton2': 'handleDebateClick',
-        'click': 'handleDebateClick'
+        'click #landingButton2': 'handleDebateClick'
     },
     
     serialize: function() {
@@ -100,16 +102,21 @@ function(app, Ref) {
       // Playback messages.
       if (!app.live) {
 	    //if (app.router.qs.playback) {
+	    	console.log("last "+app.lastDebateViewed+" "+num);
 	    	if (num == app.lastDebateViewed) {
 		    	app.messages[num].playbackMessages(false);
 		    } else {
-		    	app.messages[num].playbackMessages(true);
 		    	app.trigger("debate:reset");
+		    	app.messages[num].playbackMessages(true);
 		    }
 	    }
 
       if (app.live) {
-        //$("#transcript").html(app.markup);
+      	if (!app.loadDoc) {
+	        $("#transcript > .wrapper").html(app.markup);
+	        $("#bigWordsHolder").html(app.bigwords);
+	      }
+	      this.overlay.rerender();
       }
       
       this.exit(num);
@@ -125,7 +132,7 @@ function(app, Ref) {
       this.transcript.exit();
       this.bigWords.exit();	
       this.comparisons.exit();
-      if (app.lastDebateViewed > -1) app.messages[app.lastDebateViewed].stopPlayback();    
+      if (app.lastDebateViewed > -1 && app.messages[app.lastDebateViewed]) app.messages[app.lastDebateViewed].stopPlayback();    
     },
     
     exit: function(num) {
@@ -138,22 +145,30 @@ function(app, Ref) {
       this.model.set({lastDebateViewed:num});
     },
     
-    deactivateDebate: function(num) {
-    	if (num >= 0 && num < 3) {
-		    console.log("deactivating "+num);
-		    $('#landingButton'+num).addClass('inactive');
-		    $('#landingRule'+num).addClass('inactive');
-		   	app.active[num] = false; 
-		  }
+    deactivateDebate: function(num, force) {
+    	if (force || !app.live) { // ignore if app is live, unless command comes direct from setLive msg
+	    	if (num >= 0 && num < 3) {
+			    console.log("deactivating "+num);
+			    $('#landingButton'+num).addClass('inactive');
+			    $('#landingRule'+num).addClass('inactive');
+			   	app.active[num] = false; 
+			  }
+			}
     },
     
-    activateDebate: function(num) {
-    	if (num >= 0 && num < 3) {
-		    console.log("activating "+num);
-		    $('#landingButton'+num).removeClass('inactive');
-		    $('#landingRule'+num).removeClass('inactive');
-		    app.active[num] = true;
-		  }
+    activateDebate: function(num, force) {
+    	if (force || !app.live) { // ignore if app is live, unless command comes direct from setLive msg
+	    	if (num >= 0 && num < 3) {
+			    console.log("activating "+num);
+			    $('#landingButton'+num).removeClass('inactive');
+			    $('#landingRule'+num).removeClass('inactive');
+			    app.active[num] = true;
+			  }
+			}
+    },
+    
+    activatePage: function() {
+	    $('#landingSubTitle').text("A LIVE DECONSTRUCTION OF THE US PRESIDENTIAL DEBATES");
     }
     
     

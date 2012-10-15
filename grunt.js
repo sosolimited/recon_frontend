@@ -146,6 +146,15 @@ module.exports = function(grunt) {
 
           res.send(contents);
         });
+        
+        app.get("/bigwords", function(req, res) {
+          var path = "./live_bigwords.html";
+          var contents = fs.readFileSync(path).toString();
+          
+          res.header["Content-Length"] = contents.length;
+
+          res.send(contents);
+        });
 
         app.get("/messages/:debate", function(req, res) {
         	var d = req.params.debate;

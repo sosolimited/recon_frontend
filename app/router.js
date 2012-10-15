@@ -95,6 +95,13 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 			// Pass landing view to navigation for menu control.
 			navigationView.setLanding(landingView);    
        
+      
+			// EG Hack to fix loading race condition. calling render().then(... wasn't working above.
+			// I'm sure there's a less stupid way to do this.
+      //window.setTimeout(function() {	
+      // Yup, there is!
+      landingView.setElement("#landing").render().then(this.loadData); 
+       
       // Load from static file.
       if (this.qs.docName) {
 	      app.socket.send(JSON.stringify({
@@ -106,13 +113,10 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	          url: location.host
 	        }
 	      }));
+	      app.setLive(1);
+	      app.loadDoc = true;
 	    }
 
-			// EG Hack to fix loading race condition. calling render().then(... wasn't working above.
-			// I'm sure there's a less stupid way to do this.
-      //window.setTimeout(function() {	
-      // Yup, there is!
-      landingView.setElement("#landing").render().then(this.loadData);
 
       //app.on("ready", function() {
         navigationView.setElement("#navigation").render();
@@ -137,6 +141,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           
           var markupNames = ['posemo', 'negemo', 'certain', 'tentat', 'number', 'quote'];          
           transcript.on("click", ".catMarkup", function(ev) {
+
           	ev.stopPropagation();
           	markupManager.closeCatOverlays();
           	var i;
@@ -224,10 +229,10 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 			this.initKeyEvents();
 			      
       // Automatically load up the first debate for now
-      if(this.qs.debate)
+      /*if(this.qs.debate)
         app.trigger("debate:change", this.qs.debate);
       else
-        app.trigger("debate:change", 1);
+        app.trigger("debate:change", 1);*/
     },
     
     initialize: function() {
@@ -253,20 +258,21 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
       
     },
     
-    loadData: function() {
+    loadData: function(landing) {
 	    var updateBar = function() {
-        var percs = [0, 0];
+        var percs = [0, 0, 0, 0, 0];
 
-        return function(perc, i, num) {
+        return function(perc, i) {
           percs[i] = perc;
 
           window.setTimeout(function() {
-            var hr = document.querySelector("#landingRule"+num);
-            var total = percs[0] + percs[1];
+            var hr = document.querySelector("#landingSubTitleDiv");
+            var total = percs[0] + percs[1] + percs[2] + percs[3] + percs[4];
 
             if (hr) {
-              hr.style.background = "-webkit-linear-gradient(left, rgb(207, 255, 36) " +
-                total + "%, rgb(76,76,76) " + (total+1) + "%)";
+              hr.style.background = "-webkit-linear-gradient(left, rgb(64,180,230) " +
+                total + "%, rgb(78, 78, 74) " + (total) + "%)";
+              if (total == 100) app.trigger("landing:activate");
             }
           }, 100);
         };
@@ -276,45 +282,62 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
       [0, 1, 2].forEach(function(i) {
 
 	      var messages = new XMLHttpRequest();
-	      var markup = new XMLHttpRequest();
 	
 	      // Opens.
 	      messages.open("GET", "/messages/"+i, true);
-	      markup.open("GET", "/markup", true);
 	
 	      // Prog rock.
 	      messages.onprogress = function(e) {
-	        updateBar(Math.ceil((e.loaded/e.total) * 50), 0, i);
-	      };
-	      markup.onprogress = function(e) {
-	        updateBar(Math.ceil((e.loaded/e.total) * 50), 1, i);
+	        updateBar(Math.ceil((e.loaded/e.total) * 20), i);
 	      };
 	
 	      // Lobes.
 	      messages.onload = function(e) {
+	   		  
+	   		  updateBar(20, i);   
 	      
 	      	if (e.target.responseText.length != 1) {
 		        var contents = "[" +
 		          e.target.responseText.split("\n").slice(0, -1).join(",") +
 		        "]";
 		        app.messages[i] = new Message.Collection(JSON.parse(contents));
-		        updateBar(50, 0, i);
+
 			      app.trigger("debate:activate", i);
 		      } else {
 			      app.trigger("debate:deactivate", i);
 		      }
 	      };
 	
-	      markup.onload = function() {
-	        app.markup = markup.responseText;
-	        updateBar(50, 1, i);
-	      };
 	
 	      // Send!
 	      messages.send();
-	      markup.send();
 	    });
+	    
+	    
+		  var markup = new XMLHttpRequest();
+	    markup.open("GET", "/markup", true);
+      markup.onprogress = function(e) {
+        updateBar(Math.ceil((e.loaded/e.total) * 20), 3);
+      };
+	    markup.onload = function() {
+	      app.markup = markup.responseText;
+	      updateBar(20, 3);
+	    };
+		  markup.send();
+		  
+		  var bigwords = new XMLHttpRequest();
+	    bigwords.open("GET", "/bigwords", true);
+      bigwords.onprogress = function(e) {
+        updateBar(Math.ceil((e.loaded/e.total) * 20), 4);
+      };
+	    bigwords.onload = function() {
+	      app.bigwords = bigwords.responseText;
+	      updateBar(20, 4);
+	    };
+		  bigwords.send();
+		  
     },
+	  
     
     initKeyEvents: function() {
 	          // Listen for keydown events.

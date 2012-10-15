@@ -113,8 +113,9 @@ function(app, Ref) {
 
       if (app.live) {
       	if (!app.loadDoc) {
-	        $("#transcript > .wrapper").html(app.markup);
-	        $("#bigWordsHolder").html(app.bigwords);
+	        //PEND: data injection still needs work
+	        //$("#transcript > .wrapper").html(app.markup);
+	        //$("#bigWordsHolder").html(app.bigwords);
 	      }
 	      this.overlay.rerender();
       }

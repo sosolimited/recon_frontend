@@ -146,7 +146,7 @@ function(app, Overlay, Ref) {
 	  	var traitString = "";
 	  	//jro changed traits
 	  	if (args["trait"] == 'anger') traitString = "ENRAGED";
-	  	else if (args["trait"] == 'complexity') traitString = "O.C.D.";
+	  	//else if (args["trait"] == 'complexity') traitString = "O.C.D.";
 	  	else if (args["trait"] == 'formality') traitString = "DETACHED";
 	  	else if (args["trait"] == 'depression') traitString = "SUICIDAL";
 	  	else if (args["trait"] == 'honesty') traitString = "HONEST";

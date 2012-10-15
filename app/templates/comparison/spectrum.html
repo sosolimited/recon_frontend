@@ -4,14 +4,14 @@
 		<hr style="height:3px; background-color:rgb(<%=comparison.get("color1")[0]%>, <%=comparison.get("color1")[1]%>, <%=comparison.get("color1")[2]%>);"/> 
 		<p class="franklinBookComp comparisonSubtitle " style="color:rgb(<%=comparison.get("color1")[0]%>, <%=comparison.get("color1")[1]%>, <%=comparison.get("color1")[2]%>);"><%= comparison.get("subtitle") %> </p>
 		
-		<div class = "span-6" style="position:relative; height:350px; top:12px;">		
+		<div class = "span-6" style="position:relative; height:400px; top:12px;">		
 		<div class="spectrumGradient" ></div>		
-		<div class = "spectrumBackgroundPush <%=comparison.get("gradient")%>" style="top: 0px; height:350px; width:20px; position:absolute; "></div>
+		<div class = "spectrumBackgroundPush <%=comparison.get("gradient")%>" style="top: 0px; height:400px; width:20px; position:absolute; "></div>
 
 		<%  var val0 = comparison.get("traits")[0].vals[0]; 
 			var val1 = comparison.get("traits")[0].vals[1]; 
-			var totalBarH = 350; 
-			var totalH = 350;
+			var totalBarH = 400; 
+			var totalH = 400;
 			var range = [comparison.get("range")[0], comparison.get("range")[1]];
   		var colorExtreme1 = comparison.get("color1");
   		var colorExtreme2 = comparison.get("color2");

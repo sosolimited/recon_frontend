@@ -44,6 +44,7 @@ function(app) {
       app.on("app:setLive", this.handleLive, this);
       
       this.landing = null;
+      this.compTimeoutIndex = 0;	// Used for cancelling previous comparison hide timeouts.
     },
     
     serialize: function() {
@@ -220,10 +221,19 @@ function(app) {
       $('#navTranscriptButton').css('display', 'inline-block'); 
       $('#navComparisonButton').css('display', 'none');
 
-      // EG Testing this for performance
-      $('#comparisons').css("visibility", "visible");	     	   // This is in case comparison.exit() was called.
-      $('#comparisons > .wrapper').css("display", "block");
-      $('#transcript').css("visibility", "hidden");       
+      // Animate comparison in and transcript out.
+      $('#comparisons').addClass('play');		// This lets it display immediately.
+      $('#comparisons').css("visibility", "visible");	// This is in case comparison.exit() was called.
+      //clearTimeout(this.compTimeoutIndex);	// Cancel any previous hide-comparison timeouts
+      //$('#comparisons > .wrapper').css('display', 'block');	// This is in case comparison.exit() was called.
+      $('#comparisons > .wrapper').css('left', '0px');           
+      
+      
+      $('#transcript').removeClass('play');
+      $('#transcript').css('left', '-100%');
+      $('#transcript').css("visibility", "hidden");      
+      
+      
       
       // Disable scrolling on the document body and save the current
       // offset (to be restored when closing the comparison view)
@@ -232,7 +242,7 @@ function(app) {
 
       var elt = $('#comparisons').find('.compareContainer.'+tag).parent();
       //$("#comparisons > .wrapper").stop().animate({ scrollTop: elt.position().top}, 1.0);
-      console.log("Comparison jump to " + tag + " : " + elt.position().top + "| elt= : " + elt);      
+      //console.log("Comparison jump to " + tag + " : " + elt.position().top + "| elt= : " + elt);      
       $("#comparisons > .wrapper").scrollTop(elt.position().top);
 
       // Switch skrollr scroll element to comparisons container.
@@ -251,9 +261,20 @@ function(app) {
       $('#navTranscriptButton').css('display', 'none'); 
       $('#navComparisonButton').css('display', 'inline-block');
       
-      // EG Testing this for performance
-      $('#comparisons > .wrapper').css("display", "none");
-      $('#transcript').css("visibility", "visible");
+			// Animate comparison out and transcript in.		
+      $('#comparisons > .wrapper').css('left', '100%');
+      $('#comparisons').removeClass('play');
+      $('#comparisons').css("visibility", "hidden");
+      //this.compTimeoutIndex = window.setTimeout(function(){	// Delay comparison hide and record index of timeout.
+			//	$('#comparisons > .wrapper').css('display', 'none');	
+			//	//console.log("#comparisons is display none");
+      //},1200,this);
+      
+      $('#transcript').addClass('play');			// This lets it display immediately.
+      $('#transcript').css('visibility', 'visible');
+      $('#transcript').css('left', '0px');
+      
+      
       
       // Re-enable scrolling on the document body and restore the
       // previous offset

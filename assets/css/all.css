@@ -37,10 +37,12 @@ body {
 
 
 .transcript .wrapper {
+		
   -webkit-transition: -webkit-transform .5s linear; 
-  transition: all .5s linear;
+  /* transition: all .5s linear; */
   overflow:visible;
   position: static;
+  
   /* overflow-x: hidden; */
   /* background-color: yellow; */
  
@@ -173,12 +175,6 @@ p { /* Transcript text */
   */
 }
 
-/* EG Just to initialize it to hidden */
-/* 
-#comparisons {
-	display: none;
-}
-*/
 
 #comparisons .active {
   z-index: 5000;
@@ -187,9 +183,6 @@ p { /* Transcript text */
 #comparisons .active.wrapper {
   /* When in the stats mode, overflow-x is set to visible which causes shit. */
   overflow-x: hidden !important;
-  /*-webkit-transform: scale(1);
-  transform: scale(1);*/
-  /* opacity: 1.0 !important; */
 }
  
 #comparisons .wrapper {
@@ -200,13 +193,15 @@ p { /* Transcript text */
   /* opacity: 0 !important; */
   position: fixed;
   
-  display: none;	/* EG Init state */
+  /* display: none; */ /* Init state */
   
   overflow-y: scroll;
   overflow-x: hidden;
+    
+  left: 100%;
+    
+  -webkit-transition: left 1.2s linear;
   
-  /*-webkit-transform: scale(0);
-  transform: scale(0);*/
 }
 
 /* For skrollr purposes */
@@ -434,6 +429,7 @@ hr {
 	position: fixed;
 	z-index: 3500;
 }
+
 .navInstructionsText{
 	
 	font-size:24px !important;
@@ -462,8 +458,25 @@ hr {
 	z-index: 4500;
 }
 
+#transcript {
+	position: relative;
+	-webkit-transition: left 1.2s linear, visibility 0s linear 1.2s;
+}
 
-#transcriptHeading{
+#transcript.play {
+	-webkit-transition: left 1.2s linear, visibility 0s linear 0s;
+}
+
+#comparisons {
+	-webkit-transition: visibility 0s linear 1.2s;
+}
+
+#comparisons.play {
+	-webkit-transition: visibility 0s linear 0s;
+}
+
+
+#transcriptHeading {
 	
 	/* left:64px; */
 	width:500px;

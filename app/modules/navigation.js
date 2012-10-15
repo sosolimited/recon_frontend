@@ -232,14 +232,10 @@ function(app) {
 
       var elt = $('#comparisons').find('.compareContainer.'+tag).parent();
       //$("#comparisons > .wrapper").stop().animate({ scrollTop: elt.position().top}, 1.0);
-      console.log("Comparison jump to " + tag + " : " + elt.position().top);      
+      //console.log("Comparison jump to " + tag + " : " + elt.position().top);      
       $("#comparisons > .wrapper").scrollTop(elt.position().top);
 
 
-			$("#comparisons > .wrapper").children().each(function(i) {
-				console.log("Child " + i + " = " + $(this).position().top);
-			
-			 });
       // Switch skrollr scroll element to comparisons container.
 			//app.skrollr.setSkrollElement($('#comparisons > .wrapper').get(0));
 	    

@@ -179,7 +179,7 @@ function(app) {
 	    if (first) {
 	    	console.log("first");
 	    	$('#navInstructions').css("webkitTransform", "translateX(0%)");
-		    instructionTimeout = setTimeout(function(){ $('#navInstructions').css("webkitTransform", "translateX(100%)"); }, 20000);
+		    instructionTimeout = setTimeout(function(){ $('#navInstructions').css("webkitTransform", "translateX(100%)"); }, 18000);
 		  } 
     },
     

@@ -226,10 +226,16 @@ function(app) {
       // Animate comparison in and transcript out.
       $('#comparisons').addClass('play');		// This lets it display immediately.
       $('#comparisons').css("visibility", "visible");	// This is in case comparison.exit() was called.
-      //clearTimeout(this.compTimeoutIndex);	// Cancel any previous hide-comparison timeouts
-      //$('#comparisons > .wrapper').css('display', 'block');	// This is in case comparison.exit() was called.
-      
-      $('#comparisons > .wrapper').css('left', '0px');           
+      clearTimeout(this.compTimeoutIndex);	// Cancel any previous hide-comparison timeouts
+      // We have to reset the position since it was just taken out of display:none state.      
+      $('#comparisons > .wrapper').addClass('play');
+      $('#comparisons > .wrapper').css('left', '100%');           
+      $('#comparisons > .wrapper').css('display', 'block');	// This is in case comparison.exit() was called.
+      // Wait until position has been reset to slide back in.
+      window.setTimeout(function(){
+      	$('#comparisons > .wrapper').removeClass('play');
+      	$('#comparisons > .wrapper').css('left', '0px');           
+      }, 10, this);
        
       $('#transcript').removeClass('play');
       $('#transcript').css('left', '-100%');
@@ -271,10 +277,10 @@ function(app) {
       $('#comparisons > .wrapper').css('left', '100%');
       $('#comparisons').removeClass('play');
       $('#comparisons').css("visibility", "hidden");
-      //this.compTimeoutIndex = window.setTimeout(function(){	// Delay comparison hide and record index of timeout.
-			//	$('#comparisons > .wrapper').css('display', 'none');	
-			//	//console.log("#comparisons is display none");
-      //},1200,this);
+      this.compTimeoutIndex = window.setTimeout(function(){	// Delay comparison hide and record index of timeout.
+				$('#comparisons > .wrapper').css('display', 'none');	
+				//console.log("#comparisons is display none");
+      },1200,this);
       
       $('#transcript').addClass('play');			// This lets it display immediately.
       $('#transcript').css('visibility', 'visible');

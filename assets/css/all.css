@@ -193,7 +193,7 @@ p { /* Transcript text */
   /* opacity: 0 !important; */
   position: fixed;
   
-  /* display: none; */ /* Init state */
+  display: none; /* Init state */
   
   overflow-y: scroll;
   overflow-x: hidden;
@@ -202,6 +202,11 @@ p { /* Transcript text */
     
   -webkit-transition: left 1.2s linear;
   
+}
+
+#comparisons .wrapper.play {
+	left: 100%;
+	-webkit-transition: left 0s;
 }
 
 /* For skrollr purposes */

@@ -112,10 +112,10 @@ function(app, Ref) {
 	    }
 
       if (app.live) {
-      	if (!app.loadDoc) {
-	        //PEND: data injection still needs work
-	        //$("#transcript > .wrapper").html(app.markup);
-	        //$("#bigWordsHolder").html(app.bigwords);
+      	if (!app.router.qs.nosocket && app.markup && app.bigwords) {
+          $("#navInstructions").hide();
+	        $("#transcript > .wrapper").html(app.markup);
+	        $("#bigWordsHolder").html(app.bigwords);
 	      }
 	      this.overlay.rerender();
       }

@@ -1,4 +1,4 @@
-<div class="container <%= type %>">
+<div class="container <%= type %> overlayBox">
   <!-- populated with random +/-'s (class='emoSign') by overlay -->
   <div class="franklinDemiComp sentimentClick emoTextBig" style="left: <%=  speaker==1 ? gridColumns[3] : gridColumns[0] %>px; top: <%= posY %>px"><%= type=='posemo' ? 'BULLISH' : 'GLOOMY' %><br />OUTBURST</div>
   <div class="franklinDemiComp sentimentClick emoTextSmall" style="left: <%= speaker==1 ? gridColumns[5] : gridColumns[1] %>px; top: <%= posY %>px" data-top-bottom="margin-top:-90px;" data-bottom-top="margin-top:90px;"><%= type=='posemo' ? 'BULLISH' : 'GLOOMY' %><br />OUTBURST</div>

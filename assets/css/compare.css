@@ -266,6 +266,13 @@
 	line-height:18px;
 }
 
+.spectrumSubtitle:link {
+	position: absolute;
+	font-size: 20px;
+	letter-spacing: .03em;
+	line-height:18px;
+}
+
 .gradientHonesty {
 
 	background: #652d6a; /* Old browsers */

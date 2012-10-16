@@ -98,7 +98,7 @@ function(app, Ref) {
     		$(this).animate({'left':Ref.gridColumns[0], 'top':y+i*36+'px', 'height':'36px'}, collapseD);
      		
      		//else $(this).animate({'left':Ref.gridColumns[0], 'top':y+i*24+'px', 'height':'24px'}, collapseD);
-    		//$(this).animate({'-webkit-transform':'translateZ(1000px)'}, collapseD);   	//Move div forward in Z.	
+    		//$(this).animate({'transform':'translateZ(1000px)'}, collapseD);   	//Move div forward in Z.	
     		//this.style.webkitTransform = "translateZ(500px)";	//We're using CSS transitions to animate this.
     	
     	});
@@ -189,7 +189,7 @@ function(app, Ref) {
     	var collapseD = this.collapseDur;
     	//Shrink text.
     	this.$el.find('.wordCountText').each(function(i){ 
-	      if (force) $(this).css('-webkit-transition', '0s');
+        if (force) $(this).css('transition', '0s');
     		//$(this).delay((3-i)*50).animate({'font-size':'36px', 'line-height':'36px'}, collapseD);
 	    	$(this).css("top","0px");		
     		$(this).css('font-size','36px');
@@ -197,7 +197,7 @@ function(app, Ref) {
     	}); 
     	//Shrink word.
     	this.$el.find('.wordCountWord').each(function(i){ 
-	      if (force) $(this).css('-webkit-transition', '0s');
+        if (force) $(this).css('transition', '0s');
     		//$(this).animate({'font-size':'36px', 'line-height':'36px'}, collapseD);	
     		//$(this).css('font-size','36px');
     		//$(this).css('line-height','36px');
@@ -206,7 +206,7 @@ function(app, Ref) {
     	//Shrink and move divs.
     	var sp = this.speaker;
     	this.$el.find('.wordCountTextHolder').each(function(i){
-	      if (force) $(this).css('-webkit-transition', '0s');
+        if (force) $(this).css('transition', '0s');
     		if(i<3){ //don't move white word
 	    		if(sp=="obama"){
 		    		//$(this).delay((4-i)*50).animate({'left':Ref.gridColumns[4], 'top':y+i*36+'px', 'height':'36px'}, collapseD);
@@ -231,7 +231,7 @@ function(app, Ref) {
     	//Expand line
     	var x = this.wordX;
 	    	this.$el.find('.wordCountLine').each(function(i){
-	      	if (force) $(this).css('-webkit-transition', '0s');
+        if (force) $(this).css('transition', '0s');
 	    		//$(this).css("top", cY+Ref.transcriptPointSize);
 	    		if(sp=="obama"){
 		    		$(this).css("width", (Ref.gridColumns[5]+Ref.gridWidth-x));
@@ -301,7 +301,7 @@ function(app, Ref) {
       var _posY = this.posY;
       var sp = this.speaker;
       this.$el.find('.numberPhrase').each(function(i){ 
-	      if (force) $(this).css('-webkit-transition', '0s');
+        if (force) $(this).css('transition', '0s');
 	      
 	      $(this).css("font-size","54px");
 	      $(this).css("height", "72px");
@@ -409,7 +409,7 @@ function(app, Ref) {
       var _posY = this.anchor.top;
       var sp = this.speaker;
       this.$el.find('.quotePhrase').each(function(i){ 
-	      if (force) $(this).css('-webkit-transition', '0s');
+        if (force) $(this).css('transition', '0s');
 	      //$(this).css("font-size","54px");
 	      //$(this).css("line-height","60px");
 	      //$(this).css("width", Ref.gridWidth);
@@ -423,13 +423,13 @@ function(app, Ref) {
 	        $(this).css("left", Ref.gridColumns[2]);
     	});
       this.$el.find('.quoteLeftQuote').each(function(i){ 
-	      if (force) $(this).css('-webkit-transition', '0s');
+        if (force) $(this).css('transition', '0s');
         $(this).css("font-size","204px");
         $(this).css("top", (_posY - 60) + 'px');  // Center on line
         $(this).css("left", (Ref.gridColumns[(sp == 1 ? 0 : 1)]) + 'px');
     	});  		   
       this.$el.find('.quoteRightQuote').each(function(i){   
-	      if (force) $(this).css('-webkit-transition', '0s');
+        if (force) $(this).css('transition', '0s');
         $(this).css("font-size","204px");
         $(this).css("top", (_posY - 38) + 'px');  // Center on linea
         $(this).css("left", (Ref.gridColumns[(sp == 1 ? 0 : 1)] + 70) + 'px');
@@ -549,8 +549,8 @@ function(app, Ref) {
           var translateY = (Math.random() - 0.5) * (flipOut ? 1000 : 100);
           var transform = 'scale(1) translate(' + translateX + 'px, ' + translateY + 'px) rotate(' + (Math.random()*360) + 'deg)';
           // Random transition time
-          this.newSigns[i].css('-webkit-transition', '-webkit-transform ' + (Math.random()*2+1) + 's, opacity 1s');
-          this.newSigns[i].css({'-webkit-transform': transform});
+          this.newSigns[i].css('transition', 'transform ' + (Math.random()*2+1) + 's, opacity 1s');
+          this.newSigns[i].css({'transform': transform});
           this.newSigns[i].css('opacity',1); 
         }
       }, 1, this);
@@ -563,7 +563,7 @@ function(app, Ref) {
 
 			this.state = 0;
 			
-	    if (force) this.$el.find('.emoTextBig').css('-webkit-transition', '0s');
+      if (force) this.$el.find('.emoTextBig').css('transition', '0s');
       this.$el.find('.emoTextBig').css({'opacity': 0, 'font-size': 120});
       for(var i=0; i<this.nSigns; i++) {
         var flipOut = Math.random() > 0.8;
@@ -571,9 +571,9 @@ function(app, Ref) {
         var translateY = (Math.random() - 0.5) * (flipOut ? 1000 : 100);
         var transform = 'rotate(' + (Math.random()*360) + 'deg) translate(' + translateX*10 + 'px, ' + translateY*10 + 'px) scale(3)';
         // Random transition time
-        if (force) this.newSigns[i].css('-webkit-transition', '0s');
-        this.newSigns[i].css('-webkit-transition', '-webkit-transform ' + (Math.random()*2+1) + 's, opacity 1s');
-        this.newSigns[i].css({'-webkit-transform': transform});
+        if (force) this.newSigns[i].css('transition', '0s');
+        this.newSigns[i].css('transition', 'transform ' + (Math.random()*2+1) + 's, opacity 1s');
+        this.newSigns[i].css({'transform': transform});
         this.newSigns[i].css('opacity',0); 
       }
 
@@ -587,7 +587,7 @@ function(app, Ref) {
       }, 1000, this);      
 	    
       // Fade in small text
-	    if (force) this.$el.find('.emoTextSmall').css('-webkit-transition', '0s');
+      if (force) this.$el.find('.emoTextSmall').css('transition', '0s');
       this.$el.find('.emoTextSmall').css({'opacity': 1, 'top' : this.posY});
 
 		},

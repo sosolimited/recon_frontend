@@ -1,12 +1,14 @@
+@import "nib"
+
 body {
-  /* background: -webkit-linear-gradient(left, #9699A0, #C9D1CF, #C9D1CF, #9699A0); */
+  /* background: linear-gradient(left, #9699A0, #C9D1CF, #C9D1CF, #9699A0); */
   /*background-color: rgb(110,116,116);*/
   
   background-color: rgb(200,200,200); /*rgb(140,146,146);*/
 
   background-image: url('../../images/background-tex.jpg'); 
 
-  background-repeat: repeat; *;
+  background-repeat: repeat;
   overflow-y: scroll;	
   overflow-x: hidden;	/* not working! */
   cursor: default;
@@ -37,17 +39,16 @@ body {
 
 
 .transcript .wrapper {
-		
-  -webkit-transition: -webkit-transform .5s linear; 
-  /* transition: all .5s linear; */
+
+  transition: transform .5s linear;
   overflow:visible;
   position: static;
   
   /* overflow-x: hidden; */
   /* background-color: yellow; */
  
-  /* -webkit-perspective: 700px;	
-  -webkit-perspective-origin: 50% 1000px;	*/
+  /* perspective: 700px;
+  perspective-origin: 50% 1000px;	*/
 }
 
 #overlay {
@@ -69,14 +70,14 @@ body {
 	top: 0px;	
   z-index: -2;
 /*
-	-webkit-perspective: 700px; 
-	-webkit-perspective-origin: 50% 1000px;	
+	perspective: 700px;
+	perspective-origin: 50% 1000px;
 */
 }
 
 #bigWords .hiddenWord {
   display: none;
-  -webkit-transform: none;
+  transform: none;
 }
 
 #bigWordsHolder {
@@ -88,7 +89,7 @@ body {
 	height: 300px;
 	width: 1024px;
 	*/
-	/* -webkit-transform: translateZ(-100px); */
+	/* transform: translateZ(-100px); */
 	
 }
 
@@ -107,15 +108,10 @@ body {
 	/* color: rgb(146,152,152); */
 	color: rgb(190,190,190);
 
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
 	user-select: none;
 	/*color: rgb(135,140,140);*/
 	/*color: rgb(116,120,120);*/
-	/* -webkit-transform: translateZ(-500px); */
+	/* transform: translateZ(-500px); */
 }
 
 .testZ {
@@ -123,7 +119,7 @@ body {
 	width:50px;
 	background-color:red;
 	position:absolute;
-	/* -webkit-transform: translateZ(-300px);	*/
+	/* transform: translateZ(-300px);	*/
 }
 
 .testZno {
@@ -167,7 +163,7 @@ p { /* Transcript text */
 
 .fade {
   /*
-  -webkit-transform: scale(.4);
+  transform: scale(.4);
   opacity: .5;
   
   top: -75%;
@@ -187,8 +183,7 @@ p { /* Transcript text */
  
 #comparisons .wrapper {
   /*
-  -webkit-transition:  1s linear; 
-  transition:  1s linear; 
+  transition:  1s linear;
   */
   /* opacity: 0 !important; */
   position: fixed;
@@ -200,13 +195,13 @@ p { /* Transcript text */
     
   left: 100%;
     
-  -webkit-transition: left 1.2s linear;
+  transition: left 1.2s linear;
   
 }
 
 #comparisons .wrapper.play {
 	left: 100%;
-	-webkit-transition: left 0s;
+	transition: left 0s;
 }
 
 /* For skrollr purposes */
@@ -247,13 +242,8 @@ hr {
 	height: 48px;
 	z-index:6000;
 
-	transform:rotate(90deg);
-	-ms-transform:rotate(90deg); /* IE 9 */
-	-moz-transform:rotate(90deg); /* Firefox */
-	-webkit-transform:rotate(90deg); /* Safari and Chrome */
-	-o-transform:rotate(90deg); /* Opera */
-	
-	-webkit-transition: -webkit-transform 1s;	
+	transform: rotate(90deg);
+	transition: transform 1s;
 	
   left: -245px; /* width / 2 + height / 2 */
   top: 245px;
@@ -268,13 +258,8 @@ hr {
 	top: 531px;
 	left: -87px;
 	
-	transform:rotate(90deg);
-	-ms-transform:rotate(90deg); /* IE 9 */
-	-moz-transform:rotate(90deg); /* Firefox */
-	-webkit-transform:rotate(90deg); /* Safari and Chrome */
-	-o-transform:rotate(90deg); /* Opera */
-	
-	-webkit-transition: -webkit-transform 1s;	
+	transform: rotate(90deg);
+	transition: transform 1s;
 	
 	font-size:20px;
 	
@@ -287,13 +272,8 @@ hr {
 	width:350px;
 	z-index:6000;
 
-	transform:rotate(-90deg);
-	-ms-transform:rotate(-90deg); /* IE 9 */
-	-moz-transform:rotate(-90deg); /* Firefox */
-	-webkit-transform:rotate(-90deg); /* Safari and Chrome */
-	-o-transform:rotate(-90deg); /* Opera */
-	
-	-webkit-transition: -webkit-transform 1s;	
+	transform: rotate(-90deg);
+	transition: transform 1s;
 
 	bottom: 200px;
 	font-size:18px;
@@ -387,11 +367,7 @@ hr {
 
  
 .rot90 {
-	transform:rotate(90deg);
-	-ms-transform:rotate(90deg); /* IE 9 */
-	-moz-transform:rotate(90deg); /* Firefox */
-	-webkit-transform:rotate(90deg); /* Safari and Chrome */
-	-o-transform:rotate(90deg); /* Opera */
+	transform: rotate(90deg);
 }
 
 
@@ -402,15 +378,10 @@ hr {
 	height: 100%;
 	position: fixed;
 		
-	-webkit-transition: -webkit-transform 1s;	
+	transition: transform 1s;
 	z-index: 3500;
 	
 	transform:translate(-120%);
-	-ms-transform:translate(-120%); /* IE 9 */
-	-moz-transform:translate(-120%); /* Firefox */
-	-webkit-transform:translate(-120%); /* Safari and Chrome */
-	-o-transform:translate(-120%); /* Opera */
-
 }
 
 #navInstructions {
@@ -420,7 +391,7 @@ hr {
 	height: 100%;
 	position: fixed;
 		
-	-webkit-transition: -webkit-transform 1s;	
+	transition: transform 1s;
 	z-index: 3500;
 }
 
@@ -465,20 +436,20 @@ hr {
 
 #transcript {
 	position: relative;
-	-webkit-transition: left 1.2s linear, visibility 0s linear 1.2s;
+	transition: left 1.2s linear, visibility 0s linear 1.2s;
 }
 
 #transcript.play {
-	-webkit-transition: left 1.2s linear, visibility 0s linear 0s;
+	transition: left 1.2s linear, visibility 0s linear 0s;
 }
 
 #comparisons {
 	visibility: hidden;	/* Init state */
-	-webkit-transition: visibility 0s linear 1.2s;
+	transition: visibility 0s linear 1.2s;
 }
 
 #comparisons.play {
-	-webkit-transition: visibility 0s linear 0s;
+	transition: visibility 0s linear 0s;
 }
 
 
@@ -919,10 +890,8 @@ red background-color: rgb(255,85,57);
 	position: absolute;
 	top:30px;
 	left: 700px;
-		
-		
-	}
-	
+}
+
 /*#twitter-button {
 	width:40px;
 	height:40px;
@@ -968,8 +937,8 @@ red background-color: rgb(255,85,57);
 	padding: 0px 0px 0px 0px;
 	/* background-color:yellow; */
 
-	-webkit-transition: -webkit-transform 1s ease-in;	
-	/* -webkit-transform: translateZ(0px); */
+	transition: transform 1s ease-in;
+	/* transform: translateZ(0px); */
 	
 	z-index: 8;
 	
@@ -992,7 +961,7 @@ red background-color: rgb(255,85,57);
 	/*top:48px;*/
 	left:1800px;	/* Start out of view */
 
-	/* -webkit-transform: translateZ(0px); */
+	/* transform: translateZ(0px); */
 }
 
 .traitSymbolRight {
@@ -1002,7 +971,7 @@ red background-color: rgb(255,85,57);
 	/*top: 48px;*/
 	left: -600px;	/* Start out of view */
 
-	/* -webkit-transform: translateZ(0px); */
+	/* transform: translateZ(0px); */
 }
 
 /* Category words overlays */
@@ -1025,13 +994,13 @@ red background-color: rgb(255,85,57);
   /* This transition ensures that the categoryOverlay element does not move out
    * of view until after its child has finished animating. Therefore, the
    * duration parameter should match the child's animation duration. */
-  -webkit-transition: left 0 linear 0.5s;
+  transition: left 0 linear 0.5s;
 }
 /* When the "play" class is added, the categoryElement immediately transitions
  * into view. */
 .categoryOverlay.play {
   left: 0;
-  -webkit-transition: left 0 linear 0;
+  transition: left 0 linear 0;
 }
 .categoryOverlayText {
 	position: relative;
@@ -1042,7 +1011,7 @@ red background-color: rgb(255,85,57);
 	padding: 0px 20px 0px 10px;
   color: rgb(255,255,255);	
 	
-	-webkit-transition: top 0.5s;
+	transition: top 0.5s;
 }
 .categoryOverlay.play .categoryOverlayText {
   top: 0;
@@ -1176,13 +1145,13 @@ red background-color: rgb(255,85,57);
 	padding: 0px 0px 0px 0px;
 	/* background-color:yellow; */
 
-	-webkit-transition: -webkit-transform 1s ease-in, left 1s, top 1s, height 1s, width 1s;	
-	/* -webkit-transform: translateZ(0px); */
+	transition: transform 1s ease-in, left 1s, top 1s, height 1s, width 1s;
+	/* transform: translateZ(0px); */
 
 }
 
 .wordCountTextHolder.hide {
-	-webkit-transition: visibility 0s linear 1s;
+	transition: visibility 0s linear 1s;
 }
 
 .wordCountText {
@@ -1194,7 +1163,7 @@ red background-color: rgb(255,85,57);
 	padding: 0px 0px 0px 0px;
 	line-height:120px;
 	
-	-webkit-transition: top 1s, font-size 1s, line-height 1s;
+	transition: top 1s, font-size 1s, line-height 1s;
 }
 
 .wordCountWord {
@@ -1206,7 +1175,7 @@ red background-color: rgb(255,85,57);
 	padding: 0px 0px 0px 0px;
 	line-height:120px;
 	
-	-webkit-transition: top 1s, font-size 1s, line-height 1s;
+	transition: top 1s, font-size 1s, line-height 1s;
 }
 
 .wordCountLine {
@@ -1218,7 +1187,7 @@ red background-color: rgb(255,85,57);
 	padding: 0 0 0 0;
 	width:0px;
 	
-	-webkit-transition: width 1s;
+	transition: width 1s;
 }
 
 .numberPhrase {
@@ -1230,8 +1199,8 @@ red background-color: rgb(255,85,57);
 	margin: 0px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
   color: rgb(255,255,255); 
-	-webkit-transition: left 1s, right 1s, top 1s, height 1s, width 1s, font-size 1s, line-height 1s, color 1s;
-	/* -webkit-transform: translateZ(0px);	*/
+	transition: left 1s, right 1s, top 1s, height 1s, width 1s, font-size 1s, line-height 1s, color 1s;
+	/* transform: translateZ(0px);	*/
   z-index: 2;
 
 }
@@ -1245,8 +1214,8 @@ red background-color: rgb(255,85,57);
 	margin: 0px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
   color: rgb(255,59,162);
-	-webkit-transition: left 1s, right 1s, top 1s, height 1s, width 1s, font-size 1s, line-height 1s;
-	/* -webkit-transform: translateZ(0px);	*/
+	transition: left 1s, right 1s, top 1s, height 1s, width 1s, font-size 1s, line-height 1s;
+	/* transform: translateZ(0px);	*/
   z-index: 2;
 }
 
@@ -1257,7 +1226,7 @@ red background-color: rgb(255,85,57);
   position: absolute;
   font-size: 400px;
   color: rgb(255,59,162);
-  -webkit-transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
+  transition: left 1s, right 1s, top 1s, height 1s, font-size 1s, line-height 1s;
   z-index: 0;
 }
 
@@ -1268,7 +1237,7 @@ red background-color: rgb(255,85,57);
   font-size: 0px;
   line-height: 0.75em;
   opacity: 0;
-  -webkit-transition: font-size 1s, opacity 1s;
+  transition: font-size 1s, opacity 1s;
   z-index: 6;
 }
 
@@ -1278,7 +1247,7 @@ red background-color: rgb(255,85,57);
   line-height: 0.75em;
   opacity: 0;
   z-index: 3;
-  -webkit-transition: opacity 1s;
+  transition: opacity 1s;
 }
 
 .posemo {
@@ -1295,9 +1264,9 @@ red background-color: rgb(255,85,57);
 .emoSign {
   position: absolute;
   z-index: 4;
-  -webkit-transform: scale(0.0001);
-  -webkit-transition: font-size 1s, -webkit-transform 2s, opacity 1s;
-  -webkit-transform-origin: 50% 50%;
+  transform: scale(0.0001);
+  transition: font-size 1s, transform 2s, opacity 1s;
+  transform-origin: 50% 50%;
   width: 400px;
   height: 400px;
 }

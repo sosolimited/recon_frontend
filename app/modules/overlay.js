@@ -639,9 +639,10 @@ function(app, Ref) {
     afterRender: function() {
 	    this.hide();
 	    // Add to skrollr manager.
-	    this.$el.find(".categoryOverlay").each(function(){
-	    	app.skrollr.refresh(this);		    
-	    });
+	    // EG This was being buggy, so I nixed it.
+	    //this.$el.find(".categoryOverlay").each(function(){
+	    //	app.skrollr.refresh(this);		    
+	    //});
     }
   });
 	

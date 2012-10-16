@@ -122,6 +122,11 @@ function(app, Overlay, Ref) {
 		  return false;		  
 	  },
 	  
+	  showOverlays: function(show) {
+			if(show) $('#overlay').css('visibility', 'visible');
+			else $('#overlay').css('visibility', 'hidden');
+	  },
+	  
 	  // Functions for adding specific overlays.
 	  // -----------------------------------------------------------------------------------
 	  addSentimentOverlay: function(args) {
@@ -146,7 +151,7 @@ function(app, Overlay, Ref) {
 	  	var traitString = "";
 	  	//jro changed traits
 	  	if (args["trait"] == 'anger') traitString = "ENRAGED";
-	  	else if (args["trait"] == 'complexity') traitString = "O.C.D.";
+	  	//else if (args["trait"] == 'complexity') traitString = "O.C.D.";
 	  	else if (args["trait"] == 'formality') traitString = "DETACHED";
 	  	else if (args["trait"] == 'depression') traitString = "SUICIDAL";
 	  	else if (args["trait"] == 'honesty') traitString = "HONEST";
@@ -206,7 +211,9 @@ function(app, Overlay, Ref) {
 	  		// EG Timeouts not being cancelled, so for now forget the timeout.
 		  	//window.setTimeout(function(){lay.collapse();}, delay);
 		  }
-	  },
+		  // Hide overlays.
+		 	$('.overlayBox').css("visibility", "hidden"); 
+		 },
 	  
 	  closeCatOverlays: function() {
 	  	$('.catMarkup').removeClass('reverse');
@@ -214,6 +221,8 @@ function(app, Overlay, Ref) {
 	  	for (i in this.get("catOverlays")) {
 		  	this.get("catOverlays")[i].collapse();
 	  	}
+	  	// Show overlays.
+		 	$('.overlayBox').css("visibility", "visible");
 	  },
 	  
 	  scaleY: function(val) {

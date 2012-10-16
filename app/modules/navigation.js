@@ -11,7 +11,7 @@ function(app) {
   var chapters = [];
 
   var showTime = true;
-  var instructionTimeout;
+  var instructionTimeout = null;
   
 
   // Create a new module.
@@ -44,6 +44,8 @@ function(app) {
       app.on("app:setLive", this.handleLive, this);
       
       this.landing = null;
+      this.compTimeoutIndex = 0;	// Used for cancelling previous comparison hide timeouts.
+      this.scrollTimeoutIndex = 0;	// Used for cancelling previous comparison scroll resets.
     },
     
     serialize: function() {
@@ -88,7 +90,9 @@ function(app) {
 	      var offset = (states.indexOf($.trim(elem.text())) + 1) % states.length;
 	      elem.text(states[offset]);
 	      app.modifier = window.parseInt(states[offset], 10);
-      }    
+      } else if (instructionTimeout) {
+      	this.hideInstructions(); 
+	    }  
     },
       
   	playbackChapter: function(e) {
@@ -179,7 +183,7 @@ function(app) {
 	    if (first) {
 	    	console.log("first");
 	    	$('#navInstructions').css("webkitTransform", "translateX(0%)");
-		    instructionTimeout = setTimeout(function(){ $('#navInstructions').css("webkitTransform", "translateX(100%)"); }, 18000);
+		    instructionTimeout = window.setTimeout(function(){ this.hideInstructions(); }, 18000, this);
 		  } 
     },
     
@@ -202,6 +206,13 @@ function(app) {
 	    clearTimeout(instructionTimeout);
     },
     
+    hideInstructions: function()
+    {
+	    $('#navInstructions').css("webkitTransform", "translateX(100%)");
+	    clearTimeout(instructionTimeout);
+	    instructionTimeout = null;
+    },
+    
     // Pass pointer to landing view so that title click can call enter on landing.
     setLanding: function(arg) {
 	    this.landing = arg;
@@ -215,15 +226,30 @@ function(app) {
       $("#transcript > .wrapper").scrollTop = dist;
       $("#transcript > .wrapper").addClass("fade");
       $("#comparisons > .wrapper").addClass("active");
+      clearTimeout(this.scrollTimeoutIndex);
       
       // switch buttons
       $('#navTranscriptButton').css('display', 'inline-block'); 
       $('#navComparisonButton').css('display', 'none');
 
-      // EG Testing this for performance
-      $('#comparisons').css("visibility", "visible");	     	   // This is in case comparison.exit() was called.
-      $('#comparisons > .wrapper').css("display", "block");
-      $('#transcript').css("visibility", "hidden");       
+      // Animate comparison in and transcript out.
+      $('#comparisons').addClass('play');		// This lets it display immediately.
+      $('#comparisons').css("visibility", "visible");	// This is in case comparison.exit() was called.
+      clearTimeout(this.compTimeoutIndex);	// Cancel any previous hide-comparison timeouts
+      // We have to reset the position since it was just taken out of display:none state.      
+      $('#comparisons > .wrapper').addClass('play');
+      $('#comparisons > .wrapper').css('left', '100%');           
+      $('#comparisons > .wrapper').css('display', 'block');	// This is in case comparison.exit() was called.
+      // Wait until position has been reset to slide back in.
+      window.setTimeout(function(){
+      	$('#comparisons > .wrapper').removeClass('play');
+      	$('#comparisons > .wrapper').css('left', '0px');           
+      }, 10, this);
+       
+      $('#transcript').removeClass('play');
+      $('#transcript').css('left', '-100%');
+      $('#transcript').css("visibility", "hidden");      
+           
       
       // Disable scrolling on the document body and save the current
       // offset (to be restored when closing the comparison view)
@@ -232,8 +258,9 @@ function(app) {
 
       var elt = $('#comparisons').find('.compareContainer.'+tag).parent();
       //$("#comparisons > .wrapper").stop().animate({ scrollTop: elt.position().top}, 1.0);
-      console.log("Comparison jump to " + tag + " : " + elt.position().top + "| elt= : " + elt);      
+      //console.log("Comparison jump to " + tag + " : " + elt.position().top);      
       $("#comparisons > .wrapper").scrollTop(elt.position().top);
+
 
       // Switch skrollr scroll element to comparisons container.
 			//app.skrollr.setSkrollElement($('#comparisons > .wrapper').get(0));
@@ -246,14 +273,29 @@ function(app) {
     	app.mode = "transcript";
       $("#transcript > .wrapper").removeClass("fade");
       $("#comparisons > .wrapper").removeClass("active");
-        
+      
+      this.scrollTimeoutIndex = window.setTimeout(function(){	// Gotta wait til comparisons is offscreen or else this causes a jump.
+      	$("#comparisons > .wrapper").scrollTop(0);  
+      }, 1200, this);
+           
       // switch buttons
       $('#navTranscriptButton').css('display', 'none'); 
       $('#navComparisonButton').css('display', 'inline-block');
       
-      // EG Testing this for performance
-      $('#comparisons > .wrapper').css("display", "none");
-      $('#transcript').css("visibility", "visible");
+			// Animate comparison out and transcript in.		
+      $('#comparisons > .wrapper').css('left', '100%');
+      $('#comparisons').removeClass('play');
+      $('#comparisons').css("visibility", "hidden");
+      this.compTimeoutIndex = window.setTimeout(function(){	// Delay comparison hide and record index of timeout.
+				$('#comparisons > .wrapper').css('display', 'none');	
+				//console.log("#comparisons is display none");
+      },1200,this);
+      
+      $('#transcript').addClass('play');			// This lets it display immediately.
+      $('#transcript').css('visibility', 'visible');
+      $('#transcript').css('left', '0px');
+      
+      
       
       // Re-enable scrolling on the document body and restore the
       // previous offset

@@ -1,17 +1,19 @@
-<div class="compareContainer <%= comparison.get("title") %> elskrollable" data-<%= (scrollY-scrollDet-scrollD) %>="top:100%;" data-<%= (scrollY-scrollDet) %>="top:0%;" data-<%= (scrollY+scrollDet) %>="top:0%;" data-<%= (scrollY+scrollDet+scrollD) %>="top:-300%;">
+<div class="compareContainer <%=comparison.get("title")%> elskrollable" data-<%= (scrollY-scrollDet-scrollD) %>="top:100%;" data-<%= (scrollY-scrollDet) %>="top:0%;" data-<%= (scrollY+scrollDet) %>="top:0%;" data-<%= (scrollY+scrollDet+scrollD) %>="top:-300%;">
 
 		<p class="franklinMedCompIt comparisonTitle " style="color:rgb(<%=comparison.get("color1")[0]%>, <%=comparison.get("color1")[1]%>, <%=comparison.get("color1")[2]%>);"> <%= comparison.get("title") %></p>
 		<hr style="height:3px; background-color:rgb(<%=comparison.get("color1")[0]%>, <%=comparison.get("color1")[1]%>, <%=comparison.get("color1")[2]%>);"/> 
 		<p class="franklinBookComp comparisonSubtitle " style="color:rgb(<%=comparison.get("color1")[0]%>, <%=comparison.get("color1")[1]%>, <%=comparison.get("color1")[2]%>);"><%= comparison.get("subtitle") %> </p>
 		
-		<div class = "span-6" style="position:relative; height:350px; top:12px;">		
+		<div class = "span-6" style="position:relative; height:400px; top:12px;">		
 		<div class="spectrumGradient" ></div>		
-		<div class = "spectrumBackgroundPush <%=comparison.get("gradient")%>" style="top: 0px; height:350px; width:20px; position:absolute; "></div>
+		<div class = "spectrumBackgroundPush <%=comparison.get("gradient")%>" style="top: 0px; height:400px; width:20px; position:absolute; "></div>
 
 		<%  var val0 = comparison.get("traits")[0].vals[0]; 
 			var val1 = comparison.get("traits")[0].vals[1]; 
-			var totalBarH = 350; 
-			var totalH = 350;
+			var totalBarH = 400; 
+			var totalH = 400;
+			
+			//console.log(comparison.get("title") + ": " + val0 +", " + val1);
 			var range = [comparison.get("range")[0], comparison.get("range")[1]];
   		var colorExtreme1 = comparison.get("color1");
   		var colorExtreme2 = comparison.get("color2");
@@ -21,15 +23,22 @@
 						
 			function mapVal(val, bound) {
 			
-				if (bound && (val < lothresh/100.0)) val = lothresh/100.0;
-				if (bound && (hithresh/100.0 < val)) val = hithresh/100.0;
-				
-				if (val == 0) {
-					val = midpoint;
-					
+				if (bound && (val < lothresh/100.0)) {
+					val = lothresh/100.0;
+					//console.log("lothresh = " + lothresh + " | val = " + val);
 				}
+				if (bound && (hithresh/100.0 < val)) {
+					val = hithresh/100.0;
+					//console.log("hithresh = " + hithresh + " | val = " + val);					
+				}
+				
+				//if (val == 0) {
+				//	val = midpoint;
+					
+				//}
 				var h = totalBarH*(100*val-range[0])/(range[1]-range[0]);
 				var t = totalH-h;
+				//if (bound) console.log(h + ", " + t);
 				return [h,t];
 			}
 			function mapColor(val, channel) {

@@ -37,10 +37,12 @@ body {
 
 
 .transcript .wrapper {
+		
   -webkit-transition: -webkit-transform .5s linear; 
-  transition: all .5s linear;
+  /* transition: all .5s linear; */
   overflow:visible;
   position: static;
+  
   /* overflow-x: hidden; */
   /* background-color: yellow; */
  
@@ -173,12 +175,6 @@ p { /* Transcript text */
   */
 }
 
-/* EG Just to initialize it to hidden */
-/* 
-#comparisons {
-	display: none;
-}
-*/
 
 #comparisons .active {
   z-index: 5000;
@@ -187,9 +183,6 @@ p { /* Transcript text */
 #comparisons .active.wrapper {
   /* When in the stats mode, overflow-x is set to visible which causes shit. */
   overflow-x: hidden !important;
-  /*-webkit-transform: scale(1);
-  transform: scale(1);*/
-  /* opacity: 1.0 !important; */
 }
  
 #comparisons .wrapper {
@@ -200,10 +193,20 @@ p { /* Transcript text */
   /* opacity: 0 !important; */
   position: fixed;
   
-  display: none;	/* EG Init state */
+  display: none; /* Init state */
   
-  /*-webkit-transform: scale(0);
-  transform: scale(0);*/
+  overflow-y: scroll;
+  overflow-x: hidden;
+    
+  left: 100%;
+    
+  -webkit-transition: left 1.2s linear;
+  
+}
+
+#comparisons .wrapper.play {
+	left: 100%;
+	-webkit-transition: left 0s;
 }
 
 /* For skrollr purposes */
@@ -431,6 +434,7 @@ hr {
 	position: fixed;
 	z-index: 3500;
 }
+
 .navInstructionsText{
 	
 	font-size:24px !important;
@@ -459,8 +463,26 @@ hr {
 	z-index: 4500;
 }
 
+#transcript {
+	position: relative;
+	-webkit-transition: left 1.2s linear, visibility 0s linear 1.2s;
+}
 
-#transcriptHeading{
+#transcript.play {
+	-webkit-transition: left 1.2s linear, visibility 0s linear 0s;
+}
+
+#comparisons {
+	visibility: hidden;	/* Init state */
+	-webkit-transition: visibility 0s linear 1.2s;
+}
+
+#comparisons.play {
+	-webkit-transition: visibility 0s linear 0s;
+}
+
+
+#transcriptHeading {
 	
 	/* left:64px; */
 	width:500px;
@@ -799,21 +821,24 @@ hr {
 }
 
 
-.landingMakingof 
+.landingMakingof a 
 {
-	visibility: hidden;
+	/*visibility: hidden; */
+	text-decoration: none !important;
 	position: static;
 	padding: 0 0 0 0;
 	left: 0px;
 	font-size: 25px;
 	line-height: 25px;
 	margin: 12px 0px 0px 0px;
+	color:rgb(76,76,76) !important;
+	
 	/*color:rgb(255,239,54) !important;*/
 	/*color:rgb(255,85,57);*/
 }
 
 
-.landingMakingof:hover{
+.landingMakingof a:hover {
 	color:rgb(255,255,255) !important;
 }
 
@@ -1203,7 +1228,7 @@ red background-color: rgb(255,85,57);
   color: rgb(255,255,255); 
 	-webkit-transition: left 1s, right 1s, top 1s, height 1s, width 1s, font-size 1s, line-height 1s, color 1s;
 	/* -webkit-transform: translateZ(0px);	*/
-  z-index: 3;
+  z-index: 2;
 
 }
 
@@ -1248,7 +1273,7 @@ red background-color: rgb(255,85,57);
   font-size: 72px;
   line-height: 0.75em;
   opacity: 0;
-  z-index: 2;
+  z-index: 3;
   -webkit-transition: opacity 1s;
 }
 

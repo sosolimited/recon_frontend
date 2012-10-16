@@ -11,7 +11,7 @@ function(app) {
   var chapters = [];
 
   var showTime = true;
-  var instructionTimeout;
+  var instructionTimeout = null;
   
 
   // Create a new module.
@@ -90,7 +90,9 @@ function(app) {
 	      var offset = (states.indexOf($.trim(elem.text())) + 1) % states.length;
 	      elem.text(states[offset]);
 	      app.modifier = window.parseInt(states[offset], 10);
-      }    
+      } else if (instructionTimeout) {
+      	this.hideInstructions(); 
+	    }  
     },
       
   	playbackChapter: function(e) {
@@ -181,7 +183,7 @@ function(app) {
 	    if (first) {
 	    	console.log("first");
 	    	$('#navInstructions').css("webkitTransform", "translateX(0%)");
-		    instructionTimeout = setTimeout(function(){ $('#navInstructions').css("webkitTransform", "translateX(100%)"); }, 18000);
+		    instructionTimeout = window.setTimeout(function(){ this.hideInstructions(); }, 18000, this);
 		  } 
     },
     
@@ -202,6 +204,13 @@ function(app) {
 	    $('#navRight').css("webkitTransform", "translateX(60px) translateY(-5px) rotate(-90deg)");
 	    $('#navInstructions').css("webkitTransform", "translateX(-120%)");
 	    clearTimeout(instructionTimeout);
+    },
+    
+    hideInstructions: function()
+    {
+	    $('#navInstructions').css("webkitTransform", "translateX(100%)");
+	    clearTimeout(instructionTimeout);
+	    instructionTimeout = null;
     },
     
     // Pass pointer to landing view so that title click can call enter on landing.

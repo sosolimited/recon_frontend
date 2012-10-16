@@ -781,16 +781,16 @@ function(app, Overlay, Ref) {
     },      
     
     enter: function() {
-	    $('#transcript').css("visibility", "visible");
+	    $('#transcript').show();
     },
     
     exit: function() {
-	    $('#transcript').css("visibility", "hidden");	     	   
+	    $('#transcript').hide();
     },
     
     // Reset puts everything where it's supposed to be before entering.
     reset: function() {
-	    $('#transcript').css("visibility", "hidden");	    
+	    $('#transcript').hide();
     },
     
     clearTranscript: function() {  		

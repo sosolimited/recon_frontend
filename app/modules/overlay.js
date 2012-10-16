@@ -219,7 +219,12 @@ function(app, Ref) {
 		    		$(this).css("top", (cY-(3-i)*36+24)+"px");
 		    		$(this).css("height", "36px");
 		    	}
+	    	}else{
+		    	//Hide the word with a delay
+		    	$(this).addClass('hide');
+		    	$(this).css("visibility", "hidden");
 	    	}
+	    	
     		//this.style.webkitTransform = "translateZ(500px)";	
     	}); 
     	

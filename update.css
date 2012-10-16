@@ -1,0 +1,25 @@
+body {
+   
+background-color: rgb(200,200,200); /*rgb(140,146,146);*/
+
+  background-image: url('images/background-tex-blue.jpg'); 
+
+  background-repeat: repeat; *;
+  overflow-y: scroll;	
+  overflow-x: hidden;	/* not working! */
+  cursor: default;
+  margin: 0;
+  width:100%;
+}
+
+#update{
+	width:1030px;
+	height: 788px;
+	position: relative;
+	top:0px;
+	margin: auto;
+	float:center;
+	background-image: url('images/update.jpg'); 
+	background-repeat: no-repeat; 
+}
+

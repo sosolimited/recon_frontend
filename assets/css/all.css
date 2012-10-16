@@ -1181,6 +1181,10 @@ red background-color: rgb(255,85,57);
 
 }
 
+.wordCountTextHolder.hide {
+	-webkit-transition: visibility 0s linear 1s;
+}
+
 .wordCountText {
 	position:relative;
 	top:120px;	/* Start out of view */
@@ -1337,7 +1341,7 @@ red background-color: rgb(255,85,57);
   position: absolute;
   height: 2px;
   background-color: rgb(80,80,80);
-  z-index: 2;
+  z-index: 0;
 }
 .tapable {
   cursor: pointer;

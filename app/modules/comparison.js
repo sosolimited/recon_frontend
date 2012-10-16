@@ -160,7 +160,7 @@ function(app, Ref) {
   Comparison.SpectrumModel = Comparison.Model.extend({    	
   	setValues: function(options) {
 	  	
-  		this.set({viewType:"spectrum", gradient: options.gradient});
+  		this.set({viewType:"spectrum", gradient: options.gradient, link: options.link});
   	}
   });
 

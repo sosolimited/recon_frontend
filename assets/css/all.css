@@ -438,7 +438,7 @@ hr {
 	/* left: 200px; */
 	position: absolute;
 	margin-top: 140px;
-	margin-right: 140px;
+	margin-right: 280px;
 	
 	color:white;
 	z-index: 4500;
@@ -468,6 +468,7 @@ hr {
 }
 
 #comparisons {
+	visibility: hidden;	/* Init state */
 	-webkit-transition: visibility 0s linear 1.2s;
 }
 
@@ -1219,7 +1220,7 @@ red background-color: rgb(255,85,57);
   color: rgb(255,255,255); 
 	-webkit-transition: left 1s, right 1s, top 1s, height 1s, width 1s, font-size 1s, line-height 1s, color 1s;
 	/* -webkit-transform: translateZ(0px);	*/
-  z-index: 3;
+  z-index: 2;
 
 }
 
@@ -1264,7 +1265,7 @@ red background-color: rgb(255,85,57);
   font-size: 72px;
   line-height: 0.75em;
   opacity: 0;
-  z-index: 2;
+  z-index: 3;
   -webkit-transition: opacity 1s;
 }
 

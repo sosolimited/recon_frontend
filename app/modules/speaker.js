@@ -30,7 +30,7 @@ function(app) {
   			curTraitTime:0,
   			//jro removed posemo and negemo
   			traits: [{name: "anger", val: 0},
-  							 {name: "complexity", val: 0},
+  							 //{name: "complexity", val: 0},
   							 {name: "formality", val: 0},
   							 {name: "depression", val: 0},
   							 {name: "honesty", val: 0},],

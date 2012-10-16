@@ -301,9 +301,8 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	
 	      // Lobes.
 	      messages.onload = function(e) {
-	   		  
 	   		  updateBar(20, i);   
-	      
+
 	      	if (e.target.responseText.length != 1) {
 		        var contents = "[" +
 		          e.target.responseText.split("\n").slice(0, -1).join(",") +
@@ -328,8 +327,11 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
         updateBar(Math.ceil((e.loaded/e.total) * 20), 3);
       };
 	    markup.onload = function() {
-	      app.markup = markup.responseText;
+        if (markup.status !== 500) {
+          app.markup = markup.responseText;
+        }
 	      updateBar(20, 3);
+
 	    };
 		  markup.send();
 		  
@@ -339,7 +341,9 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
         updateBar(Math.ceil((e.loaded/e.total) * 20), 4);
       };
 	    bigwords.onload = function() {
-	      app.bigwords = bigwords.responseText;
+        if (bigwords.status !== 500) {
+          app.bigwords = bigwords.responseText;
+        }
 	      updateBar(20, 4);
 	    };
 		  bigwords.send();

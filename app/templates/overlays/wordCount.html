@@ -1,7 +1,7 @@
 <!--
 <div style="position: absolute; z-index: 2; font-size: 42px; top: <%= posY %>px; width:600px; height:100px; background-color:yellow"><%= speaker %>'s <%= count %>th word is <%= word %></div>
 -->
-<div class="container">
+<div class="container overlayBox">
 	<% if(speaker=="obama") { %>
 		<div class="wordCountTextHolder over " style="left: <%= grid[0] %>px; top:<%= posY - 3*120 %>px;"><p class="franklinDemiComp wordCountText"><%= speaker.toUpperCase() %>'S</p></div>
 		<div class="wordCountTextHolder over " style="left: <%= grid[0] %>px; top:<%= posY - 2*120 %>px;"><p class="franklinDemiComp wordCountText"><%= count %>th<p></div>

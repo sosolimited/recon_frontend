@@ -174,7 +174,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	          	}          		
           	}, 30000);
           	*/
-          	markupManager.openCatOverlay(markupNames[i], 30000);
+          	markupManager.openCatOverlay(markupNames[i], 30000);          	
           });
           
           //transcript.on("click", function() {markupManager.closeCatOverlays();});
@@ -349,7 +349,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
     
     initKeyEvents: function() {
 	          // Listen for keydown events.
-      var keyboardEnabled = true;	
+      var keyboardEnabled = false;	
       
       if(keyboardEnabled){
 	      $(document.body).keydown(function(event){

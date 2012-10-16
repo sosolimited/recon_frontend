@@ -175,7 +175,7 @@ function(app) {
       return diff / 1000 / 60 / 60 / 1.5 * scaleFactor;
     },
     
-    enter: function(first) {
+    enter: function(first, num) {
 	    $('#navigation').css("visibility", "visible");
 	    $('#navLeft').css("webkitTransform", "translateX(5px) translateY(-5px) rotate(90deg)");
 	    $('#navLeftButtons').css("webkitTransform", "translateX(0px) translateY(0px) rotate(90deg)");
@@ -184,7 +184,19 @@ function(app) {
 	    	console.log("first");
 	    	$('#navInstructions').css("webkitTransform", "translateX(0%)");
 		    instructionTimeout = window.setTimeout(function(){ this.hideInstructions(); }, 18000, this);
-		  } 
+		  }
+		  // Update date and debate number on nav bar.
+		  if(num==0){
+		   $('#navDebateNum').html("1st Debate");
+		   $('#navDate').html("October 3, 2012");
+		  }else if(num==1){
+			  $('#navDebateNum').html("2nd Debate");
+			  $('#navDate').html("October 16, 2012");
+		  }else if(num==2){
+		  	$('#navDebateNum').html("3rd Debate");
+		  	$('#navDate').html("October 22, 2012");
+		  }
+		   
     },
     
     exit: function() {

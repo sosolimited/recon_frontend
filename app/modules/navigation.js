@@ -11,7 +11,7 @@ function(app) {
   var chapters = [];
 
   var showTime = true;
-  var instructionTimeout;
+  var instructionTimeout = null;
   
 
   // Create a new module.
@@ -88,7 +88,11 @@ function(app) {
 	      var offset = (states.indexOf($.trim(elem.text())) + 1) % states.length;
 	      elem.text(states[offset]);
 	      app.modifier = window.parseInt(states[offset], 10);
-      }    
+      } else if (instructionTimeout) {
+      	$('#navInstructions').css("webkitTransform", "translateX(100%)");
+	      clearTimeout(instructionTimeout);
+	      instructionTimeout = null;     
+      }
     },
       
   	playbackChapter: function(e) {

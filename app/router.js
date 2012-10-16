@@ -275,7 +275,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 
           window.setTimeout(function() {
             var hr = document.querySelector("#landingSubTitleDiv");
-            var total = percs[0] + percs[1] + percs[2] + percs[3] + percs[4];
+            var total = percs[0] + percs[1] + percs[2];// + percs[3] + percs[4];
 
             if (hr) {
               hr.style.background = "-webkit-linear-gradient(left, rgb(64,180,230) " +
@@ -296,13 +296,13 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	
 	      // Prog rock.
 	      messages.onprogress = function(e) {
-	        updateBar(Math.ceil((e.loaded/e.total) * 20), i);
+	        updateBar(Math.ceil((e.loaded/e.total) * 100/3), i);
 	      };
 	
 	      // Lobes.
 	      messages.onload = function(e) {
 	   		  
-	   		  updateBar(20, i);   
+	   		  updateBar(100/3, i);   
 	      
 	      	if (e.target.responseText.length != 1) {
 		        var contents = "[" +
@@ -322,7 +322,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	    });
 	    
 	    
-		  var markup = new XMLHttpRequest();
+		  /*var markup = new XMLHttpRequest();
 	    markup.open("GET", "/markup", true);
       markup.onprogress = function(e) {
         updateBar(Math.ceil((e.loaded/e.total) * 20), 3);
@@ -342,7 +342,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	      app.bigwords = bigwords.responseText;
 	      updateBar(20, 4);
 	    };
-		  bigwords.send();
+		  bigwords.send();*/
 		  
     },
 	  

@@ -222,7 +222,7 @@ function(app, Overlay, Ref) {
 		  	this.get("catOverlays")[i].collapse();
 	  	}
 	  	// Show overlays.
-		 	$('.overlayBox').css("visibility", "visible");
+		 	$('.overlayBox').css("visibility", "");
 	  },
 	  
 	  scaleY: function(val) {
@@ -244,12 +244,14 @@ function(app, Overlay, Ref) {
     },
     
     exit: function() {
-	    $('#overlay').css("visibility", "hidden");	    
+	    $('#overlay').css("visibility", "hidden");
+	    $('.overlayBox').css("visibility", "");	    	    
     },
     
     // Reset puts everything where it's supposed to be before entering.
     reset: function() {
-	    $('#overlay').css("visibility", "hidden");	    
+	    $('#overlay').css("visibility", "hidden");
+	    $('.overlayBox').css("visibility", "");	    
     },
     
     // For testing things with keypresses.

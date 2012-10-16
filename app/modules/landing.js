@@ -140,7 +140,7 @@ function(app, Ref) {
     	// Bye bye landing.
  	    $('#landing').hide();
  	    // Hello everything else.
- 	    this.navigation.enter(app.lastDebateViewed == -1);
+ 	    this.navigation.enter(app.lastDebateViewed == -1, num);
       this.transcript.enter();
       this.bigWords.enter();	
       this.model.set({lastDebateViewed:num});

@@ -1,0 +1,311 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'install', '-g', 'bbb' ]
+2 info using npm@1.1.63
+3 info using node@v0.8.12
+4 verbose read json /usr/local/lib/package.json
+5 verbose read json /usr/local/lib/package.json
+6 verbose cache add [ 'bbb', null ]
+7 silly cache add name=undefined spec="bbb" args=["bbb",null]
+8 verbose parsed url { pathname: 'bbb', path: 'bbb', href: 'bbb' }
+9 silly lockFile 5cb13828-bbb bbb
+10 verbose lock bbb /Users/sosolimited/.npm/5cb13828-bbb.lock
+11 silly lockFile 5cb13828-bbb bbb
+12 verbose addNamed [ 'bbb', '' ]
+13 verbose addNamed [ null, '' ]
+14 silly lockFile a8e9cd33-bbb bbb@
+15 verbose lock bbb@ /Users/sosolimited/.npm/a8e9cd33-bbb.lock
+16 silly addNameRange { name: 'bbb', range: '', hasData: false }
+17 verbose url raw bbb
+18 verbose url resolving [ 'https://registry.npmjs.org/', './bbb' ]
+19 verbose url resolved https://registry.npmjs.org/bbb
+20 info trying registry request attempt 1 at 19:50:54
+21 verbose etag "8X04P77F7MU723JM79WZLVCZN"
+22 http GET https://registry.npmjs.org/bbb
+23 http 200 https://registry.npmjs.org/bbb
+24 silly registry.get cb [ 200,
+24 silly registry.get   { vary: 'Accept',
+24 silly registry.get     server: 'CouchDB/1.2.0 (Erlang OTP/R15B)',
+24 silly registry.get     etag: '"E8SPZUH1NG3HO68YZS0DC4NAD"',
+24 silly registry.get     date: 'Tue, 16 Oct 2012 23:50:55 GMT',
+24 silly registry.get     'content-type': 'application/json',
+24 silly registry.get     'content-length': '47983' } ]
+25 silly addNameRange number 2 { name: 'bbb', range: '', hasData: true }
+26 silly addNameRange versions [ 'bbb',
+26 silly addNameRange   [ '0.0.0',
+26 silly addNameRange     '0.0.1',
+26 silly addNameRange     '0.0.2',
+26 silly addNameRange     '0.0.3',
+26 silly addNameRange     '0.0.4',
+26 silly addNameRange     '0.0.5',
+26 silly addNameRange     '0.0.6',
+26 silly addNameRange     '0.0.7',
+26 silly addNameRange     '0.0.8',
+26 silly addNameRange     '0.0.9',
+26 silly addNameRange     '0.1.0',
+26 silly addNameRange     '0.1.1',
+26 silly addNameRange     '0.1.2',
+26 silly addNameRange     '0.1.3',
+26 silly addNameRange     '0.1.4',
+26 silly addNameRange     '0.1.5',
+26 silly addNameRange     '0.1.6',
+26 silly addNameRange     '0.1.7',
+26 silly addNameRange     '0.1.8',
+26 silly addNameRange     '0.1.9',
+26 silly addNameRange     '0.1.10',
+26 silly addNameRange     '0.1.11',
+26 silly addNameRange     '0.1.12',
+26 silly addNameRange     '0.1.13',
+26 silly addNameRange     '0.1.14' ] ]
+27 verbose addNamed [ 'bbb', '0.1.14' ]
+28 verbose addNamed [ '0.1.14', '0.1.14' ]
+29 silly lockFile 6bdbf49f-bbb-0-1-14 bbb@0.1.14
+30 verbose lock bbb@0.1.14 /Users/sosolimited/.npm/6bdbf49f-bbb-0-1-14.lock
+31 silly lockFile 0fd55e02-try-npmjs-org-bbb-bbb-0-1-14-tgz https://registry.npmjs.org/bbb/-/bbb-0.1.14.tgz
+32 verbose lock https://registry.npmjs.org/bbb/-/bbb-0.1.14.tgz /Users/sosolimited/.npm/0fd55e02-try-npmjs-org-bbb-bbb-0-1-14-tgz.lock
+33 verbose addRemoteTarball [ 'https://registry.npmjs.org/bbb/-/bbb-0.1.14.tgz',
+33 verbose addRemoteTarball   '858075e683ef72a795f05c507aed40ffdb084de4' ]
+34 info retry fetch attempt 1 at 19:50:56
+35 verbose fetch to= /var/folders/wb/qtgswfjd5mx4wf1ddqr6mhq80000gp/T/npm-60035/1350431456046-0.17421621759422123/tmp.tgz
+36 http GET https://registry.npmjs.org/bbb/-/bbb-0.1.14.tgz
+37 http 200 https://registry.npmjs.org/bbb/-/bbb-0.1.14.tgz
+38 silly shasum updated bytes 40960
+39 silly shasum updated bytes 40960
+40 silly shasum updated bytes 40960
+41 silly shasum updated bytes 40960
+42 silly shasum updated bytes 40960
+43 silly shasum updated bytes 36571
+44 info shasum 858075e683ef72a795f05c507aed40ffdb084de4
+44 info shasum /var/folders/wb/qtgswfjd5mx4wf1ddqr6mhq80000gp/T/npm-60035/1350431456046-0.17421621759422123/tmp.tgz
+45 verbose tar unpack /var/folders/wb/qtgswfjd5mx4wf1ddqr6mhq80000gp/T/npm-60035/1350431456046-0.17421621759422123/tmp.tgz
+46 silly lockFile b5f965e4-6046-0-17421621759422123-package /var/folders/wb/qtgswfjd5mx4wf1ddqr6mhq80000gp/T/npm-60035/1350431456046-0.17421621759422123/package
+47 verbose lock /var/folders/wb/qtgswfjd5mx4wf1ddqr6mhq80000gp/T/npm-60035/1350431456046-0.17421621759422123/package /Users/sosolimited/.npm/b5f965e4-6046-0-17421621759422123-package.lock
+48 silly gunzTarPerm modes [ '755', '644' ]
+49 silly gunzTarPerm extractEntry package.json
+50 silly gunzTarPerm extractEntry .npmignore
+51 silly gunzTarPerm extractEntry grunt.js
+52 silly gunzTarPerm extractEntry .gitmodules
+53 silly gunzTarPerm extractEntry bin/bbb
+54 silly gunzTarPerm extractEntry readme.md
+55 silly gunzTarPerm extractEntry tasks/handlebars.js
+56 silly gunzTarPerm extractEntry tasks/requirejs.js
+57 silly gunzTarPerm extractEntry tasks/server.js
+58 silly gunzTarPerm extractEntry tasks/styles.js
+59 silly gunzTarPerm extractEntry tasks/init/bbb.js
+60 silly gunzTarPerm extractEntry tasks/init/module.js
+61 silly gunzTarPerm extractEntry tasks/init/todomvc.js
+62 silly gunzTarPerm extractEntry tasks/init/tutorial.js
+63 silly gunzTarPerm extractEntry tasks/init/.gitmodules
+64 silly gunzTarPerm extractEntry tasks/init/bbb/rename.json
+65 silly gunzTarPerm extractEntry tasks/init/bbb/root/.npmignore
+66 silly gunzTarPerm extractEntry tasks/init/bbb/root/grunt.js
+67 silly gunzTarPerm extractEntry tasks/init/bbb/root/app/app.js
+68 silly gunzTarPerm extractEntry tasks/init/bbb/root/app/config.js
+69 silly gunzTarPerm extractEntry tasks/init/bbb/root/app/main.js
+70 silly gunzTarPerm extractEntry tasks/init/bbb/root/app/router.js
+71 silly gunzTarPerm extractEntry tasks/init/bbb/root/assets/css/index.css
+72 silly gunzTarPerm extractEntry tasks/init/bbb/root/assets/js/libs/almond.js
+73 silly gunzTarPerm extractEntry tasks/init/bbb/root/assets/js/libs/backbone.js
+74 silly gunzTarPerm extractEntry tasks/init/bbb/root/assets/js/libs/jquery.js
+75 silly gunzTarPerm extractEntry tasks/init/bbb/root/assets/js/libs/lodash.js
+76 silly gunzTarPerm extractEntry tasks/init/bbb/root/assets/js/libs/require.js
+77 silly gunzTarPerm extractEntry tasks/init/bbb/root/assets/js/plugins/backbone.layoutmanager.js
+78 silly gunzTarPerm extractEntry tasks/init/bbb/root/assets/vendor/h5bp/css/style.css
+79 silly gunzTarPerm extractEntry tasks/init/bbb/root/favicon.ico
+80 silly gunzTarPerm extractEntry tasks/init/bbb/root/index.html
+81 silly gunzTarPerm extractEntry tasks/init/bbb/root/readme.md
+82 silly gunzTarPerm extractEntry tasks/init/bbb/root/test/jasmine/index.html
+83 silly gunzTarPerm extractEntry tasks/init/bbb/root/test/jasmine/spec/example.js
+84 silly gunzTarPerm extractEntry tasks/init/bbb/root/test/jasmine/vendor/jasmine-html.js
+85 silly gunzTarPerm extractEntry tasks/init/bbb/root/test/jasmine/vendor/jasmine.js
+86 silly gunzTarPerm extractEntry tasks/init/bbb/root/test/jasmine/vendor/jasmine.css
+87 silly gunzTarPerm extractEntry tasks/init/bbb/root/test/jasmine/vendor/jasmine_favicon.png
+88 silly gunzTarPerm extractEntry tasks/init/bbb/root/test/jasmine/vendor/MIT.LICENSE
+89 silly gunzTarPerm extractEntry tasks/init/bbb/root/test/qunit/index.html
+90 silly gunzTarPerm extractEntry tasks/init/bbb/root/test/qunit/tests/example.js
+91 silly gunzTarPerm extractEntry tasks/init/bbb/root/test/qunit/vendor/qunit.js
+92 silly gunzTarPerm extractEntry tasks/init/bbb/root/test/qunit/vendor/qunit.css
+93 silly gunzTarPerm extractEntry tasks/init/module/rename.json
+94 silly gunzTarPerm extractEntry tasks/init/module/root/app/modules/name.js
+95 silly gunzTarPerm extractEntry tasks/init/todomvc/root/grunt.js
+96 silly gunzTarPerm extractEntry tasks/init/todomvc/root/app/config.js
+97 silly gunzTarPerm extractEntry tasks/init/todomvc/root/app/router.js
+98 silly gunzTarPerm extractEntry tasks/init/todomvc/root/app/modules/todo.js
+99 silly gunzTarPerm extractEntry tasks/init/todomvc/root/app/modules/todo/views.js
+100 silly gunzTarPerm extractEntry tasks/init/todomvc/root/app/templates/layouts/main.html
+101 silly gunzTarPerm extractEntry tasks/init/todomvc/root/app/templates/todo/form.html
+102 silly gunzTarPerm extractEntry tasks/init/todomvc/root/app/templates/todo/item.html
+103 silly gunzTarPerm extractEntry tasks/init/todomvc/root/app/templates/todo/stats.html
+104 silly gunzTarPerm extractEntry tasks/init/todomvc/root/assets/css/index.css
+105 silly gunzTarPerm extractEntry tasks/init/todomvc/root/assets/css/todo.css
+106 silly gunzTarPerm extractEntry tasks/init/todomvc/root/assets/img/destroy.png
+107 silly gunzTarPerm extractEntry tasks/init/todomvc/root/assets/js/plugins/backbone-localstorage.js
+108 silly gunzTarPerm extractEntry tasks/init/todomvc/root/index.html
+109 silly gunzTarPerm extractEntry tasks/init/tutorial/root/grunt.js
+110 silly gunzTarPerm extractEntry tasks/init/tutorial/root/app/router.js
+111 silly gunzTarPerm extractEntry tasks/init/tutorial/root/app/modules/example.js
+112 silly gunzTarPerm extractEntry tasks/init/tutorial/root/app/templates/example.html
+113 silly gunzTarPerm extractEntry tasks/init/tutorial/root/assets/css/index.css
+114 silly gunzTarPerm extractEntry tasks/init/tutorial/root/assets/css/style.css
+115 silly gunzTarPerm extractEntry tasks/init/tutorial/root/assets/img/backbone.png
+116 verbose read json /var/folders/wb/qtgswfjd5mx4wf1ddqr6mhq80000gp/T/npm-60035/1350431456046-0.17421621759422123/package/package.json
+117 silly lockFile b5f965e4-6046-0-17421621759422123-package /var/folders/wb/qtgswfjd5mx4wf1ddqr6mhq80000gp/T/npm-60035/1350431456046-0.17421621759422123/package
+118 verbose from cache /var/folders/wb/qtgswfjd5mx4wf1ddqr6mhq80000gp/T/npm-60035/1350431456046-0.17421621759422123/package/package.json
+119 verbose tar pack [ '/Users/sosolimited/.npm/bbb/0.1.14/package.tgz',
+119 verbose tar pack   '/var/folders/wb/qtgswfjd5mx4wf1ddqr6mhq80000gp/T/npm-60035/1350431456046-0.17421621759422123/package' ]
+120 verbose tarball /Users/sosolimited/.npm/bbb/0.1.14/package.tgz
+121 verbose folder /var/folders/wb/qtgswfjd5mx4wf1ddqr6mhq80000gp/T/npm-60035/1350431456046-0.17421621759422123/package
+122 silly lockFile f58d95a8-mited-npm-bbb-0-1-14-package-tgz /Users/sosolimited/.npm/bbb/0.1.14/package.tgz
+123 verbose lock /Users/sosolimited/.npm/bbb/0.1.14/package.tgz /Users/sosolimited/.npm/f58d95a8-mited-npm-bbb-0-1-14-package-tgz.lock
+124 silly lockFile f58d95a8-mited-npm-bbb-0-1-14-package-tgz /Users/sosolimited/.npm/bbb/0.1.14/package.tgz
+125 silly lockFile dd52e73a-solimited-npm-bbb-0-1-14-package /Users/sosolimited/.npm/bbb/0.1.14/package
+126 verbose lock /Users/sosolimited/.npm/bbb/0.1.14/package /Users/sosolimited/.npm/dd52e73a-solimited-npm-bbb-0-1-14-package.lock
+127 silly lockFile dd52e73a-solimited-npm-bbb-0-1-14-package /Users/sosolimited/.npm/bbb/0.1.14/package
+128 verbose tar unpack /Users/sosolimited/.npm/bbb/0.1.14/package.tgz
+129 silly lockFile dd52e73a-solimited-npm-bbb-0-1-14-package /Users/sosolimited/.npm/bbb/0.1.14/package
+130 verbose lock /Users/sosolimited/.npm/bbb/0.1.14/package /Users/sosolimited/.npm/dd52e73a-solimited-npm-bbb-0-1-14-package.lock
+131 silly gunzTarPerm modes [ '755', '644' ]
+132 silly gunzTarPerm extractEntry package.json
+133 silly gunzTarPerm extractEntry .npmignore
+134 silly gunzTarPerm extractEntry grunt.js
+135 silly gunzTarPerm extractEntry .gitmodules
+136 silly gunzTarPerm extractEntry bin/bbb
+137 silly gunzTarPerm extractEntry readme.md
+138 silly gunzTarPerm extractEntry tasks/handlebars.js
+139 silly gunzTarPerm extractEntry tasks/requirejs.js
+140 silly gunzTarPerm extractEntry tasks/server.js
+141 silly gunzTarPerm extractEntry tasks/styles.js
+142 silly gunzTarPerm extractEntry tasks/init/bbb.js
+143 silly gunzTarPerm extractEntry tasks/init/module.js
+144 silly gunzTarPerm extractEntry tasks/init/todomvc.js
+145 silly gunzTarPerm extractEntry tasks/init/tutorial.js
+146 silly gunzTarPerm extractEntry tasks/init/.gitmodules
+147 silly gunzTarPerm extractEntry tasks/init/bbb/rename.json
+148 silly gunzTarPerm extractEntry tasks/init/bbb/root/.npmignore
+149 silly gunzTarPerm extractEntry tasks/init/bbb/root/grunt.js
+150 silly gunzTarPerm extractEntry tasks/init/bbb/root/app/app.js
+151 silly gunzTarPerm extractEntry tasks/init/bbb/root/app/config.js
+152 silly gunzTarPerm extractEntry tasks/init/bbb/root/app/main.js
+153 silly gunzTarPerm extractEntry tasks/init/bbb/root/app/router.js
+154 silly gunzTarPerm extractEntry tasks/init/bbb/root/assets/css/index.css
+155 silly gunzTarPerm extractEntry tasks/init/bbb/root/assets/js/libs/almond.js
+156 silly gunzTarPerm extractEntry tasks/init/bbb/root/assets/js/libs/backbone.js
+157 silly gunzTarPerm extractEntry tasks/init/bbb/root/assets/js/libs/jquery.js
+158 silly gunzTarPerm extractEntry tasks/init/bbb/root/assets/js/libs/lodash.js
+159 silly gunzTarPerm extractEntry tasks/init/bbb/root/assets/js/libs/require.js
+160 silly gunzTarPerm extractEntry tasks/init/bbb/root/assets/js/plugins/backbone.layoutmanager.js
+161 silly gunzTarPerm extractEntry tasks/init/bbb/root/assets/vendor/h5bp/css/style.css
+162 silly gunzTarPerm extractEntry tasks/init/bbb/root/favicon.ico
+163 silly gunzTarPerm extractEntry tasks/init/bbb/root/index.html
+164 silly gunzTarPerm extractEntry tasks/init/bbb/root/readme.md
+165 silly gunzTarPerm extractEntry tasks/init/bbb/root/test/jasmine/index.html
+166 silly gunzTarPerm extractEntry tasks/init/bbb/root/test/jasmine/spec/example.js
+167 silly gunzTarPerm extractEntry tasks/init/bbb/root/test/jasmine/vendor/jasmine-html.js
+168 silly gunzTarPerm extractEntry tasks/init/bbb/root/test/jasmine/vendor/jasmine.js
+169 silly gunzTarPerm extractEntry tasks/init/bbb/root/test/jasmine/vendor/jasmine.css
+170 silly gunzTarPerm extractEntry tasks/init/bbb/root/test/jasmine/vendor/jasmine_favicon.png
+171 silly gunzTarPerm extractEntry tasks/init/bbb/root/test/jasmine/vendor/MIT.LICENSE
+172 silly gunzTarPerm extractEntry tasks/init/bbb/root/test/qunit/index.html
+173 silly gunzTarPerm extractEntry tasks/init/bbb/root/test/qunit/tests/example.js
+174 silly gunzTarPerm extractEntry tasks/init/bbb/root/test/qunit/vendor/qunit.js
+175 silly gunzTarPerm extractEntry tasks/init/bbb/root/test/qunit/vendor/qunit.css
+176 silly gunzTarPerm extractEntry tasks/init/module/rename.json
+177 silly gunzTarPerm extractEntry tasks/init/module/root/app/modules/name.js
+178 silly gunzTarPerm extractEntry tasks/init/todomvc/root/grunt.js
+179 silly gunzTarPerm extractEntry tasks/init/todomvc/root/app/config.js
+180 silly gunzTarPerm extractEntry tasks/init/todomvc/root/app/router.js
+181 silly gunzTarPerm extractEntry tasks/init/todomvc/root/app/modules/todo.js
+182 silly gunzTarPerm extractEntry tasks/init/todomvc/root/app/modules/todo/views.js
+183 silly gunzTarPerm extractEntry tasks/init/todomvc/root/app/templates/layouts/main.html
+184 silly gunzTarPerm extractEntry tasks/init/todomvc/root/app/templates/todo/form.html
+185 silly gunzTarPerm extractEntry tasks/init/todomvc/root/app/templates/todo/item.html
+186 silly gunzTarPerm extractEntry tasks/init/todomvc/root/app/templates/todo/stats.html
+187 silly gunzTarPerm extractEntry tasks/init/todomvc/root/assets/css/index.css
+188 silly gunzTarPerm extractEntry tasks/init/todomvc/root/assets/css/todo.css
+189 silly gunzTarPerm extractEntry tasks/init/todomvc/root/assets/img/destroy.png
+190 silly gunzTarPerm extractEntry tasks/init/todomvc/root/assets/js/plugins/backbone-localstorage.js
+191 silly gunzTarPerm extractEntry tasks/init/todomvc/root/index.html
+192 silly gunzTarPerm extractEntry tasks/init/tutorial/root/grunt.js
+193 silly gunzTarPerm extractEntry tasks/init/tutorial/root/app/router.js
+194 silly gunzTarPerm extractEntry tasks/init/tutorial/root/app/modules/example.js
+195 silly gunzTarPerm extractEntry tasks/init/tutorial/root/app/templates/example.html
+196 silly gunzTarPerm extractEntry tasks/init/tutorial/root/assets/css/index.css
+197 silly gunzTarPerm extractEntry tasks/init/tutorial/root/assets/css/style.css
+198 silly gunzTarPerm extractEntry tasks/init/tutorial/root/assets/img/backbone.png
+199 verbose read json /Users/sosolimited/.npm/bbb/0.1.14/package/package.json
+200 silly lockFile dd52e73a-solimited-npm-bbb-0-1-14-package /Users/sosolimited/.npm/bbb/0.1.14/package
+201 silly shasum updated bytes 40960
+202 silly shasum updated bytes 40960
+203 silly shasum updated bytes 40960
+204 silly shasum updated bytes 40960
+205 silly shasum updated bytes 40960
+206 silly shasum updated bytes 36574
+207 info shasum 2965c343036a33d7cf50e5d82fa34f8666191f6e
+207 info shasum /Users/sosolimited/.npm/bbb/0.1.14/package.tgz
+208 verbose from cache /Users/sosolimited/.npm/bbb/0.1.14/package/package.json
+209 verbose chmod /Users/sosolimited/.npm/bbb/0.1.14/package.tgz 644
+210 verbose chown /Users/sosolimited/.npm/bbb/0.1.14/package.tgz [ 502, 20 ]
+211 silly lockFile 0fd55e02-try-npmjs-org-bbb-bbb-0-1-14-tgz https://registry.npmjs.org/bbb/-/bbb-0.1.14.tgz
+212 silly lockFile 6bdbf49f-bbb-0-1-14 bbb@0.1.14
+213 silly lockFile a8e9cd33-bbb bbb@
+214 silly resolved [ { name: 'bbb',
+214 silly resolved     description: 'Backbone Boilerplate Build Tool',
+214 silly resolved     version: '0.1.14',
+214 silly resolved     homepage: 'https://github.com/backbone-boilerplate/grunt-bbb',
+214 silly resolved     author:
+214 silly resolved      { name: 'Tim Branyen',
+214 silly resolved        email: 'tim@tabdeveloper.com',
+214 silly resolved        url: '@tbranyen' },
+214 silly resolved     repository:
+214 silly resolved      { type: 'git',
+214 silly resolved        url: 'git://github.com/backbone-boilerplate/grunt-bbb.git' },
+214 silly resolved     bugs: { url: 'https://github.com/backbone-boilerplate/grunt-bbb/issues' },
+214 silly resolved     dependencies:
+214 silly resolved      { grunt: '0.3.15',
+214 silly resolved        'grunt-contrib': '0.1.7',
+214 silly resolved        'grunt-jasmine-task': '0.2.2',
+214 silly resolved        requirejs: '2.0.6',
+214 silly resolved        handlebars: '1.0.6-2',
+214 silly resolved        express: '2.5.9',
+214 silly resolved        stylus: '0.29.0',
+214 silly resolved        nib: '0.8.2',
+214 silly resolved        cssom: '0.2.5' },
+214 silly resolved     devDependencies: { grunt: '~0.3.14' },
+214 silly resolved     keywords: [ 'gruntplugin' ],
+214 silly resolved     engines: { node: '>= 0.6.0' },
+214 silly resolved     main: 'grunt.js',
+214 silly resolved     bin: { bbb: 'bin/bbb' },
+214 silly resolved     scripts: { test: 'grunt test' },
+214 silly resolved     readme: 'Backbone Boilerplate framework tool.\n\n## Getting Started ##\n\nInstall this [Grunt](https://github.com/cowboy/grunt) plugin with:\n`npm install -g bbb`\n\nTo test installation, run the `bbb` command.  You should see something like\nthis:\n\n![screenshot](https://github.com/backbone-boilerplate/grunt-bbb/raw/assets/screenshot.png)\n\n## Development ##\n\nIf you wish to contribute or just want to install from source, simply run the\nfollowing commands:\n\n``` bash\n# Clone the repository.\ngit clone git://github.com/backbone-boilerplate/grunt-bbb.git\n\n# Change directory into it.\ncd grunt-bbb\n\n# Update all the submodules recursively.\ngit submodule update --init --recursive\n\n# Allow bbb to be globally accessible.\nsudo npm link\n```\n\n## Commands ##\n\nAll commands are prefixed with `bbb` in your terminal.  For example the command\n`init` below would be executed like this:\n\n``` bash\n$ bbb init\n```\n\nTasks are defined inside the grunt-bbb project, but also borrowed from other\ngrunt projects: [grunt-contrib](https://github.com/gruntjs/grunt-contrib) &\n[grunt-jasmine-task](https://github.com/creynders/grunt-jasmine-task)\n\nIf you have problems with borrowed tasks, please file issues on the respective\nprojects.\n\n### Scaffolding ###\n\nThese commands will build out files for you.\n\n#### `init` (bbb) ####\n\nCreates a bare boilerplate project.\n\n#### `init:tutorial` (bbb) ####\n\n*Run bbb init before this command*\n\nCreates a boilerplate which contains the tutorial.\n\n#### `init:todomvc` (bbb) ####\n\n*Run bbb init before this command*\n\nCreates a boilerplate which contains the TodoMVC application that utilizes\nLayoutManager.\n\n#### `init:module` (bbb) ####\n\n*Run bbb init before this command*\n\nCreates a new module in the `app/modules` directory.\n\n### Maintenence ###\n\nThese commands help you maintain your project.\n\n#### `lint` (grunt) ####\n\nEnsures all your code conforms to JSHint.\n\n#### `list` (bbb) ####\n\nShows a tree of your application\'s modules and dependencies.\n\n### Build ###\n\nThese commmands help you build your application.\n\n#### `debug` (bbb) ####\n\nLints all your JavaScript, compiles all your templates to JST (JavaScript\nTemplates), builds your application using RequireJS build tool (figures out\ndependencies and concatenates all files), and then finally concatenates the\ntemplates and application together.  This task also swaps out RequireJS for\nAlmond (signficantly smaller filesize AMD manager).\n\n#### `release` (bbb) ####\n\nEverything that debug command does, except the final tasks here are minified\nCSS and minified JavaScript.\n\n#### `clean` (grunt-contrib) ####\n\nRemoves all files inside `dist/` directory.\n\n#### `handlebars` (grunt-contrib) ####\n\nCompiles handlebars templates - *this requires setup*.\n\n#### `jst` (grunt-contrib) ####\n\nCompiles all templates as underscore template functions and outputs them to\n`dist/debug/templates.js`.\n\n#### `less` (grunt-contrib) ####\n\nCompiles LESS stylesheets.\n\n#### `mincss` (grunt-contrib) ####\n\nMinifies your CSS into `dist/release/index.css`.\n\n#### `requirejs` (bbb) ####\n\nBuilds out your application using the defaults specified into the root\n`grunt.js` file.\n\n#### `server` (bbb) ####\n\nWill by default run with normal files perfect for development and debugging.\n\n##### `server:debug` (bbb) #####\n\nThis command serves the same files excepts that your application is mapped to\nthe `dist/debug` directory. This is mostly useful for detecting issues with the\nbuild, since files are not minified.\n\n##### `server:release` (bbb) #####\n\nThis command will serve the same was debug except mapping to `dist/release`\ninstead. This setup is how your application should be deployed.\n\n#### `styles` (bbb) ####\n\nParses a valid CSS file for `@imports` and concatenates them into an output\nfile.  Will automatically build stylus files as it encounters them.\n\nSample configuration:\n\n``` javascript\nstyles: {\n  // Output stylesheet file.\n  "dist/debug/index.css": {\n    // Main CSS source file, containing the @imports.\n    src: "assets/css/index.css",\n\n    // Relative path for `@imports`.\n    paths: ["assets/css"],\n\n    // Add additional stylesheets.\n    additional: ["assets/css/production-fixes.css"]\n  }\n},\n```\n\n## License\nCopyright (c) 2012 Tim Branyen (@tbranyen)  \nLicensed under the MIT license.\n',
+214 silly resolved     _id: 'bbb@0.1.14',
+214 silly resolved     dist: { shasum: '2965c343036a33d7cf50e5d82fa34f8666191f6e' },
+214 silly resolved     _from: 'bbb' } ]
+215 info install bbb@0.1.14 into /usr/local/lib
+216 info installOne bbb@0.1.14
+217 verbose from cache /Users/sosolimited/.npm/bbb/0.1.14/package/package.json
+218 info /usr/local/lib/node_modules/bbb unbuild
+219 verbose read json /usr/local/lib/node_modules/bbb/package.json
+220 info preuninstall bbb@0.1.12
+221 info uninstall bbb@0.1.12
+222 verbose true,/usr/local/lib/node_modules,/usr/local/lib/node_modules unbuild bbb@0.1.12
+223 verbose /usr/local/bin,[object Object] binRoot
+224 info /usr/local/lib/node_modules/bbb unbuild
+225 verbose read json /usr/local/lib/node_modules/bbb/package.json
+226 info preuninstall bbb@0.1.12
+227 info uninstall bbb@0.1.12
+228 verbose true,/usr/local/lib/node_modules,/usr/local/lib/node_modules unbuild bbb@0.1.12
+229 verbose /usr/local/bin,[object Object] binRoot
+230 error error rolling back Error: EPERM, chmod '/usr/local/bin/bbb'
+230 error error rolling back  bbb@0.1.14 { [Error: EPERM, chmod '/usr/local/bin/bbb'] errno: 50, code: 'EPERM', path: '/usr/local/bin/bbb' }
+231 error Error: EPERM, chmod '/usr/local/bin/bbb'
+231 error  { [Error: EPERM, chmod '/usr/local/bin/bbb'] errno: 50, code: 'EPERM', path: '/usr/local/bin/bbb' }
+232 error Please try running this command again as root/Administrator.
+233 error System Darwin 11.4.2
+234 error command "node" "/usr/local/bin/npm" "install" "-g" "bbb"
+235 error cwd /Sosolimited/ReCon/software/recon_frontend
+236 error node -v v0.8.12
+237 error npm -v 1.1.63
+238 error path /usr/local/bin/bbb
+239 error code EPERM
+240 error errno 50
+241 error stack Error: EPERM, chmod '/usr/local/bin/bbb'
+242 verbose exit [ 50, true ]

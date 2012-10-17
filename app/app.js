@@ -67,14 +67,21 @@ function($, _, Backbone, eio) {
         app.trigger("app:setLive", num);
         app.trigger("debate:reset", num);
       } else if (app.live && num == -1) {
-        console.log("chaning app LIVESTATE to NOT LIVE");
+        console.log("changing app LIVESTATE to NOT LIVE");
         app.live = false;
         app.liveDebate = -1;
 				app.trigger("app:setLive", -1);
       }
+      
+      if (!app.initialized) {
+      	app.trigger("app:initialized", this);
+      	app.initialized = true;
+      }
     },
     
     loadDoc: false,
+    
+    initialized: false,
 		    
     // Default to the application thinking it's not live.
     live: false,

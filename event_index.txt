@@ -23,6 +23,7 @@ debate:deactivate					{number}														router.js:364
 debate:reset							{}																	landing.js:83
 app:goToMode							{mode}															navigation.js, transcript.js, comparison.js
 app:setLive								{live}															main.js:14
+app:initialized						{}																	app.js:77
 landing:activate					{}																	router.js:273
 
 Find all with:

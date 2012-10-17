@@ -220,7 +220,7 @@ function(app) {
     
     hideInstructions: function()
     {
-	    $('#navInstructions').css("webkitTransform", "translateX(100%)");
+	    $('#navInstructions').css("transform", "translateX(100%)");
 	    clearTimeout(instructionTimeout);
 	    instructionTimeout = null;
     },

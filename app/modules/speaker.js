@@ -46,6 +46,7 @@ function(app) {
       //app.on("message:word", this.handleWord, this);	// EG This will now be called by Transcript.addWord() to ensure synchronicity.
       app.on("message:sentenceEnd", this.handleSentenceEnd, this);
       app.on("message:stats", this.updateStats, this);
+  		app.on("debate:reset", this.resetStats, this);
       //console.log("Speaker.Model.initialize: speakerId = " + this.get('speakerId'));
     },
     
@@ -111,6 +112,21 @@ function(app) {
    		 	// reset curSentence
    		 	this.curSentence = "";
    		}
+    },
+    
+    resetStats: function() {
+	    this.wordCount = 0;
+	    this.curSentence = "";
+	    this.longestSentence = "";
+	    this.longestSentenceLength = 0;
+	    this.lastWordTime = 0;
+	    this.curTraitTime = 0;
+	    this.traits = [{name: "anger", val: 0},
+  							 //{name: "complexity", val: 0},
+  							 {name: "formality", val: 0},
+  							 {name: "depression", val: 0},
+  							 {name: "honesty", val: 0},];
+  	  this.wordProps = [];
     },
     
     updateStats: function(args) {

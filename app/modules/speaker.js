@@ -150,7 +150,7 @@ function(app) {
     	var coll = this;
     	//Tune this to 5 minutes
 
-    	var superlativeMins = 3.0; //trait timing 
+    	var superlativeMins = 3.5; //trait timing 
     	setInterval(function(){coll.sendRandomTraitLeader();}, superlativeMins*60000); 
 
     },

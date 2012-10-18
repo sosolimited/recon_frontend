@@ -196,8 +196,7 @@ function(app) {
 		  	$('#navDebateNum').html("3rd Debate");
 		  	$('#navDate').html("October 22, 2012");
 		  }
-		   
-    },
+	  },
     
     exit: function() {
 	    //$('#navigation').css("visibility", "hidden");	    

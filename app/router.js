@@ -100,7 +100,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 			// I'm sure there's a less stupid way to do this.
       //window.setTimeout(function() {	
       // Yup, there is!
-      landingView.setElement("#landing").render().then(this.loadData); 
+      landingView.setElement("#landing").render(); 
        
       // Load from static file.
       if (this.qs.docName) {
@@ -194,6 +194,9 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	     
       app.on("scrollBody", transcriptView.handleScroll, transcriptView);
       app.on("scrollBody:user", transcriptView.handleUserScroll, transcriptView);
+      
+      app.on("app:initialized", this.loadData);
+      
       // BODY/WINDOW EVENTS
       // ----------------------------------------------------------------------
       
@@ -267,7 +270,8 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
     },
     
     loadData: function(landing) {
-	    var updateBar = function() {
+    
+   		var updateBar = function() {
         var percs = [0, 0, 0, 0, 0];
 
         return function(perc, i) {
@@ -286,64 +290,76 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
         };
       }();
 
-      // XHR.
-      [0, 1, 2].forEach(function(i) {
-
-	      var messages = new XMLHttpRequest();
+    
+    	if (app.live) {
+	    	for (var i=0; i<3; i++) {
+		    	if (i == app.liveDebate) app.trigger("debate:activate", i);
+		    	else app.trigger("debate:deactivate", i);
+		    	updateBar(100, 0);
+	    	}
+	    		    	
+    	} else {
+		    	
+		        console.log("fetching");
+	      // XHR.
+	      [0, 1, 2].forEach(function(i) {
 	
-	      // Opens.
-	      messages.open("GET", "/messages/"+i, true);
+		      var messages = new XMLHttpRequest();
+		
+		      // Opens.
+		      messages.open("GET", "/messages/"+i, true);
+		
+		      // Prog rock.
+		      messages.onprogress = function(e) {
+		        updateBar(Math.ceil((e.loaded/e.total) * 100/3), i);
+		      };
+		
+		      // Lobes.
+		      messages.onload = function(e) {
+		   		  
+		   		  updateBar(100/3, i);   
+		      
+		      	if (e.target.responseText.length != 1) {
+			        var contents = "[" +
+			          e.target.responseText.split("\n").slice(0, -1).join(",") +
+			        "]";
+			        app.messages[i] = new Message.Collection(JSON.parse(contents));
 	
-	      // Prog rock.
-	      messages.onprogress = function(e) {
-	        updateBar(Math.ceil((e.loaded/e.total) * 100/3), i);
+				      app.trigger("debate:activate", i);
+			      } else {
+				      app.trigger("debate:deactivate", i);
+			      }
+		      };
+		
+		
+		      // Send!
+		      messages.send();
+		    });
+		    
+		    
+			  /*var markup = new XMLHttpRequest();
+		    markup.open("GET", "/markup", true);
+	      markup.onprogress = function(e) {
+	        updateBar(Math.ceil((e.loaded/e.total) * 20), 3);
 	      };
-	
-	      // Lobes.
-	      messages.onload = function(e) {
-	   		  
-	   		  updateBar(100/3, i);   
-	      
-	      	if (e.target.responseText.length != 1) {
-		        var contents = "[" +
-		          e.target.responseText.split("\n").slice(0, -1).join(",") +
-		        "]";
-		        app.messages[i] = new Message.Collection(JSON.parse(contents));
-
-			      app.trigger("debate:activate", i);
-		      } else {
-			      app.trigger("debate:deactivate", i);
-		      }
+		    markup.onload = function() {
+		      app.markup = markup.responseText;
+		      updateBar(20, 3);
+		    };
+			  markup.send();
+			  
+			  var bigwords = new XMLHttpRequest();
+		    bigwords.open("GET", "/bigwords", true);
+	      bigwords.onprogress = function(e) {
+	        updateBar(Math.ceil((e.loaded/e.total) * 20), 4);
 	      };
+		    bigwords.onload = function() {
+		      app.bigwords = bigwords.responseText;
+		      updateBar(20, 4);
+		    };
+			  bigwords.send();*/
 	
-	
-	      // Send!
-	      messages.send();
-	    });
-	    
-	    
-		  /*var markup = new XMLHttpRequest();
-	    markup.open("GET", "/markup", true);
-      markup.onprogress = function(e) {
-        updateBar(Math.ceil((e.loaded/e.total) * 20), 3);
-      };
-	    markup.onload = function() {
-	      app.markup = markup.responseText;
-	      updateBar(20, 3);
-	    };
-		  markup.send();
-		  
-		  var bigwords = new XMLHttpRequest();
-	    bigwords.open("GET", "/bigwords", true);
-      bigwords.onprogress = function(e) {
-        updateBar(Math.ceil((e.loaded/e.total) * 20), 4);
-      };
-	    bigwords.onload = function() {
-	      app.bigwords = bigwords.responseText;
-	      updateBar(20, 4);
-	    };
-		  bigwords.send();*/
-		  
+    	}		  
     },
 	  
     

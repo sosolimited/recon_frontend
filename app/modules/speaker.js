@@ -26,6 +26,8 @@ function(app) {
   			longestSentenceLength: 0,
   			longestSentence: "",
   			curSentence: "",
+  			lastWordTime: 0,
+  			curTraitTime:0,
   			//jro removed posemo and negemo
   			traits: [{name: "anger", val: 0},
   							 {name: "complexity", val: 0},
@@ -54,6 +56,8 @@ function(app) {
     handleWord: function(args) {
     	//console.log("handleWord(), args.speaker= "+args['msg']['speaker']+" this.speakerId = "+this.get('speakerId'));
     	// Empty out return array. Will this cause a memory leak?
+    	
+    	this.lastWordTime = new Date().getTime();
     	
     	// Note: The order in which you add the event objects to wordProps determines their priority in transcript.
     	this.get("wordProps").length = 0;	
@@ -135,10 +139,9 @@ function(app) {
     leads: [],
     sentenceLeadLead: -1,
     curTrait: 0,
-    traitTimeout: 1.0*60000, //TRAIT TIMING
+    traitTimeout: 1.5*60000, //trait timing
     traitTimeoutFlag: false,
     curSpeaker: 1,
-    lastWordTime: 0,
     
     initialize: function() {
     	this.on("add", this.modelAdded, this);
@@ -146,8 +149,8 @@ function(app) {
     	app.on("transcript:speakerSwitch", this.setSpeaker, this);
     	var coll = this;
     	//Tune this to 5 minutes
-    	var superlativeMins = 3.5;
-    	setInterval(function(){coll.sendRandomTraitLeader();}, superlativeMins*60000); //TRAIT TIMING
+    	var superlativeMins = 3.0; //trait timing 
+    	setInterval(function(){coll.sendRandomTraitLeader();}, superlativeMins*60000); 
     },
     
     cleanup: function() {
@@ -179,8 +182,7 @@ function(app) {
         
     setCompareTraits: function() {
     	var collection = this;
-    	var initial_timeout = 5.0;
-	  	setTimeout(function() {collection.compareTraits();}, initial_timeout*60*1000); //TRAIT TIMING
+	  	setTimeout(function() {collection.compareTraits();}, 5*60000); // wait six minutes //trait timing
     },
     
     compareTraits: function() {
@@ -193,8 +195,9 @@ function(app) {
 		    
 		    newLeads.push(newLead);
 		    
+		    /*
  		    if (newLead != this.leads[i]) {
-		    	console.log("newLead "+newLead+" "+this.at(1).get("traits")[i]['name']);
+		    	//console.log("newLead "+newLead+" "+this.at(1).get("traits")[i]['name']);
 		    	
 		    	//JRO added a timeout
 		    	if (!this.traitTimeoutFlag) {
@@ -211,6 +214,7 @@ function(app) {
 		    	
 		    	//console.log("new lead "+newLead+" "+this.at(1).get("traits")[i]['name']);
 		    }
+		    */
 		    //else console.log("oldLead "+this.leads[i]+" "+this.at(1).get("traits")[i]['name']);
 		    
 		   // console.log("traits "+this.at(1).previous("traits")[i]['val']+" "+this.at(2).previous("traits")[i]['val']+" "+this.at(1).get("traits")[i]['val']+" "+this.at(2).get("traits")[i]['val']);
@@ -227,29 +231,25 @@ function(app) {
 	    	{
 	    	
 	    		//PEND: check seems to be broken
-	    		this.curTraitTime = new Date().getTime();
-    			if (this.curTraitTime - this.lastWordTime < 10*1000) //in msec
-    			{
-			    	console.log("sendRandomTraitLeader");
-				  
-				    //var t = Math.floor(Math.random()*this.leads.length);
-				    this.curTrait = (this.curTrait + 1)%this.leads.length;
-				    var t = this.curTrait;
-				    
-				    var leader = (this.at(1).get("traits")[t]['val'] > this.at(2).get("traits")[t]['val']) ? 1 : 2;
-				    app.trigger("markup", {type:"traitLead", leader:leader, trait:this.at(1).get("traits")[t]['name'], new:false, curSpeaker: this.curSpeaker});
-				    //console.log("old lead "+leader+" "+this.at(1).get("traits")[t]['name']);
+	    		//this.curTraitTime = new Date().getTime();
+    			//if (this.curTraitTime - this.lastWordTime < 10)
+    			//{
+		    	//console.log("sendRandomTraitLeader");
+			  
+			    //var t = Math.floor(Math.random()*this.leads.length);
+			    this.curTrait = (this.curTrait + 1)%this.leads.length;
+			    var t = this.curTrait;
 			    
-			    }else console.log("cur time:" + this.curTraitTime + " last time:" + this.lastWordTime);
+			    var leader = (this.at(1).get("traits")[t]['val'] > this.at(2).get("traits")[t]['val']) ? 1 : 2;
+			    app.trigger("markup", {type:"traitLead", leader:leader, trait:this.at(1).get("traits")[t]['name'], new:false, curSpeaker: this.curSpeaker});
+			    //console.log("old lead "+leader+" "+this.at(1).get("traits")[t]['name']);
+			    
+			   //}
 			  }  
 	    }
     },
     
     addWord: function(arg) {
-    	
-    	this.lastWordTime = new Date().getTime();
-    	//console.log(this.lastWordTime);
-    	
     	// Add word to correct speaker and return result.
 	    return this.get(arg['msg']['speaker']).handleWord(arg);
     }

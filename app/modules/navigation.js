@@ -177,12 +177,12 @@ function(app) {
     
     enter: function(first, num) {
 	    $('#navigation').css("visibility", "visible");
-	    $('#navLeft').css("webkitTransform", "translateX(5px) translateY(-5px) rotate(90deg)");
-	    $('#navLeftButtons').css("webkitTransform", "translateX(0px) translateY(0px) rotate(90deg)");
-	    $('#navRight').css("webkitTransform", "translateX(0px) translateY(-5px) rotate(-90deg)");
+	    $('#navLeft').css("transform", "translateX(5px) translateY(-5px) rotate(90deg)");
+	    $('#navLeftButtons').css("transform", "translateX(0px) translateY(0px) rotate(90deg)");
+	    $('#navRight').css("transform", "translateX(0px) translateY(-5px) rotate(-90deg)");
 	    if (first) {
 	    	console.log("first");
-	    	$('#navInstructions').css("webkitTransform", "translateX(0%)");
+	    	$('#navInstructions').css("transform", "translateX(0%)");
 		    instructionTimeout = window.setTimeout(function(){ this.hideInstructions(); }, 18000, this);
 		  }
 		  // Update date and debate number on nav bar.
@@ -200,26 +200,26 @@ function(app) {
     
     exit: function() {
 	    //$('#navigation').css("visibility", "hidden");	    
-	    $('#navLeft').css("webkitTransform", "translateX(-55px) translateY(-5px) rotate(90deg)");
-	    $('#navRight').css("webkitTransform", "translateX(60px) translateY(-5px) rotate(-90deg)");
-	    $('#navLeftButtons').css("webkitTransform", "translateX(-55px) translateY(0px) rotate(90deg)");
-	    $('#navInstructions').css("webkitTransform", "translateX(110%)");
+	    $('#navLeft').css("transform", "translateX(-55px) translateY(-5px) rotate(90deg)");
+	    $('#navRight').css("transform", "translateX(60px) translateY(-5px) rotate(-90deg)");
+	    $('#navLeftButtons').css("transform", "translateX(-55px) translateY(0px) rotate(90deg)");
+	    $('#navInstructions').css("transform", "translateX(110%)");
 	    clearTimeout(instructionTimeout);
     },
     
     // Reset puts everything where it's supposed to be before entering.
     reset: function() { 
 	    $('#navigation').css("visibility", "hidden");
-	    $('#navLeft').css("webkitTransform", "translateX(-55px) translateY(-5px) rotate(90deg)");
-	    $('#navLeftButtons').css("webkitTransform", "translateX(-55px) translateY(0px) rotate(90deg)");
-	    $('#navRight').css("webkitTransform", "translateX(60px) translateY(-5px) rotate(-90deg)");
-	    $('#navInstructions').css("webkitTransform", "translateX(-120%)");
+	    $('#navLeft').css("transform", "translateX(-55px) translateY(-5px) rotate(90deg)");
+	    $('#navLeftButtons').css("transform", "translateX(-55px) translateY(0px) rotate(90deg)");
+	    $('#navRight').css("transform", "translateX(60px) translateY(-5px) rotate(-90deg)");
+	    $('#navInstructions').css("transform", "translateX(-120%)");
 	    clearTimeout(instructionTimeout);
     },
     
     hideInstructions: function()
     {
-	    $('#navInstructions').css("webkitTransform", "translateX(100%)");
+	    $('#navInstructions').css("transform", "translateX(100%)");
 	    clearTimeout(instructionTimeout);
 	    instructionTimeout = null;
     },

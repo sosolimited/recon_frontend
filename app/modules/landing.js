@@ -49,10 +49,10 @@ function(app, Ref) {
 			    }, this);
 			    
 			    $('#navNotification > div > .navInstructionsText').text("Debate "+num+" is now live!");
-			    $('#navNotification').css("webkitTransform", "translateX(0%)");
+			    $('#navNotification').css("transform", "translateX(0%)");
 			    
 			    this.transcript.setHeading("DEBATE "+(num+1));
-			    setTimeout(function(){ $('#navNotification').css("webkitTransform", "translateX(100%)"); }, 3000);
+			    setTimeout(function(){ $('#navNotification').css("transform", "translateX(100%)"); }, 3000);
 			  } else {
 		    	[0,1,2].forEach(function(i) {
 			    	if (app.messages[i]) this.activateDebate(i);
@@ -140,7 +140,7 @@ function(app, Ref) {
     	// Bye bye landing.
  	    $('#landing').hide();
  	    // Hello everything else.
- 	    this.navigation.enter(app.lastDebateViewed == -1);
+ 	    this.navigation.enter(app.lastDebateViewed == -1, num);
       this.transcript.enter();
       this.bigWords.enter();	
       this.model.set({lastDebateViewed:num});

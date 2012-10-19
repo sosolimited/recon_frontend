@@ -48,7 +48,9 @@ function(app, Ref) {
 			    	else this.activateDebate(i, true);
 			    }, this);
 			    
-			    $('#navNotification > div > .navInstructionsText').text("Debate "+num+" is now live!");
+			    var debateNum = num+1;
+			    
+			    $('#navNotification > div > .navInstructionsText').text("Debate "+debateNum+" is now live!");
 			    $('#navNotification').css("transform", "translateX(0%)");
 			    
 			    this.transcript.setHeading("DEBATE "+(num+1));

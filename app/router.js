@@ -100,7 +100,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 			// I'm sure there's a less stupid way to do this.
       //window.setTimeout(function() {	
       // Yup, there is!
-      landingView.setElement("#landing").render().then(this.loadData); 
+      landingView.setElement("#landing").render(); 
        
       // Load from static file.
       if (this.qs.docName) {
@@ -134,18 +134,18 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           var comparisons = $("#comparisons > .wrapper");
           var bigWords = $("#bigWords");
 
-          transcript.on("click", ".transcriptSpeaker", function() {navigationView.enterComparison(event, "megalist");});
+          transcript.on("click", ".transcriptSpeaker", function(event) {navigationView.enterComparison(event, "megalist"); });
           //transcript.on("click", ".sentimentClick", function() {navigationView.enterComparison(event, "POSITIVITY");});
-          transcript.on("click", ".posemo", function() {navigationView.enterComparison(event, "POSITIVITY");});
-          transcript.on("click", ".negemo", function() {navigationView.enterComparison(event, "NEGATIVITY");});
+          transcript.on("click", ".posemo", function(event) {navigationView.enterComparison(event, "POSITIVITY"); });
+          transcript.on("click", ".negemo", function(event) {navigationView.enterComparison(event, "NEGATIVITY"); });
           
 //          transcript.on("click", ".traitClick", function() {navigationView.enterComparison(event, "TRUTHY");});
-          transcript.on("click", ".ENRAGED", function() {navigationView.enterComparison(event, "RAGE");});
-          transcript.on("click", ".DETACHED", function() {navigationView.enterComparison(event, "SCRIPTED");});
-          transcript.on("click", ".SUICIDAL", function() {navigationView.enterComparison(event, "SUICIDAL");});
-          transcript.on("click", ".HONEST", function() {navigationView.enterComparison(event, "TRUTHY");});
+          transcript.on("click", ".ENRAGED", function(event) {navigationView.enterComparison(event, "RAGE");});
+          transcript.on("click", ".DETACHED", function(event) {navigationView.enterComparison(event, "SCRIPTED");});
+          transcript.on("click", ".SUICIDAL", function(event) {navigationView.enterComparison(event, "SUICIDAL");});
+          transcript.on("click", ".HONEST", function(event) {navigationView.enterComparison(event, "TRUTHY");});
           
-          transcript.on("click", ".countClick", function() {navigationView.enterComparison(event, "megalist");});
+          transcript.on("click", ".countClick", function(event) {navigationView.enterComparison(event, "megalist");});
           
           var markupNames = ['posemo', 'negemo', 'certain', 'tentat', 'number', 'quote'];          
           transcript.on("click", ".catMarkup", function(ev) {
@@ -180,7 +180,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           //transcript.on("click", function() {markupManager.closeCatOverlays();});
           //bigWords.on("click", function() {markupManager.closeCatOverlays();});
           $('body').on("click", function() {markupManager.closeCatOverlays();});
-          comparisons.on("click", function() {navigationView.exitComparison(event);});
+          comparisons.on("click", function(event) {navigationView.exitComparison(event); });
           
         })();
       //});
@@ -194,6 +194,9 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	     
       app.on("scrollBody", transcriptView.handleScroll, transcriptView);
       app.on("scrollBody:user", transcriptView.handleUserScroll, transcriptView);
+      
+      app.on("app:initialized", this.loadData);
+      
       // BODY/WINDOW EVENTS
       // ----------------------------------------------------------------------
       
@@ -267,7 +270,8 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
     },
     
     loadData: function(landing) {
-	    var updateBar = function() {
+    
+   		var updateBar = function() {
         var percs = [0, 0, 0, 0, 0];
 
         return function(perc, i) {
@@ -286,64 +290,76 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
         };
       }();
 
-      // XHR.
-      [0, 1, 2].forEach(function(i) {
-
-	      var messages = new XMLHttpRequest();
+    
+    	if (app.live) {
+	    	for (var i=0; i<3; i++) {
+		    	if (i == app.liveDebate) app.trigger("debate:activate", i);
+		    	else app.trigger("debate:deactivate", i);
+		    	updateBar(100, 0);
+	    	}
+	    		    	
+    	} else {
+		    	
+		        console.log("fetching");
+	      // XHR.
+	      [0, 1, 2].forEach(function(i) {
 	
-	      // Opens.
-	      messages.open("GET", "/messages/"+i, true);
+		      var messages = new XMLHttpRequest();
+		
+		      // Opens.
+		      messages.open("GET", "/messages/"+i, true);
+		
+		      // Prog rock.
+		      messages.onprogress = function(e) {
+		        updateBar(Math.ceil((e.loaded/e.total) * 100/3), i);
+		      };
+		
+		      // Lobes.
+		      messages.onload = function(e) {
+		   		  
+		   		  updateBar(100/3, i);   
+		      
+		      	if (e.target.responseText.length != 1) {
+			        var contents = "[" +
+			          e.target.responseText.split("\n").slice(0, -1).join(",") +
+			        "]";
+			        app.messages[i] = new Message.Collection(JSON.parse(contents));
 	
-	      // Prog rock.
-	      messages.onprogress = function(e) {
-	        updateBar(Math.ceil((e.loaded/e.total) * 100/3), i);
+				      app.trigger("debate:activate", i);
+			      } else {
+				      app.trigger("debate:deactivate", i);
+			      }
+		      };
+		
+		
+		      // Send!
+		      messages.send();
+		    });
+		    
+		    
+			  /*var markup = new XMLHttpRequest();
+		    markup.open("GET", "/markup", true);
+	      markup.onprogress = function(e) {
+	        updateBar(Math.ceil((e.loaded/e.total) * 20), 3);
 	      };
-	
-	      // Lobes.
-	      messages.onload = function(e) {
-	   		  
-	   		  updateBar(100/3, i);   
-	      
-	      	if (e.target.responseText.length != 1) {
-		        var contents = "[" +
-		          e.target.responseText.split("\n").slice(0, -1).join(",") +
-		        "]";
-		        app.messages[i] = new Message.Collection(JSON.parse(contents));
-
-			      app.trigger("debate:activate", i);
-		      } else {
-			      app.trigger("debate:deactivate", i);
-		      }
+		    markup.onload = function() {
+		      app.markup = markup.responseText;
+		      updateBar(20, 3);
+		    };
+			  markup.send();
+			  
+			  var bigwords = new XMLHttpRequest();
+		    bigwords.open("GET", "/bigwords", true);
+	      bigwords.onprogress = function(e) {
+	        updateBar(Math.ceil((e.loaded/e.total) * 20), 4);
 	      };
+		    bigwords.onload = function() {
+		      app.bigwords = bigwords.responseText;
+		      updateBar(20, 4);
+		    };
+			  bigwords.send();*/
 	
-	
-	      // Send!
-	      messages.send();
-	    });
-	    
-	    
-		  /*var markup = new XMLHttpRequest();
-	    markup.open("GET", "/markup", true);
-      markup.onprogress = function(e) {
-        updateBar(Math.ceil((e.loaded/e.total) * 20), 3);
-      };
-	    markup.onload = function() {
-	      app.markup = markup.responseText;
-	      updateBar(20, 3);
-	    };
-		  markup.send();
-		  
-		  var bigwords = new XMLHttpRequest();
-	    bigwords.open("GET", "/bigwords", true);
-      bigwords.onprogress = function(e) {
-        updateBar(Math.ceil((e.loaded/e.total) * 20), 4);
-      };
-	    bigwords.onload = function() {
-	      app.bigwords = bigwords.responseText;
-	      updateBar(20, 4);
-	    };
-		  bigwords.send();*/
-		  
+    	}		  
     },
 	  
     

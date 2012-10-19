@@ -30,7 +30,7 @@ function(app) {
   			curTraitTime:0,
   			//jro removed posemo and negemo
   			traits: [{name: "anger", val: 0},
-  							 //{name: "complexity", val: 0},
+  							 {name: "complexity", val: 0},
   							 {name: "formality", val: 0},
   							 {name: "depression", val: 0},
   							 {name: "honesty", val: 0},],
@@ -139,7 +139,7 @@ function(app) {
     leads: [],
     sentenceLeadLead: -1,
     curTrait: 0,
-    traitTimeout: 1.5*60000,
+    traitTimeout: 1.5*60000, //trait timing
     traitTimeoutFlag: false,
     curSpeaker: 1,
     
@@ -149,8 +149,10 @@ function(app) {
     	app.on("transcript:speakerSwitch", this.setSpeaker, this);
     	var coll = this;
     	//Tune this to 5 minutes
-    	var superlativeMins = 3.5;
-    	setInterval(function(){coll.sendRandomTraitLeader();}, superlativeMins*60000);
+
+    	var superlativeMins = 3.5; //trait timing 
+    	setInterval(function(){coll.sendRandomTraitLeader();}, superlativeMins*60000); 
+
     },
     
     cleanup: function() {
@@ -182,7 +184,9 @@ function(app) {
         
     setCompareTraits: function() {
     	var collection = this;
-	  	setTimeout(function() {collection.compareTraits();}, 5*60000); // wait six minutes
+
+	  	setTimeout(function() {collection.compareTraits();}, 5*60000); // wait six minutes //trait timing
+
     },
     
     compareTraits: function() {
@@ -195,6 +199,7 @@ function(app) {
 		    
 		    newLeads.push(newLead);
 		    
+		    /*
  		    if (newLead != this.leads[i]) {
 		    	//console.log("newLead "+newLead+" "+this.at(1).get("traits")[i]['name']);
 		    	
@@ -213,6 +218,7 @@ function(app) {
 		    	
 		    	//console.log("new lead "+newLead+" "+this.at(1).get("traits")[i]['name']);
 		    }
+		    */
 		    //else console.log("oldLead "+this.leads[i]+" "+this.at(1).get("traits")[i]['name']);
 		    
 		   // console.log("traits "+this.at(1).previous("traits")[i]['val']+" "+this.at(2).previous("traits")[i]['val']+" "+this.at(1).get("traits")[i]['val']+" "+this.at(2).get("traits")[i]['val']);

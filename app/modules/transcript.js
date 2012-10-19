@@ -34,7 +34,8 @@ function(app, Overlay, Ref) {
   var prevLeadingPunct = false;
   var numberLeadingPunct = false;
   
-  var extraNumberWords = ['on', 'of', 'a', 'to', 'the', 'Of', 'The', 'A', 'To', 'and'];
+  var extraNumberWords = ['on', 'of', 'a', 'to', 'the', 'and', 'per', 'in', 'new', 'more',
+  												'On', 'Of', 'A', 'To', 'The', 'And', 'Per', 'In', 'New', 'More'];
 
   // Default model.
   Transcript.Model = Backbone.Model.extend({

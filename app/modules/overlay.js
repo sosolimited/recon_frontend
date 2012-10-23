@@ -24,7 +24,7 @@ function(app, Ref) {
 			this.speaker = this.options.speaker;
 			this.moreVal = this.options.moreVal;
 			
-			//console.log("speaker:" + this.options.speaker);
+			console.log("speaker:" + this.options.speaker);
 			
 			this.aVal = '>'; 
 			
@@ -272,7 +272,7 @@ function(app, Ref) {
 
 			// All durations in milliseconds.
 			this.expandDur = 2*300 + 1000;		
-			this.holdDur = 5500;								
+			this.holdDur = 4500;								
 			this.collapseDur = 1500;				
 		},
 		

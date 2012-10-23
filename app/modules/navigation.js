@@ -82,7 +82,7 @@ function(app) {
       } else if (e.target.id == 'navTranscriptButton') {
 	      this.exitComparison(e);
       } else if (e.target.id == 'navComparisonButton') {
-	      this.enterComparison(e, "count");	     
+	      this.enterComparison(e, "count");
       } else if (e.target.id == 'navPlaybackButton') {
 				var elem = $("#navPlaybackButton");
 	      var states = ["1x", "2x", "10x"];
@@ -196,7 +196,8 @@ function(app) {
 		  	$('#navDebateNum').html("3rd Debate");
 		  	$('#navDate').html("October 22, 2012");
 		  }
-	  },
+		   
+    },
     
     exit: function() {
 	    //$('#navigation').css("visibility", "hidden");	    
@@ -230,7 +231,7 @@ function(app) {
     },
     
     enterComparison: function(event, tag) {
-		  event.stopPropagation();
+	    event.stopPropagation();
     	app.mode = "comparison";  
     	
       var dist = $("#transcript > .wrapper").offsetHeight;
@@ -279,6 +280,7 @@ function(app) {
     },
     
     exitComparison: function(event) {
+      
     	event.stopPropagation();
     	app.mode = "transcript";
       $("#transcript > .wrapper").removeClass("fade");

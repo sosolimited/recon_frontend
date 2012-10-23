@@ -3,4 +3,4 @@ dist
 .DS_Store
 live.html
 live_bigwords.html
-messages/*
+messages

@@ -134,18 +134,18 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           var comparisons = $("#comparisons > .wrapper");
           var bigWords = $("#bigWords");
 
-          transcript.on("click", ".transcriptSpeaker", function(event) {navigationView.enterComparison(event, "megalist"); });
+          transcript.on("click", ".transcriptSpeaker", function() {navigationView.enterComparison(event, "megalist");});
           //transcript.on("click", ".sentimentClick", function() {navigationView.enterComparison(event, "POSITIVITY");});
-          transcript.on("click", ".posemo", function(event) {navigationView.enterComparison(event, "POSITIVITY"); });
-          transcript.on("click", ".negemo", function(event) {navigationView.enterComparison(event, "NEGATIVITY"); });
+          transcript.on("click", ".posemo", function() {navigationView.enterComparison(event, "POSITIVITY");});
+          transcript.on("click", ".negemo", function() {navigationView.enterComparison(event, "NEGATIVITY");});
           
 //          transcript.on("click", ".traitClick", function() {navigationView.enterComparison(event, "TRUTHY");});
-          transcript.on("click", ".ENRAGED", function(event) {navigationView.enterComparison(event, "RAGE");});
-          transcript.on("click", ".DETACHED", function(event) {navigationView.enterComparison(event, "SCRIPTED");});
-          transcript.on("click", ".SUICIDAL", function(event) {navigationView.enterComparison(event, "SUICIDAL");});
-          transcript.on("click", ".HONEST", function(event) {navigationView.enterComparison(event, "TRUTHY");});
+          transcript.on("click", ".ENRAGED", function() {navigationView.enterComparison(event, "RAGE");});
+          transcript.on("click", ".DETACHED", function() {navigationView.enterComparison(event, "SCRIPTED");});
+          transcript.on("click", ".SUICIDAL", function() {navigationView.enterComparison(event, "SUICIDAL");});
+          transcript.on("click", ".HONEST", function() {navigationView.enterComparison(event, "TRUTHY");});
           
-          transcript.on("click", ".countClick", function(event) {navigationView.enterComparison(event, "megalist");});
+          transcript.on("click", ".countClick", function() {navigationView.enterComparison(event, "megalist");});
           
           var markupNames = ['posemo', 'negemo', 'certain', 'tentat', 'number', 'quote'];          
           transcript.on("click", ".catMarkup", function(ev) {
@@ -180,7 +180,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           //transcript.on("click", function() {markupManager.closeCatOverlays();});
           //bigWords.on("click", function() {markupManager.closeCatOverlays();});
           $('body').on("click", function() {markupManager.closeCatOverlays();});
-          comparisons.on("click", function(event) {navigationView.exitComparison(event); });
+          comparisons.on("click", function() {navigationView.exitComparison(event);});
           
         })();
       //});

@@ -24,9 +24,12 @@ function(app) {
   		if (msg && str) this.set({dbid:str, phrase:phrase, cats:msg['cats'], count:count});
     },
     
-    getTheFuckingString: function(oid) {
+    getTheFuckingString: function(oid) {  
 	    var str = JSON.stringify(oid);
-  		if (str) return str.substring(10, str.length-2);
+	    if (str) {
+  			if (str.indexOf("oid") != -1) return str.substring(10, str.length-2);
+  			else return str;
+  		}
     },
     
     increment: function(){
@@ -67,7 +70,10 @@ function(app) {
     
     getTheFuckingString: function(oid) {
 	    var str = JSON.stringify(oid);
-  		if (str) return str.substring(10, str.length-2);
+	    if (str) {
+  			if (str.indexOf("oid") != -1) return str.substring(10, str.length-2);
+  			else return str;
+  		}
     },
     
     addPhrase: function(args) {

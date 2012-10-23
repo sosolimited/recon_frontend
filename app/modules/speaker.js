@@ -46,7 +46,8 @@ function(app) {
       //app.on("message:word", this.handleWord, this);	// EG This will now be called by Transcript.addWord() to ensure synchronicity.
       app.on("message:sentenceEnd", this.handleSentenceEnd, this);
       app.on("message:stats", this.updateStats, this);
-  		app.on("debate:reset", this.resetStats, this);
+  		//app.on("debate:reset", this.resetStats, this); 
+
       //console.log("Speaker.Model.initialize: speakerId = " + this.get('speakerId'));
     },
     
@@ -114,6 +115,8 @@ function(app) {
    		}
     },
     
+
+    /*
     resetStats: function() {
 	    this.wordCount = 0;
 	    this.curSentence = "";
@@ -128,6 +131,7 @@ function(app) {
   							 {name: "honesty", val: 0},];
   	  this.wordProps = [];
     },
+    */
     
     updateStats: function(args) {
     	if (this.get('speakerId') > 0) {

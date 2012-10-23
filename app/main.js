@@ -1,4 +1,4 @@
-define([
+require([
   // Application.
   "app",
 

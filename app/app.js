@@ -15,6 +15,9 @@ function($, _, Backbone, eio) {
 	
   // Provide a global location to place configuration settings and module
   // creation.
+  
+  
+  
   var app = {
     // The root path to run the application.
     root: "/",
@@ -24,9 +27,6 @@ function($, _, Backbone, eio) {
     
     mode: "transcript", // transcript or comparison
 
-    // Create a socket connection to the server.
-    socket: new eio.Socket({ host: location.hostname, port: 8081 }),
-    
     // Init skrollr lib
     skrollr: skrollr.init({    	
       forceHeight: false,
@@ -98,6 +98,55 @@ function($, _, Backbone, eio) {
     // Buffer incoming messages when replay is happening.
     bufferedMessages: []
   };
+  
+  app.socket = new eio.Socket({ host: location.hostname, port: 8081 });
+  
+  
+  app.socket.on('open', function () {
+  	
+  	console.log("open");
+    app.socket.on('message', function (data) { });
+    app.socket.on('close', function () { 
+    	tryReconnect({ host: location.hostname, port: 8081 });
+    	console.log("closed");
+    });
+  });
+  
+  
+  var tryReconnect = function(opts) {
+  	console.log("try reconnect");
+  	
+
+	  if ('string' == typeof opts) {
+	    var uri = util.parseUri(opts);
+	    opts = arguments[1] || {};
+	    opts.host = uri.host;
+	    opts.secure = uri.protocol == 'https' || uri.protocol == 'wss';
+	    opts.port = uri.port || (opts.secure ? 443 : 80);
+	  }
+	
+	  opts = opts || {};
+	  app.socket.secure = opts.secure || false;
+	  app.socket.host = opts.host || opts.hostname || 'localhost';
+	  app.socket.port = opts.port || 80;
+	  app.socket.query = opts.query || {};
+	  app.socket.query.uid = String(Math.random()).substr(5) + String(Math.random()).substr(5);
+	  app.socket.upgrade = false !== opts.upgrade;
+	  app.socket.resource = opts.resource || 'default';
+	  app.socket.path = (opts.path || '/engine.io').replace(/\/$/, '');
+	  app.socket.path += '/' + app.socket.resource + '/';
+	  app.socket.forceJSONP = !!opts.forceJSONP;
+	  app.socket.timestampParam = opts.timestampParam || 't';
+	  app.socket.timestampRequests = !!opts.timestampRequests;
+	  app.socket.flashPath = opts.flashPath || '';
+	  app.socket.transports = opts.transports || ['polling', 'websocket', 'flashsocket'];
+	  app.socket.readyState = '';
+	  app.socket.writeBuffer = [];
+	  app.socket.policyPort = opts.policyPort || 843;
+	  app.socket.open();
+  };
+  
+
 
   // Localize or create a new JavaScript Template object.
   var JST = window.JST = window.JST || {};

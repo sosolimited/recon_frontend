@@ -26,10 +26,7 @@ function(app) {
     
     getTheFuckingString: function(oid) {
 	    var str = JSON.stringify(oid);
-  		if (str) {
-  			if (str.indexOf("oid") != -1) return str.substring(10, str.length-2);
-  			else return str;
-  		}
+  		if (str) return str.substring(10, str.length-2);
     },
     
     increment: function(){
@@ -70,10 +67,7 @@ function(app) {
     
     getTheFuckingString: function(oid) {
 	    var str = JSON.stringify(oid);
-	    if (str) {
-  			if (str.indexOf("oid") != -1) return str.substring(10, str.length-2);
-  			else return str;
-  		}
+  		if (str) return str.substring(10, str.length-2);
     },
     
     addPhrase: function(args) {

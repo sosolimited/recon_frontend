@@ -46,10 +46,8 @@ function($, _, Backbone, eio) {
 
     // Specifically handles messages.
     handleMessage: function(msg) {
-      //if (msg.type == "livestate") { // put this back in to check server state
-      	//app.setLive(msg.debate);
-      if (!app.initialized) {
-        app.setLive(-1);
+      if (msg.type == "livestate") { 
+      	app.setLive(msg.debate);
       } else {      
         if (app.live) {
         	if (!app.restore) {
@@ -76,6 +74,7 @@ function($, _, Backbone, eio) {
       }
       
       if (!app.initialized) {
+				app.trigger("app:setLive", num);
       	app.trigger("app:initialized", this);
       	app.initialized = true;
       }

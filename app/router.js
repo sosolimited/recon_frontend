@@ -197,6 +197,8 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
       
       app.on("app:initialized", this.loadData);
       
+      app.setLive(-1);
+      
       // BODY/WINDOW EVENTS
       // ----------------------------------------------------------------------
       
@@ -266,11 +268,9 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           }, {});
         }
       });
-      
     },
     
     loadData: function(landing) {
-    
    		var updateBar = function() {
         var percs = [0, 0, 0, 0, 0];
 

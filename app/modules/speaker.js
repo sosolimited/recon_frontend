@@ -47,6 +47,7 @@ function(app) {
       app.on("message:sentenceEnd", this.handleSentenceEnd, this);
       app.on("message:stats", this.updateStats, this);
   		//app.on("debate:reset", this.resetStats, this); 
+
       //console.log("Speaker.Model.initialize: speakerId = " + this.get('speakerId'));
     },
     
@@ -114,6 +115,7 @@ function(app) {
    		}
     },
     
+
     /*
     resetStats: function() {
 	    this.wordCount = 0;
